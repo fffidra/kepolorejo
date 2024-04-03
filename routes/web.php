@@ -77,4 +77,5 @@ Route::post('check-database', [SuratController::class, 'checkDatabase'])->name('
 Route::post('buat_surat_usaha', [SuratController::class, 'buat_surat_usaha'])->name('buat_surat_usaha');
 Route::post('index', [SuratController::class, 'index'])->name('index');
 Route::get('surat', [SuratController::class, 'index'])->name('surat.req_surat');
+Route::post('buat_surat', [SuratController::class, 'buat_surat'])->name('buat_surat');
 

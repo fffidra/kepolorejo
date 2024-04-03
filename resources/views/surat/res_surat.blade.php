@@ -34,14 +34,22 @@
                                 <thead>
                                     <tr>
                                         <th class="col-md-2 text-center align-middle">NIK</th>                           
-                                        <th class="col-md-2 text-center align-middle">Nama Lengkap</th>                           
-                                        <th class="col-md-2 text-center align-middle">Jenis Keperluan</th>                           
+                                        <th class="col-md-2 text-center align-middle">Jenis Surat</th>                           
+                                        <th class="col-md-2 text-center align-middle">Nama</th>                           
                                         <th class="col-md-2 text-center align-middle">Status</th>                           
                                         <th class="col-md-2 text-center align-middle">Aksi</th>                           
                                     </tr>
                                 </thead>
                                 <tbody>
-
+                                    @foreach(\App\Models\Surat::all() as $surat)
+                                    <tr>
+                                        <td class="text-center align-middle">{{ $surat->nik_warga }}</td>
+                                        <td class="text-center align-middle">{{ $surat->jenis_surat }}</td>
+                                        <td class="text-center align-middle">{{ $surat->nama_warga }}</td>
+                                        <td class="text-center align-middle">{{ $surat->status_surat }}</td>
+                                        <td class="text-center align-middle"></td>
+                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
