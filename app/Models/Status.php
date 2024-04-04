@@ -17,5 +17,11 @@ class Status extends Model
         'nama_status_nikah'
     ];
 
+    public function fk_status()
+    {
+        return $this->hasMany(Surat::class, 'status_nikah');
+    }
+
+
     public $timestamps = false;
 }

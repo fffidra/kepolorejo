@@ -17,5 +17,11 @@ class JenisSurat extends Model
         'nama_jenis_surat'
     ];
 
+    public function fk_surat()
+    {
+        return $this->hasMany(Surat::class, 'jenis_surat');
+    }
+
+
     public $timestamps = false;
 }

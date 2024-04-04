@@ -17,5 +17,10 @@ class Pekerjaan extends Model
         'nama_pekerjaan'
     ];
 
+    public function fk_pekerjaan()
+    {
+        return $this->hasMany(Surat::class, 'pekerjaan');
+    }
+
     public $timestamps = false;
 }

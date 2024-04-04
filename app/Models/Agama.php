@@ -18,4 +18,9 @@ class Agama extends Model
     ];
 
     public $timestamps = false;
+
+    public function fk_agama()
+    {
+        return $this->hasMany(Surat::class, 'agama');
+    }
 }
