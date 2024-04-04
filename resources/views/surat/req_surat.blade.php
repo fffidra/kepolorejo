@@ -181,7 +181,7 @@
                     </div>
 
                     {{-- DOMISILI --}}
-                    <div id="form_surat_SURAT KETERANGAN DOMISILI" class="form_surat" style="display: none;">
+                    {{-- <div id="form_surat_SURAT KETERANGAN DOMISILI" class="form_surat" style="display: none;">
                         <div class="mb-3">
                             <label for="nama_warga" class="form-label">Nama</label>
                             <input type="text" class="form-control" id="nama_warga_2" name="nama_warga">
@@ -242,7 +242,7 @@
                             <label for="keperluan" class="form-label">Keperluan</label>
                             <input type="text" class="form-control" id="keperluan_2" name="keperluan">
                         </div>
-                    </div>
+                    </div> --}}
 
                     {{-- BELUM MENIKAH --}}
                     {{-- <div id="form_surat_3" class="form_surat" style="display: none;">
@@ -347,12 +347,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                    <button type="submit" class="btn btn-primary" id="btn-submit" disabled>Simpan</button>                
+                    <button type="submit" class="btn btn-primary">Simpan</button>                
                 </div>
             </form>
-            {{-- <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-            </div> --}}
         </div>
     </div>
 </div>
@@ -471,20 +468,20 @@
         });
     }
 
-    $(document).ready(function() {
-        function validateInputs() {
-            var isValid = true; 
-            return isValid;
-        }
+    // $(document).ready(function() {
+    //     function validateInputs() {
+    //         var isValid = true; 
+    //         return isValid;
+    //     }
 
-        $('input, select').change(function() {
-            if (validateInputs()) {
-                $('#btn-submit').prop('disabled', false); // Aktifkan tombol "Simpan" jika semua input valid
-            } else {
-                $('#btn-submit').prop('disabled', true); // Nonaktifkan tombol "Simpan" jika ada input yang tidak valid
-            }
-        });
-    });
+    //     $('input, select').change(function() {
+    //         if (validateInputs()) {
+    //             $('#btn-submit').prop('disabled', false); 
+    //         } else {
+    //             $('#btn-submit').prop('disabled', true);
+    //         }
+    //     });
+    // });
 
         // var editor = CKEDITOR.replace('langkah');
 
