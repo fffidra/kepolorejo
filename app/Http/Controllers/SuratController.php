@@ -258,10 +258,17 @@ class SuratController extends Controller
             'nik_warga' => 'nullable',
             'ttl_3' => 'nullable',
             'status_nikah_3' => 'nullable',
-            'agama_2' => 'nullable',
-            'pekerjaan_2' => 'nullable',
-            'alamat_2' => 'nullable',
-            'keperluan_2' => 'nullable',
+            'agama_3' => 'nullable',
+            'pekerjaan_3' => 'nullable',
+            'alamat_3' => 'nullable',
+            'keperluan_3' => 'nullable',
+            'nama_warga_4' => 'nullable',
+            'nik_warga_4' => 'nullable',
+            'ttl_4' => 'nullable',
+            'agama_4' => 'nullable',
+            'pekerjaan_4' => 'nullable',
+            'alamat_4' => 'nullable',
+            'keperluan_4' => 'nullable',
         ]);
         
         if ($validator->fails()) {
@@ -316,6 +323,20 @@ class SuratController extends Controller
                         'pekerjaan' => $request->pekerjaan_3,
                         'alamat' => $request->alamat_3,
                         'keperluan' => $request->keperluan_3,
+                    ]);
+                
+                break;
+
+                case 'SURAT KETERANGAN TIDAK MAMPU':
+                    Surat::create([
+                        'jenis_surat' => $request->jenis_surat,
+                        'nama_warga' => $request->nama_warga_4,
+                        'nik_warga' => $request->nik_warga_4,
+                        'ttl' => $request->ttl_4,
+                        'agama' => $request->agama_4,
+                        'pekerjaan' => $request->pekerjaan_4,
+                        'alamat' => $request->alamat_4,
+                        'keperluan' => $request->keperluan_4,
                     ]);
                 
                 break;
