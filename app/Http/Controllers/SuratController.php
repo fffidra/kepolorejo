@@ -25,36 +25,158 @@ class SuratController extends Controller
         dd($data);
     }    
 
-    public function buat_surat(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'jenis_surat' => 'required',
-            'status_nikah' => 'required',
-            'agama' => 'required',
-            'pekerjaan' => 'required',
-            'ttl' => 'nullable',
-            'alamat' => 'nullable',
-            'keperluan' => 'nullable',
-        ]);
+    // public function buat_surat(Request $request)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'jenis_surat' => 'required',
+    //         'nama_warga' => 'nullable',
+    //         'nik_warga' => 'nullable',
+    //         'ttl' => 'nullable',
+    //         'status_nikah' => 'nullable',
+    //         'agama' => 'nullable',
+    //         'pekerjaan' => 'nullable',
+    //         'alamat' => 'nullable',
+    //         'usaha' => 'nullable',
+    //         'keperluan' => 'nullable',
+
+    //         'nama_warga_2' => 'nullable',
+    //         'nik_warga_2' => 'nullable',
+    //         'jenis_kelamin' => 'nullable',
+    //         'ttl_2' => 'nullable',
+    //         'agama_2' => 'nullable',
+    //         'status_nikah_2' => 'nullable',
+    //         'pekerjaan_2' => 'nullable',
+    //         'alamat_2' => 'nullable',
+    //         'alamat_dom' => 'nullable',
+    //         'keperluan_2' => 'nullable',
+    //     ]);
         
-        if ($validator->fails()) {
-            Session::flash('alert', [
-                'type' => 'error',
-                'title' => 'Pengajuan Surat Gagal',
-                'message' => 'Ada data yang salah!'
-            ]);
-        } else {
-            Surat::create($request->all());
+    //     if ($validator->fails()) {
+    //         Session::flash('alert', [
+    //             'type' => 'error',
+    //             'title' => 'Pengajuan Surat Gagal',
+    //             'message' => 'Ada data yang salah!'
+    //         ]);
+    //     } else {
+    //         $nama_warga = '';
+    //         $nik_warga = '';
+    //         $ttl = '';
+    //         $agama = '';
+    //         $status_nikah = '';
+    //         $pekerjaan = '';
+    //         $alamat = '';
+    //         $keperluan = '';
+    //         $usaha = '';
+    //         $jenis_kelamin = '';
+    //         $alamat_dom = '';
+
+    //         if ($request->jenis_surat === 'SURAT KETERANGAN USAHA') {
+    //             $nama_warga = $request->nama_warga;
+    //             $nik_warga = $request->nik_warga;
+    //             $ttl = $request->ttl;
+    //             $agama = $request->agama;
+    //             $status_nikah = $request->status_nikah;
+    //             $pekerjaan = $request->pekerjaan;
+    //             $alamat = $request->alamat;
+    //             $keperluan = $request->keperluan;
+    //         } elseif ($request->jenis_surat === 'SURAT KETERANGAN DOMISILI') {
+    //             $nama_warga = $request->nama_warga_2;
+    //             $nik_warga = $request->nik_warga_2;
+    //             $ttl = $request->ttl_2;
+    //             $agama = $request->agama_2;
+    //             $status_nikah = $request->status_nikah_2;
+    //             $pekerjaan = $request->pekerjaan_2;
+    //             $alamat = $request->alamat_2;
+    //             $keperluan = $request->keperluan_2;
+    //         }
+
+    //         $surat_baru = [
+    //             'jenis_surat' => $request->jenis_surat,
+    //             'nama_warga' => $nama_warga,
+    //             'nik_warga' => $nik_warga,
+    //             'ttl' => $ttl,
+    //             'agama' => $agama,
+    //             'status_nikah' => $status_nikah,
+    //             'pekerjaan' => $pekerjaan,
+    //             'alamat' => $alamat,
+    //             'keperluan' => $keperluan,
+    //             'usaha' => $request->$usaha,
+    //             'jenis_kelamin' => $request->$jenis_kelamin,
+    //             'alamat_dom' => $request->$alamat_dom
+    //         ];
+
+    //         Surat::create($surat_baru);
         
-            Session::flash('alert', [
-                'type' => 'success',
-                'title' => 'Pengajuan Surat Berhasil',
-                'message' => ''
-            ]);
-        }
+    //         Session::flash('alert', [
+    //             'type' => 'success',
+    //             'title' => 'Pengajuan Surat Berhasil',
+    //             'message' => ''
+    //         ]);
+    //     }
+
+    //     return back();
+    // }
+
+    // public function buat_surat(Request $request)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'jenis_surat' => 'required',
+    //         'nama_warga' => 'nullable',
+    //         'nik_warga' => 'nullable',
+    //         'ttl' => 'nullable',
+    //         'status_nikah' => 'nullable',
+    //         'agama' => 'nullable',
+    //         'pekerjaan' => 'nullable',
+    //         'alamat' => 'nullable',
+    //         'usaha' => 'nullable',
+    //         'keperluan' => 'nullable',
+
+    //         'nama_warga_2' => 'nullable',
+    //         'nik_warga_2' => 'nullable',
+    //         'jenis_kelamin' => 'nullable',
+    //         'ttl_2' => 'nullable',
+    //         'agama_2' => 'nullable',
+    //         'status_nikah_2' => 'nullable',
+    //         'pekerjaan_2' => 'nullable',
+    //         'alamat_2' => 'nullable',
+    //         'alamat_dom' => 'nullable',
+    //         'keperluan_2' => 'nullable',
+    //     ]);
         
-        return back();
-    }
+    //     if ($validator->fails()) {
+    //         Session::flash('alert', [
+    //             'type' => 'error',
+    //             'title' => 'Pengajuan Surat Gagal',
+    //             'message' => 'Ada data yang salah!'
+    //         ]);
+    //     } else {
+    //         $surat_baru = [
+    //             'jenis_surat' => $request->jenis_surat,
+    //             'nama_warga' => $request->jenis_surat === 'SURAT KETERANGAN USAHA' ? $request->nama_warga : $request->nama_warga_2,
+    //             'nik_warga' => $request->jenis_surat === 'SURAT KETERANGAN USAHA' ? $request->nik_warga : $request->nik_warga_2,
+    //             'ttl' => $request->jenis_surat === 'SURAT KETERANGAN USAHA' ? $request->ttl : $request->ttl_2,
+    //             'status_nikah' => $request->jenis_surat === 'SURAT KETERANGAN USAHA' ? $request->status_nikah : $request->status_nikah_2,
+    //             'agama' => $request->jenis_surat === 'SURAT KETERANGAN USAHA' ? $request->agama : $request->agama_2,
+    //             'pekerjaan' => $request->jenis_surat === 'SURAT KETERANGAN USAHA' ? $request->pekerjaan : $request->pekerjaan_2,
+    //             'alamat' => $request->jenis_surat === 'SURAT KETERANGAN USAHA' ? $request->alamat : $request->alamat_2,
+    //             'keperluan' => $request->jenis_surat === 'SURAT KETERANGAN USAHA' ? $request->keperluan : $request->keperluan_2,
+    //             'usaha' => $request->usaha,
+    //             'jenis_kelamin' => $request->jenis_kelamin,
+    //             'alamat_dom' => $request->alamat_dom
+    //         ];
+
+    //         Surat::create($surat_baru);
+        
+    //         Session::flash('alert', [
+    //             'type' => 'success',
+    //             'title' => 'Pengajuan Surat Berhasil',
+    //             'message' => ''
+    //         ]);
+    //     }
+
+    //     return back();
+    // }
+
 
 
     // public function buat_surat(Request $request)
@@ -107,8 +229,262 @@ class SuratController extends Controller
     //     return back();
     // }
     
+
+    // USAHA DOMISILI KADANG FIX EHEHHEEH
+    // public function buat_surat(Request $request)
+    // {
+    //     dd($request->jenis_surat);
+
+    //     $validator = Validator::make($request->all(), [
+    //         'jenis_surat' => 'required',
+    //         'nama_warga' => 'nullable',
+    //         'nik_warga' => 'nullable',
+    //         'ttl' => 'nullable',
+    //         'status_nikah' => 'nullable',
+    //         'agama' => 'nullable',
+    //         'pekerjaan' => 'nullable',
+    //         'alamat' => 'nullable',
+    //         'usaha' => 'nullable',
+    //         'keperluan' => 'nullable',
+    //         'nama_warga_2' => 'nullable',
+    //         'nik_warga_2' => 'nullable',
+    //         'ttl_2' => 'nullable',
+    //         'agama_2' => 'nullable',
+    //         'status_nikah_2' => 'nullable',
+    //         'pekerjaan_2' => 'nullable',
+    //         'alamat_2' => 'nullable',
+    //         'keperluan_2' => 'nullable',
+    //         'jenis_kelamin' => 'nullable',
+    //         'alamat_dom' => 'nullable'
+    //     ]);
+        
+    //     if ($validator->fails()) {
+    //         Session::flash('alert', [
+    //             'type' => 'error',
+    //             'title' => 'Pengajuan Surat Gagal',
+    //             'message' => 'Ada data yang salah!'
+    //         ]);
+    //     } else {
+    //         // Memproses data sesuai dengan jenis surat yang dikirimkan
+    //         switch ($request->jenis_surat) {
+    //             case 'SURAT KETERANGAN USAHA':
+    //                 Surat::create([
+    //                     'jenis_surat' => $request->jenis_surat,
+    //                     'nama_warga' => $request->nama_warga,
+    //                     'nik_warga' => $request->nik_warga,
+    //                     'ttl' => $request->ttl,
+    //                     'status_nikah' => $request->status_nikah,
+    //                     'agama' => $request->agama,
+    //                     'pekerjaan' => $request->pekerjaan,
+    //                     'alamat' => $request->alamat,
+    //                     'usaha' => $request->usaha,
+    //                     'keperluan' => $request->keperluan,
+    //                 ]);
+                    
+    //             break;
+
+    //             case 'SURAT KETERANGAN DOMISILI':
+    //                 Surat::create([
+    //                     'jenis_surat' => $request->jenis_surat,
+    //                     'nama_warga' => $request->nama_warga_2,
+    //                     'nik_warga' => $request->nik_warga_2,
+    //                     'jenis_kelamin' => $request->jenis_kelamin,
+    //                     'ttl' => $request->ttl_2,
+    //                     'agama' => $request->agama_2,
+    //                     'status_nikah' => $request->status_nikah_2,
+    //                     'pekerjaan' => $request->pekerjaan_2,
+    //                     'alamat' => $request->alamat_2,
+    //                     'alamat_dom' =>$request->alamat_dom,
+    //                     'keperluan' => $request->keperluan_2,
+    //                 ]);
+                
+    //             break;
+    //         }
+
+    //         Session::flash('alert', [
+    //             'type' => 'success',
+    //             'title' => 'Pengajuan Surat Berhasil',
+    //             'message' => ''
+    //         ]);
+    //     }
+        
+    //     return back();
+    // }
+
+    
+    // USAHA FIX
+    // public function buat_surat(Request $request)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'jenis_surat' => 'required',
+    //         'status_nikah' => 'required',
+    //         'agama' => 'required',
+    //         'pekerjaan' => 'required',
+    //         'ttl' => 'nullable',
+    //         'alamat' => 'nullable',
+    //         'keperluan' => 'nullable',
+    //     ]);
+        
+    //     if ($validator->fails()) {
+    //         Session::flash('alert', [
+    //             'type' => 'error',
+    //             'title' => 'Pengajuan Surat Gagal',
+    //             'message' => 'Ada data yang salah!'
+    //         ]);
+    //     } else {
+    //         Surat::create($request->all());
+        
+    //         Session::flash('alert', [
+    //             'type' => 'success',
+    //             'title' => 'Pengajuan Surat Berhasil',
+    //             'message' => ''
+    //         ]);
+    //     }
+        
+    //     return back();
+    // }
     
 
+    // AGAK NEMU SOLUSINYA
+    public function buat_surat(Request $request)
+    {
+        switch ($request->jenis_surat) {
+            case 'SURAT KETERANGAN USAHA':
+                $validator = Validator::make($request->all(), [
+                    'jenis_surat' => 'required',
+                    'nama_warga' => 'nullable',
+                    'nik_warga' => 'nullable',
+                    'ttl' => 'nullable',
+                    'status_nikah' => 'nullable',
+                    'agama' => 'nullable',
+                    'pekerjaan' => 'nullable',
+                    'alamat' => 'nullable',
+                    'usaha' => 'required', 
+                    'keperluan' => 'nullable',
+                ]);
+            
+            break;
 
+            case 'SURAT KETERANGAN DOMISILI':
+                $validator = Validator::make($request->all(), [
+                    'jenis_surat' => 'required',
+                    'nama_warga' => 'nullable',
+                    'nik_warga' => 'nullable',
+                    'jenis_kelamin' => 'required', 
+                    'ttl' => 'nullable',
+                    'agama' => 'nullable',
+                    'status_nikah' => 'nullable',
+                    'pekerjaan' => 'nullable',
+                    'alamat' => 'nullable',
+                    'alamat_dom' => 'required', 
+                    'keperluan' => 'nullable',
+                ]);
+                
+            break;
+
+            default:
+                $validator = Validator::make($request->all(), [
+                    'jenis_surat' => 'required',
+                ]);
+            
+            break;
+        }
+
+        if ($validator->fails()) {
+            Session::flash('alert', [
+                'type' => 'error',
+                'title' => 'Pengajuan Surat Gagal',
+                'message' => 'Ada data yang salah!'
+            ]);
+        } else {
+            switch ($request->jenis_surat) {
+                case 'SURAT KETERANGAN USAHA':
+                    Surat::create([
+                        'jenis_surat' => $request->jenis_surat,
+                        'nama_warga' => $request->nama_warga,
+                        'nik_warga' => $request->nik_warga,
+                        'ttl' => $request->ttl,
+                        'status_nikah' => $request->status_nikah,
+                        'agama' => $request->agama,
+                        'pekerjaan' => $request->pekerjaan,
+                        'alamat' => $request->alamat,
+                        'usaha' => $request->usaha,
+                        'keperluan' => $request->keperluan,
+                    ]);
+                    
+                break;
+
+                case 'SURAT KETERANGAN DOMISILI':
+                    Surat::create([
+                        'jenis_surat' => $request->jenis_surat,
+                        'nama_warga' => $request->nama_warga_2,
+                        'nik_warga' => $request->nik_warga_2,
+                        'jenis_kelamin' => $request->jenis_kelamin,
+                        'ttl' => $request->ttl_2,
+                        'agama' => $request->agama_2,
+                        'status_nikah' => $request->status_nikah_2,
+                        'pekerjaan' => $request->pekerjaan_2,
+                        'alamat' => $request->alamat_2,
+                        'alamat_dom' => $request->alamat_dom,
+                        'keperluan' => $request->keperluan_2,
+                    ]);
+                    
+                break;
+            }
+
+            Session::flash('alert', [
+                'type' => 'success',
+                'title' => 'Pengajuan Surat Berhasil',
+                'message' => ''
+            ]);
+        }
+        return back();
+    }
+
+//     public function buat_surat(Request $request)
+// {
+//     $validatorRules = [
+//         'jenis_surat' => 'required',
+//         'nama_warga' => 'nullable',
+//         'nik_warga' => 'nullable',
+//         'ttl' => 'nullable',
+//         'status_nikah' => 'nullable',
+//         'agama' => 'nullable',
+//         'pekerjaan' => 'nullable',
+//         'alamat' => 'nullable',
+//         'keperluan' => 'nullable',
+//     ];
+
+//     switch ($request->jenis_surat) {
+//         case 'SURAT KETERANGAN USAHA':
+//             $validatorRules['usaha'] = 'nullable';
+//             break;
+
+//         case 'SURAT KETERANGAN DOMISILI':
+//             $validatorRules['jenis_kelamin'] = 'nullable';
+//             $validatorRules['alamat_dom'] = 'nullable';
+//             break;
+//     }
+
+//     $validator = Validator::make($request->all(), $validatorRules);
+
+//     if ($validator->fails()) {
+//         Session::flash('alert', [
+//             'type' => 'error',
+//             'title' => 'Pengajuan Surat Gagal',
+//             'message' => 'Ada data yang salah!'
+//         ]);
+//     } else {
+//         Surat::create($request->all());
+
+//         Session::flash('alert', [
+//             'type' => 'success',
+//             'title' => 'Pengajuan Surat Berhasil',
+//             'message' => ''
+//         ]);
+//     }
+
+//     return back();
+// }
 
 }

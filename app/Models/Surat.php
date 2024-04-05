@@ -34,6 +34,11 @@ class Surat extends Model
     {
         return $this->belongsTo(Agama::class, 'agama', 'id_agama');
     }
+
+    public function fk_jenis_kelamin()
+    {
+        return $this->belongsTo(JenisKelamin::class, 'jenis_kelamin', 'id_jenis_kelamin');
+    }
     
     public function fk_pekerjaan()
     {
