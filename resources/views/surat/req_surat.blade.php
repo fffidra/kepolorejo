@@ -245,55 +245,64 @@
                     </div>
 
                     {{-- BELUM MENIKAH --}}
-                    {{-- <div id="form_surat_SURAT KETERANGAN BELUM MENIKAH" class="form_surat" style="display: none;">
+                    <div id="form_surat_SURAT KETERANGAN BELUM MENIKAH" class="form_surat" style="display: none;">
                         <div class="mb-3">
-                            <label for="nama" class="form-label">Nama</label>
-                            <input type="text" class="form-control" id="nama">
+                            <label for="nama_warga" class="form-label">Nama</label>
+                            <input type="text" class="form-control" id="nama_warga" name="nama_warga_3">
                         </div>
                         <div class="mb-3">
-                            <label for="nik" class="form-label">NIK</label>
-                            <input type="text" class="form-control" id="nik">
+                            <label for="nik_warga" class="form-label">NIK</label>
+                            <input type="text" class="form-control" id="nik_warga" name="nik_warga_3">
                         </div>
                         <div class="mb-3">
                             <label for="ttl" class="form-label">Tempat, Tanggal Lahir</label>
-                            <input type="text" class="form-control" id="ttl">
+                            <input type="text" class="form-control" id="ttl" name="ttl_3">
                         </div>
                         <div class="mb-3">
                             <label for="status_nikah" class="form-label">Status</label>
-                            <select class="form-select" id="status_nikah" name="status_nikah" required>
+                            <select class="form-select" id="status_nikah" name="status_nikah_3">
                                 <option value="" selected hidden>-- Pilih Status --</option>
-                                @foreach(\App\Models\Status::all() as $status_nikah)
-                                    <option value="{{ $status_nikah->id_status_nikah }}">{{ $status_nikah->nama_status_nikah }}</option>
+                                @foreach(\App\Models\Status::all() as $status_nikahs)
+                                    <option value="{{ $status_nikahs->nama_status_nikah }}">{{ $status_nikahs->nama_status_nikah }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="agama" class="form-label">Agama</label>
-                            <select class="form-select" id="agama" name="agama" required>
+                            <select class="form-select" id="agama" name="agama_3">
                                 <option value="" selected hidden>-- Pilih Agama --</option>
-                                @foreach(\App\Models\Agama::all() as $agama)
-                                    <option value="{{ $agama->id_agama }}">{{ $agama->nama_agama }}</option>
+                                @foreach(\App\Models\Agama::all() as $agamas)
+                                    <option value="{{ $agamas->nama_agama }}">{{ $agamas->nama_agama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="agama" class="form-label">Agama</label>
+                            <select class="form-select" id="agama" name="agama_2">
+                                <option value="" selected hidden>-- Pilih Agama --</option>
+                                @foreach(\App\Models\Agama::all() as $agamas)
+                                    <option value="{{ $agamas->nama_agama }}">{{ $agamas->nama_agama }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="pekerjaan" class="form-label">Pekerjaan</label>
-                            <select class="form-select" id="pekerjaan" name="pekerjaan" required>
+                            <select class="form-select" id="pekerjaan" name="pekerjaan_3">
                                 <option value="" selected hidden>-- Pilih Pekerjaan --</option>
-                                @foreach(\App\Models\Pekerjaan::all() as $pekerjaan)
-                                    <option value="{{ $pekerjaan->id_pekerjaan }}">{{ $pekerjaan->nama_pekerjaan }}</option>
+                                @foreach(\App\Models\Pekerjaan::all() as $pekerjaans)
+                                    <option value="{{ $pekerjaans->nama_pekerjaan }}">{{ $pekerjaans->nama_pekerjaan }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="alamat" class="form-label">Alamat</label>
-                            <input type="text" class="form-control" id="alamat">
+                            <input type="text" class="form-control" id="alamat" name="alamat_3">
                         </div>
                         <div class="mb-3">
                             <label for="keperluan" class="form-label">Keperluan</label>
-                            <input type="text" class="form-control" id="keperluan">
+                            <input type="text" class="form-control" id="keperluan" name="keperluan_3">
                         </div>
-                    </div> --}}
+                    </div>
 
                     {{-- TIDAK MAMPU --}}
                     {{-- <div id="form_surat_SURAT KETERANGAN TIDAK MAMPU" class="form_surat" style="display: none;">
