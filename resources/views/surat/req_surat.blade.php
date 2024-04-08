@@ -346,7 +346,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="tambahsuratcoba" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+{{-- <div class="modal fade" id="tambahsuratcoba" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -428,38 +428,11 @@
                 
         </div>
     </div>
-</div>
+</div> --}}
 @endsection
 
 @section('script')
     <script>
-    //     function showForm() {
-    //     var selectedOption = document.getElementById("jenis_surat").value;
-    //     var forms = document.querySelectorAll('.form_surat');
-
-    //     forms.forEach(function(form) {
-    //         if (form.id === "form_surat_" + selectedOption) {
-    //             form.style.display = "block";
-    //         } else {
-    //             form.style.display = "none";
-    //         }
-    //     });
-    // }
-
-    // function showForm() {
-    //     var selectedOption = document.getElementById("jenis_surat").value;
-    //     var forms = document.querySelectorAll('.form_surat');
-
-    //     forms.forEach(function(form) {
-    //         var formId = form.id.split("_").pop(); 
-    //         if (formId === selectedOption) {
-    //             form.style.display = "block";
-    //         } else {
-    //             form.style.display = "none";
-    //         }
-    //     });
-    // }
-
     function showForm() {
     var selectedOption = document.getElementById("jenis_surat").value;
     console.log("Selected option: ", selectedOption);
