@@ -29,7 +29,6 @@
         <div class="main-content">
             <div class="page-content">
                 <div class="container-fluid">
-
                     <!-- start page title -->
                     <div class="row mx-2">
                         <div class="col-12">
@@ -40,7 +39,8 @@
                                 </ol>
                             </div>
                         </div>
-                    </div><!-- end page title -->
+                    </div>
+                    <!-- end page title -->
 
                     <div class="row bg-white rounded-3 pb-3 mb-3 mx-2">
                         <div class="page-title-box bg-light-subtle rounded-3 d-flex align-items-center justify-content-between px-3 py-2">
@@ -56,7 +56,7 @@
                                     <button data-bs-toggle="modal" data-bs-target="#" class="btn btn-primary">CEK SURAT</button>
                                     <button data-bs-toggle="modal" data-bs-target="#tambahsuratbaru" class="btn btn-primary">TAMBAH SURAT</button>
                                     
-                                    <button data-bs-toggle="modal" data-bs-target="#tambahsuratcoba" class="btn btn-primary">tambah surat coba</button>
+                                    {{-- <button data-bs-toggle="modal" data-bs-target="#tambahsuratcoba" class="btn btn-primary">tambah surat coba</button> --}}
                                     {{-- <button data-bs-toggle="modal" data-bs-target="#tambahitem" class="btn btn-primary btn-block">SURAT KETERANGAN USAHA</button> --}}
                                     {{-- <a href="{{ url('/usaha') }}" class="btn btn-primary w-sm waves-effect waves-light">SURAT KETERANGAN USAHA</a> --}}
                                 </div>
@@ -64,37 +64,10 @@
                                     @csrf
                                     <button type="submit">Check Database</button>
                                 </form>
-                                
-                                {{-- <div class="col-md-4 mb-2">
-                                    <a href="{{ url('/nikah') }}" class="btn btn-primary w-sm waves-effect waves-light">SURAT KETERANGAN NIKAH</a>
-                                </div>
-                                <div class="col-md-4 mb-2">
-                                    <a href="{{ url('/waris') }}" class="btn btn-primary w-sm waves-effect waves-light">SURAT AHLI WARIS</a>
-                                </div> --}}
                             </div>
-
-                        
+                    
                             <br><br><br>
 
-                            {{-- <button>SURAT A</button>
-                            <button>SURAT B</button>
-                            <button>SURAT C</button> --}}
-                            {{-- <table class="table table-bordered border-black" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center align-middle" style="width: 20px;">Tujuan/Sasaran</th>  
-                                        <th class="text-center align-middle" style="width: 20px;">Langkah-langkah kerja</th>
-                                        <th class="text-center align-middle" style="width: 10px;">Dilaksanakan oleh</th>
-                                        <th class="text-center align-middle" style="width: 5px;">Waktu yang diperlukan</th> 
-                                        <th class="text-center align-middle" style="width: 5px;">Nomor KKA</th> 
-                                        <th class="text-center align-middle" style="width: 20px;">Catatan</th>  
-                                        <th class="text-center align-middle" style="width: 20px;">Aksi</th>                          
-                                    </tr>
-                                </thead>
-                                <tbody>   
-                        
-                                </tbody>
-                            </table> --}}
                         </div>
                     </div>
                 </div> <!-- container-fluid -->
@@ -467,29 +440,26 @@
     //     });
     // });
 
-        // var editor = CKEDITOR.replace('langkah');
-
-        // $(document).ready(function() {
-        //     $('.table').DataTable({
-        //         columnDefs: [
-        //             { orderable: false, targets: [2] }
-        //         ],
-        //         language: {
-        //             lengthMenu: "Tampilkan _MENU_ data per halaman",
-        //             zeroRecords: "Data tidak ditemukan.",
-        //             info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
-        //             infoEmpty: "Menampilkan 0 - 0 dari 0 data",
-        //             infoFiltered: "(difilter dari _MAX_ total data)",
-        //             search: "Cari",
-        //             decimal: ",",
-        //             thousands: ".",
-        //             paginate: {
-        //                 previous: "Sebelumnya",
-        //                 next: "Selanjutnya"
-        //             }
-        //         }
-        //     });
-        // });
-
+    // $(document).ready(function() {
+    //     $('.table').DataTable({
+    //         columnDefs: [
+    //             { orderable: false, targets: [2] }
+    //         ],
+    //         language: {
+    //             lengthMenu: "Tampilkan _MENU_ data per halaman",
+    //             zeroRecords: "Data tidak ditemukan.",
+    //             info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+    //             infoEmpty: "Menampilkan 0 - 0 dari 0 data",
+    //             infoFiltered: "(difilter dari _MAX_ total data)",
+    //             search: "Cari",
+    //             decimal: ",",
+    //             thousands: ".",
+    //             paginate: {
+    //                 previous: "Sebelumnya",
+    //                 next: "Selanjutnya"
+    //             }
+    //         }
+    //     });
+    // });
     </script>
 @endsection

@@ -79,5 +79,6 @@ Route::post('index', [SuratController::class, 'index'])->name('index');
 Route::get('surat', [SuratController::class, 'index'])->name('surat.req_surat');
 Route::post('buat_surat', [SuratController::class, 'buat_surat'])->name('buat_surat');
 Route::post('update_surat', [SuratController::class, 'update_surat'])->name('update_surat');
-Route::get('edit_surat/{id_surat}', [SuratController::class, 'edit_surat'])->name('edit_surat');
+Route::put('edit_surat', [SuratController::class, 'edit_surat'])->name('edit_surat');
 Route::post('get_data_surat', [SuratController::class, 'get_data_surat'])->name('get_data_surat');
+Route::get('ubah_isi_surat/{id_surat}', [SuratController::class, 'ubah_isi_surat']);

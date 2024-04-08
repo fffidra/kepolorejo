@@ -25,7 +25,6 @@ class SuratController extends Controller
         dd($data);
     }    
 
-    // USAHA DOMISILI KADANG FIX EHEHHEEH
     public function buat_surat(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -146,39 +145,6 @@ class SuratController extends Controller
         
         return back();
     }
-
-    
-    // USAHA FIX
-    // public function buat_surat(Request $request)
-    // {
-    //     $validator = Validator::make($request->all(), [
-    //         'jenis_surat' => 'required',
-    //         'status_nikah' => 'required',
-    //         'agama' => 'required',
-    //         'pekerjaan' => 'required',
-    //         'ttl' => 'nullable',
-    //         'alamat' => 'nullable',
-    //         'keperluan' => 'nullable',
-    //     ]);
-        
-    //     if ($validator->fails()) {
-    //         Session::flash('alert', [
-    //             'type' => 'error',
-    //             'title' => 'Pengajuan Surat Gagal',
-    //             'message' => 'Ada data yang salah!'
-    //         ]);
-    //     } else {
-    //         Surat::create($request->all());
-        
-    //         Session::flash('alert', [
-    //             'type' => 'success',
-    //             'title' => 'Pengajuan Surat Berhasil',
-    //             'message' => ''
-    //         ]);
-    //     }
-        
-    //     return back();
-    // }
     
 
     // LAST FIXED
@@ -285,52 +251,6 @@ class SuratController extends Controller
     // }
 
 
-    public function update_surat(Request $request, $id)
-    {
-        // Validasi data yang dikirim dari formulir
-        $validator = Validator::make($request->all(), [
-            'jenis_surat' => 'required',
-            'nama_warga' => 'required',
-            'nik_warga' => 'required',
-            // Tambahkan validasi untuk bidang lainnya di sini sesuai kebutuhan
-        ]);
-        
-        // Jika validasi gagal, kembalikan respon dengan pesan kesalahan
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-    
-        // Jika validasi berhasil, lanjutkan dengan menyimpan data ke database
-        try {
-            // Ambil data yang dikirim dari formulir
-            $jenis_surat = $request->input('jenis_surat');
-            $nama_warga = $request->input('nama_warga');
-            $nik_warga = $request->input('nik_warga');
-    
-            // Lanjutkan dengan mengambil data lainnya sesuai kebutuhan
-    
-            // Simpan data ke database
-            $surat = Surat::find($id);
-            $surat->jenis_surat = $jenis_surat;
-            $surat->nama_warga = $nama_warga;
-            $surat->nik_warga = $nik_warga;
-            // Lanjutkan dengan menyimpan data lainnya sesuai kebutuhan
-            $surat->save();
-    
-            // Setelah data berhasil disimpan, kembalikan respon dengan pesan sukses
-            return redirect()->back()->with('success', 'Data surat berhasil diperbarui.');
-        } catch (\Exception $e) {
-            // Tangani kesalahan jika terjadi
-            return redirect()->back()->with('error', 'Terjadi kesalahan saat memperbarui data surat: ' . $e->getMessage());
-        }
-    }
-    
-    public function edit_surat($id)
-    {
-        $surats = Surat::findorfail($id);
-        return view('surat.res_surat', compact('surats'));
-    }
-
     
     public function get_data_surat(Request $request)
     {
@@ -349,6 +269,64 @@ class SuratController extends Controller
             ]);
         }
 
+    }
+
+    public function ubah_isi_surat($id) 
+    {
+        $surats = Surat::find($id);
+        return response()->json(['surats'=>$surats]);
+    }
+
+    public function edit_surat(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'ubah_nama_warga' => '',
+            'ubah_nik_warga' => '',
+            'ubah_agama' => '',
+            'ubah_pekerjaan' => '',
+            'ubah_usaha' => '',
+            'ubah_ttl' => '',
+            'ubah_alamat' => '',
+            'ubah_alamat_dom' => '',
+            'ubah_status_surat' => ''
+        ]);
+
+        if ($validator->fails()) {
+            Session::flash('alert', [
+                'type' => 'error',
+                'title' => 'Input Data Gagal',
+                'message' => 'Ada inputan yang salah!',
+            ]);
+        } else {
+            $surats = Surat::where('id_surat', $request->id_surat)->first();
+
+            if($surats){
+                $surats->update([
+                    'nama_warga' => $request->ubah_nama_warga,
+                    'nik_warga' => $request->ubah_nik_warga,
+                    'agama' => $request->ubah_agama,
+                    'pekerjaan' => $request->ubah_pekerjaan,
+                    'usaha' => $request->ubah_usaha,
+                    'ttl' => $request->ubah_ttl,
+                    'alamat' => $request->ubah_alamat,
+                    'alamat_dom' => $request->ubah_alamat_dom,
+                    'status_surat' => $request->ubah_status_surat,
+                ]);
+                Session::flash('alert', [
+                    'type' => 'success',
+                    'title' => 'Edit Data Berhasil',
+                    'message' => "",
+                ]);
+                
+            } else {
+                Session::flash('alert', [
+                    'type' => 'error',
+                    'title' => 'Input Data Gagal',
+                    'message' => 'Ada inputan yang salah!',
+                ]); 
+            }
+        }
+        return back();
     }
 
 }
