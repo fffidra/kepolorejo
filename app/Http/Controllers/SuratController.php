@@ -86,7 +86,7 @@ class SuratController extends Controller
                         'usaha' => $request->usaha,
                         'keperluan' => $request->keperluan,
                     ]);
-                    
+                
                 break;
 
                 case 'SURAT KETERANGAN DOMISILI':
@@ -142,106 +142,8 @@ class SuratController extends Controller
                 'message' => ''
             ]);
         }
-        
         return back();
     }
-    
-
-    // LAST FIXED
-    // public function buat_surat(Request $request)
-    // {
-    //     switch ($request->jenis_surat) {
-    //         case 'SURAT KETERANGAN USAHA':
-    //             $validator = Validator::make($request->all(), [
-    //                 'jenis_surat' => 'required',
-    //                 'nama_warga' => 'nullable',
-    //                 'nik_warga' => 'nullable',
-    //                 'ttl' => 'nullable',
-    //                 'status_nikah' => 'nullable',
-    //                 'agama' => 'nullable',
-    //                 'pekerjaan' => 'nullable',
-    //                 'alamat' => 'nullable',
-    //                 'usaha' => 'required', 
-    //                 'keperluan' => 'nullable',
-    //             ]);
-            
-    //         break;
-
-    //         case 'SURAT KETERANGAN DOMISILI':
-    //             $validator = Validator::make($request->all(), [
-    //                 'jenis_surat' => 'required',
-    //                 'nama_warga' => 'nullable',
-    //                 'nik_warga' => 'nullable',
-    //                 'jenis_kelamin' => 'required', 
-    //                 'ttl' => 'nullable',
-    //                 'agama' => 'nullable',
-    //                 'status_nikah' => 'nullable',
-    //                 'pekerjaan' => 'nullable',
-    //                 'alamat' => 'nullable',
-    //                 'alamat_dom' => 'required', 
-    //                 'keperluan' => 'nullable',
-    //             ]);
-                
-    //         break;
-
-    //         default:
-    //             $validator = Validator::make($request->all(), [
-    //                 'jenis_surat' => 'required',
-    //             ]);
-            
-    //         break;
-    //     }
-
-    //     if ($validator->fails()) {
-    //         Session::flash('alert', [
-    //             'type' => 'error',
-    //             'title' => 'Pengajuan Surat Gagal',
-    //             'message' => 'Ada data yang salah!'
-    //         ]);
-    //     } else {
-    //         switch ($request->jenis_surat) {
-    //             case 'SURAT KETERANGAN USAHA':
-    //                 Surat::create([
-    //                     'jenis_surat' => $request->jenis_surat,
-    //                     'nama_warga' => $request->nama_warga,
-    //                     'nik_warga' => $request->nik_warga,
-    //                     'ttl' => $request->ttl,
-    //                     'status_nikah' => $request->status_nikah,
-    //                     'agama' => $request->agama,
-    //                     'pekerjaan' => $request->pekerjaan,
-    //                     'alamat' => $request->alamat,
-    //                     'usaha' => $request->usaha,
-    //                     'keperluan' => $request->keperluan,
-    //                 ]);
-                    
-    //             break;
-
-    //             case 'SURAT KETERANGAN DOMISILI':
-    //                 Surat::create([
-    //                     'jenis_surat' => $request->jenis_surat,
-    //                     'nama_warga' => $request->nama_warga_2,
-    //                     'nik_warga' => $request->nik_warga_2,
-    //                     'jenis_kelamin' => $request->jenis_kelamin,
-    //                     'ttl' => $request->ttl_2,
-    //                     'agama' => $request->agama_2,
-    //                     'status_nikah' => $request->status_nikah_2,
-    //                     'pekerjaan' => $request->pekerjaan_2,
-    //                     'alamat' => $request->alamat_2,
-    //                     'alamat_dom' => $request->alamat_dom,
-    //                     'keperluan' => $request->keperluan_2,
-    //                 ]);
-                    
-    //             break;
-    //         }
-
-    //         Session::flash('alert', [
-    //             'type' => 'success',
-    //             'title' => 'Pengajuan Surat Berhasil',
-    //             'message' => ''
-    //         ]);
-    //     }
-    //     return back();
-    // }
 
     // public function detail_spt($id_spt)
     // {
@@ -268,7 +170,6 @@ class SuratController extends Controller
                 'status'=>'error',
             ]);
         }
-
     }
 
     public function ubah_isi_surat($id) 
@@ -288,7 +189,8 @@ class SuratController extends Controller
             'ubah_ttl' => '',
             'ubah_alamat' => '',
             'ubah_alamat_dom' => '',
-            'ubah_status_surat' => ''
+            'ubah_status_surat' => '',
+            'ubah_keperluan' => ''
         ]);
 
         if ($validator->fails()) {
@@ -311,6 +213,7 @@ class SuratController extends Controller
                     'alamat' => $request->ubah_alamat,
                     'alamat_dom' => $request->ubah_alamat_dom,
                     'status_surat' => $request->ubah_status_surat,
+                    'keperluan' => $request->ubah_keperluan
                 ]);
                 Session::flash('alert', [
                     'type' => 'success',
@@ -329,4 +232,80 @@ class SuratController extends Controller
         return back();
     }
 
+    // public function verifikasi_surat(Request $request, $id_surat) {
+    //     $surats = Surat::findOrFail($id_surat);
+    //     if($surats) {
+    //         switch($surats->status_surat) {
+    //             case 'Diproses':
+    //                 switch($request->aksi) {
+    //                     case 'setuju':
+    //                         $surats->update([
+    //                             'status_surat' => 'Selesai',
+    //                         ]);
+    //                         Session::flash('alert', [
+    //                             'type' => 'success',
+    //                             'title' => 'Surat Berhasil Disetujui',
+    //                             'message' => "",
+    //                         ]);
+    //                         break;
+    //                     case 'tolak':
+    //                         $surats->update([
+    //                             'status_surat' => 'Ditolak',
+    //                         ]);
+    //                         Session::flash('alert', [
+    //                             'type' => 'success',
+    //                             'title' => 'Surat Berhasil Ditolak',
+    //                             'message' => "",
+    //                         ]);
+    //                         break;
+    //                 }
+    //                 break;
+    //         }
+    //     } else {
+    //         Session::flash('alert', [
+    //             'type' => 'error',
+    //             'title' => 'Kirim Data Gagal',
+    //             'message' => 'Terjadi Error!'
+    //         ]);
+    //     }
+    //     return back();
+    // }
+
+    public function verifikasi_surat(Request $request, $id_surat) 
+    {
+        $surat = Surat::findOrFail($id_surat);
+        
+        if ($surat && $surat->status_surat === 'Diproses') {
+            switch ($request->aksi) {
+                case 'setuju':
+                    $surat->status_surat = 'Selesai';
+                    $message = 'Surat berhasil disetujui.';
+                    $type = 'success';
+                    break;
+                case 'tolak':
+                    $surat->status_surat = 'Ditolak';
+                    $message = 'Surat berhasil ditolak.';
+                    $type = 'error';
+                    break;
+                default:
+                    // Do nothing
+                    break;
+            }
+    
+            $surat->save();
+    
+            Session::flash('alert', [
+                'type' => $type,
+                'title' => 'Proses Berhasil',
+                'message' => $message,
+            ]);
+        } else {
+            Session::flash('alert', [
+                'type' => 'error',
+                'title' => 'Kirim Data Gagal',
+                'message' => 'Terjadi Error!'
+            ]);
+        }
+        return back();
+    }
 }

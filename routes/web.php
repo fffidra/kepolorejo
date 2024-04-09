@@ -82,3 +82,4 @@ Route::post('update_surat', [SuratController::class, 'update_surat'])->name('upd
 Route::put('edit_surat', [SuratController::class, 'edit_surat'])->name('edit_surat');
 Route::post('get_data_surat', [SuratController::class, 'get_data_surat'])->name('get_data_surat');
 Route::get('ubah_isi_surat/{id_surat}', [SuratController::class, 'ubah_isi_surat']);
+Route::put('verifikasi_surat/{id_surat}', [SuratController::class, 'verifikasi_surat'])->name('verifikasi_surat');
