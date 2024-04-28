@@ -37,14 +37,14 @@
                                                 </span>
                                             </div>
                                         </div>
-                                        <div class="text-center mb-3">
+                                        {{-- <div class="text-center mb-3">
                                             <p><b>Silakan klik Buat Akun jika belum memiliki akun</b></p>
                                         </div>
                                         <div class="d-flex justify-content-between align-items-center mt-3">
                                             <a href="{{ route('buat_akun') }}" class="btn btn-primary w-sm waves-effect waves-light" style="background-color: #001f3f;">Buat Akun</a>
-                                            {{-- <button class="btn btn-primary w-sm waves-effect waves-light" type="submit">Masuk</button> --}}
+                                            <button class="btn btn-primary w-sm waves-effect waves-light" type="submit">Masuk</button>
                                             <a href="{{ url('/') }}" class="btn btn-primary w-sm waves-effect waves-light">Masuk</a>
-                                        </div>
+                                        </div> --}}
                                     {{-- </form> --}}
                                 </div> 
                             </div>

@@ -278,7 +278,7 @@ class SuratController extends Controller
         if ($surat && $surat->status_surat === 'Diproses') {
             switch ($request->aksi) {
                 case 'setuju':
-                    $surat->status_surat = 'Selesai';
+                    $surat->status_surat = 'Disetujui';
                     $message = 'Surat berhasil disetujui.';
                     $type = 'success';
                     break;
