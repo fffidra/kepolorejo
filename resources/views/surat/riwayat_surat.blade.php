@@ -40,7 +40,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach(\App\Models\Surat::where('status_surat', '<>', 'Disetujui')->get() as $surat)
+                                    @foreach(\App\Models\Surat::where('status_surat', '=', 'Selesai')->get() as $surat)
                                     <tr>
                                         <td class="text-center align-middle">{{ $surat->nik_warga }}</td>
                                         <td class="text-center align-middle">{{ $surat->jenis_surat }}</td>
@@ -52,75 +52,36 @@
                                                 {{-- <button type="button" style="margin-right: 10px" data-bs-toggle="modal" data-bs-target="#modalUbah" data-bs-id="{{ $surat->id_surat }}" class="btn btn-warning btn-sm" title="Edit Surat {{ $surat->id_surat }}">
                                                     Ubah
                                                 </button> --}}
-                                                <a role="button" class="btn btn-warning me-2" title="Ubah Data" style="padding: 0.25rem 0.5rem; font-size: 18px;" data-bs-toggle="modal" data-bs-target="#modalUbah" data-bs-id="{{ $surat->id_surat }}"><i class="bx bx-pencil"></i></a>
+                                                {{-- <a role="button" class="btn btn-warning me-2" title="Ubah Data" style="padding: 0.25rem 0.5rem; font-size: 18px;" data-bs-toggle="modal" data-bs-target="#modalUbah" data-bs-id="{{ $surat->id_surat }}"><i class="bx bx-pencil"></i></a> --}}
 
                                                 <button type="button" data-bs-toggle="modal" data-bs-target="#modalDetail" data-bs-id="{{ $surat->id_surat }}" class="btn btn-info btn-sm">Detail</button>
 
-                                                <form method="POST" action="{{ route('verifikasi_surat', $surat->id_surat) }}" id="verifikasi-surat-{{ $surat->id_surat }}">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <button type="button" id="btnVerifikasi-{{ $surat->id_surat }}" class="btn btn-primary btn-sm">Verifikasi</button>
-                                                </form>
-                                            </div>
-                                            <script>
-                                                $('#btnVerifikasi-{{ $surat->id_surat }}').click(function(event){
-                                                    event.preventDefault();
-                                                    Swal.fire({
-                                                        icon: "info",
-                                                        title: "Konfirmasi",
-                                                        text: "Apakah Anda yakin ingin mengirim data ini?",
-                                                        showDenyButton: true,
+                                                {{-- <a href="" target="_blank" class="btn btn-info btn-sm" style="margin-right: 10px;">Unduh</a>  --}}
+                                                            
+                                                            {{-- <form method="POST" action="" id="selesai-spt-{{ $surat->id_surat  }}">
+                                                                @csrf
+                                                                @method('PUT')
+                                                                <button type="button" id="btnSelesai-{{ $surat->id_surat  }}" class="btn btn-primary btn-sm">Selesai</button>
+                                                            </form>
+                                                        </div>
+                                                        <script>
+                                                            $('#btnSelesai-{{ $surat->id_surat  }}').click(function(event){
+                                                                event.preventDefault();
+                                                                Swal.fire({
+                                                                    icon: "info",
+                                                                    title: "Konfirmasi",
+                                                                    text: "Apakah Anda yakin ingin mengirim data ini?",
                                                                     showCancelButton: true,
-                                                                    confirmButtonText: "Setuju",
-                                                                    denyButtonText: "Tolak",
-                                                                    cancelButtonText: "Batal",
-                                                                }).then((result) => {
-                                                                    /* Read more about isConfirmed, isDenied below */
+                                                                    confirmButtonText: "Ya, Lanjutkan",
+                                                                    cancelButtonText: "Tidak, Batalkan",
+                                                                }).then(function (result) {
                                                                     if (result.isConfirmed) {
-                                                                        $('#verifikasi-surat-{{ $surat->id_surat }}')
-                                                                            .append('<input type="hidden" name="aksi" value="setuju" required>')
-                                                                            .submit();
-                                                                    } else if (result.isDenied) {
-                                                                        $('#verifikasi-surat-{{ $surat->id_surat }}')
-                                                                            .append('<input type="hidden" name="aksi" value="tolak" required>')
-                                                                            .submit();
+                                                                        // Jika pengguna mengonfirmasi, lanjutkan dengan pengiriman formulir
+                                                                        $('#selesai-spt-{{ $surat->id_surat  }}').submit();
                                                                     }
                                                                 });
                                                             });
-                                                        </script>
-
-                                                {{-- <form method="POST" action="{{ route('verifikasi_surat', $surat->id_surat) }}" id="kirim-surat-{{ $surat->id_surat }}">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <button type="button" id="btnKirim-{{ $surat->id_surat }}" class="btn btn-success btn-sm">Verifikasi</button>
-                                                </form>
-                                            </div>
-                                            <script>
-                                                $('#btnKirim-{{ $surat->id_surat }}').click(function(event){
-                                                    event.preventDefault();
-                                                    Swal.fire({
-                                                        icon: "info",
-                                                        title: "Konfirmasi",
-                                                        text: "Apakah Anda yakin ingin verifikasi Surat ini?",
-                                                        showDenyButton: true,
-                                                        showCancelButton: true,
-                                                        confirmButtonText: "Setuju",
-                                                        denyButtonText: "Tolak",
-                                                        cancelButtonText: "Batal",
-                                                    }).then((result) => {
-                                                        /* Read more about isConfirmed, isDenied below */
-                                                        if (result.isConfirmed) {
-                                                            $('#kirim-surat-{{ $surat->id_surat }}')
-                                                                .append('<input type="hidden" name="aksi" value="setuju" required>')
-                                                                .submit();
-                                                        } else if (result.isDenied) {
-                                                            $('#kirim-surat-{{ $surat->id_surat }}')
-                                                                .append('<input type="hidden" name="aksi" value="tolak" required>')
-                                                                .submit();
-                                                        }
-                                                    });
-                                                });
-                                            </script> --}}
+                                                        </script> --}}
                                         </td>
                                     </tr>
                                     @endforeach

@@ -308,4 +308,46 @@ class SuratController extends Controller
         }
         return back();
     }
+
+    public function surat_disetujui(Request $request)
+    {
+        $surats = Surat::where('status_surat', 'Disetujui')->get();
+        return view('surat.surat_disetujui', compact('surats'));
+    }
+
+    public function surat_selesai($id_surat) {
+        $surat = Surat::find($id_surat);
+    
+        if($surat) {
+            $surat->status_surat = 'Selesai'; // Ubah status_surat langsung
+    
+            if($surat->save()) {
+                Session::flash('alert', [
+                    'type' => 'success',
+                    'title' => 'Kirim Data Berhasil',
+                    'message' => ''
+                ]);
+            } else {
+                Session::flash('alert', [
+                    'type' => 'error',
+                    'title' => 'Kirim Data Gagal',
+                    'message' => 'Gagal menyimpan status surat.'
+                ]);
+            }
+        } else {
+            Session::flash('alert', [
+                'type' => 'error',
+                'title' => 'Kirim Data Gagal',
+                'message' => 'Data surat tidak ditemukan.'
+            ]);
+        }
+        return back();
+    }
+    
+    public function riwayat_surat(Request $request)
+    {
+        $surats = Surat::where('status_surat', 'Selesai')->get();
+        return view('surat.riwayat_surat', compact('surats'));
+    }
+    
 }
