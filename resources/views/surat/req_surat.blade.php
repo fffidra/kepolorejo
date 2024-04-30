@@ -22,7 +22,7 @@
                             </div>
                         </div>
                         <div class="text-center mb-4">
-                            <button data-bs-toggle="modal" data-bs-target="#" class="btn btn-primary" style="background-color: white; color: black;">CEK SURAT</button>
+                            <button data-bs-toggle="modal" data-bs-target="#ceksurat" class="btn btn-primary" style="background-color: white; color: black;">CEK SURAT</button>
                             <button data-bs-toggle="modal" data-bs-target="#tambahsuratbaru" class="btn btn-primary" style="background-color: white; color: black;">TAMBAH SURAT</button>
                         </div>
                     </div><!-- end col -->
@@ -281,40 +281,132 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="ceksurat" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cek Surat</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Form pencarian -->
+                <form id="searchForm">
+                    <div class="mb-3">
+                        <label for="nikWarga" class="form-label">NIK Warga</label>
+                        <input type="text" class="form-control" id="nikWarga" placeholder="Masukkan NIK warga">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Cari</button>
+                </form>
+
+                <p id="nikNotFound" class="text-danger" style="display: none;">Surat tidak ditemukan</p>
+
+                <div id="searchResults" class="mt-3" style="display: none;">
+                    <div class="mb-3 row">
+                        <label class="col-md-3 col-form-label">Jenis Surat</label>
+                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp;
+                            <label class="col-form-label" id="detail_jenis_surat" style="padding-top: 0;"></label>
+                        </span>
+                    </div>
+                    {{-- <div class="mb-3 row">
+                        <label class="col-md-3 col-form-label">NIK</label>
+                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp;
+                            <label class="col-form-label" id="detail_nik" style="padding-top: 0;"></label>
+                        </span>
+                    </div> --}}
+                    <div class="mb-3 row">
+                        <label class="col-md-3 col-form-label">Nama</label>
+                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp;
+                            <label class="col-form-label" id="detail_nama" style="padding-top: 0;"></label>
+                        </span>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-md-3 col-form-label">Status</label>
+                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp;
+                            <label class="col-form-label" id="detail_status" style="padding-top: 0;"></label>
+                        </span>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @section('script')
     <script>
-        function togglePassword() {
-            var passwordInput = document.getElementById("kata-sandi");
-            var toggleIcon = document.querySelector('.toggle-password i');
+        // function togglePassword() {
+        //     var passwordInput = document.getElementById("kata-sandi");
+        //     var toggleIcon = document.querySelector('.toggle-password i');
             
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-                toggleIcon.classList.remove('fa-eye-slash');
-                toggleIcon.classList.add('fa-eye');
-            } else {
-                passwordInput.type = "password";
-                toggleIcon.classList.remove('fa-eye');
-                toggleIcon.classList.add('fa-eye-slash');
-            }
-        }
+        //     if (passwordInput.type === "password") {
+        //         passwordInput.type = "text";
+        //         toggleIcon.classList.remove('fa-eye-slash');
+        //         toggleIcon.classList.add('fa-eye');
+        //     } else {
+        //         passwordInput.type = "password";
+        //         toggleIcon.classList.remove('fa-eye');
+        //         toggleIcon.classList.add('fa-eye-slash');
+        //     }
+        // }
 
         function showForm() {
-    var selectedOption = document.getElementById("jenis_surat").value;
-    console.log("Selected option: ", selectedOption);
-    
-    var forms = document.querySelectorAll('.form_surat');
-    console.log("Forms: ", forms);
+            var selectedOption = document.getElementById("jenis_surat").value;
+            console.log("Selected option: ", selectedOption);
+            
+            var forms = document.querySelectorAll('.form_surat');
+            console.log("Forms: ", forms);
 
-    forms.forEach(function(form) {
-        var formId = form.id.split("_").pop(); 
-        if (formId === selectedOption) {
-            form.style.display = "block";
-        } else {
-            form.style.display = "none";
+            forms.forEach(function(form) {
+                var formId = form.id.split("_").pop(); 
+                if (formId === selectedOption) {
+                    form.style.display = "block";
+                } else {
+                    form.style.display = "none";
+                }
+            });
         }
-    });
-}
+
+        $(document).ready(function() {
+            $('#searchForm').submit(function(event) {
+                event.preventDefault(); // Hindari pengiriman form standar
+                var nikWarga = $('#nikWarga').val(); // Dapatkan nilai NIK warga dari input
+
+                // Lakukan permintaan AJAX ke server dengan NIK warga sebagai parameter
+                $.ajax({
+                    url: '/search-surat', // Ganti dengan URL rute yang sesuai di Laravel Anda
+                    method: 'GET',
+                    data: { nik_warga: nikWarga },
+                    success: function(response) {
+                        if (response.error) {
+                            // Sembunyikan elemen searchResults jika hasil pencarian tidak ditemukan
+                            $('#searchResults').hide();
+                            
+                            // Tampilkan pesan "NIK tidak ditemukan" di bawah search bar
+                            $('#nikNotFound').show().text(response.error);
+                        } else {
+                            // Perbarui nilai dari elemen HTML dengan data yang diterima
+                            $('#detail_jenis_surat').text(response.jenis_surat);
+                            // $('#detail_nik').text(response.nik_warga);
+                            $('#detail_nama').text(response.nama_warga);
+                            $('#detail_status').text(response.status_surat);
+                            
+                            // Tampilkan elemen searchResults setelah hasil pencarian tersedia
+                            $('#searchResults').show();
+                            
+                            // Sembunyikan pesan "NIK tidak ditemukan" jika sebelumnya ditampilkan
+                            $('#nikNotFound').hide();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        });
+
     </script>
 @endsection
