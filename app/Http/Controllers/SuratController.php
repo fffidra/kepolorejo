@@ -10,6 +10,9 @@ use App\Models\Pekerjaan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\PhpWord;
+
 
 class SuratController extends Controller
 {
@@ -385,4 +388,171 @@ class SuratController extends Controller
         }
         return back();
     }
+
+    public function unduh_surat($id_surat)
+    {
+        // $spt = SPT::with('anggotaSPT')->where('id_spt', $spt_id)->first();
+        // $jangkaWaktu = Carbon::parse($spt->kurun_waktu_akhir)->diffInDays(Carbon::parse($spt->kurun_waktu_awal));
+        // $ketJangkaWaktu = $this->numberToWords($jangkaWaktu);
+
+        // $kurun_awal = Carbon::parse($spt->kurun_waktu_awal);
+        // $kurun_akhir = Carbon::parse($spt->kurun_waktu_akhir);
+
+
+        // $sameYear = $kurun_awal->isSameYear($kurun_akhir);
+
+        // // Format date range
+        // if ($sameYear) {
+        //     $awal = $kurun_awal->format('j');
+        //     $akhir = $kurun_akhir->format('j');
+            
+        //     // If the day is less than 10, remove leading zero
+        //     if ($awal < 10) {
+        //         $awal = $kurun_awal->format('j');
+        //     }
+            
+        //     if ($akhir < 10) {
+        //         $akhir = $kurun_akhir->format('j');
+        //     }
+
+        //     $kurun_waktu = $awal . ' ' . $this->angkaBulanKeNama($kurun_awal->month) . ' s.d ' . $akhir . ' ' . $this->angkaBulanKeNama($kurun_akhir->month) . ' ' . $kurun_awal->format('Y');
+        // } else {
+        //     $kurun_waktu = $kurun_awal->format('j F Y') . ' s.d ' . $kurun_akhir->format('j F Y');
+        // }
+
+        // return view('template_spt', compact('spt', 'jangkaWaktu', 'ketJangkaWaktu', 'kurun_awal', 'kurun_akhir', 'kurun_waktu'));
+
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection([
+            'marginTop'    => 600,  
+            'marginBottom' => 600, 
+            'marginRight'  => 800,
+            'marginLeft'   => 800
+        ]);        
+        $table = $section->addTable();
+        $row = $table->addRow();
+        $lebarA4 = 21 * 600; 
+
+        // Kolom untuk logo di bagian kiri
+        $row->addCell(2500)->addImage(public_path("logo.png"), ['width' => 68]);
+
+        // Kolom untuk teks di bagian kanan
+        $textCell = $row->addCell(7500);
+        $textCell->addText('PEMERINTAH KABUPATEN MAGETAN', ['bold' => true, 'size' => 11], array('align' => 'center', 'space' => array('line' => -50)));
+        $textCell->addText('I N S P E K T O R A T', ['bold' => true, 'size' => 13], array('align' => 'center', 'space' => array('line' => -50)));
+        $textCell->addText('Jl. Tripandita No. 17 Magetan Kode Pos 63319', ['size' => 9], array('align' => 'center', 'space' => array('line' => -50)));
+        $textCell->addText('Telp. (0351) 897113 Fax. (0351) 897161', ['size' => 9], array('align' => 'center', 'space' => array('line' => -50)));
+        $textCell->addText('E-mail : inspektorat@magetan.go.id Website : http://inspektorat.magetan.go.id', ['size' => 9], array('align' => 'center', 'space' => array('line' => -50)));
+
+        $section->addLine(['weight' => 2,'width' => 510, 'height' => 0]);
+
+        // S P T 
+        $textRunHeader = $section->addTextRun(['alignment' => 'center']);
+        $textRunHeader->addText('SURAT PERINTAH TUGAS', ['bold' => true, 'underline' => 'single', 'size' => 16]);
+        $textRunHeader->addTextBreak();
+        $textRunHeader->addText('Nomor : 094/      /403.060/2024', ['bold' => true, 'size' => 11]);
+
+        $section->addTextBreak();
+        
+        // D A S A R
+        $tableDasar = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
+        $tableDasar->addRow();
+        $tableDasar->addCell($lebarA4 * 0.10)->addText('DASAR', ['bold' => true, 'size' => 11]);
+        $tableDasar->addCell($lebarA4 * 0.05)->addText(':', ['bold' => true, 'size' => 11], array('align' => 'center'));
+        // $cleanedDasarSPT = strip_tags($spt->dasar_spt);
+        // $tableDasar->addCell($lebarA4 * 0.85)->addText($cleanedDasarSPT, ['size' => 11]);
+
+        // M E M E R I N T A H K A N
+        $textRunCenter = $section->addTextRun(['alignment' => 'center']);
+        $textRunCenter->addText('M E M E R I N T A H K A N', ['bold' => true, 'size' => 11]);
+
+        // K E P A D A 
+        $tableee = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
+        $tableee->addRow();
+        $tableee->addCell($lebarA4 * 0.10)->addText('KEPADA', ['bold' => true, 'size' => 11]);        
+        $tableee->addCell($lebarA4 * 0.05)->addText(':', ['bold' => true, 'size' => 11], array('align' => 'center')); 
+        $tableee->addCell($lebarA4 * 0.85)->addText('');
+    
+        // T A B L E
+        $tables = $section->addTable(['width' => 50, 'borderColor' => 'black', 'borderSize' => 1, 'alignment' => 'right']);
+        $tables->addRow();
+        $tables->addCell(500)->addText('No.', ['bold' => true, 'size' => 11, 'align' => 'center'], array('align' => 'center'));
+        $tables->addCell(7000)->addText('NAMA', ['bold' => true, 'size' => 11, 'align' => 'center'], array('align' => 'center'));
+        $tables->addCell(3000)->addText('KETERANGAN', ['bold' => true, 'size' => 11, 'align' => 'center'], array('align' => 'center'));
+        $tables->addCell(2000)->addText('JANGKA WAKTU', ['bold' => true, 'size' => 11, 'align' => 'center'], array('align' => 'center'));
+        
+        // $no = 1;
+        // foreach ($spt->anggotaSPT as $anggota) {
+        //     $tables->addRow();
+        //     $tables->addCell(500)->addText($no++, ['size' => 11], array('align' => 'center'));
+        //     $tables->addCell(7000)->addText('Sdr. ' . strtoupper($anggota->relasi_pegawai->nama_pegawai), ['size' => 11]);
+        //     $tables->addCell(3000)->addText($anggota->keterangan, ['size' => 11], array('align' => 'center'));
+        //     // $tables->addCell(2000)->addText($jangkaWaktu . ' hari', ['size' => 11], array('align' => 'center'));
+        // }
+        
+        $section->addTextBreak();
+
+        // U N T U K
+        $tableUntuk = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
+        $tableUntuk->addRow();
+        $tableUntuk->addCell($lebarA4 * 0.10)->addText('UNTUK', ['bold' => true, 'size' => 11]);
+        $tableUntuk->addCell($lebarA4 * 0.05)->addText(':', ['bold' => true, 'size' => 11], array('align' => 'center'));
+        // $tableUntuk->addCell($lebarA4 * 0.85)->addText($spt->untuk_spt, ['size' => 11]);
+
+        $section->addTextBreak();
+
+        // P A R A G R A P H
+        // $paragraph1 = 'Kegiatan tersebut dilaksanakan selama ' . $jangkaWaktu . ' (' . $ketJangkaWaktu . ') hari kerja dalam kurun waktu ' . $kurun_waktu . ' dan biaya yang berkaitan dengan penugasan menjadi beban Anggaran Inspektorat Kabupaten Magetan.';
+        $paragraph2 = 'Kepada pihak-pihak yang bersangkutan diminta kesediannya untuk memberikan keterangan yang diperlukan guna kelancaran dan penyelesaian tugas dimaksud.';
+        $paragraph3 = 'Sebagai informasi, disampaikan bahwa Inspektorat Kabupaten Magetan tidak memungut biaya apapun atas pelayanan yang diberikan, dan untuk menjaga integritas dimohon untuk tidak menyampaikan pemberian dalam bentuk apapun kepada Pejabat/Pegawai Inspektorat Kabupaten Magetan.';
+        
+        // $section->addText($paragraph1, ['size' => 11], ['alignment' => 'both', 'indentation' => ['left' => 600]]);
+        $section->addText($paragraph2, ['size' => 11], ['alignment' => 'both', 'indentation' => ['left' => 600]]);
+        $section->addText($paragraph3, ['size' => 11], ['alignment' => 'both', 'indentation' => ['left' => 600]]);
+        
+        $section->addTextBreak();
+
+        // T T D
+        $tableFooter = $section->addTable(['width' => 50, 'borderColor' => 'white', 'borderSize' => 1, 'alignment' => 'right']);
+        $tableFooter->addRow();
+        $tableFooter->addCell(2000)->addText('Dikeluarkan di', ['size' => 11], array('align' => 'left'));
+        $tableFooter->addCell(700)->addText(':', ['size' => 11], array('align' => 'center'));
+        $tableFooter->addCell(2000)->addText('M A G E T A N', ['size' => 11], array('align' => 'right'));
+
+        $tableFooter->addRow();
+        $tableFooter->addCell(2000)->addText('Pada Tanggal', ['size' => 11], array('align' => 'left', 'borderBottomSize' => 2, 'borderBottomColor' => 'black'));
+        $tableFooter->addCell(700)->addText(':', ['size' => 11], array('align' => 'center', 'borderBottomSize' => 2, 'borderBottomColor' => 'black'));
+        // $bulanIndonesia = Carbon::parse(now())->locale('id_ID')->isoFormat('MMMM YYYY');
+        // $tableFooter->addCell(2000)->addText($bulanIndonesia, ['size' => 11], array('align' => 'right', 'borderBottomSize' => 2, 'borderBottomColor' => 'black'));
+
+        $tableFoot = $section->addTable(['width' => 50, 'borderColor' => 'white', 'borderSize' => 1, 'alignment' => 'right']);
+        $tableFoot->addRow();
+        $tableFoot->addCell(4700)->addText('INSPEKTUR KABUPATEN MAGETAN', ['size' => 11, 'bold' => true], array('align' => 'center'));
+
+        $tableFoot->addRow();
+        $tableFoot->addCell(4700)->addText('', ['size' => 11], array('align' => 'center'));
+
+        $tableFoot->addRow();
+        $tableFoot->addCell(4700)->addText('', ['size' => 11], array('align' => 'center'));
+
+        $tableFoot->addRow();
+        $tableFoot->addCell(4700)->addText('', ['size' => 11], array('align' => 'center'));
+
+        $tableFoot->addRow();
+        $tableFoot->addCell(4700)->addText('Nama Inspektur', ['size' => 11, 'bold' => true, 'underline' => 'single'], array('align' => 'center'));
+
+        $tableFoot->addRow();
+        $tableFoot->addCell(4700)->addText('Nama Pangkat', ['size' => 11], array('align' => 'center'));
+
+        $tableFoot->addRow();
+        $tableFoot->addCell(4700)->addText('NIP. 000000000 000000 0 000', ['size' => 11], array('align' => 'center'));
+
+        // Simpan
+        $filename = 'Surat Perintah Tugas ' . date('Y-m-d H-i-s') . '.docx';
+        $filepath = storage_path('app/' . $filename);
+        $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter->save($filepath);
+
+        // Unduh file
+        return response()->download($filepath)->deleteFileAfterSend(true);}
 }

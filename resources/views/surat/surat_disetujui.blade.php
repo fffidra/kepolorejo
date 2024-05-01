@@ -48,15 +48,7 @@
                                         <td class="text-center align-middle">{{ $surat->status_surat }}</td>
                                         <td class="text-center">
                                             <div class="d-flex justify-content-center">
-                                                {{-- <button type="button" style="margin-right: 10px" data-bs-toggle="modal" data-bs-target="#modalUbah" data-bs-id="{{ $surat->id_surat }}" class="btn btn-warning btn-sm">Ubah</button> --}}
-                                                {{-- <button type="button" style="margin-right: 10px" data-bs-toggle="modal" data-bs-target="#modalUbah" data-bs-id="{{ $surat->id_surat }}" class="btn btn-warning btn-sm" title="Edit Surat {{ $surat->id_surat }}">
-                                                    Ubah
-                                                </button> --}}
-                                                {{-- <a role="button" class="btn btn-warning me-2" title="Ubah Data" style="padding: 0.25rem 0.5rem; font-size: 18px;" data-bs-toggle="modal" data-bs-target="#modalUbah" data-bs-id="{{ $surat->id_surat }}"><i class="bx bx-pencil"></i></a> --}}
-
-                                                {{-- <button type="button" data-bs-toggle="modal" data-bs-target="#modalDetail" data-bs-id="{{ $surat->id_surat }}" class="btn btn-info btn-sm">Detail</button> --}}
-
-                                                <a href="" target="_blank" class="btn btn-info btn-sm" style="margin-right: 10px;">Unduh</a> 
+                                                <a href="{{ route('unduh_surat', $surat->id_surat) }}" target="_blank" class="btn btn-info btn-sm" style="margin-right: 10px;">Unduh</a> 
                                                             
                                                 <form method="POST" action="{{ route('surat_selesai', $surat->id_surat) }}" id="selesai-surat-{{ $surat->id_surat  }}">
                                                     @csrf
