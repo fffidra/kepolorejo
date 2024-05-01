@@ -366,4 +366,23 @@ class SuratController extends Controller
         // Jika surat tidak ditemukan, kembalikan respons teks biasa 'NIK tidak ditemukan'
         return response('NIK tidak ditemukan', 404);
     }
+
+    public function hapus_surat($id_surat) {
+        $surat = Surat::findOrFail($id_surat);
+        if($surat) {
+            Session::flash('alert', [
+                'type' => 'success',
+                'title' => 'Hapus Data '.$surat->nama_warga.' Berhasil',
+                'message' => "",
+            ]); 
+            $surat->delete();
+        } else {
+            Session::flash('alert', [
+                'type' => 'error',
+                'title' => 'Hapus Data Gagal',
+                'message' => 'NIP Tidak Valid!',
+            ]); 
+        }
+        return back();
+    }
 }
