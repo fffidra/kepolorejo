@@ -350,27 +350,20 @@ class SuratController extends Controller
         return view('surat.riwayat_surat', compact('surats'));
     }
 
-    public function search(Request $request)
+    public function cari_surat(Request $request)
     {
-        // Validasi input
         $request->validate([
-            'nik_warga' => 'required|numeric', // Sesuaikan dengan aturan validasi yang Anda perlukan
+            'nik_warga' => 'required|numeric', 
         ]);
-    
-        // Ambil nilai NIK warga dari request
+
         $nikWarga = $request->input('nik_warga');
-    
-        // Lakukan pencarian surat berdasarkan NIK warga
         $surat = Surat::where('nik_warga', $nikWarga)->first();
-    
-        // Jika surat ditemukan, kembalikan respons
+
+        // Jika surat ditemukan, kembalikan respons JSON dengan detail surat
         if ($surat) {
             return response()->json($surat);
         }
-    
-        // Jika surat tidak ditemukan, kembalikan pesan error
-        return response()->json(['error' => 'Surat tidak ditemukan'], 404);
+        // Jika surat tidak ditemukan, kembalikan respons teks biasa 'NIK tidak ditemukan'
+        return response('NIK tidak ditemukan', 404);
     }
-    
-    
 }

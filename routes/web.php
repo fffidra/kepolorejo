@@ -86,5 +86,5 @@ Route::put('verifikasi_surat/{id_surat}', [SuratController::class, 'verifikasi_s
 Route::get('surat_masuk', [SuratController::class, 'index'])->name('surat.res_surat'); 
 Route::get('surat_disetujui', [SuratController::class, 'surat_disetujui'])->name('surat.surat_disetujui'); 
 Route::get('riwayat_surat', [SuratController::class, 'riwayat_surat'])->name('surat.riwayat_surat'); 
-Route::put('surat_selesai/{id_surat}', [SuratController::class, 'surat_selesai'])->name('surat_selesai'); // PUT Aksi Kirim SPT Sekre 5 ke 6
-Route::get('/search-surat', [SuratController::class, 'search'])->name('surat.search');
+Route::put('surat_selesai/{id_surat}', [SuratController::class, 'surat_selesai'])->name('surat_selesai'); 
+Route::get('cari_surat', [SuratController::class, 'cari_surat'])->name('cari_surat');

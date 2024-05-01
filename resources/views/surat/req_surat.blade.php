@@ -372,33 +372,30 @@
 
         $(document).ready(function() {
             $('#searchForm').submit(function(event) {
-                event.preventDefault(); // Hindari pengiriman form standar
-                var nikWarga = $('#nikWarga').val(); // Dapatkan nilai NIK warga dari input
+                event.preventDefault(); // Prevent standard form submission
+                var nikWarga = $('#nikWarga').val(); // Get the value of NIK input
 
-                // Lakukan permintaan AJAX ke server dengan NIK warga sebagai parameter
+                // Send an AJAX request to the server with NIK as a parameter
                 $.ajax({
-                    url: '/search-surat', // Ganti dengan URL rute yang sesuai di Laravel Anda
+                    url: 'cari_surat', 
                     method: 'GET',
                     data: { nik_warga: nikWarga },
                     success: function(response) {
                         if (response.error) {
-                            // Sembunyikan elemen searchResults jika hasil pencarian tidak ditemukan
+                            // Perbarui elemen HTML dengan pesan error
+                            $('#nikNotFound').text('NIK tidak ditemukan').show();
+                            // Sembunyikan elemen searchResults jika sebelumnya ditampilkan
                             $('#searchResults').hide();
-                            
-                            // Tampilkan pesan "NIK tidak ditemukan" di bawah search bar
-                            $('#nikNotFound').show().text(response.error);
                         } else {
-                            // Perbarui nilai dari elemen HTML dengan data yang diterima
                             $('#detail_jenis_surat').text(response.jenis_surat);
-                            // $('#detail_nik').text(response.nik_warga);
                             $('#detail_nama').text(response.nama_warga);
+                            // $('#detail_nik').text(response.nik_warga);
                             $('#detail_status').text(response.status_surat);
                             
+                            // Sembunyikan pesan error jika sebelumnya ditampilkan
+                            $('#nikNotFound').hide();
                             // Tampilkan elemen searchResults setelah hasil pencarian tersedia
                             $('#searchResults').show();
-                            
-                            // Sembunyikan pesan "NIK tidak ditemukan" jika sebelumnya ditampilkan
-                            $('#nikNotFound').hide();
                         }
                     },
                     error: function(xhr, status, error) {
@@ -407,6 +404,5 @@
                 });
             });
         });
-
     </script>
 @endsection
