@@ -89,5 +89,5 @@ Route::get('riwayat_surat', [SuratController::class, 'riwayat_surat'])->name('su
 Route::put('surat_selesai/{id_surat}', [SuratController::class, 'surat_selesai'])->name('surat_selesai'); 
 Route::get('cari_surat', [SuratController::class, 'cari_surat'])->name('cari_surat');
 Route::delete('hapus_surat/{id_surat}', [SuratController::class, 'hapus_surat'])->name('hapus_surat');
-Route::get('unduh_surat{id_surat}', [SuratController::class, 'unduh_surat'])->name('unduh_surat');
+Route::get('unduh_surat/{jenis_surat}/{id_surat}', [SuratController::class, 'unduh_surat'])->name('unduh_surat');
 

@@ -48,8 +48,18 @@
                                         <td class="text-center align-middle">{{ $surat->status_surat }}</td>
                                         <td class="text-center">
                                             <div class="d-flex justify-content-center">
-                                                <a href="{{ route('unduh_surat', $surat->id_surat) }}" target="_blank" class="btn btn-info btn-sm" style="margin-right: 10px;">Unduh</a> 
+                                                <a href="{{ route('unduh_surat', ['jenis_surat' => $surat->jenis_surat, 'id_surat' => $surat->id_surat]) }}" target="_blank" class="btn btn-info btn-sm" style="margin-right: 10px;">Unduh</a> 
+
+                                                {{-- @foreach($surats as $surat)
+                                                    <a href="{{ route('unduh_surat', ['jenis_surat' => $surat->jenis_surat, 'id_surat' => $surat->id_surat]) }}" target="_blank" class="btn btn-info btn-sm" style="margin-right: 10px;">Unduh {{ $surat->jenis_surat }}</a>
+                                                @endforeach --}}
                                                             
+                                                {{-- @foreach($surats as $surat)
+                                                    <button class="btn btn-info btn-sm unduh-surat" data-jenis-surat="{{ $surat->jenis_surat }}" data-id-surat="{{ $surat->id_surat }}">Unduh</button>
+                                                @endforeach --}}
+
+                                                {{-- <button class="btn btn-info btn-sm unduh-surat" id="unduhButton">Unduh</button> --}}
+
                                                 <form method="POST" action="{{ route('surat_selesai', $surat->id_surat) }}" id="selesai-surat-{{ $surat->id_surat  }}">
                                                     @csrf
                                                     @method('PUT')
@@ -72,6 +82,20 @@
                                                             $('#selesai-surat-{{ $surat->id_surat  }}').submit();
                                                         }
                                                     });
+                                                });
+
+                                                // Menambahkan event listener ke tombol 'Unduh'
+                                                document.getElementById('unduhButton').addEventListener('click', function() {
+                                                    // Mendapatkan jenis surat dan id surat dari baris tabel terpilih
+                                                    var jenisSurat = document.querySelector('.selected-row').getAttribute('data-jenis-surat');
+                                                    var idSurat = document.querySelector('.selected-row').getAttribute('data-id-surat');
+
+                                                    // Membuat URL unduhan berdasarkan jenis surat dan id surat
+                                                    var url = "{{ route('unduh_surat', ['jenis_surat' => ':jenis_surat', 'id_surat' => ':id_surat']) }}";
+                                                    url = url.replace(':jenis_surat', jenisSurat).replace(':id_surat', idSurat);
+
+                                                    // Mengarahkan jendela baru untuk mengunduh surat
+                                                    window.open(url, '_blank');
                                                 });
                                             </script>
                                         </td>
@@ -452,6 +476,20 @@
                 }
             }, 
         });
+    });
+
+    // Menambahkan event listener ke tombol 'Unduh'
+    document.getElementById('unduhButton').addEventListener('click', function() {
+        // Mendapatkan jenis surat dan id surat dari baris tabel terpilih
+        var jenisSurat = document.querySelector('.selected-row').getAttribute('data-jenis-surat');
+        var idSurat = document.querySelector('.selected-row').getAttribute('data-id-surat');
+
+        // Membuat URL unduhan berdasarkan jenis surat dan id surat
+        var url = "{{ route('unduh_surat', ['jenis_surat' => ':jenis_surat', 'id_surat' => ':id_surat']) }}";
+        url = url.replace(':jenis_surat', jenisSurat).replace(':id_surat', idSurat);
+
+        // Mengarahkan jendela baru untuk mengunduh surat
+        window.open(url, '_blank');
     });
 </script>
 @endsection
