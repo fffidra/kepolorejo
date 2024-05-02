@@ -49,7 +49,11 @@
                                         <td class="text-center">
                                             <div class="d-flex justify-content-center">
                                                 <a role="button" class="btn btn-warning me-2" title="Ubah Data" style="padding: 0.25rem 0.5rem; font-size: 18px;" data-bs-toggle="modal" data-bs-target="#modalUbah" data-bs-id="{{ $surat->id_surat }}"><i class="bx bx-pencil"></i></a>
+
                                                 <button type="button" data-bs-toggle="modal" data-bs-target="#modalDetail" data-bs-id="{{ $surat->id_surat }}" class="btn btn-info btn-sm">Detail</button>
+
+                                                {{-- <button type="button" data-bs-toggle="modal" data-bs-target="#modalDetail" data-bs-id="{{ $surat->id_surat }}" data-bs-jenis-surat="{{ $surat->jenis_surat }}" class="btn btn-info btn-sm">Detail</button> --}}
+
                                                 @if($surat->status_surat === 'Diproses')
                                                     <form method="POST" action="{{ route('verifikasi_surat', $surat->id_surat) }}" id="verifikasi-surat-{{ $surat->id_surat }}">
                                                         @csrf
@@ -486,5 +490,120 @@
             }, 
         });
     });
+
+    $('#modalDetail').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    $.ajax({
+        url: '{{ route("get_data_surat") }}',
+        type: 'POST',
+        data: {
+            id: button.data('bs-id'),
+            _token: '{{ csrf_token() }}',
+        },
+        dataType: 'JSON',
+        success: function(response) {
+            if (response.status == 'success') {
+                var surats = response.surats;
+                // Hide all detail elements initially
+                $(".modal-body .row").hide();
+                // Show specific detail elements based on the type of surat
+                switch(surats.jenis_surat) {
+                    case "SURAT KETERANGAN DOMISILI":
+                        $("#detail_jenis_surat").closest('.row').show();
+                        $("#detail_nama").closest('.row').show();
+                        $("#detail_nik").closest('.row').show();
+                        $("#detail_jenis_kelamin").closest('.row').show();
+                        $("#detail_ttl").closest('.row').show();
+                        $("#detail_agama").closest('.row').show();
+                        $("#detail_status_nikah").closest('.row').show();
+                        $("#detail_pekerjaan").closest('.row').show();
+                        $("#detail_alamat").closest('.row').show();
+                        $("#detail_alamat_dom").closest('.row').show();
+                        $("#detail_keperluan").closest('.row').show();
+                        break;
+                    case "SURAT KETERANGAN BELUM MENIKAH":
+                        $("#detail_jenis_surat").closest('.row').show();
+                        $("#detail_nama").closest('.row').show();
+                        $("#detail_nik").closest('.row').show();
+                        $("#detail_ttl").closest('.row').show();
+                        $("#detail_status_nikah").closest('.row').show();
+                        $("#detail_agama").closest('.row').show();
+                        $("#detail_pekerjaan").closest('.row').show();
+                        $("#detail_alamat").closest('.row').show();
+                        $("#detail_keperluan").closest('.row').show();
+                        break;
+                    case "SURAT KETERANGAN USAHA":
+                        $("#detail_jenis_surat").closest('.row').show();
+                        $("#detail_nama").closest('.row').show();
+                        $("#detail_nik").closest('.row').show();
+                        $("#detail_ttl").closest('.row').show();
+                        $("#detail_status_nikah").closest('.row').show();
+                        $("#detail_agama").closest('.row').show();
+                        $("#detail_pekerjaan").closest('.row').show();
+                        $("#detail_alamat").closest('.row').show();
+                        $("#detail_usaha").closest('.row').show();
+                        $("#detail_keperluan").closest('.row').show();
+                        break;
+                    case "SURAT KETERANGAN TIDAK MAMPU":
+                        $("#detail_jenis_surat").closest('.row').show();
+                        $("#detail_nama").closest('.row').show();
+                        $("#detail_nik").closest('.row').show();
+                        $("#detail_ttl").closest('.row').show();
+                        $("#detail_agama").closest('.row').show();
+                        $("#detail_pekerjaan").closest('.row').show();
+                        $("#detail_alamat").closest('.row').show();
+                        $("#detail_keperluan").closest('.row').show();
+                        break;
+                    default:
+                        break;
+                }
+                // // Populate other details based on surat type
+                // $("#detail_nama").html(surats.nama_warga);
+                // $("#detail_nik").html(surats.nik_warga);
+                // $("#detail_agama").html(surats.agama);
+                // $("#detail_pekerjaan").html(surats.pekerjaan);
+                // $("#detail_ttl").html(surats.ttl);
+                // $("#detail_alamat").html(surats.alamat);
+                // $("#detail_keperluan").html(surats.keperluan);
+            }
+        }, 
+    });
+});
+
+
+
+    // $('#modalDetail').on('show.bs.modal', function (event) {
+    //     var button = $(event.relatedTarget); // Tombol yang memicu modal
+    //     var jenisSurat = button.data('bs-jenis-surat'); // Ambil nilai jenis surat dari tombol
+
+    //     // Memperbarui judul modal sesuai dengan jenis surat
+    //     var modal = $(this);
+    //     modal.find('.modal-title').text('Detail ' + jenisSurat);
+
+    //     // Menyembunyikan semua elemen detail
+    //     modal.find('.detail-item').hide();
+
+    //     // Menampilkan elemen detail sesuai dengan jenis surat
+    //     modal.find("#detail_jenis_surat").html(jenisSurat);
+
+    //     if (jenisSurat === 'SURAT KETERANGAN DOMISILI') {
+    //     // Menampilkan elemen detail untuk Surat Keterangan Domisili
+    //     modal.find("#detail_nama").html(button.data('nama-warga'));
+    //     modal.find("#detail_nik").html(button.data('nik-warga'));
+    //     modal.find("#detail_agama").html(button.data('agama'));
+    //     modal.find("#detail_pekerjaan").html(button.data('pekerjaan'));
+    //     modal.find("#detail_status_nikah").html(button.data('status-nikah'));
+    //     } else if (jenisSurat === 'SURAT KETERANGAN USAHA') {
+    //     // Menampilkan elemen detail untuk Surat Keterangan Usaha
+    //     modal.find("#detail_nama").html(button.data('nama-warga'));
+    //     modal.find("#detail_nik").html(button.data('nik-warga'));
+    //     modal.find("#detail_agama").html(button.data('agama'));
+    //     modal.find("#detail_pekerjaan").html(button.data('pekerjaan'));
+    //     modal.find("#detail_status_nikah").html(button.data('status-nikah'));
+    //     }
+    //     // Tambahkan kondisi dan menampilkan elemen detail untuk jenis surat lainnya jika diperlukan
+    // });
+
+    
 </script>
 @endsection

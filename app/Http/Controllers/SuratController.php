@@ -455,7 +455,6 @@ class SuratController extends Controller
             $textRunHeader->addTextBreak();
 
             $textRunHeader->addText($surat->nama_warga, ['bold' => true, 'size' => 11]);
-       
         }    
 
         
