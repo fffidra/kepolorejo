@@ -45,8 +45,12 @@
                                         <td class="text-center align-middle">{{ $surat->status_surat }}</td>
                                         <td class="text-center">
                                             <div class="d-flex justify-content-center">
-                                                <a role="button" class="btn btn-warning me-2" title="Ubah Data" style="padding: 0.25rem 0.5rem; font-size: 18px;" data-bs-toggle="modal" data-bs-target="#modalUbah" data-bs-id="{{ $surat->id_surat }}"><i class="bx bx-pencil"></i></a>
+                                                {{-- <a role="button" class="btn btn-warning me-2" title="Ubah Data" style="padding: 0.25rem 0.5rem; font-size: 18px;" data-bs-toggle="modal" data-bs-target="#modalUbah" data-bs-id="{{ $surat->id_surat }}"><i class="bx bx-pencil"></i></a> --}}
+
+                                                <button type="button" data-bs-toggle="modal" data-bs-target="#modalUbah" data-bs-id="{{ $surat->id_surat }}" class="btn btn-info btn-sm">Ubah</button>
+
                                                 <button type="button" data-bs-toggle="modal" data-bs-target="#modalDetail" data-bs-id="{{ $surat->id_surat }}" class="btn btn-info btn-sm">Detail</button>
+
                                                 @if($surat->status_surat === 'Diproses')
                                                     <form method="POST" action="{{ route('verifikasi_surat', $surat->id_surat) }}" id="verifikasi-surat-{{ $surat->id_surat }}">
                                                         @csrf
@@ -125,7 +129,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalUbahLabel">UBAH DATA SURAT</h5>
+                    <h5 class="modal-title">UBAH DATA SURAT</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form method="POST" action="{{ route('edit_surat') }}" id="formUbah">
@@ -344,13 +348,89 @@
     //     });
     // });
 
-    // MODAL EDIT DATA SUCCEED
+    // // // MODAL EDIT DATA SUCCEED
+    // $('#modalUbah').on('show.bs.modal', function (event) {
+    //     var button = $(event.relatedTarget);
+    //     $.ajax({
+    //         url: '{{ route("get_data_surat") }}',
+    //         type: "POST",
+    //         data: {
+    //             id: button.data('bs-id'),
+    //             _token: '{{ csrf_token() }}',
+    //         },
+    //         dataType: 'JSON',
+
+    //         success: function(response) {
+    //             console.log(response);
+    //             fillModalWithData(response.surats);
+    //         },
+    //         error: function (xhr, status, error) {
+    //             console.error(xhr.responseText);
+    //         }
+    //     });
+    // });
+
+    // function fillModalWithData(data) {
+    //     $('#jenis_surat').val(data.jenis_surat);
+    //     $('#ubah_nama_warga').val(data.nama_warga);
+    //     $('#ubah_nik_warga').val(data.nik_warga);
+    //     $('#ubah_agama').val(data.agama);
+    //     $('#ubah_pekerjaan').val(data.pekerjaan);
+    //     $('#ubah_usaha').val(data.usaha);
+    //     $('#ubah_ttl').val(data.ttl);
+    //     $('#ubah_alamat').val(data.alamat);
+    //     $('#ubah_alamat_dom').val(data.alamat_dom);
+    //     $('#ubah_status_surat').val(data.status_surat);
+    //     $('#ubah_keperluan').val(data.keperluan);
+
+    //     switch(data.jenis_surat) {
+    //         case "SURAT KETERANGAN DOMISILI":
+    //             $("#ubah_alamat_dom").closest('.form-group').show();
+    //             break;
+    //         case "SURAT KETERANGAN BELUM MENIKAH":
+    //             $("#ubah_status_surat").closest('.form-group').show();
+    //             break;
+    //         // Tambahkan case untuk jenis surat lainnya di sini
+    //         default:
+    //             // Semua elemen disembunyikan jika jenis surat tidak sesuai
+    //             $(".modal-body .form-group").hide();
+    //     }
+    // }
+
+    // // Event listener untuk tombol "Simpan Perubahan"
+    // $('#simpanPerubahan').click(function(event){
+    //     event.preventDefault(); 
+
+    //     var namawarga = document.getElementById("ubah_nama_warga");
+    //     var nikwarga = document.getElementById("ubah_nik_warga");
+
+    //     if (!namawarga.value || !nikwarga.value) {
+    //         Swal.fire({
+    //             icon: "error",
+    //             title: "Oops...",
+    //             text: "Nama warga dan NIK warga wajib diisi!",
+    //         });
+    //     } else {
+    //         Swal.fire({
+    //             icon: "info",
+    //             title: "Konfirmasi",
+    //             text: "Apakah Anda yakin data sudah benar?",
+    //             showCancelButton: true,
+    //             confirmButtonText: "Ya, Lanjutkan",
+    //             cancelButtonText: "Tidak, Batalkan",
+    //         }).then(function (result) {
+    //             if (result.isConfirmed) {
+    //                 $('#formUbah').submit();
+    //             }
+    //         });
+    //     }
+    // });
+
+
+    
     $('#modalUbah').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
-        var id_surat = button.data('id_surat');
-
-        $("#id_surat").val(id_surat);
-
+        var id = button.data('bs-id');
         $.ajax({
             url: '{{ route("get_data_surat") }}',
             type: 'POST',
@@ -361,7 +441,7 @@
             dataType: 'JSON',
             success: function(response) {
                 if (response.status == 'success') {
-                    var surats = response.surats; 
+                    var surats = response.surats;
                     $("#id_surat").val(surats.id_surat);
                     $("#jenis_surat").val(surats.jenis_surat);
                     $("#ubah_nama_warga").val(surats.nama_warga);
@@ -373,60 +453,20 @@
                     $("#ubah_alamat").val(surats.alamat);
                     $("#ubah_alamat_dom").val(surats.alamat_dom);
                     $("#ubah_status_surat").val(surats.status_surat);
-                    $("#ubah_keperluan").val(surats.keperluan);
-                } 
-            }, 
-        }); 
-
-        $(document).ready(function() {
-            $('#simpanPerubahan').click(function(event){
-                event.preventDefault(); 
-                var namawarga = document.getElementById("ubah_nama_warga");
-                var nikwarga = document.getElementById("ubah_nama_warga");
-                var agamawarga = document.getElementById("ubah_agama");
-                var pekerjaanwarga = document.getElementById("ubah_pekerjaan");
-                var usahawarga = document.getElementById("ubah_usaha");
-                var ttlwarga = document.getElementById("ubah_ttl");
-                var alamatwarga = document.getElementById("ubah_alamat");
-                var alamatdomwarga = document.getElementById("ubah_alamat_dom");
-                var statussurat = document.getElementById("ubah_status_surat");
-                var keperluanwarga = document.getElementById("ubah_keperluan");
-
-                if (!namawarga.value) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: "Semua inputan wajib diisi!",
-                    });
-                } else {
-                    Swal.fire({
-                        icon: "info",
-                        title: "Konfirmasi",
-                        text: "Apakah Anda yakin data sudah benar?",
-                        showCancelButton: true,
-                        confirmButtonText: "Ya, Lanjutkan",
-                        cancelButtonText: "Tidak, Batalkan",
-                    }).then(function (result) {
-                        if (result.isConfirmed) {
-                            $('#formUbah').submit();
-                        }
-                    });
                 }
-            });
+            }, 
         });
     });
-    
+
 
     $(document).on('click', '.btn-edit', function(e){
         e.preventDefault();
         var surat_id = $(this).val();
-
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
         $.ajax({
             type: "GET",
             url: "/ubah_isi_surat/"+surat_id,
@@ -442,15 +482,64 @@
                 $('#ubah_alamat').val(response.surats.alamat);
                 $('#ubah_alamat_dom').val(response.surats.alamat_dom);
                 $('#ubah_status_surat').val(response.surats.status_surat);
-                $('#ubah_keperluan').val(response.surats.keperluan);
                 $('#modalUbah').modal('show');                
             }
         });        
     });
 
+    // simpan
+    $(document).ready(function() {
+        $('#simpanPerubahan').click(function(event){
+            event.preventDefault(); // Mencegah pengiriman formulir secara default
+            // var jenissurat = document.getElementById("jenis_surat");
+            var namawarga = document.getElementById("ubah_nama_warga");
+            var nikwarga = document.getElementById("ubah_nama_warga");
+            var agamawarga = document.getElementById("ubah_agama");
+            var pekerjaanwarga = document.getElementById("ubah_pekerjaan");
+            var usahawarga = document.getElementById("ubah_usaha");
+            var ttlwarga = document.getElementById("ubah_ttl");
+            var alamatwarga = document.getElementById("ubah_alamat");
+            var alamatdomwarga = document.getElementById("ubah_alamat_dom");
+            var statussurat = document.getElementById("ubah_status_surat");
+            if (!namawarga.value) {
+                // Tampilkan pesan kesalahan jika ada input yang kosong
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Semua inputan wajib diisi!",
+                });
+            } else {
+                // Tampilkan pesan konfirmasi jika semua input telah diisi
+                Swal.fire({
+                    icon: "info",
+                    title: "Konfirmasi",
+                    text: "Apakah Anda yakin data sudah benar?",
+                    showCancelButton: true,
+                    confirmButtonText: "Ya, Lanjutkan",
+                    cancelButtonText: "Tidak, Batalkan",
+                }).then(function (result) {
+                    if (result.isConfirmed) {
+                        // Jika pengguna mengonfirmasi, lanjutkan dengan pengiriman formulir
+                        $('#formUbah').submit();
+                    }
+                });
+            }
+        });
+    });
+
+
+
+
+
+
+
+
+
+
     // MODAL DETAIL DATA 1
     $('#modalDetail').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget)
+        var button = $(event.relatedTarget);
+        var id = button.data('bs-id');
         $.ajax({
             url: '{{ route("get_data_surat") }}',
             type: 'POST',
