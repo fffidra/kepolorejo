@@ -432,8 +432,107 @@ class SuratController extends Controller
             $textRunHeader = $section->addTextRun(['alignment' => 'center']);
             $textRunHeader->addText('SURAT KETERANGAN BELUM MENIKAH', ['bold' => true, 'underline' => 'single', 'size' => 16]);
             $textRunHeader->addTextBreak();
-            $textRunHeader->addText('Nomor : 094/      /403.060/2024', ['bold' => true, 'size' => 11]);
-            $textRunHeader->addTextBreak();
+            $textRunHeader->addText('Nomor : 471.1/     /403.406.6/2024', ['size' => 12]);
+            
+            $section->addTextBreak();
+
+            $paragraph1 = 'Yang bertanda tangan dibawah ini Lurah Kepolorejo Kecamatan Magetan Kabupaten Magetan, menerangkan dengan sebenarnya bahwa : ';
+            $section->addText($paragraph1, ['size' => 12], ['alignment' => 'both', 'indentation' => ['left' => 700, 'right' => 700,'firstLine' => 1000]]);
+            
+            $section->addTextBreak();
+
+            $tableNama = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
+            $tableNama->addRow();
+            $tableNama->addCell($lebarA4 * 0.10)->addText('');
+            $tableNama->addCell($lebarA4 * 0.20)->addText('Nama', ['size' => 12]);
+            $tableNama->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
+            $tableNama->addCell($lebarA4 * 0.65)->addText($surat->nama_warga, ['bold' => true, 'allCaps' => true, 'size' => 12]);
+
+            $tableNIK = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
+            $tableNIK->addRow();
+            $tableNIK->addCell($lebarA4 * 0.10)->addText('');
+            $tableNIK->addCell($lebarA4 * 0.20)->addText('NIK', ['size' => 12]);
+            $tableNIK->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
+            $tableNIK->addCell($lebarA4 * 0.65)->addText($surat->nik_warga, ['size' => 12]);
+
+            $tableTtl = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
+            $tableTtl->addRow();
+            $tableTtl->addCell($lebarA4 * 0.10)->addText('');
+            $tableTtl->addCell($lebarA4 * 0.20)->addText('Tempat/Tgl Lahir', ['size' => 12]);
+            $tableTtl->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
+            $tableTtl->addCell($lebarA4 * 0.65)->addText($surat->ttl, ['size' => 12]);
+
+            $tableAgama = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
+            $tableAgama->addRow();
+            $tableAgama->addCell($lebarA4 * 0.10)->addText('');
+            $tableAgama->addCell($lebarA4 * 0.20)->addText('Agama', ['size' => 12]);
+            $tableAgama->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
+            $tableAgama->addCell($lebarA4 * 0.65)->addText($surat->agama, ['size' => 12]);
+
+            $tablePekerjaan = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
+            $tablePekerjaan->addRow();
+            $tablePekerjaan->addCell($lebarA4 * 0.10)->addText('');
+            $tablePekerjaan->addCell($lebarA4 * 0.20)->addText('Pekerjaan', ['size' => 12]);
+            $tablePekerjaan->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
+            $tablePekerjaan->addCell($lebarA4 * 0.65)->addText($surat->pekerjaan, ['size' => 12]);
+
+            $tableAlamat = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
+            $tableAlamat->addRow();
+            $tableAlamat->addCell($lebarA4 * 0.10)->addText('');
+            $tableAlamat->addCell($lebarA4 * 0.20)->addText('Alamat', ['size' => 12]);
+            $tableAlamat->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
+            $tableAlamat->addCell($lebarA4 * 0.65)->addText($surat->alamat, ['size' => 12]);
+
+            $tableKeterangan = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
+            $tableKeterangan->addRow();
+            $tableKeterangan->addCell($lebarA4 * 0.10)->addText('');
+            $tableKeterangan->addCell($lebarA4 * 0.20)->addText('Keterangan', ['size' => 12]);
+            $tableKeterangan->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
+            $tableKeterangan->addCell($lebarA4 * 0.58)->addText('Bahwa orang yang namanya tersebut diatas benar-benar Warga Kelurahan Kepolorejo dan saat ini belum menikah', ['size' => 12]);
+            $tableKeterangan->addCell($lebarA4 * 0.07)->addText('');
+
+            $tableKeperluan = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
+            $tableKeperluan->addRow();
+            $tableKeperluan->addCell($lebarA4 * 0.10)->addText('');
+            $tableKeperluan->addCell($lebarA4 * 0.20)->addText('Keperluan', ['size' => 12]);
+            $tableKeperluan->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
+            $tableKeperluan->addCell($lebarA4 * 0.65)->addText('Untuk '. $surat->keperluan, ['size' => 12]);
+
+            $section->addTextBreak();
+
+            $paragraph2 = 'Demikian Surat Keterangan ini dibuat dan dapat dipergunakan sebagaimana mestinya.';
+            $section->addText($paragraph2, ['size' => 12], ['alignment' => 'both', 'indentation' => ['left' => 700, 'right' => 700,'firstLine' => 1000]]);
+
+            $section->addTextBreak();
+            $section->addTextBreak();
+            $section->addTextBreak();
+
+            $tableFoot = $section->addTable(['width' => 50, 'borderColor' => 'white', 'borderSize' => 1, 'alignment' => 'right']);
+            $tanggalLengkap = Carbon::parse(now())->locale('id_ID')->isoFormat('DD MMMM YYYY');
+            $tableFoot->addRow();
+            $tableFoot->addCell(4700)->addText('Magetan, ' . $tanggalLengkap, ['size' => 12], array('align' => 'center'));
+            $tableFoot->addRow();            
+            $tableFoot->addCell(4700)->addText('LURAH KEPOLOREJO', ['size' => 12], array('align' => 'center'));
+
+            $tableFoot->addRow();
+            $tableFoot->addCell(4700)->addText('');
+
+            $tableFoot->addRow();
+            $tableFoot->addCell(4700)->addText('');
+
+            $tableFoot->addRow();
+            $tableFoot->addCell(4700)->addText('');
+
+            $tableFoot->addRow();
+            $tableFoot->addCell(4700)->addText('ADITYA SURENDRA MAWARDI, SE, MM', ['size' => 12, 'bold' => true, 'underline' => 'single'], array('align' => 'center'));
+
+            $tableFoot->addRow();
+            $tableFoot->addCell(4700)->addText('Pembina', ['size' => 12], array('align' => 'center'));
+
+            $tableFoot->addRow();
+            $tableFoot->addCell(4700)->addText('NIP. 19740309 200501 1 007', ['size' => 12], array('align' => 'center'));
+
+
         } elseif ($jenis_surat == 'SURAT KETERANGAN TIDAK MAMPU') {
             $textRunHeader = $section->addTextRun(['alignment' => 'center']);
             $textRunHeader->addText('SURAT KETERANGAN TIDAK MAMPU', ['bold' => true, 'underline' => 'single', 'size' => 16]);
@@ -446,12 +545,12 @@ class SuratController extends Controller
             $textRunHeader = $section->addTextRun(['alignment' => 'center']);
             $textRunHeader->addText('SURAT KETERANGAN USAHA', ['bold' => true, 'underline' => 'single', 'size' => 16]);
             $textRunHeader->addTextBreak();
-            $textRunHeader->addText('Nomor : 500.3.4.3/         /403.406.6/2024', ['size' => 12]); 
+            $textRunHeader->addText('Nomor : 500.3.4.3/     /403.406.6/2024', ['size' => 12]); 
 
             $section->addTextBreak();
 
             $paragraph1 = 'Yang bertanda tangan dibawah ini Lurah Kepolorejo Kecamatan Magetan Kabupaten Magetan, menerangkan dengan sebenarnya bahwa : ';
-            $section->addText($paragraph1, ['size' => 12], ['alignment' => 'both', 'indentation' => ['left' => 700, 'right' => 700,'firstLine' => 1300]]);
+            $section->addText($paragraph1, ['size' => 12], ['alignment' => 'both', 'indentation' => ['left' => 700, 'right' => 700,'firstLine' => 1000]]);
             
             $section->addTextBreak();
 
@@ -520,8 +619,8 @@ class SuratController extends Controller
 
             $section->addTextBreak();
 
-            $paragraph2 = 'Demikian  Surat  Keterangan  ini  dibuat  dan  dapat dipergunakan sebagaimana  mestinya.';
-            $section->addText($paragraph2, ['size' => 12], ['alignment' => 'both', 'indentation' => ['left' => 700, 'right' => 700,'firstLine' => 1300]]);
+            $paragraph2 = 'Demikian Surat Keterangan ini dibuat dan dapat dipergunakan sebagaimana mestinya.';
+            $section->addText($paragraph2, ['size' => 12], ['alignment' => 'both', 'indentation' => ['left' => 700, 'right' => 700,'firstLine' => 1000]]);
 
             $section->addTextBreak();
             $section->addTextBreak();
