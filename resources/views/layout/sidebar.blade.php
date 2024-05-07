@@ -16,7 +16,7 @@
     <div data-simplebar class="sidebar-menu-scroll">
         <div id="sidebar-menu">
             <ul class="metismenu list-unstyled" id="side-menu">
-                <li class="menu-title" data-key="t-applications">Menu</li>
+                <li class="menu-title" data-key="t-applications">MENU SURAT</li>
                 <li>
                     <a href="{{ route('surat.res_surat') }}">
                         <i class="bx bx-envelope icon nav-icon"></i>
@@ -29,37 +29,46 @@
                         <span class="menu-item" data-key="t-email">Surat Disetujui</span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="{{ route('surat.riwayat_surat') }}">
                         <i class="bx bx-envelope icon nav-icon"></i>
                         <span class="menu-item" data-key="t-email">Riwayat Surat</span>
                     </a>
-                </li>
+                </li> --}}
 
-                {{-- @if(Auth::user()->nama_jabatan == 'Sekretaris Dinas') --}}
                 <li class="menu-title" data-key="t-applications">DATA MASTER</li>
 
                 <li>
-                    {{-- <a href="{{ route('data_master.pegawai') }}"> --}}
                         <i class=" mdi mdi-checkbox-blank-circle-outline"></i>
                         <span class="menu-item" data-key="t-calendar">Pegawai</span>
                     </a>
                 </li>
 
+                <li class="menu-title" data-key="t-applications">RIWAYAT SURAT</li>
                 <li>
-                    {{-- <a href="{{ route('data_master.bidang') }}"> --}}
-                        <i class="mdi mdi-checkbox-blank-circle-outline"></i>
-                        <span class="menu-item" data-key="t-calendar">Bidang</span>
+                    <a href="{{ route('surat.skbm') }}">
+                        <i class="bx bx-envelope icon nav-icon"></i>
+                        <span class="menu-item" data-key="t-calendar">SK Belum Menikah</span>
                     </a>
                 </li>
-
                 <li>
-                    {{-- <a href="{{ route('data_master.jabatan') }}"> --}}
-                        <i class="mdi mdi-checkbox-blank-circle-outline"></i>
-                        <span class="menu-item" data-key="t-calendar">Jabatan</span>
+                    <a href="{{ route('surat.skd') }}">
+                        <i class="bx bx-envelope icon nav-icon"></i>
+                        <span class="menu-item" data-key="t-calendar">SK Domisili</span>
                     </a>
                 </li>
-                {{-- @endif --}}
+                <li>
+                    <a href="{{ route('surat.sktm') }}">
+                        <i class="bx bx-envelope icon nav-icon"></i>
+                        <span class="menu-item" data-key="t-calendar">SK Tidak Mampu</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('surat.sku') }}">
+                        <i class="bx bx-envelope icon nav-icon"></i>
+                        <span class="menu-item" data-key="t-calendar">SK Usaha</span>
+                    </a>
+                </li>
             </ul>
         </div>
         <!-- Sidebar -->

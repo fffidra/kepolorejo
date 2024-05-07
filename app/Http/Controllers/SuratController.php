@@ -699,4 +699,25 @@ class SuratController extends Controller
 
         return response()->download($filepath)->deleteFileAfterSend(true);
     }
+
+    public function skbm(Request $request)
+    {
+        $surat = Surat::where('status_surat', 'Selesai')->get();
+        return view('surat.skbm', compact('surat'));
+    }
+    public function skd(Request $request)
+    {
+        $surat = Surat::where('status_surat', 'Selesai')->get();
+        return view('surat.skd', compact('surat'));
+    }
+    public function sktm(Request $request)
+    {
+        $surat = Surat::where('status_surat', 'Selesai')->get();
+        return view('surat.sktm', compact('surat'));
+    }
+    public function sku(Request $request)
+    {
+        $surat = Surat::where('status_surat', 'Selesai')->get();
+        return view('surat.sku', compact('surat'));
+    }
 }
