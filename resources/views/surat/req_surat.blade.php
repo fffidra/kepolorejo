@@ -65,12 +65,12 @@
                         {{-- USAHA --}}
                         <div id="form_surat_SURAT KETERANGAN USAHA" class="form_surat" style="display: none;">
                             <div class="mb-3">
-                                <label for="nama_warga" class="form-label">Nama</label>
-                                <input type="text" class="form-control" id="nama_warga" name="nama_warga">
+                                <label for="nama" class="form-label">Nama</label>
+                                <input type="text" class="form-control" id="nama" name="nama">
                             </div>
                             <div class="mb-3">
                                 <label for="nik" class="form-label">NIK</label>
-                                <input type="text" class="form-control" id="nik_warga" name="nik_warga">
+                                <input type="text" class="form-control" id="nik" name="nik">
                             </div>
                             <div class="mb-3">
                                 <label for="ttl" class="form-label">Tempat, Tanggal Lahir</label>
@@ -120,12 +120,12 @@
                         {{-- DOMISILI --}}
                         <div id="form_surat_SURAT KETERANGAN DOMISILI" class="form_surat" style="display: none;">
                             <div class="mb-3">
-                                <label for="nama_warga" class="form-label">Nama</label>
-                                <input type="text" class="form-control" id="nama_warga" name="nama_warga_2">
+                                <label for="nama" class="form-label">Nama</label>
+                                <input type="text" class="form-control" id="nama" name="nama_2">
                             </div>
                             <div class="mb-3">
                                 <label for="nik" class="form-label">NIK</label>
-                                <input type="text" class="form-control" id="nik_warga" name="nik_warga_2">
+                                <input type="text" class="form-control" id="nik" name="nik_2">
                             </div>
                             <div class="mb-3">
                                 <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
@@ -184,12 +184,12 @@
                         {{-- BELUM MENIKAH --}}
                         <div id="form_surat_SURAT KETERANGAN BELUM MENIKAH" class="form_surat" style="display: none;">
                             <div class="mb-3">
-                                <label for="nama_warga" class="form-label">Nama</label>
-                                <input type="text" class="form-control" id="nama_warga" name="nama_warga_3">
+                                <label for="nama" class="form-label">Nama</label>
+                                <input type="text" class="form-control" id="nama" name="nama_3">
                             </div>
                             <div class="mb-3">
-                                <label for="nik_warga" class="form-label">NIK</label>
-                                <input type="text" class="form-control" id="nik_warga" name="nik_warga_3">
+                                <label for="nik" class="form-label">NIK</label>
+                                <input type="text" class="form-control" id="nik" name="nik_3">
                             </div>
                             <div class="mb-3">
                                 <label for="ttl" class="form-label">Tempat, Tanggal Lahir</label>
@@ -235,12 +235,12 @@
                         {{-- TIDAK MAMPU --}}
                         <div id="form_surat_SURAT KETERANGAN TIDAK MAMPU" class="form_surat" style="display: none;">
                             <div class="mb-3">
-                                <label for="nama_warga" class="form-label">Nama</label>
-                                <input type="text" class="form-control" id="nama_warga" name="nama_warga_4">
+                                <label for="nama" class="form-label">Nama</label>
+                                <input type="text" class="form-control" id="nama" name="nama_4">
                             </div>
                             <div class="mb-3">
-                                <label for="nik_warga" class="form-label">NIK</label>
-                                <input type="text" class="form-control" id="nik_warga" name="nik_warga_4">
+                                <label for="nik" class="form-label">NIK</label>
+                                <input type="text" class="form-control" id="nik" name="nik_4">
                             </div>
                             <div class="mb-3">
                                 <label for="ttl" class="form-label">Tempat, Tanggal Lahir</label>
