@@ -24,7 +24,7 @@
                         </div><!-- end page title -->
                         
                         <div>
-                            <form method="POST" action="{{ route('submit_kata_sandi', Auth::user()->nip) }}">
+                            <form method="POST" action="{{ route('proses_ubah_kata_sandi', Auth::user()->nik) }}">
                                 @csrf
                                 @method('PUT')
                                 <div class="row bg-white rounded-3 pb-3 mb-3 mx-2">
@@ -36,7 +36,7 @@
                                             <div class="col-md mb-3">
                                                 <div class="input-group">
                                                     <div class="form-floating">
-                                                        <input id="password_old" class="form-control form-control-alt form-control-lg" type="password" minlength="8" maxlength="16" name="password_old" placeholder=" " autocomplete="off" required>
+                                                        <input id="password_old" class="form-control form-control-alt form-control-lg" type="password" minlength="4" maxlength="16" name="password_old" placeholder=" " autocomplete="off" required>
                                                         <label for="password_old">
                                                             Kata Sandi Lama Anda
                                                             <small class="text-danger">*</small>
@@ -50,7 +50,7 @@
                                             <div class="col-md mb-3">
                                                 <div class="input-group">
                                                     <div class="form-floating">
-                                                        <input id="password_new" class="form-control form-control-alt form-control-lg" type="password" minlength="8" maxlength="16" name="password_new" placeholder=" " autocomplete="off" required>
+                                                        <input id="password_new" class="form-control form-control-alt form-control-lg" type="password" minlength="4" maxlength="16" name="password_new" placeholder=" " autocomplete="off" required>
                                                         <label for="password_new">
                                                             Kata Sandi Baru Anda
                                                             <small class="text-danger">*</small>
