@@ -25,13 +25,13 @@ class SKBelumMenikah extends Model
         'keperluan',
         'status_surat',
         'tanggal',
+        'jabatan',
     ];
 
     public $timestamps = false;
 
     // TANGGAL & WAKTU
-    // protected static function boot()
-    // {
+    // protected static function boot(){
     //     parent::boot();
 
     //     static::creating(function ($surat) {
@@ -48,16 +48,6 @@ class SKBelumMenikah extends Model
         });
     }
 
-    public function sk_belum_menikah_ibfk_3()
-    {
-        return $this->belongsTo(Agama::class, 'agama', 'id_agama');
-    }
-    
-    public function sk_belum_menikah_ibfk_4()
-    {
-        return $this->belongsTo(Pekerjaan::class, 'pekerjaan', 'id_pekerjaan');
-    }
-
     public function sk_belum_menikah_ibfk_1()
     {
         return $this->belongsTo(Status::class, 'status_nikah', 'id_status_nikah');
@@ -68,4 +58,18 @@ class SKBelumMenikah extends Model
         return $this->belongsTo(JenisSurat::class, 'jenis_surat', 'id_jenis_surat');
     }
 
+    public function sk_belum_menikah_ibfk_3()
+    {
+        return $this->belongsTo(Agama::class, 'agama', 'id_agama');
+    }
+    
+    public function sk_belum_menikah_ibfk_4()
+    {
+        return $this->belongsTo(Pekerjaan::class, 'pekerjaan', 'id_pekerjaan');
+    }
+
+    public function sk_belum_menikah_ibfk_5()
+    {
+        return $this->belongsTo(Jabatan::class, 'nama', 'nip');
+    }
 }

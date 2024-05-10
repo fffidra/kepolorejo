@@ -112,13 +112,26 @@ Route::post('tambah_pegawai', [PegawaiController::class, 'tambah_pegawai'])->nam
 Route::get('surat', [SuratController::class, 'index'])->name('surat.req_surat');
 Route::post('buat_surat', [SuratController::class, 'buat_surat'])->name('buat_surat');
 Route::post('update_surat', [SuratController::class, 'update_surat'])->name('update_surat');
+
 Route::put('ubah_sku', [SuratController::class, 'ubah_sku'])->name('ubah_sku');
+Route::put('ubah_skbm', [SuratController::class, 'ubah_skbm'])->name('ubah_skbm');
+Route::put('ubah_skd', [SuratController::class, 'ubah_skd'])->name('ubah_skd');
+Route::put('ubah_sktm', [SuratController::class, 'ubah_sktm'])->name('ubah_sktm');
+
 Route::put('edit_surat', [SuratController::class, 'edit_surat'])->name('edit_surat');
+
 Route::post('get_data_surat', [SuratController::class, 'get_data_surat'])->name('get_data_surat');
 Route::post('get_data_sku', [SuratController::class, 'get_data_sku'])->name('get_data_sku');
+Route::post('get_data_skbm', [SuratController::class, 'get_data_skbm'])->name('get_data_skbm');
+Route::post('get_data_skd', [SuratController::class, 'get_data_skd'])->name('get_data_skd');
+Route::post('get_data_sktm', [SuratController::class, 'get_data_sktm'])->name('get_data_sktm');
+
 Route::post('detail_sk_usaha', [SuratController::class, 'detail_sk_usaha'])->name('detail_sk_usaha');
 Route::get('ubah_isi_surat/{id_surat}', [SuratController::class, 'ubah_isi_surat']);
 Route::get('ubah_isi_sku/{id_sk_usaha}', [SuratController::class, 'ubah_isi_sku']);
+Route::get('ubah_isi_skbm/{id_sk_belum_menikah}', [SuratController::class, 'ubah_isi_skbm']);
+Route::get('ubah_isi_skd/{id_sk_domisili}', [SuratController::class, 'ubah_isi_skd']);
+Route::get('ubah_isi_sktm/{id_sk_tidak_mampu}', [SuratController::class, 'ubah_isi_sktm']);
 
 Route::put('verifikasi_surat/{id_surat}', [SuratController::class, 'verifikasi_surat'])->name('verifikasi_surat');
 Route::put('verifikasi_sk_usaha/{id_sk_usaha}', [SuratController::class, 'verifikasi_sk_usaha'])->name('verifikasi_sk_usaha');

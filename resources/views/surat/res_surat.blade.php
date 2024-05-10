@@ -26,13 +26,6 @@
                             <h5>Data Surat Masuk</h5>
                         </div>
                         <div class="container-fluid table-responsive px-3 py-3">
-                            {{-- <label for="filterStatus">Filter Status Surat:</label>
-                            <select id="filterStatus">
-                            <option value="">Semua</option>
-                            <option value="Diproses">Diproses</option>
-                            <option value="Ditolak">Ditolak</option>
-                            </select> --}}
-
                             <table class="table table-striped" id="tabelSPT" style="width:100%">
                                 <thead>
                                     <tr>
@@ -130,15 +123,9 @@
                                             <td class="text-center align-middle">{{ $sk_usaha->status_surat }}</td>
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center">
-                                                    
-
-                                                    {{-- <button type="button" data-bs-toggle="modal" data-bs-target="#ubahSKU" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" class="btn btn-info btn-sm">Ubah</button> --}}
-
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" class="btn btn-info btn-sm">Detail</button>
-
-
                                                     @if($sk_usaha->status_surat === 'Diproses')
-                                                    <a role="button" class="btn btn-warning me-2" title="Ubah Data" style="padding: 0.25rem 0.5rem; font-size: 18px;" data-bs-toggle="modal" data-bs-target="#ubahSKU" data-bs-id="{{ $sk_usaha->id_sk_usaha }}"><i class="bx bx-pencil"></i></a>
+                                                        <a role="button" class="btn btn-warning me-2" title="Ubah Data" style="padding: 0.25rem 0.5rem; font-size: 18px;" data-bs-toggle="modal" data-bs-target="#ubahSKU" data-bs-id="{{ $sk_usaha->id_sk_usaha }}"><i class="bx bx-pencil"></i></a>
                                                         <form method="POST" action="{{ route('verifikasi_sk_usaha', $sk_usaha->id_sk_usaha) }}" id="verifikasi-surat-{{ $sk_usaha->id_sk_usaha }}">
                                                             @csrf
                                                             @method('PUT')
@@ -209,13 +196,9 @@
                                             <td class="text-center align-middle">{{ $sk_belum_menikah->status_surat }}</td>
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center">
-                                                    {{-- <a role="button" class="btn btn-warning me-2" title="Ubah Data" style="padding: 0.25rem 0.5rem; font-size: 18px;" data-bs-toggle="modal" data-bs-target="#modalUbah" data-bs-id="{{ $surat->id_surat }}"><i class="bx bx-pencil"></i></a> --}}
-
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#modalUbah" data-bs-id="{{ $sk_belum_menikah->id_belum_menikah }}" class="btn btn-info btn-sm">Ubah</button>
-
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detail_sk_usaha" data-bs-id="{{ $sk_belum_menikah->id_sk_belum_menikah }}" class="btn btn-info btn-sm">Detail</button>
-
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKBM" data-bs-id="{{ $sk_belum_menikah->id_sk_belum_menikah }}" class="btn btn-info btn-sm">Detail</button>
                                                     @if($sk_belum_menikah->status_surat === 'Diproses')
+                                                        <a role="button" class="btn btn-warning me-2" title="Ubah Data" style="padding: 0.25rem 0.5rem; font-size: 18px;" data-bs-toggle="modal" data-bs-target="#ubahSKBM" data-bs-id="{{ $sk_belum_menikah->id_sk_belum_menikah }}"><i class="bx bx-pencil"></i></a>
                                                         <form method="POST" action="{{ route('verifikasi_sk_belum_menikah', $sk_belum_menikah->id_sk_belum_menikah) }}" id="verifikasi-surat-{{ $sk_belum_menikah->id_sk_belum_menikah }}">
                                                             @csrf
                                                             @method('PUT')
@@ -286,13 +269,9 @@
                                             <td class="text-center align-middle">{{ $skd->status_surat }}</td>
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center">
-                                                    {{-- <a role="button" class="btn btn-warning me-2" title="Ubah Data" style="padding: 0.25rem 0.5rem; font-size: 18px;" data-bs-toggle="modal" data-bs-target="#modalUbah" data-bs-id="{{ $surat->id_surat }}"><i class="bx bx-pencil"></i></a> --}}
-
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#modalUbah" data-bs-id="{{ $skd->id_sk_domisili }}" class="btn btn-info btn-sm">Ubah</button>
-
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detail_sk_usaha" data-bs-id="{{ $skd->id_sk_domisili }}" class="btn btn-info btn-sm">Detail</button>
-
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKD" data-bs-id="{{ $skd->id_sk_domisili }}" class="btn btn-info btn-sm">Detail</button>
                                                     @if($skd->status_surat === 'Diproses')
+                                                        <a role="button" class="btn btn-warning me-2" title="Ubah Data" style="padding: 0.25rem 0.5rem; font-size: 18px;" data-bs-toggle="modal" data-bs-target="#ubahSKD" data-bs-id="{{ $skd->id_sk_domisili }}"><i class="bx bx-pencil"></i></a>
                                                         <form method="POST" action="{{ route('verifikasi_sk_domisili', $skd->id_sk_domisili) }}" id="verifikasi-surat-{{ $skd->id_sk_domisili }}">
                                                             @csrf
                                                             @method('PUT')
@@ -363,18 +342,14 @@
                                             <td class="text-center align-middle">{{ $sktm->status_surat }}</td>
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center">
-                                                    {{-- <a role="button" class="btn btn-warning me-2" title="Ubah Data" style="padding: 0.25rem 0.5rem; font-size: 18px;" data-bs-toggle="modal" data-bs-target="#modalUbah" data-bs-id="{{ $surat->id_surat }}"><i class="bx bx-pencil"></i></a> --}}
-
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#modalUbah" data-bs-id="{{ $sktm->id_sk_tidak_mampu }}" class="btn btn-info btn-sm">Ubah</button>
-
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detail_sk_usaha" data-bs-id="{{ $sktm->id_sk_tidak_mampu }}" class="btn btn-info btn-sm">Detail</button>
-
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKTM" data-bs-id="{{ $sktm->id_sk_tidak_mampu }}" class="btn btn-info btn-sm">Detail</button>
                                                     @if($sktm->status_surat === 'Diproses')
+                                                        <a role="button" class="btn btn-warning me-2" title="Ubah Data" style="padding: 0.25rem 0.5rem; font-size: 18px;" data-bs-toggle="modal" data-bs-target="#ubahSKTM" data-bs-id="{{ $sktm->id_sk_tidak_mampu }}"><i class="bx bx-pencil"></i></a>
                                                         <form method="POST" action="{{ route('verifikasi_sk_tidak_mampu', $sktm->id_sk_tidak_mampu) }}" id="verifikasi-surat-{{ $sktm->id_sk_tidak_mampu }}">
                                                             @csrf
                                                             @method('PUT')
                                                             <button type="button" id="btnVerifikasi-{{ $sktm->id_sk_tidak_mampu }}" class="btn btn-primary btn-sm">Verifikasi</button>
-                                                        </form>
+                                                        </form>                                                   
                                                     @endif
                                                     @if($sktm->status_surat === 'Ditolak')
                                                         <form method="POST" action="{{ route('hapus_sk_tidak_mampu', $sktm->id_sk_tidak_mampu) }}" id="hapus-surat-{{ $sktm->id_sk_tidak_mampu }}">
@@ -409,7 +384,7 @@
                                                             }
                                                         });
                                                     });
-
+                                                
                                                     // BUTTON DELETE
                                                     $('#btnHapus-{{ $sktm->id_sk_tidak_mampu }}').click(function(event){
                                                         event.preventDefault();
@@ -442,12 +417,12 @@
 @endsection
 
 @section('modal')
-    {{-- MODAL UBAH DATA --}}
+    {{-- SKU --}}
     <div class="modal fade" id="ubahSKU" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">UBAH DATA SURAT</h5>
+                    <h5 class="modal-title">UBAH DATA SURAT KETERANGAN USAHA</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form method="POST" action="{{ route('ubah_sku') }}" id="ubah_sku">
@@ -538,7 +513,7 @@
                             </div>
                         </div> --}}
                         <div class="mb-3 row">
-                            <label for="ubah_alamat_dom" class="col-md-2 col-form-label">Keperluan</label>
+                            <label for="ubah_keperluan" class="col-md-2 col-form-label">Keperluan</label>
                             <div class="col-md-9">
                                 <textarea class="form-control" id="ubah_keperluan" name="ubah_keperluan" rows="1"></textarea>
                             </div>
@@ -563,7 +538,6 @@
         </div>
     </div>
 
-    {{-- MODAL DETAIL --}}
     <div class="modal fade" id="detailSKU" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -674,93 +648,329 @@
         </div>
     </div>
 
-    {{-- <div class="modal fade" id="detail_sk_usaha" tabindex="-1" aria-hidden="true">
+    {{-- SURAT KETERANGAN BELUM MENIKAH --}}
+    <div class="modal fade" id="ubahSKBM" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">DETAIL SURAT KETERANGAN USAHA</h5>
+                    <h5 class="modal-title">UBAH DATA SURAT KETERANGAN BELUM MENIKAH</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <div class="mb-3 row">
-                        <label class="col-md-2 col-form-label">Jenis Surat</label>
-                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp &nbsp &nbsp &nbsp &nbsp;
-                            <label class="col-form-label" id="detail_jenis_surat" style="padding-top: 0;"></label>
-                        </span>
+                <form method="POST" action="{{ route('ubah_skbm') }}" id="ubah_skbm">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="id_sk_belum_menikah" id="id_sk_belum_menikah" required>
+                    <div class="modal-body">
+                        <div class="mb-3 row">
+                            <label for="jenis_surat" class="col-md-2 col-form-label">Jenis Surat</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="jenis_surat_2" name="jenis_surat_2" readonly>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="ubah_nama" class="col-md-2 col-form-label">Nama</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" id="ubah_nama_2" name="ubah_nama_2" rows="1"></textarea>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="ubah_nik" class="col-md-2 col-form-label">NIK</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" id="ubah_nik_2" name="ubah_nik_2" rows="1"></textarea>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="ubah_ttl" class="col-md-2 col-form-label">Tempat, Tanggal Lahir</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" id="ubah_ttl_2" name="ubah_ttl_2" rows="1"></textarea>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="ubah_status_nikah" class="col-md-2 col-form-label">Status Nikah</label>
+                            <div class="col-md-9">
+                                <select class="form-select" id="ubah_status_nikah_2" name="ubah_status_nikah_2">
+                                    @foreach(\App\Models\Status::all() as $status_nikahs)
+                                        <option value="{{ $status_nikahs->nama_status_nikah }}">{{ $status_nikahs->nama_status_nikah }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="ubah_agama" class="col-md-2 col-form-label">Agama</label>
+                            <div class="col-md-9">
+                                <select class="form-select" id="ubah_agama_2" name="ubah_agama_2">
+                                    @foreach(\App\Models\Agama::all() as $agamas)
+                                        <option value="{{ $agamas->nama_agama }}">{{ $agamas->nama_agama }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>                  
+                        <div class="mb-3 row">
+                            <label for="ubah_pekerjaan" class="col-md-2 col-form-label">Pekerjaan</label>
+                            <div class="col-md-9">
+                                <select class="form-select" id="ubah_pekerjaan_2" name="ubah_pekerjaan_2">
+                                    @foreach(\App\Models\Pekerjaan::all() as $pekerjaans)
+                                        <option value="{{ $pekerjaans->nama_pekerjaan }}">{{ $pekerjaans->nama_pekerjaan }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        {{-- <div class="mb-3 row">
+                            <label for="ubah_jenis_kelamin" class="col-md-2 col-form-label">Jenis Kelamin</label>
+                            <div class="col-md-9">
+                                <select class="form-select" id="ubah_jenis_kelamin" name="ubah_jenis_kelamin">
+                                    @foreach(\App\Models\JenisKelamin::all() as $jenis_kelamins)
+                                        <option value="{{ $jenis_kelamins->nama_jenis_kelamin }}">{{ $jenis_kelamins->nama_jenis_kelamin }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div> --}}
+                        <div class="mb-3 row">
+                            <label for="ubah_alamat" class="col-md-2 col-form-label">Alamat</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" id="ubah_alamat_2" name="ubah_alamat_2" rows="1"></textarea>
+                            </div>
+                        </div>
+                        {{-- <div class="mb-3 row">
+                            <label for="ubah_alamat_dom" class="col-md-2 col-form-label">Alamat Domisili</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" id="ubah_alamat_dom" name="ubah_alamat_dom" rows="1"></textarea>
+                            </div>
+                        </div> --}}
+                        <div class="mb-3 row">
+                            <label for="ubah_keperluan" class="col-md-2 col-form-label">Keperluan</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" id="ubah_keperluan_2" name="ubah_keperluan_2" rows="1"></textarea>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="ubah_jabatan" class="col-md-2 col-form-label">TTD Persetujuan</label>
+                            <div class="col-md-9">
+                                <select class="form-select" id="ubah_jabatan_2" name="ubah_jabatan_2">
+                                    @foreach(\App\Models\Jabatan::all() as $jabatan)
+                                        <option value="{{ $jabatan->nama }}">{{ $jabatan->nama }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mb-3 row">
-                        <label class="col-md-2 col-form-label">Nama</label>
-                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp &nbsp &nbsp &nbsp &nbsp;
-                            <label class="col-form-label" id="detail_nama" style="padding-top: 0;"></label>
-                        </span>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-warning" id="simpan_skbm">Simpan Perubahan</button>
                     </div>
-                    <div class="mb-3 row">
-                        <label class="col-md-2 col-form-label">NIK</label>
-                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp &nbsp &nbsp &nbsp &nbsp;
-                            <label class="col-form-label" id="detail_nik" style="padding-top: 0;"></label>
-                        </span>
-                    </div>
-                    <div class="mb-3 row">
-                        <label class="col-md-2 col-form-label">Tempat, Tanggal Lahir</label>
-                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp &nbsp &nbsp &nbsp &nbsp;
-                            <label class="col-form-label" id="detail_ttl" style="padding-top: 0;"></label>
-                        </span>
-                    </div>
-                    <div class="mb-3 row">
-                        <label class="col-md-2 col-form-label">Status Nikah</label>
-                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp &nbsp &nbsp &nbsp &nbsp;
-                            <label class="col-form-label" id="detail_status_nikah" style="padding-top: 0;"></label>
-                        </span>
-                    </div>
-                    <div class="mb-3 row">
-                        <label class="col-md-2 col-form-label">Agama</label>
-                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp &nbsp &nbsp &nbsp &nbsp;
-                            <label class="col-form-label" id="detail_agama" style="padding-top: 0;"></label>
-                        </span>
-                    </div>
-                    <div class="mb-3 row">
-                        <label class="col-md-2 col-form-label">Pekerjaan</label>
-                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp &nbsp &nbsp &nbsp &nbsp;
-                            <label class="col-form-label" id="detail_pekerjaan" style="padding-top: 0;"></label>
-                        </span>
-                    </div>
-                    <div class="mb-3 row">
-                        <label class="col-md-2 col-form-label">Alamat</label>
-                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp &nbsp &nbsp &nbsp &nbsp;
-                            <label class="col-form-label" id="detail_alamat" style="padding-top: 0;"></label>
-                        </span>
-                    </div>
-                    <div class="mb-3 row">
-                        <label class="col-md-2 col-form-label">Usaha</label>
-                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp &nbsp &nbsp &nbsp &nbsp;
-                            <label class="col-form-label" id="detail_usaha" style="padding-top: 0;"></label>
-                        </span>
-                    </div>
-                    <div class="mb-3 row">
-                        <label class="col-md-2 col-form-label">Keperluan</label>
-                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp &nbsp &nbsp &nbsp &nbsp;
-                            <label class="col-form-label" id="detail_keperluan" style="padding-top: 0;"></label>
-                        </span>
-                    </div>
-                    <div class="mb-3 row">
-                        <label class="col-md-2 col-form-label">Tanggal Pengajuan</label>
-                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp &nbsp &nbsp &nbsp &nbsp;
-                            <label class="col-form-label" id="detail_tanggal" style="padding-top: 0;"></label>
-                        </span>
-                    </div>
-                </div>               
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                </div>
+                </form>
             </div>
         </div>
-    </div> --}}
+    </div>
+
+    {{-- SURAT KETERANGAN DOMISILI --}}
+    <div class="modal fade" id="ubahSKD" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">UBAH DATA SURAT KETERANGAN DOMISILI</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="POST" action="{{ route('ubah_skd') }}" id="ubah_skd">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="id_sk_domisili" id="id_sk_domisili" required>
+                    <div class="modal-body">
+                        <div class="mb-3 row">
+                            <label for="jenis_surat" class="col-md-2 col-form-label">Jenis Surat</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="jenis_surat_3" name="jenis_surat_3" readonly>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="ubah_nama" class="col-md-2 col-form-label">Nama</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" id="ubah_nama_3" name="ubah_nama_3" rows="1"></textarea>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="ubah_nik" class="col-md-2 col-form-label">NIK</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" id="ubah_nik_3" name="ubah_nik_3" rows="1"></textarea>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="ubah_jenis_kelamin" class="col-md-2 col-form-label">Jenis Kelamin</label>
+                            <div class="col-md-9">
+                                <select class="form-select" id="ubah_jenis_kelamin" name="ubah_jenis_kelamin">
+                                    @foreach(\App\Models\JenisKelamin::all() as $jenis_kelamins)
+                                        <option value="{{ $jenis_kelamins->nama_jenis_kelamin }}">{{ $jenis_kelamins->nama_jenis_kelamin }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="ubah_ttl" class="col-md-2 col-form-label">Tempat, Tanggal Lahir</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" id="ubah_ttl_3" name="ubah_ttl_3" rows="1"></textarea>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="ubah_agama" class="col-md-2 col-form-label">Agama</label>
+                            <div class="col-md-9">
+                                <select class="form-select" id="ubah_agama_3" name="ubah_agama_3">
+                                    @foreach(\App\Models\Agama::all() as $agamas)
+                                        <option value="{{ $agamas->nama_agama }}">{{ $agamas->nama_agama }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>  
+                        <div class="mb-3 row">
+                            <label for="ubah_status_nikah" class="col-md-2 col-form-label">Status Nikah</label>
+                            <div class="col-md-9">
+                                <select class="form-select" id="ubah_status_nikah_3" name="ubah_status_nikah_3">
+                                    @foreach(\App\Models\Status::all() as $status_nikahs)
+                                        <option value="{{ $status_nikahs->nama_status_nikah }}">{{ $status_nikahs->nama_status_nikah }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="ubah_pekerjaan" class="col-md-2 col-form-label">Pekerjaan</label>
+                            <div class="col-md-9">
+                                <select class="form-select" id="ubah_pekerjaan_3" name="ubah_pekerjaan_3">
+                                    @foreach(\App\Models\Pekerjaan::all() as $pekerjaans)
+                                        <option value="{{ $pekerjaans->nama_pekerjaan }}">{{ $pekerjaans->nama_pekerjaan }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="ubah_alamat" class="col-md-2 col-form-label">Alamat</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" id="ubah_alamat_3" name="ubah_alamat_3" rows="1"></textarea>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="ubah_alamat_dom" class="col-md-2 col-form-label">Alamat Domisili</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" id="ubah_alamat_dom" name="ubah_alamat_dom" rows="1"></textarea>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="ubah_keperluan" class="col-md-2 col-form-label">Keperluan</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" id="ubah_keperluan_3" name="ubah_keperluan_3" rows="1"></textarea>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="ubah_jabatan" class="col-md-2 col-form-label">TTD Persetujuan</label>
+                            <div class="col-md-9">
+                                <select class="form-select" id="ubah_jabatan_3" name="ubah_jabatan_3">
+                                    @foreach(\App\Models\Jabatan::all() as $jabatan)
+                                        <option value="{{ $jabatan->nama }}">{{ $jabatan->nama }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-warning" id="simpan_skbm">Simpan Perubahan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {{-- SURAT KETERANGAN TIDAK MAMPU --}}
+    <div class="modal fade" id="ubahSKTM" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">UBAH DATA SURAT KETERANGAN TIDAK MAMPU</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="POST" action="{{ route('ubah_sktm') }}" id="ubah_sktm">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="id_sk_tidak_mampu" id="id_sk_tidak_mampu" required>
+                    <div class="modal-body">
+                        <div class="mb-3 row">
+                            <label for="jenis_surat" class="col-md-2 col-form-label">Jenis Surat</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="jenis_surat_4" name="jenis_surat_4" readonly>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="ubah_nama" class="col-md-2 col-form-label">Nama</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" id="ubah_nama_4" name="ubah_nama_4" rows="1"></textarea>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="ubah_nik" class="col-md-2 col-form-label">NIK</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" id="ubah_nik_4" name="ubah_nik_4" rows="1"></textarea>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="ubah_ttl" class="col-md-2 col-form-label">Tempat, Tanggal Lahir</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" id="ubah_ttl_4" name="ubah_ttl_4" rows="1"></textarea>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="ubah_agama" class="col-md-2 col-form-label">Agama</label>
+                            <div class="col-md-9">
+                                <select class="form-select" id="ubah_agama_4" name="ubah_agama_4">
+                                    @foreach(\App\Models\Agama::all() as $agamas)
+                                        <option value="{{ $agamas->nama_agama }}">{{ $agamas->nama_agama }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>  
+                        <div class="mb-3 row">
+                            <label for="ubah_pekerjaan" class="col-md-2 col-form-label">Pekerjaan</label>
+                            <div class="col-md-9">
+                                <select class="form-select" id="ubah_pekerjaan_4" name="ubah_pekerjaan_4">
+                                    @foreach(\App\Models\Pekerjaan::all() as $pekerjaans)
+                                        <option value="{{ $pekerjaans->nama_pekerjaan }}">{{ $pekerjaans->nama_pekerjaan }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="ubah_alamat" class="col-md-2 col-form-label">Alamat</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" id="ubah_alamat_4" name="ubah_alamat_4" rows="1"></textarea>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="ubah_keperluan" class="col-md-2 col-form-label">Keperluan</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" id="ubah_keperluan_4" name="ubah_keperluan_4" rows="1"></textarea>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="ubah_jabatan" class="col-md-2 col-form-label">TTD Persetujuan</label>
+                            <div class="col-md-9">
+                                <select class="form-select" id="ubah_jabatan_4" name="ubah_jabatan_4">
+                                    @foreach(\App\Models\Jabatan::all() as $jabatan)
+                                        <option value="{{ $jabatan->nama }}">{{ $jabatan->nama }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-warning" id="simpan_sktm">Simpan Perubahan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('script')
 <script>
     $(document).ready(function() {
-    // Inisialisasi DataTables
         var table = $('.table').DataTable({
             columnDefs: [
                 { orderable: false, targets: [5] }
@@ -779,130 +989,11 @@
                     next: "Selanjutnya"
                 }
             }
+        });
     });
 
-    // Menambahkan filter status
-    // $('#filterStatus').on('change', function() {
-    //     var selectedStatus = $(this).val();
-    //     if (selectedStatus) {
-    //         $.ajax({
-    //             url: '/filter-surat/' + selectedStatus,
-    //             type: 'GET',
-    //             success: function(data) {
-    //                 // Memperbarui tabel dengan data yang difilter
-    //                 // Misalnya, menggunakan DataTables:
-    //                 $('.table').DataTable().clear().rows.add(data).draw();
-    //             }
-    //         });
-    //     } else {
-    //         // Jika tidak ada status yang dipilih, tampilkan semua data
-    //         // Misalnya, menggunakan DataTables:
-    //         $('.table').DataTable().ajax.reload();
-    //     }
-    // });
-});
 
-    function showForm(jenisSurat) {
-        var forms = document.querySelectorAll('.form_surat');
-        
-        forms.forEach(function(form) {
-            var formId = form.id.split("_").pop(); 
-            if (formId === jenisSurat) {
-                form.style.display = "block";
-            } else {
-                form.style.display = "none";
-            }
-        });
-    }
-
-    // $(document).ready(function () {
-    //     $('.open-ubah-modal').click(function () {
-    //         var surat_id = $(this).data('id');
-    //         $('#id_surat').val(surat_id);
-    //         $('#modalUbah').modal('show');
-    //     });
-    // });
-
-    // // // MODAL EDIT DATA SUCCEED
-    // $('#modalUbah').on('show.bs.modal', function (event) {
-    //     var button = $(event.relatedTarget);
-    //     $.ajax({
-    //         url: '{{ route("get_data_surat") }}',
-    //         type: "POST",
-    //         data: {
-    //             id: button.data('bs-id'),
-    //             _token: '{{ csrf_token() }}',
-    //         },
-    //         dataType: 'JSON',
-
-    //         success: function(response) {
-    //             console.log(response);
-    //             fillModalWithData(response.surats);
-    //         },
-    //         error: function (xhr, status, error) {
-    //             console.error(xhr.responseText);
-    //         }
-    //     });
-    // });
-
-    // function fillModalWithData(data) {
-    //     $('#jenis_surat').val(data.jenis_surat);
-    //     $('#ubah_nama_warga').val(data.nama_warga);
-    //     $('#ubah_nik_warga').val(data.nik_warga);
-    //     $('#ubah_agama').val(data.agama);
-    //     $('#ubah_pekerjaan').val(data.pekerjaan);
-    //     $('#ubah_usaha').val(data.usaha);
-    //     $('#ubah_ttl').val(data.ttl);
-    //     $('#ubah_alamat').val(data.alamat);
-    //     $('#ubah_alamat_dom').val(data.alamat_dom);
-    //     $('#ubah_status_surat').val(data.status_surat);
-    //     $('#ubah_keperluan').val(data.keperluan);
-
-    //     switch(data.jenis_surat) {
-    //         case "SURAT KETERANGAN DOMISILI":
-    //             $("#ubah_alamat_dom").closest('.form-group').show();
-    //             break;
-    //         case "SURAT KETERANGAN BELUM MENIKAH":
-    //             $("#ubah_status_surat").closest('.form-group').show();
-    //             break;
-    //         // Tambahkan case untuk jenis surat lainnya di sini
-    //         default:
-    //             // Semua elemen disembunyikan jika jenis surat tidak sesuai
-    //             $(".modal-body .form-group").hide();
-    //     }
-    // }
-
-    // // Event listener untuk tombol "Simpan Perubahan"
-    // $('#simpanPerubahan').click(function(event){
-    //     event.preventDefault(); 
-
-    //     var namawarga = document.getElementById("ubah_nama_warga");
-    //     var nikwarga = document.getElementById("ubah_nik_warga");
-
-    //     if (!namawarga.value || !nikwarga.value) {
-    //         Swal.fire({
-    //             icon: "error",
-    //             title: "Oops...",
-    //             text: "Nama warga dan NIK warga wajib diisi!",
-    //         });
-    //     } else {
-    //         Swal.fire({
-    //             icon: "info",
-    //             title: "Konfirmasi",
-    //             text: "Apakah Anda yakin data sudah benar?",
-    //             showCancelButton: true,
-    //             confirmButtonText: "Ya, Lanjutkan",
-    //             cancelButtonText: "Tidak, Batalkan",
-    //         }).then(function (result) {
-    //             if (result.isConfirmed) {
-    //                 $('#formUbah').submit();
-    //             }
-    //         });
-    //     }
-    // });
-
-
-    
+    // SURAT KETERANGAN USAHA
     $('#ubahSKU').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var id_sk_usaha = button.data('id_sk_usaha');
@@ -960,12 +1051,11 @@
                 $('#ubah_usaha').val(response.surat.usaha);
                 $('#ubah_keperluan').val(response.surat.keperluan);
                 $('#ubah_jabatan').val(response.surat.jabatan);
-                $('#modalUbah').modal('show');                
+                $('#ubahSKU').modal('show');                
             }
         });        
     });
 
-    // simpan
     $(document).ready(function() {
         $('#simpan_sku').click(function(event){
             event.preventDefault(); // Mencegah pengiriman formulir secara default
@@ -1006,6 +1096,318 @@
             }
         });
     });
+
+
+    // SURAT KETERANGAN BELUM MENIKAH
+    $('#ubahSKBM').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var id_sk_belum_menikah = button.data('id_sk_belum_menikah');
+        $.ajax({
+            url: '{{ route("get_data_skbm") }}',
+            type: 'POST',
+            data: {
+                id: button.data('bs-id'),
+                _token: '{{ csrf_token() }}',
+            },
+            dataType: 'JSON',
+            success: function(response) {
+                if (response.status == 'success') {
+                    var surat = response.surat;
+                    $("#id_sk_belum_menikah").val(surat.id_sk_belum_menikah);
+                    $("#jenis_surat_2").val(surat.jenis_surat);
+                    $("#ubah_nama_2").val(surat.nama);
+                    $("#ubah_nik_2").val(surat.nik);
+                    $("#ubah_ttl_2").val(surat.ttl);
+                    $("#ubah_status_nikah_2").val(surat.status_nikah);
+                    $("#ubah_agama_2").val(surat.agama);
+                    $("#ubah_pekerjaan_2").val(surat.pekerjaan);
+                    $("#ubah_alamat_2").val(surat.alamat);
+                    $("#ubah_keperluan_2").val(surat.keperluan);
+                    $("#ubah_jabatan_2").val(surat.jabatan);
+                }
+            }, 
+        });
+    });
+
+    $(document).on('click', '.btn-edit', function(e){
+        e.preventDefault();
+        var id_sk_belum_menikah = $(this).val();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            type: "GET",
+            url: "/ubah_isi_skbm/"+id_sk_belum_menikah,
+            data: { id_sk_belum_menikah: id_sk_belum_menikah },
+            success: function (response) {
+            console.log(response);
+                $('#id_sk_belum_menikah').val(response.surat.id_sk_belum_menikah);
+                $('#jenis_surat_2').val(response.surat.jenis_surat);
+                $('#ubah_nama_2').val(response.surat.nama);
+                $('#ubah_nik_2').val(response.surat.nik);
+                $('#ubah_ttl_2').val(response.surat.ttl);
+                $('#ubah_status_nikah_2').val(response.surat.status_nikah);
+                $('#ubah_agama_2').val(response.surat.agama);
+                $('#ubah_pekerjaan_2').val(response.surat.pekerjaan);
+                $('#ubah_alamat_2').val(response.surat.alamat);
+                $('#ubah_keperluan_2').val(response.surat.keperluan);
+                $('#ubah_jabatan_2').val(response.surat.jabatan);
+                $('#ubahSKBM').modal('show');                
+            }
+        });        
+    });
+
+    $(document).ready(function() {
+        $('#simpan_skbm').click(function(event){
+            event.preventDefault(); // Mencegah pengiriman formulir secara default
+            var id_sk_belum_menikah = document.getElementById("id_sk_belum_menikah");
+            var jenis_surat = document.getElementById("jenis_surat_2");
+            var nama = document.getElementById("ubah_nama_2");
+            var nik = document.getElementById("ubah_nik_2");
+            var ttl = document.getElementById("ubah_ttl_2");
+            var status_nikah = document.getElementById("ubah_status_nikah_2");
+            var agama = document.getElementById("ubah_agama_2");
+            var pekerjaan = document.getElementById("ubah_pekerjaan_2");
+            var alamat = document.getElementById("ubah_alamat_2");
+            var keperluan = document.getElementById("ubah_keperluan_2");
+            var jabatan = document.getElementById("ubah_jabatan_2");
+            if (!nama.value) {
+                // Tampilkan pesan kesalahan jika ada input yang kosong
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Semua inputan wajib diisi!",
+                });
+            } else {
+                // Tampilkan pesan konfirmasi jika semua input telah diisi
+                Swal.fire({
+                    icon: "info",
+                    title: "Konfirmasi",
+                    text: "Apakah Anda yakin data sudah benar?",
+                    showCancelButton: true,
+                    confirmButtonText: "Ya, Lanjutkan",
+                    cancelButtonText: "Tidak, Batalkan",
+                }).then(function (result) {
+                    if (result.isConfirmed) {
+                        // Jika pengguna mengonfirmasi, lanjutkan dengan pengiriman formulir
+                        $('#ubah_skbm').submit();
+                    }
+                });
+            }
+        });
+    });
+
+
+    // SURAT KETERANGAN DOMISILI
+    $('#ubahSKD').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var id_sk_domisili = button.data('id_sk_domisili');
+        $.ajax({
+            url: '{{ route("get_data_skd") }}',
+            type: 'POST',
+            data: {
+                id: button.data('bs-id'),
+                _token: '{{ csrf_token() }}',
+            },
+            dataType: 'JSON',
+            success: function(response) {
+                if (response.status == 'success') {
+                    var surat = response.surat;
+                    $("#id_sk_domisili").val(surat.id_sk_domisili);
+                    $("#jenis_surat_3").val(surat.jenis_surat);
+                    $("#ubah_nama_3").val(surat.nama);
+                    $("#ubah_nik_3").val(surat.nik);
+                    $("#ubah_jenis_kelamin").val(surat.jenis_kelamin);
+                    $("#ubah_ttl_3").val(surat.ttl);
+                    $("#ubah_agama_3").val(surat.agama);
+                    $("#ubah_status_nikah_3").val(surat.status_nikah);
+                    $("#ubah_pekerjaan_3").val(surat.pekerjaan);
+                    $("#ubah_alamat_3").val(surat.alamat);
+                    $("#ubah_alamat_dom").val(surat.alamat_dom);
+                    $("#ubah_keperluan_3").val(surat.keperluan);
+                    $("#ubah_jabatan_3").val(surat.jabatan);
+                }
+            }, 
+        });
+    });
+
+    $(document).on('click', '.btn-edit', function(e){
+        e.preventDefault();
+        var id_sk_domisili = $(this).val();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            type: "GET",
+            url: "/ubah_isi_skd/"+id_sk_domisili,
+            data: { id_sk_domisili: id_sk_domisili },
+            success: function (response) {
+            console.log(response);
+                $('#id_sk_domisili').val(response.surat.id_sk_domisili);
+                $('#jenis_surat_3').val(response.surat.jenis_surat);
+                $('#ubah_nama_3').val(response.surat.nama);
+                $('#ubah_nik_3').val(response.surat.nik);
+                $('#ubah_jenis_kelamin').val(response.surat.jenis_kelamin);
+                $('#ubah_ttl_3').val(response.surat.ttl);
+                $('#ubah_agama_3').val(response.surat.agama);
+                $('#ubah_status_nikah_3').val(response.surat.status_nikah);
+                $('#ubah_pekerjaan_3').val(response.surat.pekerjaan);
+                $('#ubah_alamat_3').val(response.surat.alamat);
+                $('#ubah_alamat_dom').val(response.surat.alamat_dom);
+                $('#ubah_keperluan_3').val(response.surat.keperluan);
+                $('#ubah_jabatan_3').val(response.surat.jabatan);
+                $('#ubahSKD').modal('show');                
+            }
+        });        
+    });
+
+    $(document).ready(function() {
+        $('#simpan_skd').click(function(event){
+            event.preventDefault(); // Mencegah pengiriman formulir secara default
+            var id_sk_domisili = document.getElementById("id_sk_domisili");
+            var jenis_surat = document.getElementById("jenis_surat_3");
+            var nama = document.getElementById("ubah_nama_3");
+            var nik = document.getElementById("ubah_nik_3");
+            var jenis_kelamin = document.getElementById("ubah_jenis_kelamin");
+            var ttl = document.getElementById("ubah_ttl_3");
+            var agama = document.getElementById("ubah_agama_3");
+            var status_nikah = document.getElementById("ubah_status_nikah_3");
+            var pekerjaan = document.getElementById("ubah_pekerjaan_3");
+            var alamat = document.getElementById("ubah_alamat_3");
+            var alamat_dom = document.getElementById("ubah_alamat_dom");
+            var keperluan = document.getElementById("ubah_keperluan_3");
+            var jabatan = document.getElementById("ubah_jabatan_3");
+            if (!nama.value) {
+                // Tampilkan pesan kesalahan jika ada input yang kosong
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Semua inputan wajib diisi!",
+                });
+            } else {
+                // Tampilkan pesan konfirmasi jika semua input telah diisi
+                Swal.fire({
+                    icon: "info",
+                    title: "Konfirmasi",
+                    text: "Apakah Anda yakin data sudah benar?",
+                    showCancelButton: true,
+                    confirmButtonText: "Ya, Lanjutkan",
+                    cancelButtonText: "Tidak, Batalkan",
+                }).then(function (result) {
+                    if (result.isConfirmed) {
+                        // Jika pengguna mengonfirmasi, lanjutkan dengan pengiriman formulir
+                        $('#ubah_skd').submit();
+                    }
+                });
+            }
+        });
+    });
+
+
+    // SURAT KETERANGAN TIDAK MAMPU
+    $('#ubahSKTM').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var id_sk_tidak_mampu = button.data('id_sk_tidak_mampu');
+        $.ajax({
+            url: '{{ route("get_data_sktm") }}',
+            type: 'POST',
+            data: {
+                id: button.data('bs-id'),
+                _token: '{{ csrf_token() }}',
+            },
+            dataType: 'JSON',
+            success: function(response) {
+                if (response.status == 'success') {
+                    var surat = response.surat;
+                    $("#id_sk_tidak_mampu").val(surat.id_sk_tidak_mampu);
+                    $("#jenis_surat_4").val(surat.jenis_surat);
+                    $("#ubah_nama_4").val(surat.nama);
+                    $("#ubah_nik_4").val(surat.nik);
+                    $("#ubah_ttl_4").val(surat.ttl);
+                    $("#ubah_agama_4").val(surat.agama);
+                    $("#ubah_pekerjaan_4").val(surat.pekerjaan);
+                    $("#ubah_alamat_4").val(surat.alamat);
+                    $("#ubah_keperluan_4").val(surat.keperluan);
+                    $("#ubah_jabatan_4").val(surat.jabatan);
+                }
+            }, 
+        });
+    });
+
+    $(document).on('click', '.btn-edit', function(e){
+        e.preventDefault();
+        var id_sk_tidak_mampu = $(this).val();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            type: "GET",
+            url: "/ubah_isi_sktm/"+id_sk_tidak_mampu,
+            data: { id_sk_tidak_mampu: id_sk_tidak_mampu },
+            success: function (response) {
+            console.log(response);
+                $('#id_sk_tidak_mampu').val(response.surat.id_sk_tidak_mampu);
+                $('#jenis_surat_4').val(response.surat.jenis_surat);
+                $('#ubah_nama_4').val(response.surat.nama);
+                $('#ubah_nik_4').val(response.surat.nik);
+                $('#ubah_ttl_4').val(response.surat.ttl);
+                $('#ubah_agama_4').val(response.surat.agama);
+                $('#ubah_pekerjaan_4').val(response.surat.pekerjaan);
+                $('#ubah_alamat_4').val(response.surat.alamat);
+                $('#ubah_keperluan_4').val(response.surat.keperluan);
+                $('#ubah_jabatan_4').val(response.surat.jabatan);
+                $('#ubahSKTM').modal('show');                
+            }
+        });        
+    });
+
+    $(document).ready(function() {
+        $('#simpan_sktm').click(function(event){
+            event.preventDefault(); // Mencegah pengiriman formulir secara default
+            var id_sk_tidak_mampu = document.getElementById("id_sk_tidak_mampu");
+            var jenis_surat = document.getElementById("jenis_surat_4");
+            var nama = document.getElementById("ubah_nama_4");
+            var nik = document.getElementById("ubah_nik_4");
+            var ttl = document.getElementById("ubah_ttl_4");
+            var agama = document.getElementById("ubah_agama_4");
+            var pekerjaan = document.getElementById("ubah_pekerjaan_4");
+            var alamat = document.getElementById("ubah_alamat_4");
+            var keperluan = document.getElementById("ubah_keperluan_4");
+            var jabatan = document.getElementById("ubah_jabatan_4");
+            if (!nama.value) {
+                // Tampilkan pesan kesalahan jika ada input yang kosong
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Semua inputan wajib diisi!",
+                });
+            } else {
+                // Tampilkan pesan konfirmasi jika semua input telah diisi
+                Swal.fire({
+                    icon: "info",
+                    title: "Konfirmasi",
+                    text: "Apakah Anda yakin data sudah benar?",
+                    showCancelButton: true,
+                    confirmButtonText: "Ya, Lanjutkan",
+                    cancelButtonText: "Tidak, Batalkan",
+                }).then(function (result) {
+                    if (result.isConfirmed) {
+                        // Jika pengguna mengonfirmasi, lanjutkan dengan pengiriman formulir
+                        $('#ubah_sktm').submit();
+                    }
+                });
+            }
+        });
+    });
+
+
+
 
 
     // MODAL DETAIL DATA 1

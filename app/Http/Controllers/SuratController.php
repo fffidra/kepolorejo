@@ -30,15 +30,6 @@ class SuratController extends Controller
         return view('surat.res_surat', compact('surats', 'sk_usaha', 'sk_belum_menikah', 'skd', 'sktm', 'jabatan'));
     }
 
-    // Di dalam controller atau tempat yang sesuai
-    // public function filterSurat($status_surat)
-    // {
-    //     $surat = Surat::where('status_surat', $status_surat)->get()->toArray();
-    //     return response()->json($surat);
-    // }
-    
-
-
     public function checkDatabase()
     {
         $data = JenisSurat::pluck('nama_jenis_surat');
@@ -201,6 +192,60 @@ class SuratController extends Controller
         }
     }
 
+    public function get_data_skbm(Request $request)
+    {
+        $surat = SKBelumMenikah::where('id_sk_belum_menikah', $request->id)->first();
+        if($surat)
+        {
+            return response()->json([
+                'status'=>'success',
+                'surat'=> $surat,
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status'=>'error',
+            ]);
+        }
+    }
+
+    public function get_data_skd(Request $request)
+    {
+        $surat = SKDomisili::where('id_sk_domisili', $request->id)->first();
+        if($surat)
+        {
+            return response()->json([
+                'status'=>'success',
+                'surat'=> $surat,
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status'=>'error',
+            ]);
+        }
+    }
+
+    public function get_data_sktm(Request $request)
+    {
+        $surat = SKTidakMampu::where('id_sk_tidak_mampu', $request->id)->first();
+        if($surat)
+        {
+            return response()->json([
+                'status'=>'success',
+                'surat'=> $surat,
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status'=>'error',
+            ]);
+        }
+    }
+
     public function detail_sk_usaha(Request $request)
     {
         $sk_usaha = SKUsaha::where('id_sk_usaha', $request->id)->first();
@@ -228,6 +273,24 @@ class SuratController extends Controller
     public function ubah_isi_sku($id_sk_usaha) 
     {
         $surat = SKUsaha::find($id_sk_usaha);
+        return response()->json(['surat'=>$surat]);
+    }
+
+    public function ubah_isi_skbm($id_sk_belum_menikah) 
+    {
+        $surat = SKBelumMenikah::find($id_sk_belum_menikah);
+        return response()->json(['surat'=>$surat]);
+    }
+
+    public function ubah_isi_skd($id_sk_domisili) 
+    {
+        $surat = SKDomisili::find($id_sk_domisili);
+        return response()->json(['surat'=>$surat]);
+    }
+
+    public function ubah_isi_sktm($id_sk_tidak_mampu) 
+    {
+        $surat = SKTidakMampu::find($id_sk_tidak_mampu);
         return response()->json(['surat'=>$surat]);
     }
 
@@ -334,6 +397,176 @@ class SuratController extends Controller
                     'message' => "",
                 ]);
                         // dd($surat);
+            } else {
+                Session::flash('alert', [
+                    'type' => 'error',
+                    'title' => 'Input Data Gagal',
+                    'message' => 'Ada inputan yang salah!',
+                ]); 
+            }
+        }
+        return back();
+    }
+
+    public function ubah_skbm(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id_sk_belum_menikah' => 'nullable',
+            'jenis_surat_2' => 'nullable',
+            'ubah_nama_2' => 'nullable',
+            'ubah_nik_2' => 'nullable',
+            'ubah_ttl_2' => 'nullable',
+            'ubah_status_nikah_2' => 'nullable',
+            'ubah_agama_2' => 'nullable',
+            'ubah_pekerjaan_2' => 'nullable',
+            'ubah_alamat_2' => 'nullable',
+            'ubah_keperluan_2' => 'nullable',
+            'ubah_jabatan_2' => 'nullable'
+        ]);
+
+        // dd($validator);
+        if ($validator->fails()) {
+            Session::flash('alert', [
+                'type' => 'error',
+                'title' => 'Input Data Gagal',
+                'message' => 'Ada inputan yang salah!',
+            ]);
+        } else {
+            $surat = SKBelumMenikah::where('id_sk_belum_menikah', $request->id_sk_belum_menikah)->first();
+
+            if($surat){
+                $surat->update([
+                    'id_sk_belum_menikah' => $request->id_sk_belum_menikah,
+                    'jenis_surat' => $request->jenis_surat_2,
+                    'nama' => $request->ubah_nama_2,
+                    'nik' => $request->ubah_nik_2,
+                    'ttl' => $request->ubah_ttl_2,
+                    'status_nikah' => $request->ubah_status_nikah_2,
+                    'agama' => $request->ubah_agama_2,
+                    'pekerjaan' => $request->ubah_pekerjaan_2,
+                    'alamat' => $request->ubah_alamat_2,
+                    'keperluan' => $request->ubah_keperluan_2,
+                    'jabatan' => $request->ubah_jabatan_2
+                ]);
+                Session::flash('alert', [
+                    'type' => 'success',
+                    'title' => 'Edit Data Berhasil',
+                    'message' => "",
+                ]);
+            } else {
+                Session::flash('alert', [
+                    'type' => 'error',
+                    'title' => 'Input Data Gagal',
+                    'message' => 'Ada inputan yang salah!',
+                ]); 
+            }
+        }
+        return back();
+    }
+
+    public function ubah_skd(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id_sk_domisili' => 'nullable',
+            'jenis_surat_3' => 'nullable',
+            'ubah_nama_3' => 'nullable',
+            'ubah_nik_3' => 'nullable',
+            'ubah_jenis_kelamin' => 'nullable',
+            'ubah_ttl_3' => 'nullable',
+            'ubah_agama_3' => 'nullable',
+            'ubah_status_nikah_3' => 'nullable',
+            'ubah_pekerjaan_3' => 'nullable',
+            'ubah_alamat_3' => 'nullable',
+            'ubah_alamat_dom' => 'nullable',
+            'ubah_keperluan_3' => 'nullable',
+            'ubah_jabatan_3' => 'nullable'
+        ]);
+
+        // dd($validator);
+        if ($validator->fails()) {
+            Session::flash('alert', [
+                'type' => 'error',
+                'title' => 'Input Data Gagal',
+                'message' => 'Ada inputan yang salah!',
+            ]);
+        } else {
+            $surat = SKDomisili::where('id_sk_domisili', $request->id_sk_domisili)->first();
+
+            if($surat){
+                $surat->update([
+                    'id_sk_domisili' => $request->id_sk_domisili,
+                    'jenis_surat' => $request->jenis_surat_3,
+                    'nama' => $request->ubah_nama_3,
+                    'nik' => $request->ubah_nik_3,
+                    'jenis_kelamin' => $request->ubah_jenis_kelamin,
+                    'ttl' => $request->ubah_ttl_3,
+                    'agama' => $request->ubah_agama_3,
+                    'status_nikah' => $request->ubah_status_nikah_3,
+                    'pekerjaan' => $request->ubah_pekerjaan_3,
+                    'alamat' => $request->ubah_alamat_3,
+                    'alamat_dom' => $request->ubah_alamat_dom,
+                    'keperluan' => $request->ubah_keperluan_3,
+                    'jabatan' => $request->ubah_jabatan_3
+                ]);
+                Session::flash('alert', [
+                    'type' => 'success',
+                    'title' => 'Edit Data Berhasil',
+                    'message' => "",
+                ]);
+            } else {
+                Session::flash('alert', [
+                    'type' => 'error',
+                    'title' => 'Input Data Gagal',
+                    'message' => 'Ada inputan yang salah!',
+                ]); 
+            }
+        }
+        return back();
+    }
+
+    public function ubah_sktm(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id_sk_tidak_mampu' => 'nullable',
+            'jenis_surat_4' => 'nullable',
+            'ubah_nama_4' => 'nullable',
+            'ubah_nik_4' => 'nullable',
+            'ubah_ttl_4' => 'nullable',
+            'ubah_agama_4' => 'nullable',
+            'ubah_pekerjaan_4' => 'nullable',
+            'ubah_alamat_4' => 'nullable',
+            'ubah_keperluan_4' => 'nullable',
+            'ubah_jabatan_4' => 'nullable'
+        ]);
+
+        // dd($validator);
+        if ($validator->fails()) {
+            Session::flash('alert', [
+                'type' => 'error',
+                'title' => 'Input Data Gagal',
+                'message' => 'Ada inputan yang salah!',
+            ]);
+        } else {
+            $surat = SKTidakMampu::where('id_sk_tidak_mampu', $request->id_sk_tidak_mampu)->first();
+
+            if($surat){
+                $surat->update([
+                    'id_sk_tidak_mampu' => $request->id_sk_tidak_mampu,
+                    'jenis_surat' => $request->jenis_surat_4,
+                    'nama' => $request->ubah_nama_4,
+                    'nik' => $request->ubah_nik_4,
+                    'ttl' => $request->ubah_ttl_4,
+                    'agama' => $request->ubah_agama_4,
+                    'pekerjaan' => $request->ubah_pekerjaan_4,
+                    'alamat' => $request->ubah_alamat_4,
+                    'keperluan' => $request->ubah_keperluan_4,
+                    'jabatan' => $request->ubah_jabatan_4
+                ]);
+                Session::flash('alert', [
+                    'type' => 'success',
+                    'title' => 'Edit Data Berhasil',
+                    'message' => "",
+                ]);
             } else {
                 Session::flash('alert', [
                     'type' => 'error',
@@ -534,6 +767,44 @@ class SuratController extends Controller
         }
         return back();
     }
+
+    // public function verifikasi_sk_tidak_mampu(Request $request, $id_sk_tidak_mampu) 
+    // {
+    //     $surat = SKTidakMampu::findOrFail($id_sk_tidak_mampu);
+        
+    //     if ($surat && $surat->status_surat === 'Diproses') {
+    //         switch ($request->aksi) {
+    //             case 'setuju':
+    //                 $surat->status_surat = 'Disetujui';
+    //                 $message = 'Surat berhasil disetujui.';
+    //                 $type = 'success';
+    //                 break;
+    //             case 'tolak':
+    //                 $surat->status_surat = 'Ditolak';
+    //                 $message = 'Surat berhasil ditolak.';
+    //                 $type = 'error';
+    //                 break;
+    //             default:
+    //                 // Do nothing
+    //                 break;
+    //         }
+    
+    //         $surat->save();
+    
+    //         Session::flash('alert', [
+    //             'type' => $type,
+    //             'title' => 'Proses Berhasil',
+    //             'message' => $message,
+    //         ]);
+    //     } else {
+    //         Session::flash('alert', [
+    //             'type' => 'error',
+    //             'title' => 'Kirim Data Gagal',
+    //             'message' => 'Terjadi Error!'
+    //         ]);
+    //     }
+    //     return back();
+    // }
 
     public function surat_disetujui(Request $request)
     {
@@ -1056,11 +1327,8 @@ class SuratController extends Controller
     public function unduh_sk_usaha(Request $request, $id_sk_usaha)
     {
         $surat = SKUsaha::findOrFail($id_sk_usaha);
-        $nama = $surat->jabatan; // Mengambil nama jabatan dari SKUsaha
-        
-        // Mencari data Jabatan berdasarkan nama jabatan
+        $nama = $surat->jabatan; 
         $jabatan = Jabatan::where('nama', $nama)->first();        
-        // $jenis_surat = SKUsaha::all();
 
         $phpWord = new PhpWord();
         $section = $phpWord->addSection([
@@ -1183,7 +1451,7 @@ class SuratController extends Controller
             $tableFoot->addCell(4700)->addText('');
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText($surat->jabatan, ['size' => 12, 'bold' => true, 'underline' => 'single'], array('align' => 'center'));
+            $tableFoot->addCell(4700)->addText(strtoupper($surat->jabatan), ['size' => 12, 'bold' => true, 'underline' => 'single'], array('align' => 'center'));
 
             $tableFoot->addRow();
             $tableFoot->addCell(4700)->addText($jabatan->posisi, ['size' => 12], array('align' => 'center'));
@@ -1205,7 +1473,8 @@ class SuratController extends Controller
     public function unduh_sk_belum_menikah(Request $request, $id_sk_belum_menikah)
     {
         $surat = SKBelumMenikah::findOrFail($id_sk_belum_menikah);
-        // $jenis_surat = SKUsaha::all();
+        $nama = $surat->jabatan; 
+        $jabatan = Jabatan::where('nama', $nama)->first();        
 
         $phpWord = new PhpWord();
         $section = $phpWord->addSection([
@@ -1322,13 +1591,13 @@ class SuratController extends Controller
             $tableFoot->addCell(4700)->addText('');
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('ADITYA SURENDRA MAWARDI, SE, MM', ['size' => 12, 'bold' => true, 'underline' => 'single'], array('align' => 'center'));
+            $tableFoot->addCell(4700)->addText(strtoupper($surat->jabatan), ['size' => 12, 'bold' => true, 'underline' => 'single'], array('align' => 'center'));
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('Pembina', ['size' => 12], array('align' => 'center'));
+            $tableFoot->addCell(4700)->addText($jabatan->posisi, ['size' => 12], array('align' => 'center'));
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('NIP. 19740309 200501 1 007', ['size' => 12], array('align' => 'center'));
+            $tableFoot->addCell(4700)->addText('NIP. ' . $jabatan->nip, ['size' => 12], array('align' => 'center'));
             
             $section->addTextBreak();
 
