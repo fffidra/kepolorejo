@@ -26,6 +26,7 @@ class SKUsaha extends Model
         'keperluan',
         'status_surat',
         'tanggal',
+        'jabatan',
     ];
 
     public $timestamps = false;
@@ -67,6 +68,11 @@ class SKUsaha extends Model
     public function sk_usaha_ibfk_2()
     {
         return $this->belongsTo(JenisSurat::class, 'jenis_surat', 'id_jenis_surat');
+    }
+
+    public function sk_usaha_ibfk_5()
+    {
+        return $this->belongsTo(Jabatan::class, 'nama', 'nip');
     }
 
 }

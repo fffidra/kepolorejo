@@ -62,8 +62,12 @@ Route::get('/pegawai', function () {
     return view('pegawai');
 })->name('pegawai');
 
-Route::post('proses_masuk', [PegawaiController::class, 'masuk'])->name('proses_masuk'); // POST Aksi Proses Login
+Route::get('/lurah', function () {
+    return view('lurah');
+})->name('lurah');
 
+Route::post('proses_masuk', [PegawaiController::class, 'masuk'])->name('proses_masuk'); // POST Aksi Proses Login
+// Route::get('/filter-surat/{status_surat}', [SuratController::class, 'filterSurat']);
 
 Route::get('/', function () {
     return view('surat.res_surat');
@@ -108,10 +112,13 @@ Route::post('tambah_pegawai', [PegawaiController::class, 'tambah_pegawai'])->nam
 Route::get('surat', [SuratController::class, 'index'])->name('surat.req_surat');
 Route::post('buat_surat', [SuratController::class, 'buat_surat'])->name('buat_surat');
 Route::post('update_surat', [SuratController::class, 'update_surat'])->name('update_surat');
+Route::put('ubah_sku', [SuratController::class, 'ubah_sku'])->name('ubah_sku');
 Route::put('edit_surat', [SuratController::class, 'edit_surat'])->name('edit_surat');
 Route::post('get_data_surat', [SuratController::class, 'get_data_surat'])->name('get_data_surat');
+Route::post('get_data_sku', [SuratController::class, 'get_data_sku'])->name('get_data_sku');
 Route::post('detail_sk_usaha', [SuratController::class, 'detail_sk_usaha'])->name('detail_sk_usaha');
 Route::get('ubah_isi_surat/{id_surat}', [SuratController::class, 'ubah_isi_surat']);
+Route::get('ubah_isi_sku/{id_sk_usaha}', [SuratController::class, 'ubah_isi_sku']);
 
 Route::put('verifikasi_surat/{id_surat}', [SuratController::class, 'verifikasi_surat'])->name('verifikasi_surat');
 Route::put('verifikasi_sk_usaha/{id_sk_usaha}', [SuratController::class, 'verifikasi_sk_usaha'])->name('verifikasi_sk_usaha');

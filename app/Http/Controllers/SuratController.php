@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Jabatan;
 use App\Models\Surat;
 use App\Models\JenisSurat;
 use App\Models\SKBelumMenikah;
@@ -25,8 +26,18 @@ class SuratController extends Controller
         $sk_belum_menikah = SKBelumMenikah::all();
         $skd = SKDomisili::all();
         $sktm = SKTidakMampu::all();
-        return view('surat.res_surat', compact('surats', 'sk_usaha', 'sk_belum_menikah', 'skd', 'sktm'));
+        $jabatan = Jabatan::all();
+        return view('surat.res_surat', compact('surats', 'sk_usaha', 'sk_belum_menikah', 'skd', 'sktm', 'jabatan'));
     }
+
+    // Di dalam controller atau tempat yang sesuai
+    // public function filterSurat($status_surat)
+    // {
+    //     $surat = Surat::where('status_surat', $status_surat)->get()->toArray();
+    //     return response()->json($surat);
+    // }
+    
+
 
     public function checkDatabase()
     {
@@ -172,6 +183,24 @@ class SuratController extends Controller
         }
     }
 
+    public function get_data_sku(Request $request)
+    {
+        $surat = SKUsaha::where('id_sk_usaha', $request->id)->first();
+        if($surat)
+        {
+            return response()->json([
+                'status'=>'success',
+                'surat'=> $surat,
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status'=>'error',
+            ]);
+        }
+    }
+
     public function detail_sk_usaha(Request $request)
     {
         $sk_usaha = SKUsaha::where('id_sk_usaha', $request->id)->first();
@@ -194,6 +223,12 @@ class SuratController extends Controller
     {
         $surats = Surat::find($id);
         return response()->json(['surats'=>$surats]);
+    }
+
+    public function ubah_isi_sku($id_sk_usaha) 
+    {
+        $surat = SKUsaha::find($id_sk_usaha);
+        return response()->json(['surat'=>$surat]);
     }
 
     public function edit_surat(Request $request)
@@ -239,6 +274,66 @@ class SuratController extends Controller
                     'message' => "",
                 ]);
                 
+            } else {
+                Session::flash('alert', [
+                    'type' => 'error',
+                    'title' => 'Input Data Gagal',
+                    'message' => 'Ada inputan yang salah!',
+                ]); 
+            }
+        }
+        return back();
+    }
+
+    public function ubah_sku(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id_sk_usaha' => 'nullable',
+            'jenis_surat' => 'nullable',
+            'ubah_nama' => 'nullable',
+            'ubah_nik' => 'nullable',
+            'ubah_ttl' => 'nullable',
+            'ubah_status_nikah' => 'nullable',
+            'ubah_agama' => 'nullable',
+            'ubah_pekerjaan' => 'nullable',
+            'ubah_alamat' => 'nullable',
+            'ubah_usaha' => 'nullable',
+            'ubah_keperluan' => 'nullable',
+            'ubah_jabatan' => 'nullable'
+        ]);
+
+        // dd($validator);
+        if ($validator->fails()) {
+            Session::flash('alert', [
+                'type' => 'error',
+                'title' => 'Input Data Gagal',
+                'message' => 'Ada inputan yang salah!',
+            ]);
+        } else {
+            $surat = SKUsaha::where('id_sk_usaha', $request->id_sk_usaha)->first();
+
+
+            if($surat){
+                $surat->update([
+                    'id_sk_usaha' => $request->id_sk_usaha,
+                    'jenis_surat' => $request->jenis_surat,
+                    'nama' => $request->ubah_nama,
+                    'nik' => $request->ubah_nik,
+                    'ttl' => $request->ubah_ttl,
+                    'status_nikah' => $request->ubah_status_nikah,
+                    'agama' => $request->ubah_agama,
+                    'pekerjaan' => $request->ubah_pekerjaan,
+                    'alamat' => $request->ubah_alamat,
+                    'usaha' => $request->ubah_usaha,
+                    'keperluan' => $request->ubah_keperluan,
+                    'jabatan' => $request->ubah_jabatan
+                ]);
+                Session::flash('alert', [
+                    'type' => 'success',
+                    'title' => 'Edit Data Berhasil',
+                    'message' => "",
+                ]);
+                        // dd($surat);
             } else {
                 Session::flash('alert', [
                     'type' => 'error',
@@ -961,6 +1056,10 @@ class SuratController extends Controller
     public function unduh_sk_usaha(Request $request, $id_sk_usaha)
     {
         $surat = SKUsaha::findOrFail($id_sk_usaha);
+        $nama = $surat->jabatan; // Mengambil nama jabatan dari SKUsaha
+        
+        // Mencari data Jabatan berdasarkan nama jabatan
+        $jabatan = Jabatan::where('nama', $nama)->first();        
         // $jenis_surat = SKUsaha::all();
 
         $phpWord = new PhpWord();
@@ -1084,13 +1183,13 @@ class SuratController extends Controller
             $tableFoot->addCell(4700)->addText('');
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('ADITYA SURENDRA MAWARDI, SE, MM', ['size' => 12, 'bold' => true, 'underline' => 'single'], array('align' => 'center'));
+            $tableFoot->addCell(4700)->addText($surat->jabatan, ['size' => 12, 'bold' => true, 'underline' => 'single'], array('align' => 'center'));
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('Pembina', ['size' => 12], array('align' => 'center'));
+            $tableFoot->addCell(4700)->addText($jabatan->posisi, ['size' => 12], array('align' => 'center'));
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('NIP. 19740309 200501 1 007', ['size' => 12], array('align' => 'center'));
+            $tableFoot->addCell(4700)->addText('NIP. ' . $jabatan->nip, ['size' => 12], array('align' => 'center'));
             
             $section->addTextBreak();
 
