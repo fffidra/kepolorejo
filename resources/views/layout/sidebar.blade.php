@@ -37,10 +37,16 @@
                 </li> --}}
 
                 <li class="menu-title" data-key="t-applications">DATA MASTER</li>
-
                 <li>
+                    <a href="{{ route('pegawai') }}">
                         <i class=" mdi mdi-checkbox-blank-circle-outline"></i>
                         <span class="menu-item" data-key="t-calendar">Pegawai</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('lurah') }}">
+                        <i class=" mdi mdi-checkbox-blank-circle-outline"></i>
+                        <span class="menu-item" data-key="t-calendar">Lurah saat ini</span>
                     </a>
                 </li>
 

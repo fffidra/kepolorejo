@@ -28,6 +28,7 @@ class SKDomisili extends Model
         'status_surat',
         'tanggal',
         'jabatan',
+        'pemohon',
     ];
 
     public $timestamps = false;
@@ -78,5 +79,10 @@ class SKDomisili extends Model
     public function sk_domisili_ibfk_6()
     {
         return $this->belongsTo(Jabatan::class, 'nama', 'nip');
+    }
+
+    public function sk_domisili_ibfk_7()
+    {
+        return $this->belongsTo(Pegawai::class, 'nik', 'nik');
     }
 }

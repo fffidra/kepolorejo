@@ -24,7 +24,7 @@
                         </div><!-- end page title -->
                         
                         <div>
-                            <form method="POST" action="{{ route('proses_ubah_kata_sandi', Auth::user()->nik) }}">
+                            <form method="POST" action="{{ route('ubah_kata_sandi') }}">
                                 @csrf
                                 @method('PUT')
                                 <div class="row bg-white rounded-3 pb-3 mb-3 mx-2">

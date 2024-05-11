@@ -9,6 +9,7 @@ use App\Models\SKBelumMenikah;
 use App\Models\SKDomisili;
 use App\Models\SKTidakMampu;
 use App\Models\SKUsaha;
+use App\Models\Pegawai;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -27,8 +28,15 @@ class SuratController extends Controller
         $skd = SKDomisili::all();
         $sktm = SKTidakMampu::all();
         $jabatan = Jabatan::all();
-        return view('surat.res_surat', compact('surats', 'sk_usaha', 'sk_belum_menikah', 'skd', 'sktm', 'jabatan'));
+        $user = Pegawai::all();
+        return view('surat.res_surat', compact('surats', 'sk_usaha', 'sk_belum_menikah', 'skd', 'sktm', 'jabatan', 'user'));
     }
+
+    public function index_2()
+    {
+        $sk_usaha = SKUsaha::where('nik', auth()->id())->get();
+        return view('nama_view', ['userSurats' => $sk_usaha]);  
+      }
 
     public function checkDatabase()
     {
@@ -85,6 +93,7 @@ class SuratController extends Controller
         } else {
             switch ($request->jenis_surat) {
                 case 'SURAT KETERANGAN USAHA':
+                    $nikPemohon = auth()->user()->nik; // Ambil NIK pengguna yang sedang login
                     SKUsaha::create([
                         'jenis_surat' => $request->jenis_surat,
                         'nama' => $request->nama,
@@ -95,8 +104,10 @@ class SuratController extends Controller
                         'pekerjaan' => $request->pekerjaan,
                         'alamat' => $request->alamat,
                         'usaha' => $request->usaha,
-                        'keperluan' => $request->keperluan
+                        'keperluan' => $request->keperluan,
+                        'pemohon' => $nikPemohon, // Isi kolom pemohon dengan NIK pengguna yang sedang login
                     ]);
+                
                 
                 break;
 

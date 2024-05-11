@@ -25,6 +25,7 @@ class SKTidakMampu extends Model
         'status_surat',
         'tanggal',
         'jabatan',
+        'pemohon',
     ];
 
     public $timestamps = false;
@@ -65,6 +66,11 @@ class SKTidakMampu extends Model
     public function sk_tidak_mampu_ibfk_4()
     {
         return $this->belongsTo(Jabatan::class, 'nama', 'nip');
+    }
+
+    public function sk_tidak_mampu_ibfk_5()
+    {
+        return $this->belongsTo(Pegawai::class, 'nik', 'nik');
     }
 
 }

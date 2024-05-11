@@ -1,63 +1,65 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PenggunaController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuratController;
 use App\Http\Controllers\UserController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
-Route::middleware('guest')->group(function() {
-    // Route::get('masuk', function () {
-    //     return view('masuk');
-    // })->name('masuk'); // GET Akses Laman Login
-    // Route::post('masuk', [UserController::class, 'masuk'])->name('masuk'); // POST Aksi Proses Login
-
-    // Route::post('tambah_user', [UserController::class, 'tambah_user'])->name('tambah_user'); // POST Aksi Proses Tambah pegawai
-
+// Route::middleware('guest')->group(function() {
+//     Route::get('masuk', function () {
+//         return view('masuk');
+//     })->name('masuk'); 
+// });
+    
+Route::middleware(['guest'])->group(function() {
     Route::get('masuk', function () {
         return view('masuk');
-    })->name('masuk'); // GET Akses Laman Login
-    
-    
-    Route::middleware('auth')->group(function() {
-        Route::get('keluar', [UserController::class, 'keluar'])->name('keluar.akun'); // GET Aksi Proses Logout
-    
-        Route::get('ubah_kata_sandi', function () {
-            return view('ubah_kata_sandi');
-        })->name('ubah_kata_sandi'); // GET Akses Laman Ubah Password
-    
-        Route::put('proses_ubah_kata_sandi/{nik}', [PegawaiController::class, 'ubah_kata_sandi'])->name('proses_ubah_kata_sandi'); // PUT Aksi Proses Ubah Password
-    });
-    
-    Route::group(['middleware' => 'ubah.kata.sandi'], function () {
-        Route::get('/', function () {
-            return view('masuk');
-        })->name('masuk'); 
+    })->name('masuk'); 
 
-        Route::get('/', function () {
-            return view('surat.res_surat');
-        });
-
-
-        Route::post('tambah_user', [UserController::class, 'tambah_user_baru'])->name('tambah_user'); // POST Aksi Proses Tambah User
-        Route::post('buat_surat_usaha', [SuratController::class, 'buat_surat_usaha'])->name('buat_surat_usaha'); // POST Aksi Proses Buat SPT
-        Route::get('surat', [SuratController::class, 'index'])->name('surat.req_surat');
-
-
-    });
+    Route::post('proses_masuk', [PegawaiController::class, 'masuk'])->name('proses_masuk');
 });
 
+Route::middleware(['auth'])->group(function() {
+    Route::get('/home', function () {
+        return redirect()->route('surat.res_surat');
+    });   
+    
+    Route::get('/req', function () {
+        return view('surat.req_surat');
+    });
+    
+    Route::get('keluar', [PegawaiController::class, 'keluar'])->name('keluar'); 
+});
+
+
+// Route::middleware('auth')->group(function() {
+
+//     Route::get('ubah_kata_sandi', function () {
+//         return view('ubah_kata_sandi');
+//     })->name('ubah_kata_sandi'); // GET Akses Laman Ubah Password
+//     Route::put('ubah_kata_sandi', [PegawaiController::class, 'ubah_kata_sandi'])->name('ubah_kata_sandi');
+
+
+//     Route::group(['middleware' => 'ubah.kata.sandi'], function () {
+//         Route::get('/', function () {
+//             return view('masuk');
+//         })->name('masuk'); 
+
+
+//         Route::post('tambah_user', [UserController::class, 'tambah_user_baru'])->name('tambah_user'); // POST Aksi Proses Tambah User
+//         Route::post('buat_surat_usaha', [SuratController::class, 'buat_surat_usaha'])->name('buat_surat_usaha'); // POST Aksi Proses Buat SPT
+//         Route::get('surat', [SuratController::class, 'index'])->name('surat.req_surat');
+
+
+//     });
+// });
+
+
+
+Route::get('/', function () {
+    return view('masuk');
+}); 
 Route::get('/pegawai', function () {
     return view('pegawai');
 })->name('pegawai');
@@ -66,16 +68,12 @@ Route::get('/lurah', function () {
     return view('lurah');
 })->name('lurah');
 
-Route::post('proses_masuk', [PegawaiController::class, 'masuk'])->name('proses_masuk'); // POST Aksi Proses Login
 // Route::get('/filter-surat/{status_surat}', [SuratController::class, 'filterSurat']);
 
-Route::get('/', function () {
+Route::get('/surat', function () {
     return view('surat.res_surat');
 });
 
-Route::get('/req', function () {
-    return view('surat.req_surat');
-});
 
 Route::get('/masuk', function () {
     return view('masuk');
@@ -103,8 +101,10 @@ Route::post('check-database', [SuratController::class, 'checkDatabase'])->name('
 Route::post('buat_surat_usaha', [SuratController::class, 'buat_surat_usaha'])->name('buat_surat_usaha');
 
 Route::post('index', [SuratController::class, 'index'])->name('index');
+Route::post('index_2', [SuratController::class, 'index_2'])->name('index_2');
 Route::post('index', [PenggunaController::class, 'index'])->name('index');
 Route::post('index', [PegawaiController::class, 'index'])->name('index');
+Route::post('index_sku', [PegawaiController::class, 'index_sku'])->name('index_sku');
 
 Route::post('tambah_pengguna', [PenggunaController::class, 'tambah_pengguna'])->name('tambah_pengguna');
 Route::post('tambah_pegawai', [PegawaiController::class, 'tambah_pegawai'])->name('tambah_pegawai');

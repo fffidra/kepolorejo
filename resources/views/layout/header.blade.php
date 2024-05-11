@@ -22,11 +22,11 @@
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item user text-start d-flex align-items-center" id="page-header-user-dropdown"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="bx bx-user"></i>&nbsp PELAYANAN
+                    <i class="bx bx-user"></i>&nbsp;{{ Auth::user()->nama }}
                 </button>
                 <div class="dropdown-menu dropdown-menu-end pt-0">
                     <a class="dropdown-item"><i class='bx bx-lock text-muted font-size-18 align-middle me-1'></i> <span class="align-middle">Ubah Kata Sandi</span></a>
-                    <a class="dropdown-item"><i class='bx bx-log-out text-muted font-size-18 align-middle me-1'></i> <span class="align-middle">Keluar</span></a>
+                    <a class="dropdown-item" href="{{ route("keluar") }}"><i class='bx bx-log-out text-muted font-size-18 align-middle me-1'></i> <span class="align-middle">Keluar</span></a>
                 </div>
             </div>
         </div>

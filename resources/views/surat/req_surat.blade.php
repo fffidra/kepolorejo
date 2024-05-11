@@ -1,11 +1,75 @@
 @extends('layout.app')
 
 @section('title')
-    Request
+    Data Pengajuan Surat
+@endsection
+
+@section('head')
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap5.min.css') }}">
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+    <script src="{{ asset('assets/libs/moment/min/moment.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('assets/libs/daterangepicker/daterangepicker.css') }}">
+    <script type="text/javascript" src="{{ asset('assets/libs/daterangepicker/daterangepicker.min.js') }}"></script>
 @endsection
 
 @section('content')
-    <div class="authentication-bg min-vh-100">
+<div id="layout-wrapper">
+    @include('layout.header')
+    @include('layout.sidebar')
+    <div class="main-content">
+        <div class="page-content">
+            <div class="container-fluid">                   
+                <div class="row bg-white rounded-3 pb-3 mb-3 mx-2">
+                    <div class="page-title-box bg-light-subtle rounded-3 d-flex align-items-center justify-content-between px-3 py-2">
+                        <h5>Data Pengajuan Surat</h5>
+                    </div>
+                    <div class="text-center mb-4">
+                        <button data-bs-toggle="modal" data-bs-target="#ceksurat" class="btn btn-primary" style="background-color: white; color: black;">CEK SURAT</button>
+                        <button data-bs-toggle="modal" data-bs-target="#tambahsuratbaru" class="btn btn-primary" style="background-color: white; color: black;">TAMBAH SURAT</button>
+                    </div>
+                    <div class="container-fluid table-responsive px-3 py-3">
+                        <table class="table table-striped" id="tabelSPT" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th class="col-md-2 text-center align-middle">Tanggal Pengajuan</th>                           
+                                    <th class="col-md-2 text-center align-middle">NIK</th>                           
+                                    <th class="col-md-2 text-center align-middle">Jenis Surat</th>                           
+                                    <th class="col-md-2 text-center align-middle">Nama</th>                           
+                                    <th class="col-md-2 text-center align-middle">Status</th>                           
+                                    <th class="col-md-2 text-center align-middle">Aksi</th>                           
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach(\App\Models\SKUsaha::where('pemohon', auth()->user()->nik)
+                                ->whereIn('status_surat', ['Diproses', 'Ditolak'])
+                                ->get() as $sk_usaha)
+                                                                <td class="text-center align-middle">{{ $sk_usaha->tanggal }}</td>
+                                            <td class="text-center align-middle">{{ $sk_usaha->nik }}</td>
+                                            <td class="text-center align-middle">{{ $sk_usaha->jenis_surat }}</td>
+                                            <td class="text-center align-middle">{{ $sk_usaha->nama }}</td>
+                                            <td class="text-center align-middle">{{ $sk_usaha->status_surat }}</td>
+                                            <td class="text-center">
+                                                <div class="d-flex justify-content-center">
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" class="btn btn-info btn-sm">Detail</button>
+                                                </div>
+                                                <script>
+                                                </script>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @include('layout.footer')
+    </div>
+</div>
+
+{{-- <div class="authentication-bg min-vh-100">
         <div class="bg-overlay"></div>
         <div class="container">
             <div class="d-flex flex-column min-vh-100 px-3 pt-4">
@@ -37,7 +101,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 @endsection
 
 @section('modal')
@@ -338,6 +402,28 @@
 
 @section('script')
     <script>
+        $(document).ready(function() {
+            var table = $('.table').DataTable({
+                columnDefs: [
+                    { orderable: false, targets: [5] }
+                ],
+                language: {
+                    lengthMenu: "Tampilkan _MENU_ data per halaman",
+                    zeroRecords: "Data tidak ditemukan.",
+                    info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+                    infoEmpty: "Menampilkan 0 - 0 dari 0 data",
+                    infoFiltered: "(difilter dari _MAX_ total data)",
+                    search: "Cari",
+                    decimal: ",",
+                    thousands: ".",
+                    paginate: {
+                        previous: "Sebelumnya",
+                        next: "Selanjutnya"
+                    }
+                }
+            });
+        });
+
         function showForm() {
             var selectedOption = document.getElementById("jenis_surat").value;
             console.log("Selected option: ", selectedOption);

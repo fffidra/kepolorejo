@@ -21,16 +21,26 @@
                                     <h5 class="text-primary">Selamat Datang</h5>
                                 </div>
                                 <div class="p-2 mt-4">
+                                    @if($errors->any())
+                                        <div class="alert alert-danger">
+                                            <ul>
+                                                @foreach ($errors->all() as $item)
+                                                    <li>{{ $item }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
                                     <form method="POST" action="{{ route('proses_masuk') }}">
                                         @csrf
+                                        <input type="hidden" name="id_sk_belum_menikah" id="id_sk_belum_menikah" required>
                                         <div class="mb-3">
                                             <label for="nik" class="form-label">NIK</label>
-                                            <input type="text" class="form-control" id="nik" name="masuk_nik"  placeholder="Masukkan NIK">
+                                            <input type="text" value="{{ old('nik') }}" class="form-control" id="nik" name="nik" placeholder="Masukkan NIK">
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="password">Kata Sandi</label>
                                             <div class="input-group">
-                                                <input type="password" class="form-control" name="masuk_password" id="password" placeholder="Masukkan password">
+                                                <input type="password" class="form-control" name="password" id="password" placeholder="Masukkan password">
                                                 <span class="input-group-text toggle-password" onclick="togglePassword()">
                                                     <i class="fa fa-eye-slash"></i>
                                                 </span>

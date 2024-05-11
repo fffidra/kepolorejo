@@ -15,11 +15,9 @@ class Pegawai extends Authenticatable
     protected $primaryKey = 'nik';
 
     protected $fillable = [
-        'nik',
         'nama',        
-        'bidang',        
         'password',
-        'password_reset',
+        'role',
     ];
 
     public $timestamps = false;
