@@ -26,6 +26,7 @@ class SKBelumMenikah extends Model
         'status_surat',
         'tanggal',
         'jabatan',
+        'pemohon',
     ];
 
     public $timestamps = false;
@@ -71,5 +72,10 @@ class SKBelumMenikah extends Model
     public function sk_belum_menikah_ibfk_5()
     {
         return $this->belongsTo(Jabatan::class, 'nama', 'nip');
+    }
+
+    public function sk_belum_menikah_ibfk_6()
+    {
+        return $this->belongsTo(Pegawai::class, 'nik', 'nik');
     }
 }

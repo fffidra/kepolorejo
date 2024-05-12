@@ -17,7 +17,13 @@ Route::middleware(['guest'])->group(function() {
         return view('masuk');
     })->name('masuk'); 
 
-    Route::post('proses_masuk', [PegawaiController::class, 'masuk'])->name('proses_masuk');
+    Route::get('/buat_akun', function () {
+        return view('buat_akun');
+    })->name('buat_akun');
+    
+
+    Route::post('masuk', [PegawaiController::class, 'masuk'])->name('masuk');
+    Route::post('tambah_user', [PegawaiController::class, 'tambah_user'])->name('tambah_user');
 });
 
 Route::middleware(['auth'])->group(function() {
@@ -25,9 +31,15 @@ Route::middleware(['auth'])->group(function() {
         return redirect()->route('surat.res_surat');
     });   
     
-    Route::get('/req', function () {
+    Route::get('/req_surat', function () {
         return view('surat.req_surat');
-    });
+    })->name('req_surat');
+
+    Route::get('skbm', [SuratController::class, 'skbm'])->name('surat.skbm'); 
+    Route::get('skd', [SuratController::class, 'skd'])->name('surat.skd'); 
+    Route::get('sktm', [SuratController::class, 'sktm'])->name('surat.sktm'); 
+    Route::get('sku', [SuratController::class, 'sku'])->name('surat.sku'); 
+
     
     Route::get('keluar', [PegawaiController::class, 'keluar'])->name('keluar'); 
 });
@@ -75,13 +87,11 @@ Route::get('/surat', function () {
 });
 
 
+
+
 Route::get('/masuk', function () {
     return view('masuk');
 })->name('masuk');
-
-Route::get('/buat_akun', function () {
-    return view('buat_akun');
-})->name('buat_akun');
 
 Route::get('/usaha', function () {
     return view('surat.surat_keterangan_usaha');
@@ -106,7 +116,6 @@ Route::post('index', [PenggunaController::class, 'index'])->name('index');
 Route::post('index', [PegawaiController::class, 'index'])->name('index');
 Route::post('index_sku', [PegawaiController::class, 'index_sku'])->name('index_sku');
 
-Route::post('tambah_pengguna', [PenggunaController::class, 'tambah_pengguna'])->name('tambah_pengguna');
 Route::post('tambah_pegawai', [PegawaiController::class, 'tambah_pegawai'])->name('tambah_pegawai');
 
 Route::get('surat', [SuratController::class, 'index'])->name('surat.req_surat');
@@ -160,9 +169,5 @@ Route::get('unduh_sk_tidak_mampu/{id_sk_tidak_mampu}', [SuratController::class, 
 Route::post('dokumen_surat', [SuratController::class, 'dokumen_surat'])->name('dokumen_surat');
 
 
-Route::get('skbm', [SuratController::class, 'skbm'])->name('surat.skbm'); 
-Route::get('skd', [SuratController::class, 'skd'])->name('surat.skd'); 
-Route::get('sktm', [SuratController::class, 'sktm'])->name('surat.sktm'); 
-Route::get('sku', [SuratController::class, 'sku'])->name('surat.sku'); 
 
-Route::post('tambah_user', [UserController::class, 'tambah_user'])->name('tambah_user'); // POST Aksi Proses Tambah pegawai
+// Route::post('tambah_user', [UserController::class, 'tambah_user'])->name('tambah_user'); // POST Aksi Proses Tambah pegawai

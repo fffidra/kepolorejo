@@ -50,7 +50,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach(\App\Models\Pegawai::all() as $data)
+                                    @foreach(\App\Models\Pegawai::where('role', 'Pegawai')->get() as $data)
                                         <tr>
                                             <td>{{ $data->nik }}</td>
                                             <td>{{ $data->nama }}</td>

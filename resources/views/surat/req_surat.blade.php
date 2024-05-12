@@ -25,10 +25,9 @@
                     <div class="page-title-box bg-light-subtle rounded-3 d-flex align-items-center justify-content-between px-3 py-2">
                         <h5>Data Pengajuan Surat</h5>
                     </div>
-                    <div class="text-center mb-4">
-                        <button data-bs-toggle="modal" data-bs-target="#ceksurat" class="btn btn-primary" style="background-color: white; color: black;">CEK SURAT</button>
-                        <button data-bs-toggle="modal" data-bs-target="#tambahsuratbaru" class="btn btn-primary" style="background-color: white; color: black;">TAMBAH SURAT</button>
-                    </div>
+                    <div class="text-end mb-4">
+                        <button data-bs-toggle="modal" data-bs-target="#tambahsuratbaru" class="btn btn-primary">AJUKAN SURAT</button>
+                    </div>                    
                     <div class="container-fluid table-responsive px-3 py-3">
                         <table class="table table-striped" id="tabelSPT" style="width:100%">
                             <thead>
@@ -42,23 +41,73 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach(\App\Models\SKUsaha::where('pemohon', auth()->user()->nik)
-                                ->whereIn('status_surat', ['Diproses', 'Ditolak'])
-                                ->get() as $sk_usaha)
-                                                                <td class="text-center align-middle">{{ $sk_usaha->tanggal }}</td>
-                                            <td class="text-center align-middle">{{ $sk_usaha->nik }}</td>
-                                            <td class="text-center align-middle">{{ $sk_usaha->jenis_surat }}</td>
-                                            <td class="text-center align-middle">{{ $sk_usaha->nama }}</td>
-                                            <td class="text-center align-middle">{{ $sk_usaha->status_surat }}</td>
-                                            <td class="text-center">
-                                                <div class="d-flex justify-content-center">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" class="btn btn-info btn-sm">Detail</button>
-                                                </div>
-                                                <script>
-                                                </script>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                @foreach(\App\Models\SKUsaha::where('pemohon', auth()->user()->nik)->get() as $sk_usaha)
+                                    <tr>      
+                                        <td class="text-center align-middle">{{ $sk_usaha->tanggal }}</td>
+                                        <td class="text-center align-middle">{{ $sk_usaha->nik }}</td>
+                                        <td class="text-center align-middle">{{ $sk_usaha->jenis_surat }}</td>
+                                        <td class="text-center align-middle">{{ $sk_usaha->nama }}</td>
+                                        <td class="text-center align-middle">{{ $sk_usaha->status_surat }}</td>
+                                        <td class="text-center">
+                                            <div class="d-flex justify-content-center">
+                                                <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" class="btn btn-info btn-sm">Detail</button>
+                                            </div>
+                                            <script>
+                                            </script>
+                                        </td>
+                                    </tr>
+                                @endforeach
+
+                                @foreach(\App\Models\SKTidakMampu::where('pemohon', auth()->user()->nik)->get() as $sktm)
+                                    <tr>      
+                                        <td class="text-center align-middle">{{ $sktm->tanggal }}</td>
+                                        <td class="text-center align-middle">{{ $sktm->nik }}</td>
+                                        <td class="text-center align-middle">{{ $sktm->jenis_surat }}</td>
+                                        <td class="text-center align-middle">{{ $sktm->nama }}</td>
+                                        <td class="text-center align-middle">{{ $sktm->status_surat }}</td>
+                                        <td class="text-center">
+                                            <div class="d-flex justify-content-center">
+                                                <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $sktm->id_sk_tidak_mampu }}" class="btn btn-info btn-sm">Detail</button>
+                                            </div>
+                                            <script>
+                                            </script>
+                                        </td>
+                                    </tr>
+                                @endforeach
+
+                                @foreach(\App\Models\SKDomisili::where('pemohon', auth()->user()->nik)->get() as $skd)
+                                    <tr>      
+                                        <td class="text-center align-middle">{{ $skd->tanggal }}</td>
+                                        <td class="text-center align-middle">{{ $skd->nik }}</td>
+                                        <td class="text-center align-middle">{{ $skd->jenis_surat }}</td>
+                                        <td class="text-center align-middle">{{ $skd->nama }}</td>
+                                        <td class="text-center align-middle">{{ $skd->status_surat }}</td>
+                                        <td class="text-center">
+                                            <div class="d-flex justify-content-center">
+                                                <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $skd->id_sk_domisili }}" class="btn btn-info btn-sm">Detail</button>
+                                            </div>
+                                            <script>
+                                            </script>
+                                        </td>
+                                    </tr>
+                                @endforeach
+
+                                @foreach(\App\Models\SKBelumMenikah::where('pemohon', auth()->user()->nik)->get() as $sk_belum_menikah)
+                                    <tr>      
+                                        <td class="text-center align-middle">{{ $sk_belum_menikah->tanggal }}</td>
+                                        <td class="text-center align-middle">{{ $sk_belum_menikah->nik }}</td>
+                                        <td class="text-center align-middle">{{ $sk_belum_menikah->jenis_surat }}</td>
+                                        <td class="text-center align-middle">{{ $sk_belum_menikah->nama }}</td>
+                                        <td class="text-center align-middle">{{ $sk_belum_menikah->status_surat }}</td>
+                                        <td class="text-center">
+                                            <div class="d-flex justify-content-center">
+                                                <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $sk_belum_menikah->id_sk_belum_menikah }}" class="btn btn-info btn-sm">Detail</button>
+                                            </div>
+                                            <script>
+                                            </script>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

@@ -45,8 +45,9 @@ class PegawaiController extends Controller
                 'nik' => $request->nik,
                 'nama' => $request->nama,
                 'password' => bcrypt('1234'),
+                'role' => 'Pegawai'
             ]);
-    
+                
             Session::flash('alert', [
                 // tipe dalam sweetalert2: success, error, warning, info, question
                 'type' => 'success',
@@ -87,31 +88,31 @@ class PegawaiController extends Controller
     // }
 
 
-    public function masuk_2(Request $request) 
-    {
-        $data = [
-            "nik" => $request->nik,
-            "password" => $request->password,
-        ];
+    // public function masuk_2(Request $request) 
+    // {
+    //     $data = [
+    //         "nik" => $request->nik,
+    //         "password" => $request->password,
+    //     ];
     
-        $pegawai = Pegawai::where('nik', $data['nik'])->first();
+    //     $pegawai = Pegawai::where('nik', $data['nik'])->first();
     
-        if ($pegawai && Hash::check($data['password'], $pegawai->password)) {
-            // Jika login berhasil
-            if ($pegawai->password_reset) {
-                return redirect()->route('surat.res_surat');
-            } else {
-                return redirect()->route('pegawai');
-            }
-        } else {
-            // Jika login gagal
-            return redirect()->back()->with('alert', [
-                'type' => 'error',
-                'title' => 'Login Gagal',
-                'message' => "Username atau Password salah!",
-            ]);
-        }
-    }
+    //     if ($pegawai && Hash::check($data['password'], $pegawai->password)) {
+    //         // Jika login berhasil
+    //         if ($pegawai->password_reset) {
+    //             return redirect()->route('surat.res_surat');
+    //         } else {
+    //             return redirect()->route('pegawai');
+    //         }
+    //     } else {
+    //         // Jika login gagal
+    //         return redirect()->back()->with('alert', [
+    //             'type' => 'error',
+    //             'title' => 'Login Gagal',
+    //             'message' => "Username atau Password salah!",
+    //         ]);
+    //     }
+    // }
 
     public function masuk(Request $request)
     {
@@ -130,13 +131,45 @@ class PegawaiController extends Controller
 
         if(Auth::attempt($infoLogin)) {
             if(Auth::user()->role == 'Warga') {
-                return redirect('req');
+                return redirect('req_surat');
             } elseif(Auth::user()->role == 'Pegawai') {
                 return redirect('home');
             }
         } else {
             return redirect()->back()->withErrors('Nik dan password tidak sesuai')->withInput();
         }        
+    }
+
+    public function tambah_user(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'nik' => 'required',
+            'nama' => 'required',
+            'password' => 'required',
+        ]);
+        // dd($validator);
+        if ($validator->fails()) {
+            Session::flash('alert', [
+                'type' => 'error',
+                'title' => 'Input Data Gagal',
+                'message' => 'NIP tidak boleh sama!',
+            ]);
+                    dd($validator);
+
+        } else {
+            Pegawai::create([
+                'nik' => $request->nik,
+                'nama' => $request->nama,
+                'password' => bcrypt($request->password),
+            ]);
+    
+            Session::flash('alert', [
+                // tipe dalam sweetalert2: success, error, warning, info, question
+                'type' => 'success',
+                'title' => 'Buat Akun Berhasil',
+                'message' => "",
+            ]);
+        }
+        return back();
     }
 
     public function keluar() {

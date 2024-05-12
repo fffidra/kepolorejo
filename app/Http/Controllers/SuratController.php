@@ -93,7 +93,7 @@ class SuratController extends Controller
         } else {
             switch ($request->jenis_surat) {
                 case 'SURAT KETERANGAN USAHA':
-                    $nikPemohon = auth()->user()->nik; // Ambil NIK pengguna yang sedang login
+                    $nikPemohon = auth()->user()->nik;
                     SKUsaha::create([
                         'jenis_surat' => $request->jenis_surat,
                         'nama' => $request->nama,
@@ -105,13 +105,12 @@ class SuratController extends Controller
                         'alamat' => $request->alamat,
                         'usaha' => $request->usaha,
                         'keperluan' => $request->keperluan,
-                        'pemohon' => $nikPemohon, // Isi kolom pemohon dengan NIK pengguna yang sedang login
+                        'pemohon' => $nikPemohon,
                     ]);
-                
-                
                 break;
 
                 case 'SURAT KETERANGAN DOMISILI':
+                    $nikPemohon = auth()->user()->nik;
                     SKDomisili::create([
                         'jenis_surat' => $request->jenis_surat,
                         'nama' => $request->nama_2,
@@ -124,11 +123,13 @@ class SuratController extends Controller
                         'alamat' => $request->alamat_2,
                         'alamat_dom' =>$request->alamat_dom,
                         'keperluan' => $request->keperluan_2,
+                        'pemohon' => $nikPemohon,
                     ]);
                 
                 break;
 
                 case 'SURAT KETERANGAN BELUM MENIKAH':
+                    $nikPemohon = auth()->user()->nik;
                     SKBelumMenikah::create([
                         'jenis_surat' => $request->jenis_surat,
                         'nama' => $request->nama_3,
@@ -139,11 +140,13 @@ class SuratController extends Controller
                         'pekerjaan' => $request->pekerjaan_3,
                         'alamat' => $request->alamat_3,
                         'keperluan' => $request->keperluan_3,
+                        'pemohon' => $nikPemohon,
                     ]);
                 
                 break;
 
                 case 'SURAT KETERANGAN TIDAK MAMPU':
+                    $nikPemohon = auth()->user()->nik;
                     SKTidakMampu::create([
                         'jenis_surat' => $request->jenis_surat,
                         'nama' => $request->nama_4,
@@ -153,6 +156,7 @@ class SuratController extends Controller
                         'pekerjaan' => $request->pekerjaan_4,
                         'alamat' => $request->alamat_4,
                         'keperluan' => $request->keperluan_4,
+                        'pemohon' => $nikPemohon,
                     ]);
                 
                 break;

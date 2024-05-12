@@ -30,9 +30,8 @@
                                             </ul>
                                         </div>
                                     @endif
-                                    <form method="POST" action="{{ route('proses_masuk') }}">
+                                    <form method="POST" action="{{ route('masuk') }}">
                                         @csrf
-                                        <input type="hidden" name="id_sk_belum_menikah" id="id_sk_belum_menikah" required>
                                         <div class="mb-3">
                                             <label for="nik" class="form-label">NIK</label>
                                             <input type="text" value="{{ old('nik') }}" class="form-control" id="nik" name="nik" placeholder="Masukkan NIK">
