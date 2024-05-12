@@ -15,11 +15,11 @@ class User extends Authenticatable
     protected $primaryKey = 'nik';
 
     protected $fillable = [
-        'nama',
+        'nik',
+        'nama',        
         'password',
+        'role',
     ];
-
-    protected $hidden = 'password';
 
     public $timestamps = false;
 }

@@ -14,7 +14,6 @@
                         <div class="text-center mb-4">
                                 <img src="{{ asset('assets/images/logo-kab-magetan.png') }}" alt="" height="35"> <span class="logo-txt">E-Surat Kepolorejo</span>
                         </div>
-
                         <div class="card">
                             <div class="card-body p-4"> 
                                 <div class="text-center mt-2">

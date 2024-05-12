@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PegawaiController;
-use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\SuratController;
 use App\Http\Controllers\UserController;
+use App\Models\User;
 
 // Route::middleware('guest')->group(function() {
 //     Route::get('masuk', function () {
@@ -22,26 +22,31 @@ Route::middleware(['guest'])->group(function() {
     })->name('buat_akun');
     
 
-    Route::post('masuk', [PegawaiController::class, 'masuk'])->name('masuk');
-    Route::post('tambah_user', [PegawaiController::class, 'tambah_user'])->name('tambah_user');
+    Route::post('masuk', [UserController::class, 'masuk'])->name('masuk');
+    Route::post('tambah_user', [UserController::class, 'tambah_user'])->name('tambah_user');
+
 });
 
 Route::middleware(['auth'])->group(function() {
     Route::get('/home', function () {
         return redirect()->route('surat.res_surat');
-    });   
+    })->name('surat_masuk')->middleware('userAccess:Pegawai');  
     
     Route::get('/req_surat', function () {
         return view('surat.req_surat');
-    })->name('req_surat');
+    })->name('req_surat')->middleware('userAccess:Warga');
+
+    Route::get('/pegawai', function () {
+        return view('pegawai');
+    })->name('pegawai')->middleware('userAccess:Pegawai');    
 
     Route::get('skbm', [SuratController::class, 'skbm'])->name('surat.skbm'); 
     Route::get('skd', [SuratController::class, 'skd'])->name('surat.skd'); 
     Route::get('sktm', [SuratController::class, 'sktm'])->name('surat.sktm'); 
     Route::get('sku', [SuratController::class, 'sku'])->name('surat.sku'); 
 
-    
-    Route::get('keluar', [PegawaiController::class, 'keluar'])->name('keluar'); 
+    Route::post('tambah_pegawai', [UserController::class, 'tambah_pegawai'])->name('tambah_pegawai');
+    Route::get('keluar', [UserController::class, 'keluar'])->name('keluar'); 
 });
 
 
@@ -72,9 +77,6 @@ Route::middleware(['auth'])->group(function() {
 Route::get('/', function () {
     return view('masuk');
 }); 
-Route::get('/pegawai', function () {
-    return view('pegawai');
-})->name('pegawai');
 
 Route::get('/lurah', function () {
     return view('lurah');
@@ -82,9 +84,7 @@ Route::get('/lurah', function () {
 
 // Route::get('/filter-surat/{status_surat}', [SuratController::class, 'filterSurat']);
 
-Route::get('/surat', function () {
-    return view('surat.res_surat');
-});
+
 
 
 
@@ -112,11 +112,9 @@ Route::post('buat_surat_usaha', [SuratController::class, 'buat_surat_usaha'])->n
 
 Route::post('index', [SuratController::class, 'index'])->name('index');
 Route::post('index_2', [SuratController::class, 'index_2'])->name('index_2');
-Route::post('index', [PenggunaController::class, 'index'])->name('index');
-Route::post('index', [PegawaiController::class, 'index'])->name('index');
-Route::post('index_sku', [PegawaiController::class, 'index_sku'])->name('index_sku');
+Route::post('index', [UserController::class, 'index'])->name('index');
+Route::post('index_sku', [UserController::class, 'index_sku'])->name('index_sku');
 
-Route::post('tambah_pegawai', [PegawaiController::class, 'tambah_pegawai'])->name('tambah_pegawai');
 
 Route::get('surat', [SuratController::class, 'index'])->name('surat.req_surat');
 Route::post('buat_surat', [SuratController::class, 'buat_surat'])->name('buat_surat');

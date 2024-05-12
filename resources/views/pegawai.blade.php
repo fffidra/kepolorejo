@@ -50,7 +50,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach(\App\Models\Pegawai::where('role', 'Pegawai')->get() as $data)
+                                    @foreach(\App\Models\User::where('role', 'Pegawai')->get() as $data)
                                         <tr>
                                             <td>{{ $data->nik }}</td>
                                             <td>{{ $data->nama }}</td>
@@ -115,15 +115,6 @@
                             <label for="nama" class="col-form-label" name="nama">Nama</label>
                             <input type="text" class="form-control" id="nama" name="nama" required>
                         </div>
-                        {{-- <div class="mb-3">
-                            <label for="nama_bidang" class="col-form-label">Bidang</label>
-                            <select class="form-select" id="nama_bidang" name="nama_bidang" required>
-                                <option value="" selected hidden>-- Pilih Bidang --</option>
-                                    @foreach ($bidang as $data)
-                                        <option value="{{ $data->nama_bidang }}">{{ $data->nama_bidang }}</option>
-                                    @endforeach
-                            </select>
-                        </div> --}}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>

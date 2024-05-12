@@ -10,6 +10,7 @@ use App\Models\SKDomisili;
 use App\Models\SKTidakMampu;
 use App\Models\SKUsaha;
 use App\Models\Pegawai;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -28,7 +29,7 @@ class SuratController extends Controller
         $skd = SKDomisili::all();
         $sktm = SKTidakMampu::all();
         $jabatan = Jabatan::all();
-        $user = Pegawai::all();
+        $user = User::all();
         return view('surat.res_surat', compact('surats', 'sk_usaha', 'sk_belum_menikah', 'skd', 'sktm', 'jabatan', 'user'));
     }
 
@@ -36,13 +37,7 @@ class SuratController extends Controller
     {
         $sk_usaha = SKUsaha::where('nik', auth()->id())->get();
         return view('nama_view', ['userSurats' => $sk_usaha]);  
-      }
-
-    public function checkDatabase()
-    {
-        $data = JenisSurat::pluck('nama_jenis_surat');
-        dd($data);
-    }    
+    }
 
     public function buat_surat(Request $request)
     {
@@ -1628,7 +1623,8 @@ class SuratController extends Controller
     public function unduh_sk_domisili(Request $request, $id_sk_domisili)
     {
         $surat = SKDomisili::findOrFail($id_sk_domisili);
-        // $jenis_surat = SKUsaha::all();
+        $nama = $surat->jabatan; 
+        $jabatan = Jabatan::where('nama', $nama)->first();        
 
         $phpWord = new PhpWord();
         $section = $phpWord->addSection([
@@ -1759,16 +1755,15 @@ class SuratController extends Controller
             $tableFoot->addCell(4700)->addText('');
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('ADITYA SURENDRA MAWARDI, SE, MM', ['size' => 12, 'bold' => true, 'underline' => 'single'], array('align' => 'center'));
+            $tableFoot->addCell(4700)->addText(strtoupper($surat->jabatan), ['size' => 12, 'bold' => true, 'underline' => 'single'], array('align' => 'center'));
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('Pembina', ['size' => 12], array('align' => 'center'));
+            $tableFoot->addCell(4700)->addText($jabatan->posisi, ['size' => 12], array('align' => 'center'));
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('NIP. 19740309 200501 1 007', ['size' => 12], array('align' => 'center'));
+            $tableFoot->addCell(4700)->addText('NIP. ' . $jabatan->nip, ['size' => 12], array('align' => 'center'));
             
             $section->addTextBreak();
-
 
         $filename = ucfirst(str_replace('_', ' ', $surat->jenis_surat)) . ' ' . date('Y-m-d H-i-s') . '.docx';
         $filepath = storage_path('app/' . $filename);
@@ -1781,7 +1776,8 @@ class SuratController extends Controller
     public function unduh_sk_tidak_mampu(Request $request, $id_sk_tidak_mampu)
     {
         $surat = SKTidakMampu::findOrFail($id_sk_tidak_mampu);
-        // $jenis_surat = SKUsaha::all();
+        $nama = $surat->jabatan; 
+        $jabatan = Jabatan::where('nama', $nama)->first();        
 
         $phpWord = new PhpWord();
         $section = $phpWord->addSection([
@@ -1897,16 +1893,15 @@ class SuratController extends Controller
             $tableFoot->addCell(4700)->addText('');
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('ADITYA SURENDRA MAWARDI, SE, MM', ['size' => 12, 'bold' => true, 'underline' => 'single'], array('align' => 'center'));
+            $tableFoot->addCell(4700)->addText(strtoupper($surat->jabatan), ['size' => 12, 'bold' => true, 'underline' => 'single'], array('align' => 'center'));
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('Pembina', ['size' => 12], array('align' => 'center'));
+            $tableFoot->addCell(4700)->addText($jabatan->posisi, ['size' => 12], array('align' => 'center'));
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('NIP. 19740309 200501 1 007', ['size' => 12], array('align' => 'center'));
+            $tableFoot->addCell(4700)->addText('NIP. ' . $jabatan->nip, ['size' => 12], array('align' => 'center'));
             
             $section->addTextBreak();
-
 
         $filename = ucfirst(str_replace('_', ' ', $surat->jenis_surat)) . ' ' . date('Y-m-d H-i-s') . '.docx';
         $filepath = storage_path('app/' . $filename);
