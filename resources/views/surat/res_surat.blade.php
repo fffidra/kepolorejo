@@ -34,6 +34,7 @@
                                         <th class="col-md-2 text-center align-middle">Jenis Surat</th>                           
                                         <th class="col-md-2 text-center align-middle">Nama</th>                           
                                         <th class="col-md-2 text-center align-middle">Status</th>                           
+                                        {{-- <th class="col-md-2 text-center align-middle">Bukti</th>                            --}}
                                         <th class="col-md-2 text-center align-middle">Aksi</th>                           
                                     </tr>
                                 </thead>
@@ -194,6 +195,11 @@
                                             <td class="text-center align-middle">{{ $sk_belum_menikah->jenis_surat }}</td>
                                             <td class="text-center align-middle">{{ $sk_belum_menikah->nama }}</td>
                                             <td class="text-center align-middle">{{ $sk_belum_menikah->status_surat }}</td>
+                                            {{-- <td class="text-center align-middle">
+                                                <a href="dokumen_bukti/{{ $sk_belum_menikah->bukti }}">
+                                                    <button class="btn btn-success" type="button">Unduh</button>
+                                                </a>
+                                            </td> --}}
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center">
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKBM" data-bs-id="{{ $sk_belum_menikah->id_sk_belum_menikah }}" class="btn btn-info btn-sm">Detail</button>

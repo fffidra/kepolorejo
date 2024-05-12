@@ -78,7 +78,7 @@ class SKUsaha extends Model
 
     public function sk_usaha_ibfk_6()
     {
-        return $this->belongsTo(Pegawai::class, 'nik', 'nik');
+        return $this->belongsTo(User::class, 'nik', 'nik');
     }
 
 }

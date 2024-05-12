@@ -9,10 +9,10 @@ use App\Models\SKBelumMenikah;
 use App\Models\SKDomisili;
 use App\Models\SKTidakMampu;
 use App\Models\SKUsaha;
-use App\Models\Pegawai;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpWord\IOFactory;
@@ -70,6 +70,7 @@ class SuratController extends Controller
             'pekerjaan_3' => 'nullable',
             'alamat_3' => 'nullable',
             'keperluan_3' => 'nullable',
+            'bukti_3' => 'nullable|mimes:jpg,jpeg,png,doc,docx,pdf',
             'nama_4' => 'nullable',
             'nik_4' => 'nullable',
             'ttl_4' => 'nullable',
@@ -125,6 +126,9 @@ class SuratController extends Controller
 
                 case 'SURAT KETERANGAN BELUM MENIKAH':
                     $nikPemohon = auth()->user()->nik;
+                    $bukti = $request->file('bukti_3');
+                    $nama_bukti = 'SKBM_'.date('Ymdhis').'.'.$request->file('bukti_3')->getClientOriginalExtension();
+                    $bukti->move('kepolorejo/bukti_dokumen', $nama_bukti);
                     SKBelumMenikah::create([
                         'jenis_surat' => $request->jenis_surat,
                         'nama' => $request->nama_3,
@@ -135,6 +139,7 @@ class SuratController extends Controller
                         'pekerjaan' => $request->pekerjaan_3,
                         'alamat' => $request->alamat_3,
                         'keperluan' => $request->keperluan_3,
+                        'bukti' => $nama_bukti,                 
                         'pemohon' => $nikPemohon,
                     ]);
                 
@@ -666,6 +671,9 @@ class SuratController extends Controller
 
     public function verifikasi_sk_belum_menikah(Request $request, $id_sk_belum_menikah) 
     {
+        // Mendapatkan NIK pengguna yang sedang login
+        $verifikator = Auth::user()->nama;
+    
         $surat = SKBelumMenikah::findOrFail($id_sk_belum_menikah);
         
         if ($surat && $surat->status_surat === 'Diproses') {
@@ -684,6 +692,9 @@ class SuratController extends Controller
                     // Do nothing
                     break;
             }
+            
+            // Mengisi kolom 'verifikator' dengan NIK pengguna yang sedang login
+            $surat->verifikator = $verifikator;
     
             $surat->save();
     

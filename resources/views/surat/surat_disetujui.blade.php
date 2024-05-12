@@ -34,6 +34,7 @@
                                         <th class="col-md-2 text-center align-middle">Jenis Surat</th>                           
                                         <th class="col-md-2 text-center align-middle">Nama</th>                           
                                         <th class="col-md-2 text-center align-middle">Status</th>                           
+                                        <th class="col-md-2 text-center align-middle">Verifikator</th>                           
                                         <th class="col-md-2 text-center align-middle">Aksi</th>                           
                                     </tr>
                                 </thead>
@@ -151,6 +152,7 @@
                                             <td class="text-center align-middle">{{ $sk_bm->jenis_surat }}</td>
                                             <td class="text-center align-middle">{{ $sk_bm->nama }}</td>
                                             <td class="text-center align-middle">{{ $sk_bm->status_surat }}</td>
+                                            <td class="text-center align-middle">{{ $sk_bm->verifikator }}</td>
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center">
                                                     <a href="{{ route('unduh_sk_belum_menikah', ['id_sk_belum_menikah' => $sk_bm->id_sk_belum_menikah]) }}" target="_blank" class="btn btn-info btn-sm" style="margin-right: 10px;">Unduh</a> 

@@ -162,7 +162,7 @@
                     <h5 class="modal-title" id="exampleModalLabel">Pengajuan Surat Baru</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" action="{{ route('buat_surat') }}"> 
+                <form method="POST" action="{{ route('buat_surat') }}" enctype="multipart/form-data"> 
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
@@ -342,6 +342,10 @@
                             <div class="mb-3">
                                 <label for="keperluan" class="form-label">Keperluan</label>
                                 <input type="text" class="form-control" id="keperluan" name="keperluan_3">
+                            </div>
+                            <div class="mb-3">
+                                <label for="bukti" class="form-label">Dokumen</label>
+                                <input type="file" class="form-control" id="bukti" name="bukti_3" value="{{ old('bukti') }}" multiple>
                             </div>
                         </div>
 

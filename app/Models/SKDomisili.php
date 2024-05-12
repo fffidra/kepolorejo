@@ -83,6 +83,6 @@ class SKDomisili extends Model
 
     public function sk_domisili_ibfk_7()
     {
-        return $this->belongsTo(Pegawai::class, 'nik', 'nik');
+        return $this->belongsTo(User::class, 'nik', 'nik');
     }
 }

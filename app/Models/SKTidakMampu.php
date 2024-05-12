@@ -70,7 +70,7 @@ class SKTidakMampu extends Model
 
     public function sk_tidak_mampu_ibfk_5()
     {
-        return $this->belongsTo(Pegawai::class, 'nik', 'nik');
+        return $this->belongsTo(User::class, 'nik', 'nik');
     }
 
 }
