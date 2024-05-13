@@ -153,6 +153,7 @@ Route::get('riwayat_surat', [SuratController::class, 'riwayat_surat'])->name('su
 Route::put('surat_selesai/{id_surat}', [SuratController::class, 'surat_selesai'])->name('surat_selesai'); 
 
 Route::put('sku_selesai/{id_sk_usaha}', [SuratController::class, 'sku_selesai'])->name('sku_selesai'); 
+Route::put('sku_setuju/{id_sk_usaha}', [SuratController::class, 'sku_setuju'])->name('sku_setuju'); 
 Route::put('skbm_selesai/{id_sk_belum_menikah}', [SuratController::class, 'skbm_selesai'])->name('skbm_selesai'); 
 Route::put('skd_selesai/{id_sk_domisili}', [SuratController::class, 'skd_selesai'])->name('skd_selesai'); 
 Route::put('sktm_selesai/{id_sk_tidak_mampu}', [SuratController::class, 'sktm_selesai'])->name('sktm_selesai'); 

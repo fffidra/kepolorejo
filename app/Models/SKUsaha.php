@@ -30,6 +30,7 @@ class SKUsaha extends Model
         'jabatan',
         'pemohon',
         'verifikator',
+        'pesan',
     ];
 
     public $timestamps = false;

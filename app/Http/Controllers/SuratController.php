@@ -652,44 +652,47 @@ class SuratController extends Controller
     }
 
     public function verifikasi_sk_usaha(Request $request, $id_sk_usaha) 
-    {
-        $verifikator = Auth::user()->nama;
-        $surat = SKUsaha::findOrFail($id_sk_usaha);
-        
-        if ($surat && $surat->status_surat === 'Diproses') {
-            switch ($request->aksi) {
-                case 'setuju':
-                    $surat->status_surat = 'Disetujui';
-                    $message = 'Surat berhasil disetujui.';
-                    $type = 'success';
-                    break;
-                case 'tolak':
-                    $surat->status_surat = 'Ditolak';
-                    $message = 'Surat berhasil ditolak.';
-                    $type = 'error';
-                    break;
-                default:
-                    // Do nothing
-                    break;
-            }
-            
-            $surat->verifikator = $verifikator;  
-            $surat->save();
+{
+    $verifikator = Auth::user()->nama;
+    $surat = SKUsaha::findOrFail($id_sk_usaha);
     
-            Session::flash('alert', [
-                'type' => $type,
-                'title' => 'Proses Berhasil',
-                'message' => $message,
-            ]);
-        } else {
-            Session::flash('alert', [
-                'type' => 'error',
-                'title' => 'Kirim Data Gagal',
-                'message' => 'Terjadi Error!'
-            ]);
+    if ($surat && $surat->status_surat === 'Diproses') {
+        switch ($request->aksi) {
+            case 'setuju':
+                $surat->status_surat = 'Disetujui';
+                $message = 'Surat berhasil disetujui.';
+                $type = 'success';
+                break;
+            case 'tolak':
+                $surat->status_surat = 'Ditolak';
+                $surat->pesan = $request->alasan_tolak;
+                $message = 'Surat berhasil ditolak.';
+                $type = 'error';
+                break;
+            default:
+                // Do nothing
+                break;
         }
-        return back();
+        
+        $surat->verifikator = $verifikator;  
+        $surat->save();
+
+        Session::flash('alert', [
+            'type' => $type,
+            'title' => 'Proses Berhasil',
+            'message' => $message,
+        ]);
+    } else {
+        Session::flash('alert', [
+            'type' => 'error',
+            'title' => 'Kirim Data Gagal',
+            'message' => 'Terjadi Error!'
+        ]);
     }
+    return back();
+}
+
+
 
     public function verifikasi_sk_belum_menikah(Request $request, $id_sk_belum_menikah) 
     {
@@ -893,6 +896,37 @@ class SuratController extends Controller
     
         if($surat) {
             $surat->status_surat = 'Selesai'; 
+    
+            if($surat->save()) {
+                Session::flash('alert', [
+                    'type' => 'success',
+                    'title' => 'Kirim Data Berhasil',
+                    'message' => ''
+                ]);
+            } else {
+                Session::flash('alert', [
+                    'type' => 'error',
+                    'title' => 'Kirim Data Gagal',
+                    'message' => 'Gagal menyimpan status surat.'
+                ]);
+            }
+        } else {
+            Session::flash('alert', [
+                'type' => 'error',
+                'title' => 'Kirim Data Gagal',
+                'message' => 'Data surat tidak ditemukan.'
+            ]);
+        }
+        return back();
+    }
+
+    public function sku_setuju($id_sk_usaha) {
+        $surat = SKUsaha::find($id_sk_usaha);
+        $verifikator = Auth::user()->nama;
+    
+        if($surat) {
+            $surat->status_surat = 'Disetujui'; 
+            $surat->verifikator = $verifikator;  
     
             if($surat->save()) {
                 Session::flash('alert', [

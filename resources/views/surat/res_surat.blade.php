@@ -51,10 +51,15 @@
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" class="btn btn-info btn-sm">Detail</button>
                                                     @if($sk_usaha->status_surat === 'Diproses')
                                                         <a role="button" class="btn btn-warning me-2" title="Ubah Data" style="padding: 0.25rem 0.5rem; font-size: 18px;" data-bs-toggle="modal" data-bs-target="#ubahSKU" data-bs-id="{{ $sk_usaha->id_sk_usaha }}"><i class="bx bx-pencil"></i></a>
+                                                        <form method="POST" action="{{ route('sku_setuju', $sk_usaha->id_sk_usaha) }}" id="setuju-surat-{{ $sk_usaha->id_sk_usaha  }}">
+                                                            @csrf
+                                                            @method('PUT')
+                                                            <button type="button" id="btnSetuju-{{ $sk_usaha->id_sk_usaha  }}" class="btn btn-primary btn-sm">Setuju</button>
+                                                        </form>
                                                         <form method="POST" action="{{ route('verifikasi_sk_usaha', $sk_usaha->id_sk_usaha) }}" id="verifikasi-surat-{{ $sk_usaha->id_sk_usaha }}">
                                                             @csrf
                                                             @method('PUT')
-                                                            <button type="button" id="btnVerifikasi-{{ $sk_usaha->id_sk_usaha }}" class="btn btn-primary btn-sm">Verifikasi</button>
+                                                            <button type="button" id="btnVerifikasi-{{ $sk_usaha->id_sk_usaha }}" class="btn btn-primary btn-sm">Tolak</button>
                                                         </form>
                                                     @endif
                                                     @if($sk_usaha->status_surat === 'Ditolak')
@@ -66,6 +71,21 @@
                                                     @endif
                                                 </div>
                                                 <script>
+                                                    $('#btnSetuju-{{ $sk_usaha->id_sk_usaha  }}').click(function(event){
+                                                        event.preventDefault();
+                                                        Swal.fire({
+                                                            icon: "info",
+                                                            title: "Konfirmasi",
+                                                            text: "Apakah Anda yakin ingin menyetujui surat ini?",
+                                                            showCancelButton: true,
+                                                            confirmButtonText: "Ya, Lanjutkan",
+                                                            cancelButtonText: "Tidak, Batalkan",
+                                                        }).then(function (result) {
+                                                            if (result.isConfirmed) {
+                                                                $('#setuju-surat-{{ $sk_usaha->id_sk_usaha  }}').submit();
+                                                            }
+                                                        });
+                                                    });
                                                     // BUTTON VERIFIKASI
                                                     $('#btnVerifikasi-{{ $sk_usaha->id_sk_usaha }}').click(function(event){
                                                         event.preventDefault();
@@ -73,19 +93,19 @@
                                                             icon: "info",
                                                             title: "Verifikasi Surat",
                                                             text: "Apakah Anda yakin ingin verifikasi surat ini?",
+                                                            input: 'textarea',
+                                                            inputPlaceholder: 'Masukkan pesan penolakan jika surat akan ditolak',
                                                             showDenyButton: true,
                                                             showCancelButton: true,
-                                                            confirmButtonText: "Setuju",
-                                                            denyButtonText: "Tolak",
-                                                            cancelButtonText: "Batal",
+                                                            confirmButtonText: "Tolak",
+                                                            denyButtonText: "Batal",
+                                                            cancelButtonText: "Kembali",
                                                         }).then((result) => {
                                                             if (result.isConfirmed) {
+                                                                var pesan = result.value; // Ambil nilai dari input teks
                                                                 $('#verifikasi-surat-{{ $sk_usaha->id_sk_usaha }}')
-                                                                    .append('<input type="hidden" name="aksi" value="setuju" required>')
-                                                                    .submit();
-                                                            } else if (result.isDenied) {
-                                                                $('#verifikasi-surat-{{ $sk_usaha->id_sk_usaha }}')
-                                                                    .append('<input type="hidden" name="aksi" value="tolak" required>')
+                                                                    .append('<input type="hidden" name="aksi" value="tolak">')
+                                                                    .append('<input type="hidden" name="alasan_tolak" value="' + pesan + '">') // Kirim nilai pesan ke server
                                                                     .submit();
                                                             }
                                                         });

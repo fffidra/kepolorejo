@@ -37,17 +37,19 @@
                                         <th class="col-md-2 text-center align-middle">NIK</th>                           
                                         <th class="col-md-2 text-center align-middle">Nama</th>                           
                                         <th class="col-md-2 text-center align-middle">Status</th>                           
+                                        <th class="col-md-2 text-center align-middle">alasan ditolak</th>                           
                                         <th class="col-md-2 text-center align-middle">Aksi</th>                           
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach(\App\Models\SKUsaha::where('pemohon', auth()->user()->nik)->get() as $sk_usaha)
-                                        <tr>      
+                                    <tr>      
                                             <td class="text-center align-middle">{{ $sk_usaha->tanggal }}</td>
                                             <td class="text-center align-middle">{{ $sk_usaha->jenis_surat }}</td>
                                             <td class="text-center align-middle">{{ $sk_usaha->nik }}</td>
                                             <td class="text-center align-middle">{{ $sk_usaha->nama }}</td>
                                             <td class="text-center align-middle">{{ $sk_usaha->status_surat }}</td>
+                                            <td class="text-center align-middle">{{ $sk_usaha->pesan }}</td>
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center">
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" class="btn btn-info btn-sm">Detail</button>
@@ -57,7 +59,7 @@
                                             </td>
                                         </tr>
                                     @endforeach
-
+{{-- 
                                     @foreach(\App\Models\SKTidakMampu::where('pemohon', auth()->user()->nik)->get() as $sktm)
                                         <tr>      
                                             <td class="text-center align-middle">{{ $sktm->tanggal }}</td>
@@ -107,7 +109,7 @@
                                                 </script>
                                             </td>
                                         </tr>
-                                    @endforeach
+                                    @endforeach --}}
                                 </tbody>
                             </table>
                         </div>
@@ -117,7 +119,7 @@
             @include('layout.footer')
         </div>
     </div>
-            <div class="container">
+            {{-- <div class="container">
                 <div class="d-flex flex-column min-vh-100 px-3 pt-4">
                     <div class="row justify-content-center my-auto">
                         <div class="col-md-8 col-lg-6 col-xl-5">
@@ -146,8 +148,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div> --}}
+            </div> --}}
 @endsection
 
 @section('modal')
