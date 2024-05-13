@@ -29,26 +29,30 @@
                             <table class="table table-striped" id="tabelSPT" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th class="col-md-2 text-center align-middle">NIK</th>                           
+                                        <th class="col-md-2 text-center align-middle">Tanggal Pengajuan</th>                           
                                         <th class="col-md-2 text-center align-middle">Jenis Surat</th>                           
+                                        <th class="col-md-2 text-center align-middle">NIK</th>                           
                                         <th class="col-md-2 text-center align-middle">Nama</th>                           
                                         <th class="col-md-2 text-center align-middle">Status</th>                           
                                         <th class="col-md-2 text-center align-middle">Aksi</th>                           
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach(\App\Models\Surat::where('status_surat', '=', 'Selesai')->where('jenis_surat','=','SURAT KETERANGAN TIDAK MAMPU')->get() as $surat)
-                                    <tr>
-                                        <td class="text-center align-middle">{{ $surat->nik_warga }}</td>
-                                        <td class="text-center align-middle">{{ $surat->jenis_surat }}</td>
-                                        <td class="text-center align-middle">{{ $surat->nama_warga }}</td>
-                                        <td class="text-center align-middle">{{ $surat->status_surat }}</td>
-                                        <td class="text-center">
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button" data-bs-toggle="modal" data-bs-target="#modalDetail" data-bs-id="{{ $surat->id_surat }}" class="btn btn-info btn-sm">Detail</button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    @foreach(\App\Models\SKTidakMampu::where('status_surat', 'Selesai')->get() as $sktm)
+                                        <tr>      
+                                            <td class="text-center align-middle">{{ $sktm->tanggal }}</td>
+                                            <td class="text-center align-middle">{{ $sktm->jenis_surat }}</td>
+                                            <td class="text-center align-middle">{{ $sktm->nik }}</td>
+                                            <td class="text-center align-middle">{{ $sktm->nama }}</td>
+                                            <td class="text-center align-middle">{{ $sktm->status_surat }}</td>
+                                            <td class="text-center">
+                                                <div class="d-flex justify-content-center">
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $sktm->id_sk_belum_menikah }}" class="btn btn-info btn-sm">Detail</button>
+                                                </div>
+                                                <script>
+                                                </script>
+                                            </td>
+                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -154,6 +158,28 @@
 
 @section('script')
 <script>
+    $(document).ready(function() {
+        var table = $('.table').DataTable({
+            columnDefs: [
+                { orderable: false, targets: [5] }
+            ],
+            language: {
+                lengthMenu: "Tampilkan _MENU_ data per halaman",
+                zeroRecords: "Data tidak ditemukan.",
+                info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+                infoEmpty: "Menampilkan 0 - 0 dari 0 data",
+                infoFiltered: "(difilter dari _MAX_ total data)",
+                search: "Cari",
+                decimal: ",",
+                thousands: ".",
+                paginate: {
+                    previous: "Sebelumnya",
+                    next: "Selanjutnya"
+                }
+            }
+        });
+    });
+
     // MODAL DETAIL DATA 1
     $('#modalDetail').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);

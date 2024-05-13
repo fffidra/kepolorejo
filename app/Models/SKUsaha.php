@@ -24,10 +24,12 @@ class SKUsaha extends Model
         'alamat',
         'usaha',
         'keperluan',
+        'bukti',
         'status_surat',
         'tanggal',
         'jabatan',
         'pemohon',
+        'verifikator',
     ];
 
     public $timestamps = false;
@@ -75,10 +77,4 @@ class SKUsaha extends Model
     {
         return $this->belongsTo(Jabatan::class, 'nama', 'nip');
     }
-
-    public function sk_usaha_ibfk_6()
-    {
-        return $this->belongsTo(User::class, 'nik', 'nik');
-    }
-
 }

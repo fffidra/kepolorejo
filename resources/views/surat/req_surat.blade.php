@@ -15,142 +15,139 @@
 @endsection
 
 @section('content')
-<div id="layout-wrapper">
-    @include('layout.header')
-    @include('layout.sidebar')
-    <div class="main-content">
-        <div class="page-content">
-            <div class="container-fluid">                   
-                <div class="row bg-white rounded-3 pb-3 mb-3 mx-2">
-                    <div class="page-title-box bg-light-subtle rounded-3 d-flex align-items-center justify-content-between px-3 py-2">
-                        <h5>Data Pengajuan Surat</h5>
-                    </div>
-                    <div class="text-end mb-4">
-                        <button data-bs-toggle="modal" data-bs-target="#tambahsuratbaru" class="btn btn-primary">AJUKAN SURAT</button>
-                    </div>                    
-                    <div class="container-fluid table-responsive px-3 py-3">
-                        <table class="table table-striped" id="tabelSPT" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th class="col-md-2 text-center align-middle">Tanggal Pengajuan</th>                           
-                                    <th class="col-md-2 text-center align-middle">NIK</th>                           
-                                    <th class="col-md-2 text-center align-middle">Jenis Surat</th>                           
-                                    <th class="col-md-2 text-center align-middle">Nama</th>                           
-                                    <th class="col-md-2 text-center align-middle">Status</th>                           
-                                    <th class="col-md-2 text-center align-middle">Aksi</th>                           
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach(\App\Models\SKUsaha::where('pemohon', auth()->user()->nik)->get() as $sk_usaha)
-                                    <tr>      
-                                        <td class="text-center align-middle">{{ $sk_usaha->tanggal }}</td>
-                                        <td class="text-center align-middle">{{ $sk_usaha->nik }}</td>
-                                        <td class="text-center align-middle">{{ $sk_usaha->jenis_surat }}</td>
-                                        <td class="text-center align-middle">{{ $sk_usaha->nama }}</td>
-                                        <td class="text-center align-middle">{{ $sk_usaha->status_surat }}</td>
-                                        <td class="text-center">
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" class="btn btn-info btn-sm">Detail</button>
-                                            </div>
-                                            <script>
-                                            </script>
-                                        </td>
+    <div id="layout-wrapper">
+        @include('layout.header')
+        @include('layout.sidebar')
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">                   
+                    <div class="row bg-white rounded-3 pb-3 mb-3 mx-2">
+                        <div class="page-title-box bg-light-subtle rounded-3 d-flex align-items-center justify-content-between px-3 py-2">
+                            <h5>Data Pengajuan Surat</h5>
+                        </div>
+                        <div class="text-end mb-4">
+                            <button data-bs-toggle="modal" data-bs-target="#tambahsuratbaru" class="btn btn-primary">AJUKAN SURAT</button>
+                        </div>                    
+                        <div class="container-fluid table-responsive px-3 py-3">
+                            <table class="table table-striped" id="tabelSPT" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th class="col-md-2 text-center align-middle">Tanggal Pengajuan</th>                           
+                                        <th class="col-md-2 text-center align-middle">Jenis Surat</th>                           
+                                        <th class="col-md-2 text-center align-middle">NIK</th>                           
+                                        <th class="col-md-2 text-center align-middle">Nama</th>                           
+                                        <th class="col-md-2 text-center align-middle">Status</th>                           
+                                        <th class="col-md-2 text-center align-middle">Aksi</th>                           
                                     </tr>
-                                @endforeach
+                                </thead>
+                                <tbody>
+                                    @foreach(\App\Models\SKUsaha::where('pemohon', auth()->user()->nik)->get() as $sk_usaha)
+                                        <tr>      
+                                            <td class="text-center align-middle">{{ $sk_usaha->tanggal }}</td>
+                                            <td class="text-center align-middle">{{ $sk_usaha->jenis_surat }}</td>
+                                            <td class="text-center align-middle">{{ $sk_usaha->nik }}</td>
+                                            <td class="text-center align-middle">{{ $sk_usaha->nama }}</td>
+                                            <td class="text-center align-middle">{{ $sk_usaha->status_surat }}</td>
+                                            <td class="text-center">
+                                                <div class="d-flex justify-content-center">
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" class="btn btn-info btn-sm">Detail</button>
+                                                </div>
+                                                <script>
+                                                </script>
+                                            </td>
+                                        </tr>
+                                    @endforeach
 
-                                @foreach(\App\Models\SKTidakMampu::where('pemohon', auth()->user()->nik)->get() as $sktm)
-                                    <tr>      
-                                        <td class="text-center align-middle">{{ $sktm->tanggal }}</td>
-                                        <td class="text-center align-middle">{{ $sktm->nik }}</td>
-                                        <td class="text-center align-middle">{{ $sktm->jenis_surat }}</td>
-                                        <td class="text-center align-middle">{{ $sktm->nama }}</td>
-                                        <td class="text-center align-middle">{{ $sktm->status_surat }}</td>
-                                        <td class="text-center">
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $sktm->id_sk_tidak_mampu }}" class="btn btn-info btn-sm">Detail</button>
-                                            </div>
-                                            <script>
-                                            </script>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                    @foreach(\App\Models\SKTidakMampu::where('pemohon', auth()->user()->nik)->get() as $sktm)
+                                        <tr>      
+                                            <td class="text-center align-middle">{{ $sktm->tanggal }}</td>
+                                            <td class="text-center align-middle">{{ $sktm->jenis_surat }}</td>
+                                            <td class="text-center align-middle">{{ $sktm->nik }}</td>
+                                            <td class="text-center align-middle">{{ $sktm->nama }}</td>
+                                            <td class="text-center align-middle">{{ $sktm->status_surat }}</td>
+                                            <td class="text-center">
+                                                <div class="d-flex justify-content-center">
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $sktm->id_sk_tidak_mampu }}" class="btn btn-info btn-sm">Detail</button>
+                                                </div>
+                                                <script>
+                                                </script>
+                                            </td>
+                                        </tr>
+                                    @endforeach
 
-                                @foreach(\App\Models\SKDomisili::where('pemohon', auth()->user()->nik)->get() as $skd)
-                                    <tr>      
-                                        <td class="text-center align-middle">{{ $skd->tanggal }}</td>
-                                        <td class="text-center align-middle">{{ $skd->nik }}</td>
-                                        <td class="text-center align-middle">{{ $skd->jenis_surat }}</td>
-                                        <td class="text-center align-middle">{{ $skd->nama }}</td>
-                                        <td class="text-center align-middle">{{ $skd->status_surat }}</td>
-                                        <td class="text-center">
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $skd->id_sk_domisili }}" class="btn btn-info btn-sm">Detail</button>
-                                            </div>
-                                            <script>
-                                            </script>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                    @foreach(\App\Models\SKDomisili::where('pemohon', auth()->user()->nik)->get() as $skd)
+                                        <tr>      
+                                            <td class="text-center align-middle">{{ $skd->tanggal }}</td>
+                                            <td class="text-center align-middle">{{ $skd->jenis_surat }}</td>
+                                            <td class="text-center align-middle">{{ $skd->nik }}</td>
+                                            <td class="text-center align-middle">{{ $skd->nama }}</td>
+                                            <td class="text-center align-middle">{{ $skd->status_surat }}</td>
+                                            <td class="text-center">
+                                                <div class="d-flex justify-content-center">
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $skd->id_sk_domisili }}" class="btn btn-info btn-sm">Detail</button>
+                                                </div>
+                                                <script>
+                                                </script>
+                                            </td>
+                                        </tr>
+                                    @endforeach
 
-                                @foreach(\App\Models\SKBelumMenikah::where('pemohon', auth()->user()->nik)->get() as $sk_belum_menikah)
-                                    <tr>      
-                                        <td class="text-center align-middle">{{ $sk_belum_menikah->tanggal }}</td>
-                                        <td class="text-center align-middle">{{ $sk_belum_menikah->nik }}</td>
-                                        <td class="text-center align-middle">{{ $sk_belum_menikah->jenis_surat }}</td>
-                                        <td class="text-center align-middle">{{ $sk_belum_menikah->nama }}</td>
-                                        <td class="text-center align-middle">{{ $sk_belum_menikah->status_surat }}</td>
-                                        <td class="text-center">
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $sk_belum_menikah->id_sk_belum_menikah }}" class="btn btn-info btn-sm">Detail</button>
-                                            </div>
-                                            <script>
-                                            </script>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                    @foreach(\App\Models\SKBelumMenikah::where('pemohon', auth()->user()->nik)->get() as $sk_belum_menikah)
+                                        <tr>      
+                                            <td class="text-center align-middle">{{ $sk_belum_menikah->tanggal }}</td>
+                                            <td class="text-center align-middle">{{ $sk_belum_menikah->jenis_surat }}</td>
+                                            <td class="text-center align-middle">{{ $sk_belum_menikah->nik }}</td>
+                                            <td class="text-center align-middle">{{ $sk_belum_menikah->nama }}</td>
+                                            <td class="text-center align-middle">{{ $sk_belum_menikah->status_surat }}</td>
+                                            <td class="text-center">
+                                                <div class="d-flex justify-content-center">
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $sk_belum_menikah->id_sk_belum_menikah }}" class="btn btn-info btn-sm">Detail</button>
+                                                </div>
+                                                <script>
+                                                </script>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
+            @include('layout.footer')
         </div>
-        @include('layout.footer')
     </div>
-</div>
-
-{{-- <div class="authentication-bg min-vh-100">
-        <div class="bg-overlay"></div>
-        <div class="container">
-            <div class="d-flex flex-column min-vh-100 px-3 pt-4">
-                <div class="row justify-content-center my-auto">
-                    <div class="col-md-8 col-lg-6 col-xl-5">
-                        <div class="text-center mb-4">
-                            <img src="{{ asset('assets/images/logo-kab-magetan.png') }}" alt="" height="35"> <span class="logo-txt">ESPO  ||  E-Surat Kepolorejo</span>
-                        </div>
-                        <div class="card">
-                            <div class="card-body p-4"> 
-                                <div class="text-center mt-2">
-                                    <h5 class="text-primary">Selamat Datang</h5>
+            <div class="container">
+                <div class="d-flex flex-column min-vh-100 px-3 pt-4">
+                    <div class="row justify-content-center my-auto">
+                        <div class="col-md-8 col-lg-6 col-xl-5">
+                            <div class="text-center mb-4">
+                                <img src="{{ asset('assets/images/logo-kab-magetan.png') }}" alt="" height="35"> <span class="logo-txt">ESPO  ||  E-Surat Kepolorejo</span>
+                            </div>
+                            <div class="card">
+                                <div class="card-body p-4"> 
+                                    <div class="text-center mt-2">
+                                        <h5 class="text-primary">Selamat Datang</h5>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="text-center mb-4">
-                            <button data-bs-toggle="modal" data-bs-target="#ceksurat" class="btn btn-primary" style="background-color: white; color: black;">CEK SURAT</button>
-                            <button data-bs-toggle="modal" data-bs-target="#tambahsuratbaru" class="btn btn-primary" style="background-color: white; color: black;">TAMBAH SURAT</button>
+                            <div class="text-center mb-4">
+                                <button data-bs-toggle="modal" data-bs-target="#ceksurat" class="btn btn-primary" style="background-color: white; color: black;">CEK SURAT</button>
+                                <button data-bs-toggle="modal" data-bs-target="#tambahsuratbaru" class="btn btn-primary" style="background-color: white; color: black;">TAMBAH SURAT</button>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="text-center text-muted p-4">
-                            <p class="text-white-50">© <script>document.write(new Date().getFullYear())</script> E-Surat Kepolorejo</p>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="text-center text-muted p-4">
+                                <p class="text-white-50">© <script>document.write(new Date().getFullYear())</script> E-Surat Kepolorejo</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div> --}}
+        </div> --}}
 @endsection
 
 @section('modal')
@@ -228,6 +225,10 @@
                                 <label for="keperluan" class="form-label">Keperluan</label>
                                 <input type="text" class="form-control" id="keperluan" name="keperluan">
                             </div>
+                            <div class="mb-3">
+                                <label for="bukti" class="form-label">Dokumen</label>
+                                <input type="file" class="form-control" id="bukti" name="bukti" value="{{ old('bukti') }}" multiple>
+                            </div>
                         </div>
 
                         {{-- DOMISILI --}}
@@ -291,6 +292,10 @@
                             <div class="mb-3">
                                 <label for="keperluan" class="form-label">Keperluan</label>
                                 <input type="text" class="form-control" id="keperluan" name="keperluan_2">
+                            </div>
+                            <div class="mb-3">
+                                <label for="bukti" class="form-label">Dokumen</label>
+                                <input type="file" class="form-control" id="bukti" name="bukti_2" value="{{ old('bukti') }}" multiple>
                             </div>
                         </div>
 
@@ -388,6 +393,10 @@
                             <div class="mb-3">
                                 <label for="keperluan" class="form-label">Keperluan</label>
                                 <input type="text" class="form-control" id="keperluan" name="keperluan_4">
+                            </div>
+                            <div class="mb-3">
+                                <label for="bukti" class="form-label">Dokumen</label>
+                                <input type="file" class="form-control" id="bukti" name="bukti_4" value="{{ old('bukti') }}" multiple>
                             </div>
                         </div>
                     </div>

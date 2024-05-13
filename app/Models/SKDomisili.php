@@ -25,10 +25,12 @@ class SKDomisili extends Model
         'alamat',
         'alamat_dom',
         'keperluan',
+        'bukti',
         'status_surat',
         'tanggal',
         'jabatan',
         'pemohon',
+        'verifikator',
     ];
 
     public $timestamps = false;
@@ -79,10 +81,5 @@ class SKDomisili extends Model
     public function sk_domisili_ibfk_6()
     {
         return $this->belongsTo(Jabatan::class, 'nama', 'nip');
-    }
-
-    public function sk_domisili_ibfk_7()
-    {
-        return $this->belongsTo(User::class, 'nik', 'nik');
     }
 }

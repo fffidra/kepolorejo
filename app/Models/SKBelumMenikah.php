@@ -75,13 +75,4 @@ class SKBelumMenikah extends Model
     {
         return $this->belongsTo(Jabatan::class, 'nama', 'nip');
     }
-
-    public function sk_belum_menikah_ibfk_6()
-    {
-        return $this->belongsTo(User::class, 'nik', 'nik');
-    }
-
-    public function sk_belum_menikah_ibfk_7()
-    {
-        return $this->belongsTo(User::class, 'verifikator', 'nik');    }
 }

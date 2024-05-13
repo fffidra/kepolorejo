@@ -30,8 +30,8 @@
                                 <thead>
                                     <tr>
                                         <th class="col-md-2 text-center align-middle">Tanggal Pengajuan</th>                           
-                                        <th class="col-md-2 text-center align-middle">NIK</th>                           
                                         <th class="col-md-2 text-center align-middle">Jenis Surat</th>                           
+                                        <th class="col-md-2 text-center align-middle">NIK</th>                           
                                         <th class="col-md-2 text-center align-middle">Nama</th>                           
                                         <th class="col-md-2 text-center align-middle">Status</th>                           
                                         {{-- <th class="col-md-2 text-center align-middle">Bukti</th>                            --}}
@@ -39,87 +39,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- @foreach(\App\Models\Surat::where('status_surat', '=', 'Diproses')->orWhere('status_surat','=', 'Ditolak')->get() as $surat)
-                                        <tr>
-                                            <td class="text-center align-middle">{{ $surat->nik_warga }}</td>
-                                            <td class="text-center align-middle">{{ $surat->nik_warga }}</td>
-                                            <td class="text-center align-middle">{{ $surat->jenis_surat }}</td>
-                                            <td class="text-center align-middle">{{ $surat->nama_warga }}</td>
-                                            <td class="text-center align-middle">{{ $surat->status_surat }}</td>
-                                            <td class="text-center">
-                                                <div class="d-flex justify-content-center">
-
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#modalUbah" data-bs-id="{{ $surat->id_surat }}" class="btn btn-info btn-sm">Ubah</button>
-
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#modalDetail" data-bs-id="{{ $surat->id_surat }}" class="btn btn-info btn-sm">Detail</button>
-
-                                                    @if($surat->status_surat === 'Diproses')
-                                                        <form method="POST" action="{{ route('verifikasi_surat', $surat->id_surat) }}" id="verifikasi-surat-{{ $surat->id_surat }}">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <button type="button" id="btnVerifikasi-{{ $surat->id_surat }}" class="btn btn-primary btn-sm">Verifikasi</button>
-                                                        </form>
-                                                    @endif
-                                                    @if($surat->status_surat === 'Ditolak')
-                                                        <form method="POST" action="{{ route('hapus_surat', $surat->id_surat) }}" id="hapus-surat-{{ $surat->id_surat }}">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <a role="button" id="btnHapus-{{ $surat->id_surat }}" class="btn btn-danger" title="Hapus Data"style="padding: 0.25rem 0.5rem; font-size: 18px;"><i class="bx bx-trash-alt"></i></a>
-                                                        </form>
-                                                    @endif
-                                                </div>
-                                                <script>
-                                                    // BUTTON VERIFIKASI
-                                                    $('#btnVerifikasi-{{ $surat->id_surat }}').click(function(event){
-                                                        event.preventDefault();
-                                                        Swal.fire({
-                                                            icon: "info",
-                                                            title: "Verifikasi Surat",
-                                                            text: "Apakah Anda yakin ingin verifikasi surat ini?",
-                                                            showDenyButton: true,
-                                                            showCancelButton: true,
-                                                            confirmButtonText: "Setuju",
-                                                            denyButtonText: "Tolak",
-                                                            cancelButtonText: "Batal",
-                                                        }).then((result) => {
-                                                            if (result.isConfirmed) {
-                                                                $('#verifikasi-surat-{{ $surat->id_surat }}')
-                                                                    .append('<input type="hidden" name="aksi" value="setuju" required>')
-                                                                    .submit();
-                                                            } else if (result.isDenied) {
-                                                                $('#verifikasi-surat-{{ $surat->id_surat }}')
-                                                                    .append('<input type="hidden" name="aksi" value="tolak" required>')
-                                                                    .submit();
-                                                            }
-                                                        });
-                                                    });
-
-                                                    // BUTTON DELETE
-                                                    $('#btnHapus-{{ $surat->id_surat }}').click(function(event){
-                                                        event.preventDefault();
-                                                        Swal.fire({
-                                                            icon: "info",
-                                                            title: "Hapus Surat",
-                                                            text: "Apakah Anda yakin ingin menghapus surat ini?",
-                                                            showCancelButton: true,
-                                                            confirmButtonText: "Ya, Lanjutkan",
-                                                            cancelButtonText: "Tidak, Batalkan",
-                                                        }).then(function (result) {
-                                                            if (result.isConfirmed) {
-                                                                $('#hapus-surat-{{ $surat->id_surat }}').submit();
-                                                            }
-                                                        });
-                                                    });
-                                                </script>
-                                            </td>
-                                        </tr>
-                                    @endforeach --}}
-
                                     @foreach(\App\Models\SKUsaha::where('status_surat', 'Diproses')->orWhere('status_surat', 'Ditolak')->get() as $sk_usaha)
                                         <tr>
                                             <td class="text-center align-middle">{{ $sk_usaha->tanggal }}</td>
-                                            <td class="text-center align-middle">{{ $sk_usaha->nik }}</td>
                                             <td class="text-center align-middle">{{ $sk_usaha->jenis_surat }}</td>
+                                            <td class="text-center align-middle">{{ $sk_usaha->nik }}</td>
                                             <td class="text-center align-middle">{{ $sk_usaha->nama }}</td>
                                             <td class="text-center align-middle">{{ $sk_usaha->status_surat }}</td>
                                             <td class="text-center">
@@ -191,8 +115,8 @@
                                     @foreach(\App\Models\SKBelumMenikah::where('status_surat', 'Diproses')->orWhere('status_surat', 'Ditolak')->get() as $sk_belum_menikah)
                                         <tr>
                                             <td class="text-center align-middle">{{ $sk_belum_menikah->tanggal }}</td>
-                                            <td class="text-center align-middle">{{ $sk_belum_menikah->nik }}</td>
                                             <td class="text-center align-middle">{{ $sk_belum_menikah->jenis_surat }}</td>
+                                            <td class="text-center align-middle">{{ $sk_belum_menikah->nik }}</td>
                                             <td class="text-center align-middle">{{ $sk_belum_menikah->nama }}</td>
                                             <td class="text-center align-middle">{{ $sk_belum_menikah->status_surat }}</td>
                                             {{-- <td class="text-center align-middle">
@@ -269,8 +193,8 @@
                                     @foreach(\App\Models\SKDomisili::where('status_surat', 'Diproses')->orWhere('status_surat', 'Ditolak')->get() as $skd)
                                         <tr>
                                             <td class="text-center align-middle">{{ $skd->tanggal }}</td>
-                                            <td class="text-center align-middle">{{ $skd->nik }}</td>
                                             <td class="text-center align-middle">{{ $skd->jenis_surat }}</td>
+                                            <td class="text-center align-middle">{{ $skd->nik }}</td>
                                             <td class="text-center align-middle">{{ $skd->nama }}</td>
                                             <td class="text-center align-middle">{{ $skd->status_surat }}</td>
                                             <td class="text-center">
@@ -342,8 +266,8 @@
                                     @foreach(\App\Models\SKTidakMampu::where('status_surat', 'Diproses')->orWhere('status_surat', 'Ditolak')->get() as $sktm)
                                         <tr>
                                             <td class="text-center align-middle">{{ $sktm->tanggal }}</td>
-                                            <td class="text-center align-middle">{{ $sktm->nik }}</td>
                                             <td class="text-center align-middle">{{ $sktm->jenis_surat }}</td>
+                                            <td class="text-center align-middle">{{ $sktm->nik }}</td>
                                             <td class="text-center align-middle">{{ $sktm->nama }}</td>
                                             <td class="text-center align-middle">{{ $sktm->status_surat }}</td>
                                             <td class="text-center">

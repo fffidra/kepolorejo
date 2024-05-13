@@ -22,10 +22,12 @@ class SKTidakMampu extends Model
         'pekerjaan',
         'alamat',
         'keperluan',
+        'bukti',
         'status_surat',
         'tanggal',
         'jabatan',
         'pemohon',
+        'verifikator',
     ];
 
     public $timestamps = false;
@@ -67,10 +69,4 @@ class SKTidakMampu extends Model
     {
         return $this->belongsTo(Jabatan::class, 'nama', 'nip');
     }
-
-    public function sk_tidak_mampu_ibfk_5()
-    {
-        return $this->belongsTo(User::class, 'nik', 'nik');
-    }
-
 }
