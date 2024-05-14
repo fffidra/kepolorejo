@@ -48,31 +48,18 @@ Route::middleware(['auth'])->group(function() {
     Route::get('sku', [SuratController::class, 'sku'])->name('surat.sku'); 
 
     Route::post('tambah_pegawai', [UserController::class, 'tambah_pegawai'])->name('tambah_pegawai');
+
+    Route::post('tambah_jabatan', [UserController::class, 'tambah_jabatan'])->name('tambah_jabatan');
+    // Route::get('ubah_jabatan/{id_jabatan}', [UserController::class, 'ubah_jabatan'])->name('ubah_jabatan');
+    Route::put('ubah_jabatan', [UserController::class, 'ubah_jabatan'])->name('ubah_jabatan');
+    Route::post('get_data_jabatan', [UserController::class, 'get_data_jabatan'])->name('get_data_jabatan');
+    Route::get('ubah_isi_jabatan/{id_jabatan}', [UserController::class, 'ubah_isi_jabatan']);
+    Route::delete('hapus_jabatan/{id_jabatan}', [UserController::class, 'hapus_jabatan'])->name('hapus_jabatan');
+
+
     Route::get('keluar', [UserController::class, 'keluar'])->name('keluar'); 
 });
 
-
-// Route::middleware('auth')->group(function() {
-
-//     Route::get('ubah_kata_sandi', function () {
-//         return view('ubah_kata_sandi');
-//     })->name('ubah_kata_sandi'); // GET Akses Laman Ubah Password
-//     Route::put('ubah_kata_sandi', [PegawaiController::class, 'ubah_kata_sandi'])->name('ubah_kata_sandi');
-
-
-//     Route::group(['middleware' => 'ubah.kata.sandi'], function () {
-//         Route::get('/', function () {
-//             return view('masuk');
-//         })->name('masuk'); 
-
-
-//         Route::post('tambah_user', [UserController::class, 'tambah_user_baru'])->name('tambah_user'); // POST Aksi Proses Tambah User
-//         Route::post('buat_surat_usaha', [SuratController::class, 'buat_surat_usaha'])->name('buat_surat_usaha'); // POST Aksi Proses Buat SPT
-//         Route::get('surat', [SuratController::class, 'index'])->name('surat.req_surat');
-
-
-//     });
-// });
 
 
 

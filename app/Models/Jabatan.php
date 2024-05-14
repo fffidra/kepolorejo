@@ -11,9 +11,10 @@ class Jabatan extends Model
 
     protected $table = 'jabatan';
 
-    protected $primaryKey = 'nip';
+    protected $primaryKey = 'id_jabatan';
 
     protected $fillable = [
+        'nip',
         'nama',
         'posisi',
     ];
