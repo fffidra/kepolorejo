@@ -37,28 +37,31 @@
                                         <th class="col-md-2 text-center align-middle">NIK</th>                           
                                         <th class="col-md-2 text-center align-middle">Nama</th>                           
                                         <th class="col-md-2 text-center align-middle">Status</th>                           
-                                        <th class="col-md-2 text-center align-middle">alasan ditolak</th>                           
                                         <th class="col-md-2 text-center align-middle">Aksi</th>                           
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach(\App\Models\SKUsaha::where('pemohon', auth()->user()->nik)->get() as $sk_usaha)
-                                    <tr>      
+                                        <tr>      
                                             <td class="text-center align-middle">{{ $sk_usaha->tanggal }}</td>
                                             <td class="text-center align-middle">{{ $sk_usaha->jenis_surat }}</td>
                                             <td class="text-center align-middle">{{ $sk_usaha->nik }}</td>
                                             <td class="text-center align-middle">{{ $sk_usaha->nama }}</td>
                                             <td class="text-center align-middle">{{ $sk_usaha->status_surat }}</td>
-                                            <td class="text-center align-middle">{{ $sk_usaha->pesan }}</td>
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center">
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" class="btn btn-info btn-sm">Detail</button>
+
+                                                    @if($sk_usaha->status_surat === 'Ditolak')
+                                                        <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" data-bs-pesan="{{ $sk_usaha->pesan }}" class="btn btn-info btn-sm">Pesan Ditolak</button>
+                                                    @endif
                                                 </div>
                                                 <script>
                                                 </script>
                                             </td>
                                         </tr>
                                     @endforeach
+
 {{-- 
                                     @foreach(\App\Models\SKTidakMampu::where('pemohon', auth()->user()->nik)->get() as $sktm)
                                         <tr>      
@@ -152,6 +155,23 @@
 @endsection
 
 @section('modal')
+    <div class="modal fade" id="pesan_ditolak" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="messageModalLabel">Alasan Surat Ditolak</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{ $sk_usaha->pesan }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {{-- MODAL TAMBAH SURAT --}}
     <div class="modal fade" id="tambahsuratbaru" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -484,6 +504,17 @@
                         next: "Selanjutnya"
                     }
                 }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var pesanModal = document.getElementById('pesan_ditolak');
+            pesanModal.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget; // Tombol yang memicu modal
+                var pesan = button.getAttribute('data-bs-pesan'); // Ambil nilai data-bs-pesan
+
+                var modalBody = pesanModal.querySelector('.modal-body'); // Elemen modal-body
+                modalBody.textContent = pesan; // Isi modal-body dengan pesan
             });
         });
 
