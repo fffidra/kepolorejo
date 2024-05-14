@@ -13,6 +13,7 @@ class User extends Authenticatable
     protected $table = 'user';
 
     protected $primaryKey = 'nik';
+    public $incrementing = false; // Menetapkan bahwa 'nik' bukan auto-incrementing
 
     protected $fillable = [
         'nik',

@@ -20,9 +20,7 @@
         @include('layout.sidebar')
         <div class="main-content">
             <div class="page-content">
-                 <div class="container-fluid">
-
-                    <!-- start page title -->
+                <div class="container-fluid">
                     <div class="row mx-2">
                         <div class="col-12">
                             <div class="page-title-box d-flex align-items-center justify-content-between">
@@ -32,36 +30,33 @@
                                 </ol>
                             </div>
                         </div>
-                    </div><!-- end page title -->
-
+                    </div>
                     <div class="row bg-white rounded-3 pb-3 mb-3 mx-2">
                         <div class="page-title-box bg-light-subtle rounded-3 d-flex align-items-center justify-content-between px-3 py-2">
-                            <h5>List Data Pegawai</h5>
+                            <h5>List Data Pegawai Kelurahan Kepolorejo</h5>
                             <button data-bs-toggle="modal" data-bs-target="#tambahpegawaibaru" class="btn btn-primary">Tambah Pegawai</button>
                         </div>
                         <div class="container-fluid table-responsive px-3 py-3">
                             <table class="table table-striped" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>NIP</th>
-                                        <th>Nama</th>
-                                        <th>Bidang</th>
-                                        <th>Aksi</th>
+                                        <th class="text-center align-middle">NIK</th>
+                                        <th class="text-center align-middle">Nama</th>
+                                        <th class="text-center align-middle">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach(\App\Models\User::where('role', 'Pegawai')->get() as $data)
                                         <tr>
-                                            <td>{{ $data->nik }}</td>
-                                            <td>{{ $data->nama }}</td>
-                                            <td>{{ $data->bidang }}</td>
-                                            <td>
-                                                <div class="d-flex">
-                                                    <a role="button" class="btn btn-warning me-2" title="Ubah Data" style="padding: 0.25rem 0.5rem; font-size: 18px;" data-bs-toggle="modal" data-bs-target="#modalUbah" data-bs-id="{{ $data->nik }}"><i class="bx bx-pencil"></i></a>
-                                                    <form method="POST" action="" id="hapus-pegawai-{{ $data->nip }}">
+                                            <td class="text-center align-middle">{{ $data->nik }}</td>
+                                            <td class="text-center align-middle">{{ $data->nama }}</td>
+                                            <td class="text-center align-middle">
+                                                <div class="d-flex justify-content-center">
+                                                    <a role="button" class="btn btn-warning me-2" title="Ubah Data" style="padding: 0.25rem 0.5rem; font-size: 18px;" data-bs-toggle="modal" data-bs-target="#ubahpegawai" data-bs-id="{{ $data->nik }}"><i class="bx bx-pencil"></i></a>
+                                                    <form method="POST" action="{{ route('hapus_pegawai', $data->nik) }}" id="hapus-pegawai-{{ $data->nik }}">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <a role="button" id="btnHps-{{ $data->nik }}" class="btn btn-danger" title="Hapus Data"style="padding: 0.25rem 0.5rem; font-size: 18px;"><i class="bx bx-trash-alt"></i></a>
+                                                        <button type="submit" role="button" id="btnHps-{{ $data->nik }}" class="btn btn-danger" title="Hapus Data" style="padding: 0.25rem 0.5rem; font-size: 18px;"><i class="bx bx-trash-alt"></i></button>
                                                     </form>
                                                 </div>
                                                 <script>
@@ -70,7 +65,7 @@
                                                         Swal.fire({
                                                             icon: "info",
                                                             title: "Konfirmasi",
-                                                            text: "Apakah Anda yakin ingin menghapus data ini?",
+                                                            text: "Apakah Anda yakin ingin menghapus pegawai {{$data->nama}}?",
                                                             showCancelButton: true,
                                                             confirmButtonText: "Ya, Lanjutkan",
                                                             cancelButtonText: "Tidak, Batalkan",
@@ -88,7 +83,7 @@
                             </table>
                         </div>
                     </div>
-                </div> <!-- container-fluid -->
+                </div>
             </div>
             @include('layout.footer')
         </div>
@@ -96,19 +91,19 @@
 @endsection
 
 @section('modal')
-    {{-- MODAL DETAIL --}}
+    {{-- MODAL TAMBAH PEGAWAI --}}
     <div class="modal fade" id="tambahpegawaibaru" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Form Tambah Data Pegawai</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Data Pegawai</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form method="POST" action="{{ route('tambah_pegawai') }}"> 
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="nik" class="col-form-label" name="nik">nik</label>
+                            <label for="nik" class="col-form-label" name="nik">NIK (Nomor Induk Kependudukan)</label>
                             <input type="text" class="form-control" id="nik" name="nik" required>
                         </div> 
                         <div class="mb-3">
@@ -124,16 +119,72 @@
             </div>
         </div>
     </div>
+
+    {{-- MODAL UBAH PEGAWAI --}}
+    <div class="modal fade" id="ubahpegawai" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ubah Data Pegawai</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="POST" action="{{ route('ubah_pegawai') }}" id="ubah_pegawai">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="nik" id="nik2" required>
+                    <div class="modal-body">
+                        <div class="mb-3 row">
+                            <label for="ubah_nik" class="col-md-2 col-form-label">NIK (Nomor Induk Kependudukan)</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" id="ubah_nik" name="ubah_nik" rows="1"></textarea>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="ubah_nama" class="col-md-2 col-form-label">Nama</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" id="ubah_nama" name="ubah_nama" rows="1"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-warning" id="simpanpegawai">Simpan Perubahan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>    
 @endsection
 
 @section('script')
 <script>
-    // MODAL DETAIL DATA 1
-    $('#modalDetail').on('show.bs.modal', function (event) {
+    $(document).ready(function() {
+        var table = $('.table').DataTable({
+            columnDefs: [
+                { orderable: false, targets: [2] }
+            ],
+            language: {
+                lengthMenu: "Tampilkan _MENU_ data per halaman",
+                zeroRecords: "Data tidak ditemukan.",
+                info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+                infoEmpty: "Menampilkan 0 - 0 dari 0 data",
+                infoFiltered: "(difilter dari _MAX_ total data)",
+                search: "Cari",
+                decimal: ",",
+                thousands: ".",
+                paginate: {
+                    previous: "Sebelumnya",
+                    next: "Selanjutnya"
+                }
+            }
+        });
+    });
+
+    $('#ubahpegawai').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
-        var id = button.data('bs-id');
+        var nik = button.data('nik');
         $.ajax({
-            url: '{{ route("get_data_surat") }}',
+            url: '{{ route("get_data_pegawai") }}',
             type: 'POST',
             data: {
                 id: button.data('bs-id'),
@@ -142,93 +193,61 @@
             dataType: 'JSON',
             success: function(response) {
                 if (response.status == 'success') {
-                    var surats = response.surats;
-                    $("#detail_jenis_surat").html(surats.jenis_surat);
-                    $("#detail_nama").html(surats.nama_warga);
-                    $("#detail_nik").html(surats.nik_warga);
-                    $("#detail_agama").html(surats.agama);
-                    $("#detail_pekerjaan").html(surats.pekerjaan);
-                    $("#detail_status_nikah").html(surats.status_nikah);
-                    $("#detail_usaha").html(surats.usaha);
-                    $("#detail_ttl").html(surats.ttl);
-                    $("#detail_alamat").html(surats.alamat);
-                    $("#detail_alamat_dom").html(surats.alamat_dom);
-                    $("#detail_keperluan").html(surats.keperluan);
-                    $("#detail_jenis_kelamin").html(surats.jenis_kelamin);
+                    var pegawai = response.pegawai;
+                    $("#nik2").val(pegawai.nik);
+                    $("#ubah_nik").val(pegawai.nik);
+                    $("#ubah_nama").val(pegawai.nama);
                 }
             }, 
         });
     });
 
-    // MODAL DETAIL DATA 2
-    $('#modalDetail').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
+    $(document).on('click', '.btn-edit', function(e){
+        e.preventDefault();
+        var nik = $(this).val();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
         $.ajax({
-            url: '{{ route("get_data_surat") }}',
-            type: 'POST',
-            data: {
-                id: button.data('bs-id'),
-                _token: '{{ csrf_token() }}',
-            },
-            dataType: 'JSON',
-            success: function(response) {
-                if (response.status == 'success') {
-                    var surats = response.surats;
-                    // Hide all detail elements initially
-                    $(".modal-body .row").hide();
-                    // Show specific detail elements based on the type of surat
-                    switch(surats.jenis_surat) {
-                        case "SURAT KETERANGAN DOMISILI":
-                            $("#detail_jenis_surat").closest('.row').show();
-                            $("#detail_nama").closest('.row').show();
-                            $("#detail_nik").closest('.row').show();
-                            $("#detail_jenis_kelamin").closest('.row').show();
-                            $("#detail_ttl").closest('.row').show();
-                            $("#detail_agama").closest('.row').show();
-                            $("#detail_status_nikah").closest('.row').show();
-                            $("#detail_pekerjaan").closest('.row').show();
-                            $("#detail_alamat").closest('.row').show();
-                            $("#detail_alamat_dom").closest('.row').show();
-                            $("#detail_keperluan").closest('.row').show();
-                            break;
-                        case "SURAT KETERANGAN BELUM MENIKAH":
-                            $("#detail_jenis_surat").closest('.row').show();
-                            $("#detail_nama").closest('.row').show();
-                            $("#detail_nik").closest('.row').show();
-                            $("#detail_ttl").closest('.row').show();
-                            $("#detail_status_nikah").closest('.row').show();
-                            $("#detail_agama").closest('.row').show();
-                            $("#detail_pekerjaan").closest('.row').show();
-                            $("#detail_alamat").closest('.row').show();
-                            $("#detail_keperluan").closest('.row').show();
-                            break;
-                        case "SURAT KETERANGAN USAHA":
-                            $("#detail_jenis_surat").closest('.row').show();
-                            $("#detail_nama").closest('.row').show();
-                            $("#detail_nik").closest('.row').show();
-                            $("#detail_ttl").closest('.row').show();
-                            $("#detail_status_nikah").closest('.row').show();
-                            $("#detail_agama").closest('.row').show();
-                            $("#detail_pekerjaan").closest('.row').show();
-                            $("#detail_alamat").closest('.row').show();
-                            $("#detail_usaha").closest('.row').show();
-                            $("#detail_keperluan").closest('.row').show();
-                            break;
-                        case "SURAT KETERANGAN TIDAK MAMPU":
-                            $("#detail_jenis_surat").closest('.row').show();
-                            $("#detail_nama").closest('.row').show();
-                            $("#detail_nik").closest('.row').show();
-                            $("#detail_ttl").closest('.row').show();
-                            $("#detail_agama").closest('.row').show();
-                            $("#detail_pekerjaan").closest('.row').show();
-                            $("#detail_alamat").closest('.row').show();
-                            $("#detail_keperluan").closest('.row').show();
-                            break;
-                        default:
+            type: "GET",
+            url: "/ubah_isi_pegawai/"+nik,
+            data: { nik: nik },
+            success: function (response) {
+            console.log(response);
+                $('#ubah_nik').val(response.pegawai.nik);
+                $('#ubah_nama').val(response.pegawai.nama);
+                $('#ubahpegawai').modal('show');                
+            }
+        });        
+    });
+
+    $(document).ready(function() {
+        $('#simpanpegawai').click(function(event){
+            event.preventDefault();
+            var nik = document.getElementById("ubah_nik");
+            var nama = document.getElementById("ubah_nama");
+            if (!nik.value) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Semua inputan wajib diisi!",
+                });
+            } else {
+                Swal.fire({
+                    icon: "info",
+                    title: "Konfirmasi",
+                    text: "Apakah Anda yakin data pegawai sudah benar?",
+                    showCancelButton: true,
+                    confirmButtonText: "Ya, Lanjutkan",
+                    cancelButtonText: "Tidak, Batalkan",
+                }).then(function (result) {
+                    if (result.isConfirmed) {
+                        $('#ubah_pegawai').submit();
                     }
-                    $('#modalDetail').modal('show');
-                }
-            }, 
+                });
+            }
         });
     });
 </script>

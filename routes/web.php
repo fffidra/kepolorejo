@@ -39,6 +39,11 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/pegawai', function () {
         return view('pegawai');
     })->name('pegawai')->middleware('userAccess:Pegawai'); 
+
+    Route::get('/lurah', function () {
+        return view('lurah');
+    })->name('lurah')->middleware('userAccess:Pegawai');
+    
     
     Route::get('surat_disetujui', [SuratController::class, 'surat_disetujui'])->name('surat.surat_disetujui')->middleware('userAccess:Pegawai'); 
 
@@ -48,12 +53,15 @@ Route::middleware(['auth'])->group(function() {
     Route::get('sku', [SuratController::class, 'sku'])->name('surat.sku'); 
 
     Route::post('tambah_pegawai', [UserController::class, 'tambah_pegawai'])->name('tambah_pegawai');
+    Route::put('ubah_pegawai', [UserController::class, 'ubah_pegawai'])->name('ubah_pegawai');
+    Route::post('get_data_pegawai', [UserController::class, 'get_data_pegawai'])->name('get_data_pegawai');
+    Route::get('ubah_isi_pegawai/{nik}', [UserController::class, 'ubah_isi_pegawai'])->name('ubah_isi_pegawai');
+    Route::delete('hapus_pegawai/{nik}', [UserController::class, 'hapus_pegawai'])->name('hapus_pegawai');
 
     Route::post('tambah_jabatan', [UserController::class, 'tambah_jabatan'])->name('tambah_jabatan');
-    // Route::get('ubah_jabatan/{id_jabatan}', [UserController::class, 'ubah_jabatan'])->name('ubah_jabatan');
     Route::put('ubah_jabatan', [UserController::class, 'ubah_jabatan'])->name('ubah_jabatan');
     Route::post('get_data_jabatan', [UserController::class, 'get_data_jabatan'])->name('get_data_jabatan');
-    Route::get('ubah_isi_jabatan/{id_jabatan}', [UserController::class, 'ubah_isi_jabatan']);
+    Route::get('ubah_isi_jabatan/{id_jabatan}', [UserController::class, 'ubah_isi_jabatan'])->name('ubah_isi_jabatan');
     Route::delete('hapus_jabatan/{id_jabatan}', [UserController::class, 'hapus_jabatan'])->name('hapus_jabatan');
 
 
@@ -67,9 +75,6 @@ Route::get('/', function () {
     return view('masuk');
 }); 
 
-Route::get('/lurah', function () {
-    return view('lurah');
-})->name('lurah');
 
 // Route::get('/filter-surat/{status_surat}', [SuratController::class, 'filterSurat']);
 

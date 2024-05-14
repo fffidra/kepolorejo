@@ -42,8 +42,8 @@
                                     <tr>
                                         <th>NIP</th>
                                         <th>Nama</th>
-                                        <th>Posisi</th>
-                                        <th>Aksi</th>
+                                        <th class="text-center align-middle">Posisi</th>
+                                        <th class="text-center align-middle">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -51,9 +51,9 @@
                                         <tr>
                                             <td>{{ $data->nip }}</td>
                                             <td>{{ $data->nama }}</td>
-                                            <td>{{ $data->posisi }}</td>
-                                            <td>
-                                                <div class="d-flex">
+                                            <td class="text-center align-middle">{{ $data->posisi }}</td>
+                                            <td class="text-center align-middle">
+                                                <div class="d-flex justify-content-center">
                                                     <a role="button" class="btn btn-warning me-2" title="Ubah Data" style="padding: 0.25rem 0.5rem; font-size: 18px;" data-bs-toggle="modal" data-bs-target="#ubahjabatan" data-bs-id="{{ $data->id_jabatan }}"><i class="bx bx-pencil"></i></a>
                                                     <form method="POST" action="{{ route('hapus_jabatan', $data->id_jabatan) }}" id="hapus-jabatan-{{ $data->id_jabatan }}">
                                                         @csrf
@@ -240,7 +240,7 @@
 
     $(document).ready(function() {
         $('#simpanjabatan').click(function(event){
-            event.preventDefault(); // Mencegah pengiriman formulir secara default
+            event.preventDefault();
             var id_jabatan = document.getElementById("id_jabatan");
             var nip = document.getElementById("ubah_nip");
             var nama = document.getElementById("ubah_nama");

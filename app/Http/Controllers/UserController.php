@@ -37,10 +37,12 @@ class UserController extends Controller
         if ($validator->fails()) {
             Session::flash('alert', [
                 'type' => 'error',
-                'title' => 'Input Data Gagal',
-                'message' => 'NIP tidak boleh sama!',
+                'title' => 'Tambah Pegawai Gagal',
+                'message' => '',
             ]);
         } else {
+            $nama = $request->nama;
+
             User::create([
                 'nik' => $request->nik,
                 'nama' => $request->nama,
@@ -49,11 +51,90 @@ class UserController extends Controller
             ]);
                 
             Session::flash('alert', [
-                // tipe dalam sweetalert2: success, error, warning, info, question
                 'type' => 'success',
-                'title' => 'Input Data Berhasil',
-                'message' => "",
+                'title' => 'Tambah Pegawai ' . $nama . ' Berhasil',                
+                'message' => '',
             ]);
+        }
+        return back();
+    }
+
+    public function ubah_pegawai(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'ubah_nik' => 'nullable',
+            'ubah_nama' => 'nullable',
+        ]);
+    
+        if ($validator->fails()) {
+            Session::flash('alert', [
+                'type' => 'error',
+                'title' => 'Input Data Gagal',
+                'message' => 'Ada inputan yang salah!',
+            ]);
+        } else {
+            $pegawai = User::find($request->nik);
+    
+            // dd($validator);
+            if ($pegawai) {
+                $pegawai->update([
+                    'nik' => $request->ubah_nik,
+                    'nama' => $request->ubah_nama,
+                ]);
+                Session::flash('alert', [
+                    'type' => 'success',
+                    'title' => 'Edit Data Berhasil',
+                    'message' => '',
+                ]);
+            } else {
+                Session::flash('alert', [
+                    'type' => 'error',
+                    'title' => 'Input Data Gagal',
+                    'message' => 'Pegawai tidak ditemukan!',
+                ]); 
+            }
+        }
+        return back();
+    }
+    
+    public function get_data_pegawai(Request $request)
+    {
+        $pegawai = User::where('nik', $request->id)->first();
+
+        if($pegawai) {
+            return response()->json([
+                'status' => 'success',
+                'pegawai' => $pegawai,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+            ]);
+        }
+    }
+    
+    public function ubah_isi_pegawai($nik) 
+    {
+        $pegawai = User::find($nik);
+        return response()->json(['pegawai' => $pegawai]);
+    }
+    
+    public function hapus_pegawai($nik)
+    {
+        $pegawai = User::findOrFail($nik);
+        if($pegawai) {
+            Session::flash('alert', [
+                'type' => 'success',
+                'title' => 'Hapus Data '.$pegawai->nama.' Berhasil',
+                'message' => "",
+            ]); 
+            $pegawai->delete();
+        } else {
+            Session::flash('alert', [
+                'type' => 'error',
+                'title' => 'Hapus Data Gagal',
+                'message' => 'Ada kesalahan!',
+            ]); 
         }
         return back();
     }
@@ -69,21 +150,21 @@ class UserController extends Controller
         if ($validator->fails()) {
             Session::flash('alert', [
                 'type' => 'error',
-                'title' => 'Input Data Gagal',
-                'message' => 'NIP tidak boleh sama!',
+                'title' => 'Tambah Jabatan Gagal',
+                'message' => '',
             ]);
         } else {
+            $nama = $request->nama;
             Jabatan::create([
                 'nip' => $request->nip,
                 'nama' => $request->nama,
-                'posisi' => $request->posisi,
+                'posisi' => $request->posisi
             ]);
                 
             Session::flash('alert', [
-                // tipe dalam sweetalert2: success, error, warning, info, question
                 'type' => 'success',
-                'title' => 'Input Data Berhasil',
-                'message' => "",
+                'title' => 'Tambah Jabatan ' . $nama . ' Berhasil',                
+                'message' => '',
             ]);
         }
         return back();
@@ -123,7 +204,7 @@ class UserController extends Controller
             } else {
                 Session::flash('alert', [
                     'type' => 'error',
-                    'title' => 'Input Data Gagal',
+                    'title' => 'Edit Data Gagal',
                     'message' => 'Ada inputan yang salah!',
                 ]); 
             }
