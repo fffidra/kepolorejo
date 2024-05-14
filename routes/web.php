@@ -5,12 +5,8 @@ use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\SuratController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
-
-// Route::middleware('guest')->group(function() {
-//     Route::get('masuk', function () {
-//         return view('masuk');
-//     })->name('masuk'); 
-// });
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
     
 Route::middleware(['guest'])->group(function() {
     Route::get('masuk', function () {
@@ -66,6 +62,16 @@ Route::middleware(['auth'])->group(function() {
 
 
     Route::get('keluar', [UserController::class, 'keluar'])->name('keluar'); 
+
+    Route::get('dokumen_bukti/{filename}', function ($filename) {
+        $path = public_path('bukti_dokumen/' . $filename);
+    
+        if (!File::exists($path)) {
+            abort(404);
+        }
+    
+        return response()->download($path);
+    });
 });
 
 
@@ -165,7 +171,3 @@ Route::get('unduh_sk_domisili/{id_sk_domisili}', [SuratController::class, 'unduh
 Route::get('unduh_sk_tidak_mampu/{id_sk_tidak_mampu}', [SuratController::class, 'unduh_sk_tidak_mampu'])->name('unduh_sk_tidak_mampu');
 
 Route::post('dokumen_surat', [SuratController::class, 'dokumen_surat'])->name('dokumen_surat');
-
-
-
-// Route::post('tambah_user', [UserController::class, 'tambah_user'])->name('tambah_user'); // POST Aksi Proses Tambah pegawai

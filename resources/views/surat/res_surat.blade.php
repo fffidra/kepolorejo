@@ -23,19 +23,19 @@
                 <div class="container-fluid">                   
                     <div class="row bg-white rounded-3 pb-3 mb-3 mx-2">
                         <div class="page-title-box bg-light-subtle rounded-3 d-flex align-items-center justify-content-between px-3 py-2">
-                            <h5>Data Surat Masuk</h5>
+                            <h5>DATA SURAT MASUK</h5>
                         </div>
                         <div class="container-fluid table-responsive px-3 py-3">
                             <table class="table table-striped" id="tabelSPT" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th class="col-md-2 text-center align-middle">Tanggal Pengajuan</th>                           
-                                        <th class="col-md-2 text-center align-middle">Jenis Surat</th>                           
+                                        <th class="col-md-1 text-center align-middle">TANGGAL PENGAJUAN</th>                           
+                                        <th class="col-md-2 text-center align-middle">JENIS SURAT</th>                           
                                         <th class="col-md-2 text-center align-middle">NIK</th>                           
-                                        <th class="col-md-2 text-center align-middle">Nama</th>                           
-                                        <th class="col-md-2 text-center align-middle">Status</th>                           
-                                        {{-- <th class="col-md-2 text-center align-middle">Bukti</th>                            --}}
-                                        <th class="col-md-2 text-center align-middle">Aksi</th>                           
+                                        <th class="col-md-1 text-center align-middle">NAMA</th>                           
+                                        <th class="col-md-1 text-center align-middle">STATUS</th>                           
+                                        <th class="col-md-2 text-center align-middle">BUKTI</th>                           
+                                        <th class="col-md-1 text-center align-middle">AKSI</th>                           
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -46,7 +46,12 @@
                                             <td class="text-center align-middle">{{ $sk_usaha->nik }}</td>
                                             <td class="text-center align-middle">{{ $sk_usaha->nama }}</td>
                                             <td class="text-center align-middle">{{ $sk_usaha->status_surat }}</td>
-                                            <td class="text-center">
+                                            <td class="text-center align-middle">
+                                                <a href="{{ url('dokumen_bukti/' . $sk_usaha->bukti) }}">
+                                                    <button class="btn btn-success" type="button">Unduh</button>
+                                                </a>
+                                            </td>
+                                                                                        <td class="text-center">
                                                 <div class="d-flex justify-content-center">
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" class="btn btn-info btn-sm">Detail</button>
                                                     @if($sk_usaha->status_surat === 'Diproses')
@@ -132,18 +137,13 @@
                                         </tr>
                                     @endforeach
 
-                                    @foreach(\App\Models\SKBelumMenikah::where('status_surat', 'Diproses')->orWhere('status_surat', 'Ditolak')->get() as $sk_belum_menikah)
+                                    {{-- @foreach(\App\Models\SKBelumMenikah::where('status_surat', 'Diproses')->orWhere('status_surat', 'Ditolak')->get() as $sk_belum_menikah)
                                         <tr>
                                             <td class="text-center align-middle">{{ $sk_belum_menikah->tanggal }}</td>
                                             <td class="text-center align-middle">{{ $sk_belum_menikah->jenis_surat }}</td>
                                             <td class="text-center align-middle">{{ $sk_belum_menikah->nik }}</td>
                                             <td class="text-center align-middle">{{ $sk_belum_menikah->nama }}</td>
                                             <td class="text-center align-middle">{{ $sk_belum_menikah->status_surat }}</td>
-                                            {{-- <td class="text-center align-middle">
-                                                <a href="dokumen_bukti/{{ $sk_belum_menikah->bukti }}">
-                                                    <button class="btn btn-success" type="button">Unduh</button>
-                                                </a>
-                                            </td> --}}
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center">
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKBM" data-bs-id="{{ $sk_belum_menikah->id_sk_belum_menikah }}" class="btn btn-info btn-sm">Detail</button>
@@ -208,9 +208,9 @@
                                                 </script>
                                             </td>
                                         </tr>
-                                    @endforeach
+                                    @endforeach --}}
 
-                                    @foreach(\App\Models\SKDomisili::where('status_surat', 'Diproses')->orWhere('status_surat', 'Ditolak')->get() as $skd)
+                                    {{-- @foreach(\App\Models\SKDomisili::where('status_surat', 'Diproses')->orWhere('status_surat', 'Ditolak')->get() as $skd)
                                         <tr>
                                             <td class="text-center align-middle">{{ $skd->tanggal }}</td>
                                             <td class="text-center align-middle">{{ $skd->jenis_surat }}</td>
@@ -354,7 +354,7 @@
                                                 </script>
                                             </td>
                                         </tr>
-                                    @endforeach
+                                    @endforeach --}}
                                 </tbody>
                             </table>
                         </div>

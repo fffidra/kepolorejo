@@ -62,7 +62,7 @@
                                         </tr>
                                     @endforeach
 
-{{-- 
+
                                     @foreach(\App\Models\SKTidakMampu::where('pemohon', auth()->user()->nik)->get() as $sktm)
                                         <tr>      
                                             <td class="text-center align-middle">{{ $sktm->tanggal }}</td>
@@ -112,7 +112,7 @@
                                                 </script>
                                             </td>
                                         </tr>
-                                    @endforeach --}}
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -122,56 +122,9 @@
             @include('layout.footer')
         </div>
     </div>
-            {{-- <div class="container">
-                <div class="d-flex flex-column min-vh-100 px-3 pt-4">
-                    <div class="row justify-content-center my-auto">
-                        <div class="col-md-8 col-lg-6 col-xl-5">
-                            <div class="text-center mb-4">
-                                <img src="{{ asset('assets/images/logo-kab-magetan.png') }}" alt="" height="35"> <span class="logo-txt">ESPO  ||  E-Surat Kepolorejo</span>
-                            </div>
-                            <div class="card">
-                                <div class="card-body p-4"> 
-                                    <div class="text-center mt-2">
-                                        <h5 class="text-primary">Selamat Datang</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-center mb-4">
-                                <button data-bs-toggle="modal" data-bs-target="#ceksurat" class="btn btn-primary" style="background-color: white; color: black;">CEK SURAT</button>
-                                <button data-bs-toggle="modal" data-bs-target="#tambahsuratbaru" class="btn btn-primary" style="background-color: white; color: black;">TAMBAH SURAT</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="text-center text-muted p-4">
-                                <p class="text-white-50">© <script>document.write(new Date().getFullYear())</script> E-Surat Kepolorejo</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
 @endsection
 
 @section('modal')
-    <div class="modal fade" id="pesan_ditolak" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="messageModalLabel">Alasan Surat Ditolak</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    {{ $sk_usaha->pesan }}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     {{-- MODAL TAMBAH SURAT --}}
     <div class="modal fade" id="tambahsuratbaru" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -430,53 +383,19 @@
         </div>
     </div>
 
-    {{-- MODAL CEK SURAT --}}
-    <div class="modal fade" id="ceksurat" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    {{-- MODAL ALASAN DITOLAK --}}
+    <div class="modal fade" id="pesan_ditolak" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Cek Surat</h5>
+                    <h5 class="modal-title" id="messageModalLabel">Alasan Surat Ditolak</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Form pencarian -->
-                    <form id="searchForm">
-                        <div class="mb-3">
-                            <label for="nikWarga" class="form-label">NIK Warga</label>
-                            <input type="text" class="form-control" id="nikWarga" placeholder="Masukkan NIK warga">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Cari</button>
-                    </form>
-
-                    <p id="nikNotFound" class="text-danger" style="display: none;">Surat tidak ditemukan</p>
-
-                    <div id="searchResults" class="mt-3" style="display: none;">
-                        <div class="mb-3 row">
-                            <label class="col-md-3 col-form-label">Jenis Surat</label>
-                            <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp;
-                                <label class="col-form-label" id="detail_jenis_surat" style="padding-top: 0;"></label>
-                            </span>
-                        </div>
-                        {{-- <div class="mb-3 row">
-                            <label class="col-md-3 col-form-label">NIK</label>
-                            <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp;
-                                <label class="col-form-label" id="detail_nik" style="padding-top: 0;"></label>
-                            </span>
-                        </div> --}}
-                        <div class="mb-3 row">
-                            <label class="col-md-3 col-form-label">Nama</label>
-                            <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp;
-                                <label class="col-form-label" id="detail_nama" style="padding-top: 0;"></label>
-                            </span>
-                        </div>
-                        <div class="mb-3 row">
-                            <label class="col-md-3 col-form-label">Status</label>
-                            <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp;
-                                <label class="col-form-label" id="detail_status" style="padding-top: 0;"></label>
-                            </span>
-                        </div>
-                        
-                    </div>
+                    {{ $sk_usaha->pesan }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                 </div>
             </div>
         </div>
@@ -534,41 +453,5 @@
                 }
             });
         }
-
-        // CEK SURAT NOT SUCCEDD YET
-        $(document).ready(function() {
-            $('#searchForm').submit(function(event) {
-                event.preventDefault(); // Prevent standard form submission
-                var nikWarga = $('#nikWarga').val(); // Get the value of NIK input
-
-                // Send an AJAX request to the server with NIK as a parameter
-                $.ajax({
-                    url: 'cari_surat', 
-                    method: 'GET',
-                    data: { nik_warga: nikWarga },
-                    success: function(response) {
-                        if (response.error) {
-                            // Perbarui elemen HTML dengan pesan error
-                            $('#nikNotFound').text('NIK tidak ditemukan').show();
-                            // Sembunyikan elemen searchResults jika sebelumnya ditampilkan
-                            $('#searchResults').hide();
-                        } else {
-                            $('#detail_jenis_surat').text(response.jenis_surat);
-                            $('#detail_nama').text(response.nama_warga);
-                            // $('#detail_nik').text(response.nik_warga);
-                            $('#detail_status').text(response.status_surat);
-                            
-                            // Sembunyikan pesan error jika sebelumnya ditampilkan
-                            $('#nikNotFound').hide();
-                            // Tampilkan elemen searchResults setelah hasil pencarian tersedia
-                            $('#searchResults').show();
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(xhr.responseText);
-                    }
-                });
-            });
-        });
     </script>
 @endsection
