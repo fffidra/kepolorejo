@@ -922,6 +922,7 @@
 <script>
     $(document).ready(function() {
         var table = $('.table').DataTable({
+            order: [[0, 'desc']], // Gantilah 3 dengan indeks kolom tanggal yang sesuai
             columnDefs: [
                 { orderable: false, targets: [5] }
             ],

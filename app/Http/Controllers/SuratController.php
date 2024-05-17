@@ -43,16 +43,17 @@ class SuratController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'jenis_surat' => 'required',
-            'nama' => 'nullable',
-            'nik' => 'nullable',
-            'ttl' => 'nullable',
-            'status_nikah' => 'nullable',
-            'agama' => 'nullable',
-            'pekerjaan' => 'nullable',
-            'alamat' => 'nullable',
-            'usaha' => 'nullable',
-            'keperluan' => 'nullable',
-            'bukti' => 'nullable|mimes:jpg,jpeg,png,doc,docx,pdf',
+            'nama' => 'required',
+            'nik' => 'required',
+            'ttl' => 'required',
+            'status_nikah' => 'required',
+            'agama' => 'required',
+            'pekerjaan' => 'required',
+            'pekerjaan_lainnya' => 'nullable',
+            'alamat' => 'required',
+            'usaha' => 'required',
+            'keperluan' => 'required',
+            'bukti' => 'required|mimes:jpg,jpeg,png,doc,docx,pdf',
             'nama_2' => 'nullable',
             'nik_2' => 'nullable',
             'ttl_2' => 'nullable',
@@ -96,7 +97,13 @@ class SuratController extends Controller
                     $bukti = $request->file('bukti');
                     $nama_bukti = 'SKU_' . date('Ymdhis') . '.' . $bukti->getClientOriginalExtension();
                     $bukti->move(public_path('bukti_dokumen'), $nama_bukti);
-                    
+        
+                    // if ($request->pekerjaan === 'Lainnya') {
+                    //     $pekerjaan = $request->pekerjaan_lainnya;
+                    // } else {
+                    //     $pekerjaan = $request->pekerjaan;
+                    // }
+        
                     SKUsaha::create([
                         'jenis_surat' => $request->jenis_surat,
                         'nama' => $request->nama,
@@ -105,10 +112,11 @@ class SuratController extends Controller
                         'status_nikah' => $request->status_nikah,
                         'agama' => $request->agama,
                         'pekerjaan' => $request->pekerjaan,
+                        'pekerjaan_lainnya' => $request->pekerjaan_lainnya,
                         'alamat' => $request->alamat,
                         'usaha' => $request->usaha,
                         'keperluan' => $request->keperluan,
-                        'bukti' => $nama_bukti,                 
+                        'bukti' => $nama_bukti,
                         'pemohon' => $nikPemohon,
                     ]);
                 break;
@@ -1129,6 +1137,12 @@ class SuratController extends Controller
         $jabatanPosisi = $jabatan ? $jabatan->posisi : $defaultPosisi;
         $jabatanNIP = $jabatan ? $jabatan->nip : $defaultNIP;
 
+        if ($surat->pekerjaan == 'Lainnya' && !empty($surat->pekerjaan_lainnya)) {
+            $pekerjaan = $surat->pekerjaan_lainnya;
+        } else {
+            $pekerjaan = $surat->pekerjaan;
+        }
+
         $phpWord = new PhpWord();
         $section = $phpWord->addSection([
             'marginTop'    => 600,  
@@ -1198,8 +1212,8 @@ class SuratController extends Controller
             $tablePekerjaan->addCell($lebarA4 * 0.10)->addText('');
             $tablePekerjaan->addCell($lebarA4 * 0.20)->addText('Pekerjaan', ['size' => 12]);
             $tablePekerjaan->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tablePekerjaan->addCell($lebarA4 * 0.65)->addText($surat->pekerjaan, ['size' => 12]);
-
+            $tablePekerjaan->addCell($lebarA4 * 0.65)->addText($pekerjaan, ['size' => 12]);
+            
             $tableAlamat = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableAlamat->addRow();
             $tableAlamat->addCell($lebarA4 * 0.10)->addText('');

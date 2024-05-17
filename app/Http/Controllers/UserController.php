@@ -284,18 +284,25 @@ class UserController extends Controller
 
     public function tambah_user(Request $request) {
         $validator = Validator::make($request->all(), [
-            'nik' => 'required',
+            'nik' => 'required|unique:user,nik|size:16',            
             'nama' => 'required',
             'password' => 'required',
+        ], [
+            'nik.required' => 'NIK wajib diisi.',
+            'nik.unique' => 'NIK tidak boleh sama!',
+            'nik.size' => 'NIK harus memiliki panjang 16 digit.',
+            'nama.required' => 'Nama wajib diisi.',
+            'password.required' => 'Password wajib diisi.',
         ]);
-        // dd($validator);
+    
         if ($validator->fails()) {
+            // Mengambil semua pesan kesalahan dan menyimpannya ke dalam session flash
             Session::flash('alert', [
                 'type' => 'error',
-                'title' => 'Input Data Gagal',
-                'message' => 'NIP tidak boleh sama!',
+                'title' => 'Buat Akun Gagal',
+                'message' => 'Terjadi kesalahan dalam membuat akun.',
+                'errors' => $validator->errors()->all(),
             ]);
-        // dd($validator);
         } else {
             User::create([
                 'nik' => $request->nik,
@@ -306,11 +313,11 @@ class UserController extends Controller
             Session::flash('alert', [
                 'type' => 'success',
                 'title' => 'Buat Akun Berhasil',
-                'message' => "",
+                'message' => 'Akun berhasil dibuat.',
             ]);
         }
         return back();
-    }
+    }     
 
     public function keluar() {
         Auth::logout();

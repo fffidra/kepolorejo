@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class SKUsaha extends Model
 {
@@ -21,6 +22,7 @@ class SKUsaha extends Model
         'status_nikah',
         'agama',
         'pekerjaan',
+        'pekerjaan_lainnya',
         'alamat',
         'usaha',
         'keperluan',
@@ -36,22 +38,22 @@ class SKUsaha extends Model
     public $timestamps = false;
 
     // TANGGAL & WAKTU
-    // protected static function boot(){
+    protected static function boot(){
+        parent::boot();
+    
+        static::creating(function ($surat) {
+            $surat->tanggal = Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s');
+        });
+    }
+
+    // protected static function boot()
+    // {
     //     parent::boot();
 
     //     static::creating(function ($surat) {
-    //         $surat->tanggal = now()->format('Y-m-d H:i:s'); 
+    //         $surat->tanggal = now()->format('Y-m-d'); 
     //     });
     // }
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($surat) {
-            $surat->tanggal = now()->format('Y-m-d'); 
-        });
-    }
 
     public function sk_usaha_ibfk_1()
     {

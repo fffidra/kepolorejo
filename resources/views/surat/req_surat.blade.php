@@ -32,7 +32,7 @@
                             <table class="table table-striped" id="tabelSPT" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th class="col-md-2 text-center align-middle">Tanggal Pengajuan</th>                           
+                                        <th class="col-md-1 text-center align-middle">Tanggal Pengajuan</th>                           
                                         <th class="col-md-2 text-center align-middle">Jenis Surat</th>                           
                                         <th class="col-md-2 text-center align-middle">NIK</th>                           
                                         <th class="col-md-2 text-center align-middle">Nama</th>                           
@@ -61,7 +61,6 @@
                                             </td>
                                         </tr>
                                     @endforeach
-
 
                                     @foreach(\App\Models\SKTidakMampu::where('pemohon', auth()->user()->nik)->get() as $sktm)
                                         <tr>      
@@ -150,19 +149,19 @@
                         <div id="form_surat_SURAT KETERANGAN USAHA" class="form_surat" style="display: none;">
                             <div class="mb-3">
                                 <label for="nama" class="form-label">Nama</label>
-                                <input type="text" class="form-control" id="nama" name="nama">
+                                <input type="text" class="form-control" id="nama" name="nama" value="{{ auth()->user()->nama }}" readonly>
                             </div>
                             <div class="mb-3">
                                 <label for="nik" class="form-label">NIK</label>
-                                <input type="text" class="form-control" id="nik" name="nik">
-                            </div>
+                                <input type="text" class="form-control" id="nik" name="nik" value="{{ auth()->user()->nik }}" readonly>
+                            </div>                            
                             <div class="mb-3">
-                                <label for="ttl" class="form-label">Tempat, Tanggal Lahir</label>
-                                <input type="text" class="form-control" id="ttl" name="ttl">
+                                <label for="ttl" class="form-label">Tempat, Tanggal Lahir (Contoh Format: Magetan, 30 Maret 1999)</label>
+                                <input type="text" class="form-control" id="ttl" name="ttl" placeholder="Contoh: Magetan, 30 Maret 1999" required>
                             </div>
                             <div class="mb-3">
                                 <label for="status_nikah" class="form-label">Status</label>
-                                <select class="form-select" id="status_nikah" name="status_nikah">
+                                <select class="form-select" id="status_nikah" name="status_nikah" required>
                                     <option value="" selected hidden>-- Pilih Status --</option>
                                     @foreach(\App\Models\Status::all() as $status_nikahs)
                                         <option value="{{ $status_nikahs->nama_status_nikah }}">{{ $status_nikahs->nama_status_nikah }}</option>
@@ -171,7 +170,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="agama" class="form-label">Agama</label>
-                                <select class="form-select" id="agama" name="agama">
+                                <select class="form-select" id="agama" name="agama" required>
                                     <option value="" selected hidden>-- Pilih Agama --</option>
                                     @foreach(\App\Models\Agama::all() as $agamas)
                                         <option value="{{ $agamas->nama_agama }}">{{ $agamas->nama_agama }}</option>
@@ -180,28 +179,35 @@
                             </div>
                             <div class="mb-3">
                                 <label for="pekerjaan" class="form-label">Pekerjaan</label>
-                                <select class="form-select" id="pekerjaan" name="pekerjaan">
+                                <select class="form-select" id="pekerjaan" name="pekerjaan" required>
                                     <option value="" selected hidden>-- Pilih Pekerjaan --</option>
-                                    @foreach(\App\Models\Pekerjaan::all() as $pekerjaans)
-                                        <option value="{{ $pekerjaans->nama_pekerjaan }}">{{ $pekerjaans->nama_pekerjaan }}</option>
+                                    @foreach(\App\Models\Pekerjaan::all() as $pekerjaan)
+                                        <option value="{{ $pekerjaan->nama_pekerjaan }}">{{ $pekerjaan->nama_pekerjaan }}</option>
                                     @endforeach
+                                    <option value="Lainnya">Lainnya</option>
                                 </select>
+                            </div>
+                            <div class="mb-3" id="pekerjaan_lainnya_div" style="display: none;">
+                                <label for="pekerjaan_lainnya" class="form-label">Pekerjaan Lainnya</label>
+                                <input type="text" class="form-control" id="pekerjaan_lainnya" name="pekerjaan_lainnya" placeholder="Isikan pekerjaan lainnya yang belum ada di pilihan" required>
                             </div>
                             <div class="mb-3">
                                 <label for="alamat" class="form-label">Alamat</label>
-                                <input type="text" class="form-control" id="alamat" name="alamat">
+                                <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Isikan alamat lengkap" required>
                             </div>
                             <div class="mb-3">
                                 <label for="usaha" class="form-label">Jenis Usaha</label>
-                                <input type="text" class="form-control" id="usaha" name="usaha">
+                                <input type="text" class="form-control" id="usaha" name="usaha" placeholder="Isikan jenis dan nama usaha" required>
                             </div>
                             <div class="mb-3">
                                 <label for="keperluan" class="form-label">Keperluan</label>
-                                <input type="text" class="form-control" id="keperluan" name="keperluan">
+                                <input type="text" class="form-control" id="keperluan" name="keperluan" placeholder="Isikan keperluan pengajuan surat" required>
                             </div>
                             <div class="mb-3">
                                 <label for="bukti" class="form-label">Dokumen</label>
                                 <input type="file" class="form-control" id="bukti" name="bukti" value="{{ old('bukti') }}" multiple>
+                                {{-- <input type="file" class="form-control" id="bukti" name="bukti" value="{{ old('bukti') }}" multiple>
+                                <input type="file" class="form-control" id="bukti" name="bukti" value="{{ old('bukti') }}" multiple> --}}
                             </div>
                         </div>
 
@@ -291,7 +297,7 @@
                                 <label for="status_nikah" class="form-label">Status</label>
                                 <select class="form-select" id="status_nikah" name="status_nikah_3">
                                     <option value="" selected hidden>-- Pilih Status --</option>
-                                    @foreach(\App\Models\Status::all() as $status_nikahs)
+                                    @foreach(\App\Models\Status::where('nama_status_nikah', '!=', 'kawin')->get() as $status_nikahs)
                                         <option value="{{ $status_nikahs->nama_status_nikah }}">{{ $status_nikahs->nama_status_nikah }}</option>
                                     @endforeach
                                 </select>
@@ -384,28 +390,36 @@
     </div>
 
     {{-- MODAL ALASAN DITOLAK --}}
-    <div class="modal fade" id="pesan_ditolak" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+    <div class="modal fade" id="pesan_ditolak" tabindex="-1" aria-labelledby="pesanDitolakLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered"> <!-- Add modal-dialog-centered class here -->
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="messageModalLabel">Alasan Surat Ditolak</h5>
+                    <h5 class="modal-title" id="pesanDitolakLabel">Pesan Ditolak</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    {{ $sk_usaha->pesan }}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <p id="pesanDitolakContent"></p>
                 </div>
             </div>
         </div>
-    </div>
+    </div>    
 @endsection
 
 @section('script')
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            $('#pesan_ditolak').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var pesan = button.data('bs-pesan');
+
+                var modal = $(this);
+                modal.find('.modal-body #pesanDitolakContent').text(pesan ? pesan : 'Pesan tidak tersedia.');
+            });
+        });
+
         $(document).ready(function() {
             var table = $('.table').DataTable({
+                order: [[0, 'desc']], // Gantilah 3 dengan indeks kolom tanggal yang sesuai
                 columnDefs: [
                     { orderable: false, targets: [5] }
                 ],
@@ -425,6 +439,23 @@
                 }
             });
         });
+
+        // PEKERJAAN LAINNYA
+        document.addEventListener('DOMContentLoaded', function () {
+            var pekerjaanSelect = document.getElementById('pekerjaan');
+            var pekerjaanLainnyaDiv = document.getElementById('pekerjaan_lainnya_div');
+            var pekerjaanLainnyaInput = document.getElementById('pekerjaan_lainnya');
+
+            pekerjaanSelect.addEventListener('change', function () {
+                if (pekerjaanSelect.value === 'Lainnya') {
+                    pekerjaanLainnyaDiv.style.display = 'block';
+                    pekerjaanLainnyaInput.setAttribute('required', 'required');
+                } else {
+                    pekerjaanLainnyaDiv.style.display = 'none';
+                    pekerjaanLainnyaInput.removeAttribute('required');
+                }
+            });
+        });    
 
         document.addEventListener('DOMContentLoaded', function () {
             var pesanModal = document.getElementById('pesan_ditolak');
