@@ -8,7 +8,7 @@
                         <img src="{{ asset('assets/images/logo-kab-magetan.png') }}" alt="" height="22">
                     </span>
                     <span class="logo-lg">
-                        <img src="{{ asset('assets/images/logo-kab-magetan.png') }}" alt="" height="22"> <span class="logo-txt">E-Audit</span>
+                        <img src="{{ asset('assets/images/logo-kab-magetan.png') }}" alt="" height="22"> <span class="logo-txt">E-Surat</span>
                     </span>
                 </a>
             </div>

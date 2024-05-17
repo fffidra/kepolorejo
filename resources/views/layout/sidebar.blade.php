@@ -3,7 +3,7 @@
     <div class="navbar-brand-box">
         <a href="index.html" class="logo">
             <span class="logo-lg">
-                <img src="{{ asset('assets/images/logo-kab-magetan.png') }}" alt="" height="22"> <span class="logo-txt">E-Audit</span>
+                <img src="{{ asset('assets/images/logo-kab-magetan.png') }}" alt="" height="22"> <span class="logo-txt">E-Surat</span>
             </span>
             <span class="logo-sm">
                 <img src="{{ asset('assets/images/logo-kab-magetan.png') }}" alt="" height="22">
