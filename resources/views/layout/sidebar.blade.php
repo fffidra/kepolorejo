@@ -30,6 +30,12 @@
                             <span class="menu-item" data-key="t-email">Surat Disetujui</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ route('surat.surat_ditolak') }}">
+                            <i class="bx bx-envelope icon nav-icon"></i>
+                            <span class="menu-item" data-key="t-email">Surat Ditolak</span>
+                        </a>
+                    </li>
                 @endif
 
                 @if(Auth::user()->role == 'Warga')
@@ -50,9 +56,9 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('lurah') }}">
+                        <a href="{{ route('jabatan') }}">
                             <i class=" mdi mdi-checkbox-blank-circle-outline"></i>
-                            <span class="menu-item" data-key="t-calendar">Data Kelurahan</span>
+                            <span class="menu-item" data-key="t-calendar">Data Jabatan</span>
                         </a>
                     </li>
 

@@ -30,7 +30,7 @@ class UserController extends Controller
     public function tambah_pegawai(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'nik' => 'required',
+            'nik' => 'required|unique:user,nik|size:16',
             'nama' => 'required',
         ]);
         
@@ -65,17 +65,17 @@ class UserController extends Controller
             'ubah_nik' => 'nullable',
             'ubah_nama' => 'nullable',
         ]);
-    
+
+        // dd($validator);
         if ($validator->fails()) {
             Session::flash('alert', [
                 'type' => 'error',
-                'title' => 'Input Data Gagal',
+                'title' => 'Ubah Data Gagal',
                 'message' => 'Ada inputan yang salah!',
             ]);
         } else {
             $pegawai = User::find($request->nik);
     
-            // dd($validator);
             if ($pegawai) {
                 $pegawai->update([
                     'nik' => $request->ubah_nik,
@@ -142,7 +142,7 @@ class UserController extends Controller
     public function tambah_jabatan(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'nip' => 'required',
+            'nip' => 'required|size:21|unique:jabatan,nip',            
             'nama' => 'required',
             'posisi' => 'required',
         ]);
@@ -151,7 +151,7 @@ class UserController extends Controller
             Session::flash('alert', [
                 'type' => 'error',
                 'title' => 'Tambah Jabatan Gagal',
-                'message' => '',
+                'message' => 'Ada kesalahan!',
             ]);
         } else {
             $nama = $request->nama;
@@ -173,25 +173,22 @@ class UserController extends Controller
     public function ubah_jabatan(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'id_jabatan' => 'nullable',
-            'ubah_nip' => 'nullable',
-            'ubah_nama' => 'nullable',
-            'ubah_posisi' => 'nullable',
+            'ubah_nip' => 'required|size:21|unique:jabatan,nip,' . $request->nip . ',nip',
+            'ubah_nama' => 'required',
+            'ubah_posisi' => 'required',
         ]);
-
-        // dd($validator);
+    
         if ($validator->fails()) {
             Session::flash('alert', [
                 'type' => 'error',
-                'title' => 'Input Data Gagal',
+                'title' => 'Ubah Data Gagal',
                 'message' => 'Ada inputan yang salah!',
             ]);
         } else {
-            $jabatan = Jabatan::where('id_jabatan', $request->id_jabatan)->first();
-
-            if($jabatan){
+            $jabatan = Jabatan::where('nip', $request->nip)->first();
+    
+            if ($jabatan) {
                 $jabatan->update([
-                    'id_jabatan' => $request->id_jabatan,
                     'nip' => $request->ubah_nip,
                     'nama' => $request->ubah_nama,
                     'posisi' => $request->ubah_posisi,
@@ -205,16 +202,16 @@ class UserController extends Controller
                 Session::flash('alert', [
                     'type' => 'error',
                     'title' => 'Edit Data Gagal',
-                    'message' => 'Ada inputan yang salah!',
+                    'message' => 'Data jabatan tidak ditemukan!',
                 ]); 
             }
         }
         return back();
     }
-
+    
     public function get_data_jabatan(Request $request)
     {
-        $jabatan = Jabatan::where('id_jabatan', $request->id)->first();
+        $jabatan = Jabatan::where('nip', $request->id)->first();
         if($jabatan)
         {
             return response()->json([
@@ -230,15 +227,15 @@ class UserController extends Controller
         }
     }
 
-    public function ubah_isi_jabatan($id_jabatan) 
+    public function ubah_isi_jabatan($nip) 
     {
-        $jabatan = Jabatan::find($id_jabatan);
+        $jabatan = Jabatan::find($nip);
         return response()->json(['jabatan'=>$jabatan]);
     }
 
-    public function hapus_jabatan($id_jabatan)
+    public function hapus_jabatan($nip)
     {
-        $jabatan = Jabatan::findOrFail($id_jabatan);
+        $jabatan = Jabatan::findOrFail($nip);
         if($jabatan) {
             Session::flash('alert', [
                 'type' => 'success',
@@ -287,21 +284,13 @@ class UserController extends Controller
             'nik' => 'required|unique:user,nik|size:16',            
             'nama' => 'required',
             'password' => 'required',
-        ], [
-            'nik.required' => 'NIK wajib diisi.',
-            'nik.unique' => 'NIK tidak boleh sama!',
-            'nik.size' => 'NIK harus memiliki panjang 16 digit.',
-            'nama.required' => 'Nama wajib diisi.',
-            'password.required' => 'Password wajib diisi.',
         ]);
-    
         if ($validator->fails()) {
             // Mengambil semua pesan kesalahan dan menyimpannya ke dalam session flash
             Session::flash('alert', [
                 'type' => 'error',
                 'title' => 'Buat Akun Gagal',
-                'message' => 'Terjadi kesalahan dalam membuat akun.',
-                'errors' => $validator->errors()->all(),
+                'message' => 'Ada inputan yang salah!',            
             ]);
         } else {
             User::create([
@@ -313,7 +302,7 @@ class UserController extends Controller
             Session::flash('alert', [
                 'type' => 'success',
                 'title' => 'Buat Akun Berhasil',
-                'message' => 'Akun berhasil dibuat.',
+                'message' => 'Akun berhasil dibuat!',
             ]);
         }
         return back();

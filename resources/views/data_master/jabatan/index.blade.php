@@ -51,15 +51,15 @@
                                             <td>{{ $data->nama_bidang }}</td>
                                             <td>
                                                 <div class="d-flex">
-                                                    <a role="button" class="btn btn-warning me-2" title="Ubah Data" style="padding: 0.25rem 0.5rem; font-size: 18px;" data-bs-toggle="modal" data-bs-target="#modalUbah" data-bs-id="{{ $data->id_jabatan }}"><i class="bx bx-pencil"></i></a>
-                                                    <form method="POST" action="{{ route('hapus_jabatan', $data->id_jabatan) }}" id="hapus-jabatan-{{ $data->id_jabatan }}">
+                                                    <a role="button" class="btn btn-warning me-2" title="Ubah Data" style="padding: 0.25rem 0.5rem; font-size: 18px;" data-bs-toggle="modal" data-bs-target="#modalUbah" data-bs-id="{{ $data->nip }}"><i class="bx bx-pencil"></i></a>
+                                                    <form method="POST" action="{{ route('hapus_jabatan', $data->nip) }}" id="hapus-jabatan-{{ $data->nip }}">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <a role="button" id="btnHps-{{ $data->id_jabatan }}" class="btn btn-danger" title="Hapus Data"style="padding: 0.25rem 0.5rem; font-size: 18px;"><i class="bx bx-trash-alt"></i></a>
+                                                        <a role="button" id="btnHps-{{ $data->nip }}" class="btn btn-danger" title="Hapus Data"style="padding: 0.25rem 0.5rem; font-size: 18px;"><i class="bx bx-trash-alt"></i></a>
                                                     </form>
                                                 </div>
                                                 <script>
-                                                    $('#btnHps-{{ $data->id_jabatan }}').click(function(event){
+                                                    $('#btnHps-{{ $data->nip }}').click(function(event){
                                                         event.preventDefault();
                                                         Swal.fire({
                                                             icon: "info",
@@ -70,7 +70,7 @@
                                                             cancelButtonText: "Tidak, Batalkan",
                                                         }).then(function (result) {
                                                             if (result.isConfirmed) {
-                                                                $('#hapus-jabatan-{{ $data->id_jabatan }}').submit();
+                                                                $('#hapus-jabatan-{{ $data->nip }}').submit();
                                                             }
                                                         });
                                                     });
@@ -136,7 +136,7 @@
                 <form method="POST" action="{{ route('ubah_data_jabatan') }}" id="form-jab">
                     @csrf
                     @method('PUT')
-                    <input type="hidden" name="id_jabatan" id="id_jabatan" required>
+                    <input type="hidden" name="nip" id="nip" required>
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="ubah_nama_jabatan" class="col-form-label" name="ubah_nama_jabatan">Nama Jabatan</label>
@@ -200,7 +200,7 @@
                     if (response.status == 'success') {
                         var jabatan = response.jabatan; // Ambil data json jabatan
                         var bidang = response.bidang; // Ambil data json bidang
-                        $("#id_jabatan").val(jabatan.id_jabatan);
+                        $("#nip").val(jabatan.nip);
                         $("#ubah_nama_jabatan").val(jabatan.nama_jabatan);
                         $("#nama_bidang2").val(jabatan.id_bidang);
                         var firstOption = $('<option>', {

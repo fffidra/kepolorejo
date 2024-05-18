@@ -36,12 +36,13 @@ Route::middleware(['auth'])->group(function() {
         return view('pegawai');
     })->name('pegawai')->middleware('userAccess:Pegawai'); 
 
-    Route::get('/lurah', function () {
-        return view('lurah');
-    })->name('lurah')->middleware('userAccess:Pegawai');
+    Route::get('/jabatan', function () {
+        return view('jabatan');
+    })->name('jabatan')->middleware('userAccess:Pegawai');
     
     
     Route::get('surat_disetujui', [SuratController::class, 'surat_disetujui'])->name('surat.surat_disetujui')->middleware('userAccess:Pegawai'); 
+    Route::get('surat_ditolak', [SuratController::class, 'surat_ditolak'])->name('surat.surat_ditolak')->middleware('userAccess:Pegawai'); 
 
     Route::get('skbm', [SuratController::class, 'skbm'])->name('surat.skbm'); 
     Route::get('skd', [SuratController::class, 'skd'])->name('surat.skd'); 
@@ -57,8 +58,8 @@ Route::middleware(['auth'])->group(function() {
     Route::post('tambah_jabatan', [UserController::class, 'tambah_jabatan'])->name('tambah_jabatan');
     Route::put('ubah_jabatan', [UserController::class, 'ubah_jabatan'])->name('ubah_jabatan');
     Route::post('get_data_jabatan', [UserController::class, 'get_data_jabatan'])->name('get_data_jabatan');
-    Route::get('ubah_isi_jabatan/{id_jabatan}', [UserController::class, 'ubah_isi_jabatan'])->name('ubah_isi_jabatan');
-    Route::delete('hapus_jabatan/{id_jabatan}', [UserController::class, 'hapus_jabatan'])->name('hapus_jabatan');
+    Route::get('ubah_isi_jabatan/{nip}', [UserController::class, 'ubah_isi_jabatan'])->name('ubah_isi_jabatan');
+    Route::delete('hapus_jabatan/{nip}', [UserController::class, 'hapus_jabatan'])->name('hapus_jabatan');
 
 
     Route::get('keluar', [UserController::class, 'keluar'])->name('keluar'); 

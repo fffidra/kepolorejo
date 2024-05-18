@@ -43,6 +43,7 @@
                                         <th>NIP</th>
                                         <th>Nama</th>
                                         <th class="text-center align-middle">Posisi</th>
+                                        <th class="text-center align-middle">Level</th>
                                         <th class="text-center align-middle">Aksi</th>
                                     </tr>
                                 </thead>
@@ -52,17 +53,18 @@
                                             <td>{{ $data->nip }}</td>
                                             <td>{{ $data->nama }}</td>
                                             <td class="text-center align-middle">{{ $data->posisi }}</td>
+                                            <td class="text-center align-middle">{{ $data->posisi }}</td>
                                             <td class="text-center align-middle">
                                                 <div class="d-flex justify-content-center">
-                                                    <a role="button" class="btn btn-warning me-2" title="Ubah Data" style="padding: 0.25rem 0.5rem; font-size: 18px;" data-bs-toggle="modal" data-bs-target="#ubahjabatan" data-bs-id="{{ $data->id_jabatan }}"><i class="bx bx-pencil"></i></a>
-                                                    <form method="POST" action="{{ route('hapus_jabatan', $data->id_jabatan) }}" id="hapus-jabatan-{{ $data->id_jabatan }}">
+                                                    <a role="button" class="btn btn-warning me-2" title="Ubah Data" style="padding: 0.25rem 0.5rem; font-size: 18px;" data-bs-toggle="modal" data-bs-target="#ubahjabatan" data-bs-id="{{ $data->nip }}"><i class="bx bx-pencil"></i></a>
+                                                    <form method="POST" action="{{ route('hapus_jabatan', $data->nip) }}" id="hapus-jabatan-{{ $data->nip }}">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" role="button" id="btnHps-{{ $data->id_jabatan }}" class="btn btn-danger" title="Hapus Data" style="padding: 0.25rem 0.5rem; font-size: 18px;"><i class="bx bx-trash-alt"></i></button>
+                                                        <button type="submit" role="button" id="btnHps-{{ $data->nip }}" class="btn btn-danger" title="Hapus Data" style="padding: 0.25rem 0.5rem; font-size: 18px;"><i class="bx bx-trash-alt"></i></button>
                                                     </form>
                                                 </div>
                                                 <script>
-                                                    $('#btnHps-{{ $data->id_jabatan }}').click(function(event){
+                                                    $('#btnHps-{{ $data->nip }}').click(function(event){
                                                         event.preventDefault();
                                                         Swal.fire({
                                                             icon: "info",
@@ -73,7 +75,7 @@
                                                             cancelButtonText: "Tidak, Batalkan",
                                                         }).then(function (result) {
                                                             if (result.isConfirmed) {
-                                                                $('#hapus-jabatan-{{ $data->id_jabatan }}').submit();
+                                                                $('#hapus-jabatan-{{ $data->nip }}').submit();
                                                             }
                                                         });
                                                     });
@@ -105,8 +107,8 @@
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="nip" class="col-form-label" name="nik">NIP (Nomor Induk Pegawai)</label>
-                            <input type="text" class="form-control" id="nip" name="nip" required>
+                            <label for="nip" class="col-form-label" name="nik">NIP (Format: 19XX0309 20X100 X 2XX)</label>
+                            <input type="text" class="form-control" id="nip" name="nip" required placeholder="Nomor Induk Pegawai">
                         </div> 
                         <div class="mb-3">
                             <label for="nama" class="col-form-label" name="nama">Nama (Tambahkan Gelar)</label>
@@ -137,24 +139,24 @@
                 <form method="POST" action="{{ route('ubah_jabatan') }}" id="ubah_jabatan">
                     @csrf
                     @method('PUT')
-                    <input type="hidden" name="id_jabatan" id="id_jabatan" required>
+                    <input type="hidden" name="nip" id="nip2" required>
                     <div class="modal-body">
                         <div class="mb-3 row">
                             <label for="ubah_nip" class="col-md-2 col-form-label">NIP (Nomor Induk Pegawai)</label>
                             <div class="col-md-9">
-                                <textarea class="form-control" id="ubah_nip" name="ubah_nip" rows="1"></textarea>
+                                <input type="text" class="form-control" id="ubah_nip" name="ubah_nip" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label for="ubah_nama" class="col-md-2 col-form-label">Nama (Tambahkan Gelar)</label>
                             <div class="col-md-9">
-                                <textarea class="form-control" id="ubah_nama" name="ubah_nama" rows="1"></textarea>
+                                <input type="text" class="form-control" id="ubah_nama" name="ubah_nama" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label for="ubah_posisi" class="col-md-2 col-form-label">Posisi</label>
                             <div class="col-md-9">
-                                <textarea class="form-control" id="ubah_posisi" name="ubah_posisi" rows="1"></textarea>
+                                <input type="text" class="form-control" id="ubah_posisi" name="ubah_posisi" required>
                             </div>
                         </div>
                     </div>
@@ -173,7 +175,7 @@
     $(document).ready(function() {
         var table = $('.table').DataTable({
             columnDefs: [
-                { orderable: false, targets: [3] }
+                { orderable: false, targets: [4] }
             ],
             language: {
                 lengthMenu: "Tampilkan _MENU_ data per halaman",
@@ -194,7 +196,7 @@
 
     $('#ubahjabatan').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
-        var id_jabatan = button.data('id_jabatan');
+        var nip = button.data('nip');
         $.ajax({
             url: '{{ route("get_data_jabatan") }}',
             type: 'POST',
@@ -206,7 +208,7 @@
             success: function(response) {
                 if (response.status == 'success') {
                     var jabatan = response.jabatan;
-                    $("#id_jabatan").val(jabatan.id_jabatan);
+                    $("#nip2").val(jabatan.nip);
                     $("#ubah_nip").val(jabatan.nip);
                     $("#ubah_nama").val(jabatan.nama);
                     $("#ubah_posisi").val(jabatan.posisi);
@@ -217,7 +219,7 @@
 
     $(document).on('click', '.btn-edit', function(e){
         e.preventDefault();
-        var id_jabatan = $(this).val();
+        var nip = $(this).val();
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -225,11 +227,10 @@
         });
         $.ajax({
             type: "GET",
-            url: "/ubah_isi_jabatan/"+id_jabatan,
-            data: { id_jabatan: id_jabatan },
+            url: "/ubah_isi_jabatan/"+nip,
+            data: { nip: nip },
             success: function (response) {
             console.log(response);
-                $('#id_jabatan').val(response.jabatan.id_jabatan);
                 $('#ubah_nip').val(response.jabatan.nip);
                 $('#ubah_nama').val(response.jabatan.nama);
                 $('#ubah_posisi').val(response.jabatan.posisi);
@@ -241,7 +242,6 @@
     $(document).ready(function() {
         $('#simpanjabatan').click(function(event){
             event.preventDefault();
-            var id_jabatan = document.getElementById("id_jabatan");
             var nip = document.getElementById("ubah_nip");
             var nama = document.getElementById("ubah_nama");
             var posisi = document.getElementById("ubah_posisi");

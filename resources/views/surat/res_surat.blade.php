@@ -39,7 +39,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach(\App\Models\SKUsaha::where('status_surat', 'Diproses')->orWhere('status_surat', 'Ditolak')->get() as $sk_usaha)
+                                    @foreach(\App\Models\SKUsaha::where('status_surat', 'Diproses')->get() as $sk_usaha)
                                         <tr>
                                             <td class="text-center align-middle">{{ $sk_usaha->tanggal }}</td>
                                             <td class="text-center align-middle">{{ $sk_usaha->jenis_surat }}</td>
@@ -922,7 +922,7 @@
 <script>
     $(document).ready(function() {
         var table = $('.table').DataTable({
-            order: [[0, 'desc']], // Gantilah 3 dengan indeks kolom tanggal yang sesuai
+            order: [[0, 'desc']],
             columnDefs: [
                 { orderable: false, targets: [5] }
             ],
