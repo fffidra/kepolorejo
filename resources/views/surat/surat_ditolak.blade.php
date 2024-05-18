@@ -51,6 +51,12 @@
                                                 <div class="d-flex justify-content-center">
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" data-bs-pesan="{{ $sk_usaha->pesan }}" class="btn btn-info btn-sm">Pesan Ditolak</button>
 
+                                                    <form method="POST" action="{{ route('hapus_sk_usaha', $sk_usaha->id_sk_usaha) }}" id="hapus-surat-{{ $sk_usaha->id_sk_usaha }}" class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="button" id="btnHapus-{{ $sk_usaha->id_sk_usaha }}" class="btn btn-danger btn-sm mx-1"><i class="bx bx-trash-alt"></i></button>
+                                                    </form>
+
                                                     {{-- <a href="{{ route('unduh_sk_usaha', ['id_sk_usaha' => $sk_usaha->id_sk_usaha]) }}" target="_blank" class="btn btn-info btn-sm" style="margin-right: 10px;">Unduh</a>  --}}
 
                                                     {{-- <button type="button" data-bs-toggle="modal" data-bs-target="#modalDokumen" data-bs-id="{{ $surat->id_surat }}" class="btn btn-info btn-sm">Ubah</button> --}}
@@ -77,6 +83,23 @@
                                                     //         }
                                                     //     });
                                                     // });
+
+                                                    $('#btnHapus-{{ $sk_usaha->id_sk_usaha }}').click(function(event){
+                                                        event.preventDefault();
+                                                        Swal.fire({
+                                                            icon: "info",
+                                                            title: "Hapus Surat",
+                                                            text: "Apakah Anda yakin ingin menghapus surat ini?",
+                                                            showCancelButton: true,
+                                                            confirmButtonText: "Ya, Lanjutkan",
+                                                            cancelButtonText: "Tidak, Batalkan",
+                                                        }).then(function (result) {
+                                                            if (result.isConfirmed) {
+                                                                $('#hapus-surat-{{ $sk_usaha->id_sk_usaha }}').submit();
+                                                            }
+                                                        });
+                                                    });
+
 
                                                     // Menambahkan event listener ke tombol 'Unduh'
                                                     // $('#unduhButton').click(function() {

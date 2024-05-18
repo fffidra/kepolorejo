@@ -158,7 +158,8 @@ class UserController extends Controller
             Jabatan::create([
                 'nip' => $request->nip,
                 'nama' => $request->nama,
-                'posisi' => $request->posisi
+                'posisi' => $request->posisi,
+                'peran' => 'Non Penanda Tangan'
             ]);
                 
             Session::flash('alert', [
@@ -251,6 +252,51 @@ class UserController extends Controller
             ]); 
         }
         return back();
+    }
+
+    // public function updatePeran(Request $request)
+    // {
+    //     $jabatan = Jabatan::where('nip', $request->nip)->first();
+    //     if ($jabatan) {
+    //         $jabatan->peran = $request->peran;
+    //         $jabatan->save();
+
+    //         return response()->json([
+    //             'status' => 'success',
+    //         ]);
+    //     } else {
+    //         return response()->json([
+    //             'status' => 'error',
+    //         ]);
+    //     }
+    // }
+
+    public function updatePeran(Request $request)
+    {
+        // Validasi input
+        $validator = Validator::make($request->all(), [
+            'nip' => 'required|exists:jabatan,nip',
+            'peran' => 'required|in:Penanda Tangan,Non Penanda Tangan',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error', 'message' => 'Data tidak valid'], 400);
+        }
+
+        $nip = $request->input('nip');
+        $peran = $request->input('peran');
+
+        if ($peran == 'Penanda Tangan') {
+            // Set semua peran 'Penanda Tangan' menjadi 'Non Penanda Tangan'
+            Jabatan::where('peran', 'Penanda Tangan')->update(['peran' => 'Non Penanda Tangan']);
+        }
+
+        // Update peran untuk pejabat yang dipilih
+        $jabatan = Jabatan::where('nip', $nip)->first();
+        $jabatan->peran = $peran;
+        $jabatan->save();
+
+        return response()->json(['status' => 'success', 'message' => 'Peran berhasil diperbarui']);
     }
 
     public function masuk(Request $request)

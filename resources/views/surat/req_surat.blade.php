@@ -124,7 +124,7 @@
 @endsection
 
 @section('modal')
-    {{-- MODAL TAMBAH SURAT --}}
+    {{-- TAMBAH SURAT --}}
     <div class="modal fade" id="tambahsuratbaru" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -389,7 +389,7 @@
         </div>
     </div>
 
-    {{-- MODAL ALASAN DITOLAK --}}
+    {{-- ALASAN DITOLAK --}}
     <div class="modal fade" id="pesan_ditolak" tabindex="-1" aria-labelledby="pesanDitolakLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered"> <!-- Add modal-dialog-centered class here -->
             <div class="modal-content">
@@ -402,7 +402,85 @@
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
+
+    {{-- DETAIL SKU --}}
+    <div class="modal fade" id="detailSKU" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">DETAIL SURAT KETERANGAN USAHA</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id_sk_usaha" id="id_sk_usaha" required>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Jenis Surat</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_jenis_surat"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Nama</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nama"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">NIK</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nik"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Tempat, Tanggal Lahir</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_ttl"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Status Nikah</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_status_nikah"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Agama</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_agama"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Pekerjaan</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_pekerjaan"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Alamat</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_alamat"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Usaha</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_usaha"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Keperluan</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_keperluan"></label></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('script')
@@ -484,5 +562,41 @@
                 }
             });
         }
+
+        // DETAIL SKU
+        $('#detailSKU').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            $.ajax({
+                url: '{{ route("get_data_sku") }}',
+                type: 'POST',
+                data: {
+                    id: button.data('bs-id'),
+                    _token: '{{ csrf_token() }}',
+                },
+                dataType: 'JSON',
+                success: function(response) {
+                    if (response.status == 'success') {
+                        var surat = response.surat;
+                        $("#detail_jenis_surat").html(surat.jenis_surat);
+                        $("#detail_nama").html(surat.nama);
+                        $("#detail_nik").html(surat.nik);
+                        $("#detail_ttl").html(surat.ttl);
+                        $("#detail_status_nikah").html(surat.status_nikah);
+                        $("#detail_agama").html(surat.agama);
+                        $("#detail_alamat").html(surat.alamat);
+                        $("#detail_usaha").html(surat.usaha);
+                        $("#detail_keperluan").html(surat.keperluan);
+
+                        if (surat.pekerjaan === 'Lainnya') {
+                            $("#detail_pekerjaan").html(surat.pekerjaan_lainnya);
+                            $("#pekerjaan_lainnya_row").show();
+                        } else {
+                            $("#detail_pekerjaan").html(surat.pekerjaan);
+                            $("#pekerjaan_lainnya_row").hide();
+                        }
+                    }
+                },
+            });
+        });
     </script>
 @endsection

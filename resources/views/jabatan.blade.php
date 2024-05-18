@@ -43,7 +43,7 @@
                                         <th>NIP</th>
                                         <th>Nama</th>
                                         <th class="text-center align-middle">Posisi</th>
-                                        <th class="text-center align-middle">Level</th>
+                                        <th class="text-center align-middle">Peran</th>
                                         <th class="text-center align-middle">Aksi</th>
                                     </tr>
                                 </thead>
@@ -53,7 +53,12 @@
                                             <td>{{ $data->nip }}</td>
                                             <td>{{ $data->nama }}</td>
                                             <td class="text-center align-middle">{{ $data->posisi }}</td>
-                                            <td class="text-center align-middle">{{ $data->posisi }}</td>
+                                            <td class="text-center align-middle">
+                                                <select class="form-select" name="peran" onchange="updatePeran('{{ $data->nip }}', this.value)">
+                                                    <option value="Penanda Tangan" {{ $data->peran == 'Penanda Tangan' ? 'selected' : '' }}>Penanda Tangan</option>
+                                                    <option value="Non Penanda Tangan" {{ $data->peran == 'Non Penanda Tangan' ? 'selected' : '' }}>Non Penanda Tangan</option>
+                                                </select>
+                                            </td>                                        
                                             <td class="text-center align-middle">
                                                 <div class="d-flex justify-content-center">
                                                     <a role="button" class="btn btn-warning me-2" title="Ubah Data" style="padding: 0.25rem 0.5rem; font-size: 18px;" data-bs-toggle="modal" data-bs-target="#ubahjabatan" data-bs-id="{{ $data->nip }}"><i class="bx bx-pencil"></i></a>
@@ -171,101 +176,130 @@
 @endsection
 
 @section('script')
-<script>
-    $(document).ready(function() {
-        var table = $('.table').DataTable({
-            columnDefs: [
-                { orderable: false, targets: [4] }
-            ],
-            language: {
-                lengthMenu: "Tampilkan _MENU_ data per halaman",
-                zeroRecords: "Data tidak ditemukan.",
-                info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
-                infoEmpty: "Menampilkan 0 - 0 dari 0 data",
-                infoFiltered: "(difilter dari _MAX_ total data)",
-                search: "Cari",
-                decimal: ",",
-                thousands: ".",
-                paginate: {
-                    previous: "Sebelumnya",
-                    next: "Selanjutnya"
-                }
-            }
-        });
-    });
-
-    $('#ubahjabatan').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var nip = button.data('nip');
-        $.ajax({
-            url: '{{ route("get_data_jabatan") }}',
-            type: 'POST',
-            data: {
-                id: button.data('bs-id'),
-                _token: '{{ csrf_token() }}',
-            },
-            dataType: 'JSON',
-            success: function(response) {
-                if (response.status == 'success') {
-                    var jabatan = response.jabatan;
-                    $("#nip2").val(jabatan.nip);
-                    $("#ubah_nip").val(jabatan.nip);
-                    $("#ubah_nama").val(jabatan.nama);
-                    $("#ubah_posisi").val(jabatan.posisi);
-                }
-            }, 
-        });
-    });
-
-    $(document).on('click', '.btn-edit', function(e){
-        e.preventDefault();
-        var nip = $(this).val();
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            type: "GET",
-            url: "/ubah_isi_jabatan/"+nip,
-            data: { nip: nip },
-            success: function (response) {
-            console.log(response);
-                $('#ubah_nip').val(response.jabatan.nip);
-                $('#ubah_nama').val(response.jabatan.nama);
-                $('#ubah_posisi').val(response.jabatan.posisi);
-                $('#ubahjabatan').modal('show');                
-            }
-        });        
-    });
-
-    $(document).ready(function() {
-        $('#simpanjabatan').click(function(event){
-            event.preventDefault();
-            var nip = document.getElementById("ubah_nip");
-            var nama = document.getElementById("ubah_nama");
-            var posisi = document.getElementById("ubah_posisi");
-            if (!nip.value) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "Semua inputan wajib diisi!",
-                });
-            } else {
-                Swal.fire({
-                    icon: "info",
-                    title: "Konfirmasi",
-                    text: "Apakah Anda yakin data jabatan sudah benar?",
-                    showCancelButton: true,
-                    confirmButtonText: "Ya, Lanjutkan",
-                    cancelButtonText: "Tidak, Batalkan",
-                }).then(function (result) {
-                    if (result.isConfirmed) {
-                        $('#ubah_jabatan').submit();
+    <script>
+        $(document).ready(function() {
+            var table = $('.table').DataTable({
+                columnDefs: [
+                    { orderable: false, targets: [4] }
+                ],
+                language: {
+                    lengthMenu: "Tampilkan _MENU_ data per halaman",
+                    zeroRecords: "Data tidak ditemukan.",
+                    info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+                    infoEmpty: "Menampilkan 0 - 0 dari 0 data",
+                    infoFiltered: "(difilter dari _MAX_ total data)",
+                    search: "Cari",
+                    decimal: ",",
+                    thousands: ".",
+                    paginate: {
+                        previous: "Sebelumnya",
+                        next: "Selanjutnya"
                     }
-                });
-            }
+                }
+            });
         });
-    });
-</script>
+
+        $('#ubahjabatan').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var nip = button.data('nip');
+            $.ajax({
+                url: '{{ route("get_data_jabatan") }}',
+                type: 'POST',
+                data: {
+                    id: button.data('bs-id'),
+                    _token: '{{ csrf_token() }}',
+                },
+                dataType: 'JSON',
+                success: function(response) {
+                    if (response.status == 'success') {
+                        var jabatan = response.jabatan;
+                        $("#nip2").val(jabatan.nip);
+                        $("#ubah_nip").val(jabatan.nip);
+                        $("#ubah_nama").val(jabatan.nama);
+                        $("#ubah_posisi").val(jabatan.posisi);
+                    }
+                }, 
+            });
+        });
+
+        $(document).on('click', '.btn-edit', function(e){
+            e.preventDefault();
+            var nip = $(this).val();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: "GET",
+                url: "/ubah_isi_jabatan/"+nip,
+                data: { nip: nip },
+                success: function (response) {
+                console.log(response);
+                    $('#ubah_nip').val(response.jabatan.nip);
+                    $('#ubah_nama').val(response.jabatan.nama);
+                    $('#ubah_posisi').val(response.jabatan.posisi);
+                    $('#ubahjabatan').modal('show');                
+                }
+            });        
+        });
+
+        $(document).ready(function() {
+            $('#simpanjabatan').click(function(event){
+                event.preventDefault();
+                var nip = document.getElementById("ubah_nip");
+                var nama = document.getElementById("ubah_nama");
+                var posisi = document.getElementById("ubah_posisi");
+                if (!nip.value) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Semua inputan wajib diisi!",
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Konfirmasi",
+                        text: "Apakah Anda yakin data jabatan sudah benar?",
+                        showCancelButton: true,
+                        confirmButtonText: "Ya, Lanjutkan",
+                        cancelButtonText: "Tidak, Batalkan",
+                    }).then(function (result) {
+                        if (result.isConfirmed) {
+                            $('#ubah_jabatan').submit();
+                        }
+                    });
+                }
+            });
+        });
+
+        function updatePeran(nip, peran) {
+            $.ajax({
+                url: '{{ route("update_peran") }}',
+                type: 'POST',
+                data: {
+                    nip: nip,
+                    peran: peran,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Berhasil",
+                            text: "Peran berhasil diperbarui",
+                        }).then(() => {
+                            location.reload(); // Muat ulang halaman untuk memastikan hanya satu penandatangan
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Gagal",
+                            text: "Peran gagal diperbarui",
+                        });
+                    }
+                }
+            });
+        }
+    </script>
 @endsection

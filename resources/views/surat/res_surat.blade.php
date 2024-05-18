@@ -26,7 +26,7 @@
                             <h5>DATA SURAT MASUK</h5>
                         </div>
                         <div class="container-fluid table-responsive px-3 py-3">
-                            <table class="table table-striped" id="tabelSPT" style="width:100%">
+                            <table class="table table-striped" id="tabelsurat" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th class="col-md-1 text-center align-middle">TANGGAL PENGAJUAN</th>                           
@@ -34,8 +34,8 @@
                                         <th class="col-md-2 text-center align-middle">NIK</th>                           
                                         <th class="col-md-1 text-center align-middle">NAMA</th>                           
                                         <th class="col-md-1 text-center align-middle">STATUS</th>                           
-                                        <th class="col-md-2 text-center align-middle">BUKTI</th>                           
-                                        <th class="col-md-1 text-center align-middle">AKSI</th>                           
+                                        {{-- <th class="col-md-2 text-center align-middle">BUKTI</th>                            --}}
+                                        <th class="col-md-3 text-center align-middle">AKSI</th>                           
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -46,64 +46,62 @@
                                             <td class="text-center align-middle">{{ $sk_usaha->nik }}</td>
                                             <td class="text-center align-middle">{{ $sk_usaha->nama }}</td>
                                             <td class="text-center align-middle">{{ $sk_usaha->status_surat }}</td>
-                                            <td class="text-center align-middle">
+                                            {{-- <td class="text-center align-middle">
                                                 <a href="{{ url('dokumen_bukti/' . $sk_usaha->bukti) }}">
                                                     <button class="btn btn-success" type="button">Unduh</button>
                                                 </a>
-                                            </td>
-                                                                                        <td class="text-center">
-                                                <div class="d-flex justify-content-center">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" class="btn btn-info btn-sm">Detail</button>
-                                                    @if($sk_usaha->status_surat === 'Diproses')
-                                                        <a role="button" class="btn btn-warning me-2" title="Ubah Data" style="padding: 0.25rem 0.5rem; font-size: 18px;" data-bs-toggle="modal" data-bs-target="#ubahSKU" data-bs-id="{{ $sk_usaha->id_sk_usaha }}"><i class="bx bx-pencil"></i></a>
-                                                        <form method="POST" action="{{ route('sku_setuju', $sk_usaha->id_sk_usaha) }}" id="setuju-surat-{{ $sk_usaha->id_sk_usaha  }}">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <button type="button" id="btnSetuju-{{ $sk_usaha->id_sk_usaha  }}" class="btn btn-primary btn-sm">Setuju</button>
-                                                        </form>
-                                                        <form method="POST" action="{{ route('verifikasi_sk_usaha', $sk_usaha->id_sk_usaha) }}" id="verifikasi-surat-{{ $sk_usaha->id_sk_usaha }}">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <button type="button" id="btnVerifikasi-{{ $sk_usaha->id_sk_usaha }}" class="btn btn-primary btn-sm">Tolak</button>
-                                                        </form>
-                                                    @endif
+                                            </td> --}}
+                                            <td class="text-center">
+                                                <div class="d-flex justify-content-center flex-wrap">
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" class="btn btn-info btn-sm mx-1">Detail</button>
+                                                    <a role="button" class="btn btn-warning btn-sm mx-1" title="Ubah Data" data-bs-toggle="modal" data-bs-target="#ubahSKU" data-bs-id="{{ $sk_usaha->id_sk_usaha }}">Ubah</a>
+                                                    <form method="POST" action="{{ route('sku_setuju', $sk_usaha->id_sk_usaha) }}" id="setuju-surat-{{ $sk_usaha->id_sk_usaha }}" class="d-inline">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="button" id="btnSetuju-{{ $sk_usaha->id_sk_usaha }}" class="btn btn-success btn-sm mx-1">Setuju</button>
+                                                    </form>
+                                                    <form method="POST" action="{{ route('verifikasi_sk_usaha', $sk_usaha->id_sk_usaha) }}" id="verifikasi-surat-{{ $sk_usaha->id_sk_usaha }}" class="d-inline">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="button" id="btnTolak-{{ $sk_usaha->id_sk_usaha }}" class="btn btn-danger btn-sm mx-1">Tolak</button>
+                                                    </form>
                                                     @if($sk_usaha->status_surat === 'Ditolak')
-                                                        <form method="POST" action="{{ route('hapus_sk_usaha', $sk_usaha->id_sk_usaha) }}" id="hapus-surat-{{ $sk_usaha->id_sk_usaha }}">
+                                                        <form method="POST" action="{{ route('hapus_sk_usaha', $sk_usaha->id_sk_usaha) }}" id="hapus-surat-{{ $sk_usaha->id_sk_usaha }}" class="d-inline">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <a role="button" id="btnHapus-{{ $sk_usaha->id_sk_usaha }}" class="btn btn-danger" title="Hapus Data"style="padding: 0.25rem 0.5rem; font-size: 18px;"><i class="bx bx-trash-alt"></i></a>
+                                                            <button type="button" id="btnHapus-{{ $sk_usaha->id_sk_usaha }}" class="btn btn-danger btn-sm mx-1"><i class="bx bx-trash-alt"></i></button>
                                                         </form>
                                                     @endif
                                                 </div>
                                                 <script>
+                                                    // BUTTON SETUJU
                                                     $('#btnSetuju-{{ $sk_usaha->id_sk_usaha  }}').click(function(event){
                                                         event.preventDefault();
                                                         Swal.fire({
                                                             icon: "info",
-                                                            title: "Konfirmasi",
+                                                            title: "Setujui Surat",
                                                             text: "Apakah Anda yakin ingin menyetujui surat ini?",
                                                             showCancelButton: true,
                                                             confirmButtonText: "Ya, Lanjutkan",
                                                             cancelButtonText: "Tidak, Batalkan",
                                                         }).then(function (result) {
                                                             if (result.isConfirmed) {
-                                                                $('#setuju-surat-{{ $sk_usaha->id_sk_usaha  }}').submit();
+                                                                $('#setuju-surat-{{ $sk_usaha->id_sk_usaha}}').submit();
                                                             }
                                                         });
                                                     });
-                                                    // BUTTON VERIFIKASI
-                                                    $('#btnVerifikasi-{{ $sk_usaha->id_sk_usaha }}').click(function(event){
+
+                                                    // BUTTON TOLAK
+                                                    $('#btnTolak-{{ $sk_usaha->id_sk_usaha }}').click(function(event){
                                                         event.preventDefault();
                                                         Swal.fire({
                                                             icon: "info",
-                                                            title: "Verifikasi Surat",
-                                                            text: "Apakah Anda yakin ingin verifikasi surat ini?",
+                                                            title: "Tolak Surat",
+                                                            text: "Apakah Anda yakin ingin menolak surat ini?",
                                                             input: 'textarea',
                                                             inputPlaceholder: 'Masukkan pesan penolakan jika surat akan ditolak',
-                                                            showDenyButton: true,
                                                             showCancelButton: true,
                                                             confirmButtonText: "Tolak",
-                                                            denyButtonText: "Batal",
                                                             cancelButtonText: "Kembali",
                                                         }).then((result) => {
                                                             if (result.isConfirmed) {
@@ -367,7 +365,7 @@
 @endsection
 
 @section('modal')
-    {{-- SKU --}}
+    {{-- UBAH SKU --}}
     <div class="modal fade" id="ubahSKU" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -488,6 +486,7 @@
         </div>
     </div>
 
+    {{-- DETAIL SKU --}}
     <div class="modal fade" id="detailSKU" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -497,100 +496,73 @@
                 </div>
                 <div class="modal-body">
                     <input type="hidden" name="id_sk_usaha" id="id_sk_usaha" required>
-
-                    <div class="mb-3 row">
+                    <div class="row mb-1">
                         <label class="col-md-2 col-form-label">Jenis Surat</label>
-                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp &nbsp &nbsp &nbsp &nbsp;
-                            <label class="col-form-label" name="detail_jenis_surat" id="detail_jenis_surat" style="padding-top: 0;"></label>
-                        </span>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_jenis_surat"></label></span>
+                        </div>
                     </div>
-                    <div class="mb-3 row">
+                    <div class="row mb-1">
                         <label class="col-md-2 col-form-label">Nama</label>
-                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp &nbsp &nbsp &nbsp &nbsp;
-                            <label class="col-form-label" name="detail_nama" id="detail_nama" style="padding-top: 0;"></label>
-                        </span>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nama"></label></span>
+                        </div>
                     </div>
-                    <div class="mb-3 row">
+                    <div class="row mb-1">
                         <label class="col-md-2 col-form-label">NIK</label>
-                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp &nbsp &nbsp &nbsp &nbsp;
-                            <label class="col-form-label" id="detail_nik" style="padding-top: 0;"></label>
-                        </span>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nik"></label></span>
+                        </div>
                     </div>
-                    <div class="mb-3 row">
+                    <div class="row mb-1">
                         <label class="col-md-2 col-form-label">Tempat, Tanggal Lahir</label>
-                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp &nbsp &nbsp &nbsp &nbsp;
-                            <label class="col-form-label" id="detail_ttl" style="padding-top: 0;"></label>
-                        </span>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_ttl"></label></span>
+                        </div>
                     </div>
-                    <div class="mb-3 row">
+                    <div class="row mb-1">
                         <label class="col-md-2 col-form-label">Status Nikah</label>
-                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp &nbsp &nbsp &nbsp &nbsp;
-                            <label class="col-form-label" id="detail_status_nikah" style="padding-top: 0;"></label>
-                        </span>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_status_nikah"></label></span>
+                        </div>
                     </div>
-                    <div class="mb-3 row">
+                    <div class="row mb-1">
                         <label class="col-md-2 col-form-label">Agama</label>
-                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp &nbsp &nbsp &nbsp &nbsp;
-                            <label class="col-form-label" id="detail_agama" style="padding-top: 0;"></label>
-                        </span>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_agama"></label></span>
+                        </div>
                     </div>
-                    <div class="mb-3 row">
+                    <div class="row mb-1">
                         <label class="col-md-2 col-form-label">Pekerjaan</label>
-                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp &nbsp &nbsp &nbsp &nbsp;
-                            <label class="col-form-label" id="detail_pekerjaan" style="padding-top: 0;"></label>
-                        </span>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_pekerjaan"></label></span>
+                        </div>
                     </div>
-                    <div class="mb-3 row">
+                    <div class="row mb-1" id="pekerjaan_lainnya_row" style="display: none;">
+                        <label class="col-md-2 col-form-label">Pekerjaan Lainnya</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_pekerjaan_lainnya"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
                         <label class="col-md-2 col-form-label">Alamat</label>
-                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp &nbsp &nbsp &nbsp &nbsp;
-                            <label class="col-form-label" id="detail_alamat" style="padding-top: 0;"></label>
-                        </span>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_alamat"></label></span>
+                        </div>
                     </div>
-                    <div class="mb-3 row">
+                    <div class="row mb-1">
                         <label class="col-md-2 col-form-label">Usaha</label>
-                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp &nbsp &nbsp &nbsp &nbsp;
-                            <label class="col-form-label" id="detail_usaha" style="padding-top: 0;"></label>
-                        </span>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_usaha"></label></span>
+                        </div>
                     </div>
-                    <div class="mb-3 row">
+                    <div class="row mb-1">
                         <label class="col-md-2 col-form-label">Keperluan</label>
-                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp &nbsp &nbsp &nbsp &nbsp;
-                            <label class="col-form-label" id="detail_keperluan" style="padding-top: 0;"></label>
-                        </span>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_keperluan"></label></span>
+                        </div>
                     </div>
-                    <div class="mb-3 row">
-                        <label class="col-md-2 col-form-label">Status Surat</label>
-                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp &nbsp &nbsp &nbsp &nbsp;
-                            <label class="col-form-label" id="detail_status_surat" style="padding-top: 0;"></label>
-                        </span>
-                    </div>
-                    <div class="mb-3 row">
-                        <label class="col-md-2 col-form-label">Tanggal Pengajuan</label>
-                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp &nbsp &nbsp &nbsp &nbsp;
-                            <label class="col-form-label" id="detail_tanggal" style="padding-top: 0;"></label>
-                        </span>
-                    </div>
-                    <div class="mb-3 row">
-                        <label class="col-md-2 col-form-label">TTD Persetujuan</label>
-                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp &nbsp &nbsp &nbsp &nbsp;
-                            <label class="col-form-label" id="detail_jabatan" style="padding-top: 0;"></label>
-                        </span>
-                    </div>
-
-                    {{-- <div class="mb-3 row">
-                        <label class="col-md-2 col-form-label">Jenis Kelamin</label>
-                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp &nbsp &nbsp &nbsp &nbsp;
-                            <label class="col-form-label" id="detail_jenis_kelamin" style="padding-top: 0;"></label>
-                        </span>
-                    </div>
-                    <div class="mb-3 row">
-                        <label class="col-md-2 col-form-label">Alamat Domisili</label>
-                        <span class="col-md-9 col-form-label" style="padding-top: 0;display: flex;padding-top: calc(.47rem + var(--bs-border-width));">:&nbsp &nbsp &nbsp &nbsp &nbsp;
-                            <label class="col-form-label" id="detail_alamat_dom" style="padding-top: 0;"></label>
-                        </span>
-                    </div> --}}
-                    
-                </div>               
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                 </div>
@@ -919,614 +891,515 @@
 @endsection
 
 @section('script')
-<script>
-    $(document).ready(function() {
-        var table = $('.table').DataTable({
-            order: [[0, 'desc']],
-            columnDefs: [
-                { orderable: false, targets: [5] }
-            ],
-            language: {
-                lengthMenu: "Tampilkan _MENU_ data per halaman",
-                zeroRecords: "Data tidak ditemukan.",
-                info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
-                infoEmpty: "Menampilkan 0 - 0 dari 0 data",
-                infoFiltered: "(difilter dari _MAX_ total data)",
-                search: "Cari",
-                decimal: ",",
-                thousands: ".",
-                paginate: {
-                    previous: "Sebelumnya",
-                    next: "Selanjutnya"
-                }
-            }
-        });
-    });
-
-
-    // SURAT KETERANGAN USAHA
-    $('#ubahSKU').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var id_sk_usaha = button.data('id_sk_usaha');
-        $.ajax({
-            url: '{{ route("get_data_sku") }}',
-            type: 'POST',
-            data: {
-                id: button.data('bs-id'),
-                _token: '{{ csrf_token() }}',
-            },
-            dataType: 'JSON',
-            success: function(response) {
-                if (response.status == 'success') {
-                    var surat = response.surat;
-                    $("#id_sk_usaha").val(surat.id_sk_usaha);
-                    $("#jenis_surat").val(surat.jenis_surat);
-                    $("#ubah_nama").val(surat.nama);
-                    $("#ubah_nik").val(surat.nik);
-                    $("#ubah_ttl").val(surat.ttl);
-                    $("#ubah_status_nikah").val(surat.status_nikah);
-                    $("#ubah_agama").val(surat.agama);
-                    $("#ubah_pekerjaan").val(surat.pekerjaan);
-                    $("#ubah_alamat").val(surat.alamat);
-                    $("#ubah_usaha").val(surat.usaha);
-                    $("#ubah_keperluan").val(surat.keperluan);
-                    $("#ubah_jabatan").val(surat.jabatan);
-                }
-            }, 
-        });
-    });
-
-    $(document).on('click', '.btn-edit', function(e){
-        e.preventDefault();
-        var id_sk_usaha = $(this).val();
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            type: "GET",
-            url: "/ubah_isi_sku/"+id_sk_usaha,
-            data: { id_sk_usaha: id_sk_usaha },
-            success: function (response) {
-            console.log(response);
-                $('#id_sk_usaha').val(response.surat.id_sk_usaha);
-                $('#jenis_surat').val(response.surat.jenis_surat);
-                $('#ubah_nama').val(response.surat.nama);
-                $('#ubah_nik').val(response.surat.nik);
-                $('#ubah_ttl').val(response.surat.ttl);
-                $('#ubah_status_nikah').val(response.surat.status_nikah);
-                $('#ubah_agama').val(response.surat.agama);
-                $('#ubah_pekerjaan').val(response.surat.pekerjaan);
-                $('#ubah_alamat').val(response.surat.alamat);
-                $('#ubah_usaha').val(response.surat.usaha);
-                $('#ubah_keperluan').val(response.surat.keperluan);
-                $('#ubah_jabatan').val(response.surat.jabatan);
-                $('#ubahSKU').modal('show');                
-            }
-        });        
-    });
-
-    $(document).ready(function() {
-        $('#simpan_sku').click(function(event){
-            event.preventDefault(); // Mencegah pengiriman formulir secara default
-            var id_sk_usaha = document.getElementById("id_sk_usaha");
-            var jenis_surat = document.getElementById("jenis_surat");
-            var nama = document.getElementById("ubah_nama");
-            var nik = document.getElementById("ubah_nik");
-            var ttl = document.getElementById("ubah_ttl");
-            var status_nikah = document.getElementById("ubah_status_nikah");
-            var agama = document.getElementById("ubah_agama");
-            var pekerjaan = document.getElementById("ubah_pekerjaan");
-            var alamat = document.getElementById("ubah_alamat");
-            var usaha = document.getElementById("ubah_usaha");
-            var keperluan = document.getElementById("ubah_keperluan");
-            var jabatan = document.getElementById("ubah_jabatan");
-            if (!nama.value) {
-                // Tampilkan pesan kesalahan jika ada input yang kosong
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "Semua inputan wajib diisi!",
-                });
-            } else {
-                // Tampilkan pesan konfirmasi jika semua input telah diisi
-                Swal.fire({
-                    icon: "info",
-                    title: "Konfirmasi",
-                    text: "Apakah Anda yakin data sudah benar?",
-                    showCancelButton: true,
-                    confirmButtonText: "Ya, Lanjutkan",
-                    cancelButtonText: "Tidak, Batalkan",
-                }).then(function (result) {
-                    if (result.isConfirmed) {
-                        // Jika pengguna mengonfirmasi, lanjutkan dengan pengiriman formulir
-                        $('#ubah_sku').submit();
+    <script>
+        $(document).ready(function() {
+            var table = $('.table').DataTable({
+                order: [[0, 'desc']],
+                columnDefs: [
+                    { orderable: false, targets: [5] }
+                ],
+                language: {
+                    lengthMenu: "Tampilkan _MENU_ data per halaman",
+                    zeroRecords: "Data tidak ditemukan.",
+                    info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+                    infoEmpty: "Menampilkan 0 - 0 dari 0 data",
+                    infoFiltered: "(difilter dari _MAX_ total data)",
+                    search: "Cari",
+                    decimal: ",",
+                    thousands: ".",
+                    paginate: {
+                        previous: "Sebelumnya",
+                        next: "Selanjutnya"
                     }
-                });
-            }
-        });
-    });
-
-
-    // SURAT KETERANGAN BELUM MENIKAH
-    $('#ubahSKBM').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var id_sk_belum_menikah = button.data('id_sk_belum_menikah');
-        $.ajax({
-            url: '{{ route("get_data_skbm") }}',
-            type: 'POST',
-            data: {
-                id: button.data('bs-id'),
-                _token: '{{ csrf_token() }}',
-            },
-            dataType: 'JSON',
-            success: function(response) {
-                if (response.status == 'success') {
-                    var surat = response.surat;
-                    $("#id_sk_belum_menikah").val(surat.id_sk_belum_menikah);
-                    $("#jenis_surat_2").val(surat.jenis_surat);
-                    $("#ubah_nama_2").val(surat.nama);
-                    $("#ubah_nik_2").val(surat.nik);
-                    $("#ubah_ttl_2").val(surat.ttl);
-                    $("#ubah_status_nikah_2").val(surat.status_nikah);
-                    $("#ubah_agama_2").val(surat.agama);
-                    $("#ubah_pekerjaan_2").val(surat.pekerjaan);
-                    $("#ubah_alamat_2").val(surat.alamat);
-                    $("#ubah_keperluan_2").val(surat.keperluan);
-                    $("#ubah_jabatan_2").val(surat.jabatan);
                 }
-            }, 
+            });
         });
-    });
 
-    $(document).on('click', '.btn-edit', function(e){
-        e.preventDefault();
-        var id_sk_belum_menikah = $(this).val();
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            type: "GET",
-            url: "/ubah_isi_skbm/"+id_sk_belum_menikah,
-            data: { id_sk_belum_menikah: id_sk_belum_menikah },
-            success: function (response) {
-            console.log(response);
-                $('#id_sk_belum_menikah').val(response.surat.id_sk_belum_menikah);
-                $('#jenis_surat_2').val(response.surat.jenis_surat);
-                $('#ubah_nama_2').val(response.surat.nama);
-                $('#ubah_nik_2').val(response.surat.nik);
-                $('#ubah_ttl_2').val(response.surat.ttl);
-                $('#ubah_status_nikah_2').val(response.surat.status_nikah);
-                $('#ubah_agama_2').val(response.surat.agama);
-                $('#ubah_pekerjaan_2').val(response.surat.pekerjaan);
-                $('#ubah_alamat_2').val(response.surat.alamat);
-                $('#ubah_keperluan_2').val(response.surat.keperluan);
-                $('#ubah_jabatan_2').val(response.surat.jabatan);
-                $('#ubahSKBM').modal('show');                
-            }
-        });        
-    });
 
-    $(document).ready(function() {
-        $('#simpan_skbm').click(function(event){
-            event.preventDefault(); // Mencegah pengiriman formulir secara default
-            var id_sk_belum_menikah = document.getElementById("id_sk_belum_menikah");
-            var jenis_surat = document.getElementById("jenis_surat_2");
-            var nama = document.getElementById("ubah_nama_2");
-            var nik = document.getElementById("ubah_nik_2");
-            var ttl = document.getElementById("ubah_ttl_2");
-            var status_nikah = document.getElementById("ubah_status_nikah_2");
-            var agama = document.getElementById("ubah_agama_2");
-            var pekerjaan = document.getElementById("ubah_pekerjaan_2");
-            var alamat = document.getElementById("ubah_alamat_2");
-            var keperluan = document.getElementById("ubah_keperluan_2");
-            var jabatan = document.getElementById("ubah_jabatan_2");
-            if (!nama.value) {
-                // Tampilkan pesan kesalahan jika ada input yang kosong
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "Semua inputan wajib diisi!",
-                });
-            } else {
-                // Tampilkan pesan konfirmasi jika semua input telah diisi
-                Swal.fire({
-                    icon: "info",
-                    title: "Konfirmasi",
-                    text: "Apakah Anda yakin data sudah benar?",
-                    showCancelButton: true,
-                    confirmButtonText: "Ya, Lanjutkan",
-                    cancelButtonText: "Tidak, Batalkan",
-                }).then(function (result) {
-                    if (result.isConfirmed) {
-                        // Jika pengguna mengonfirmasi, lanjutkan dengan pengiriman formulir
-                        $('#ubah_skbm').submit();
+        // SURAT KETERANGAN USAHA
+        $('#ubahSKU').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var id_sk_usaha = button.data('id_sk_usaha');
+            $.ajax({
+                url: '{{ route("get_data_sku") }}',
+                type: 'POST',
+                data: {
+                    id: button.data('bs-id'),
+                    _token: '{{ csrf_token() }}',
+                },
+                dataType: 'JSON',
+                success: function(response) {
+                    if (response.status == 'success') {
+                        var surat = response.surat;
+                        $("#id_sk_usaha").val(surat.id_sk_usaha);
+                        $("#jenis_surat").val(surat.jenis_surat);
+                        $("#ubah_nama").val(surat.nama);
+                        $("#ubah_nik").val(surat.nik);
+                        $("#ubah_ttl").val(surat.ttl);
+                        $("#ubah_status_nikah").val(surat.status_nikah);
+                        $("#ubah_agama").val(surat.agama);
+                        $("#ubah_pekerjaan").val(surat.pekerjaan);
+                        $("#ubah_alamat").val(surat.alamat);
+                        $("#ubah_usaha").val(surat.usaha);
+                        $("#ubah_keperluan").val(surat.keperluan);
+                        $("#ubah_jabatan").val(surat.jabatan);
                     }
-                });
-            }
+                }, 
+            });
         });
-    });
 
-
-    // SURAT KETERANGAN DOMISILI
-    $('#ubahSKD').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var id_sk_domisili = button.data('id_sk_domisili');
-        $.ajax({
-            url: '{{ route("get_data_skd") }}',
-            type: 'POST',
-            data: {
-                id: button.data('bs-id'),
-                _token: '{{ csrf_token() }}',
-            },
-            dataType: 'JSON',
-            success: function(response) {
-                if (response.status == 'success') {
-                    var surat = response.surat;
-                    $("#id_sk_domisili").val(surat.id_sk_domisili);
-                    $("#jenis_surat_3").val(surat.jenis_surat);
-                    $("#ubah_nama_3").val(surat.nama);
-                    $("#ubah_nik_3").val(surat.nik);
-                    $("#ubah_jenis_kelamin").val(surat.jenis_kelamin);
-                    $("#ubah_ttl_3").val(surat.ttl);
-                    $("#ubah_agama_3").val(surat.agama);
-                    $("#ubah_status_nikah_3").val(surat.status_nikah);
-                    $("#ubah_pekerjaan_3").val(surat.pekerjaan);
-                    $("#ubah_alamat_3").val(surat.alamat);
-                    $("#ubah_alamat_dom").val(surat.alamat_dom);
-                    $("#ubah_keperluan_3").val(surat.keperluan);
-                    $("#ubah_jabatan_3").val(surat.jabatan);
+        $(document).on('click', '.btn-edit', function(e){
+            e.preventDefault();
+            var id_sk_usaha = $(this).val();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
-            }, 
-        });
-    });
-
-    $(document).on('click', '.btn-edit', function(e){
-        e.preventDefault();
-        var id_sk_domisili = $(this).val();
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            type: "GET",
-            url: "/ubah_isi_skd/"+id_sk_domisili,
-            data: { id_sk_domisili: id_sk_domisili },
-            success: function (response) {
-            console.log(response);
-                $('#id_sk_domisili').val(response.surat.id_sk_domisili);
-                $('#jenis_surat_3').val(response.surat.jenis_surat);
-                $('#ubah_nama_3').val(response.surat.nama);
-                $('#ubah_nik_3').val(response.surat.nik);
-                $('#ubah_jenis_kelamin').val(response.surat.jenis_kelamin);
-                $('#ubah_ttl_3').val(response.surat.ttl);
-                $('#ubah_agama_3').val(response.surat.agama);
-                $('#ubah_status_nikah_3').val(response.surat.status_nikah);
-                $('#ubah_pekerjaan_3').val(response.surat.pekerjaan);
-                $('#ubah_alamat_3').val(response.surat.alamat);
-                $('#ubah_alamat_dom').val(response.surat.alamat_dom);
-                $('#ubah_keperluan_3').val(response.surat.keperluan);
-                $('#ubah_jabatan_3').val(response.surat.jabatan);
-                $('#ubahSKD').modal('show');                
-            }
-        });        
-    });
-
-    $(document).ready(function() {
-        $('#simpan_skd').click(function(event){
-            event.preventDefault(); // Mencegah pengiriman formulir secara default
-            var id_sk_domisili = document.getElementById("id_sk_domisili");
-            var jenis_surat = document.getElementById("jenis_surat_3");
-            var nama = document.getElementById("ubah_nama_3");
-            var nik = document.getElementById("ubah_nik_3");
-            var jenis_kelamin = document.getElementById("ubah_jenis_kelamin");
-            var ttl = document.getElementById("ubah_ttl_3");
-            var agama = document.getElementById("ubah_agama_3");
-            var status_nikah = document.getElementById("ubah_status_nikah_3");
-            var pekerjaan = document.getElementById("ubah_pekerjaan_3");
-            var alamat = document.getElementById("ubah_alamat_3");
-            var alamat_dom = document.getElementById("ubah_alamat_dom");
-            var keperluan = document.getElementById("ubah_keperluan_3");
-            var jabatan = document.getElementById("ubah_jabatan_3");
-            if (!nama.value) {
-                // Tampilkan pesan kesalahan jika ada input yang kosong
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "Semua inputan wajib diisi!",
-                });
-            } else {
-                // Tampilkan pesan konfirmasi jika semua input telah diisi
-                Swal.fire({
-                    icon: "info",
-                    title: "Konfirmasi",
-                    text: "Apakah Anda yakin data sudah benar?",
-                    showCancelButton: true,
-                    confirmButtonText: "Ya, Lanjutkan",
-                    cancelButtonText: "Tidak, Batalkan",
-                }).then(function (result) {
-                    if (result.isConfirmed) {
-                        // Jika pengguna mengonfirmasi, lanjutkan dengan pengiriman formulir
-                        $('#ubah_skd').submit();
-                    }
-                });
-            }
-        });
-    });
-
-
-    // SURAT KETERANGAN TIDAK MAMPU
-    $('#ubahSKTM').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var id_sk_tidak_mampu = button.data('id_sk_tidak_mampu');
-        $.ajax({
-            url: '{{ route("get_data_sktm") }}',
-            type: 'POST',
-            data: {
-                id: button.data('bs-id'),
-                _token: '{{ csrf_token() }}',
-            },
-            dataType: 'JSON',
-            success: function(response) {
-                if (response.status == 'success') {
-                    var surat = response.surat;
-                    $("#id_sk_tidak_mampu").val(surat.id_sk_tidak_mampu);
-                    $("#jenis_surat_4").val(surat.jenis_surat);
-                    $("#ubah_nama_4").val(surat.nama);
-                    $("#ubah_nik_4").val(surat.nik);
-                    $("#ubah_ttl_4").val(surat.ttl);
-                    $("#ubah_agama_4").val(surat.agama);
-                    $("#ubah_pekerjaan_4").val(surat.pekerjaan);
-                    $("#ubah_alamat_4").val(surat.alamat);
-                    $("#ubah_keperluan_4").val(surat.keperluan);
-                    $("#ubah_jabatan_4").val(surat.jabatan);
+            });
+            $.ajax({
+                type: "GET",
+                url: "/ubah_isi_sku/"+id_sk_usaha,
+                data: { id_sk_usaha: id_sk_usaha },
+                success: function (response) {
+                console.log(response);
+                    $('#id_sk_usaha').val(response.surat.id_sk_usaha);
+                    $('#jenis_surat').val(response.surat.jenis_surat);
+                    $('#ubah_nama').val(response.surat.nama);
+                    $('#ubah_nik').val(response.surat.nik);
+                    $('#ubah_ttl').val(response.surat.ttl);
+                    $('#ubah_status_nikah').val(response.surat.status_nikah);
+                    $('#ubah_agama').val(response.surat.agama);
+                    $('#ubah_pekerjaan').val(response.surat.pekerjaan);
+                    $('#ubah_alamat').val(response.surat.alamat);
+                    $('#ubah_usaha').val(response.surat.usaha);
+                    $('#ubah_keperluan').val(response.surat.keperluan);
+                    $('#ubah_jabatan').val(response.surat.jabatan);
+                    $('#ubahSKU').modal('show');                
                 }
-            }, 
+            });        
         });
-    });
 
-    $(document).on('click', '.btn-edit', function(e){
-        e.preventDefault();
-        var id_sk_tidak_mampu = $(this).val();
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
+        $(document).ready(function() {
+            $('#simpan_sku').click(function(event){
+                event.preventDefault(); // Mencegah pengiriman formulir secara default
+                var id_sk_usaha = document.getElementById("id_sk_usaha");
+                var jenis_surat = document.getElementById("jenis_surat");
+                var nama = document.getElementById("ubah_nama");
+                var nik = document.getElementById("ubah_nik");
+                var ttl = document.getElementById("ubah_ttl");
+                var status_nikah = document.getElementById("ubah_status_nikah");
+                var agama = document.getElementById("ubah_agama");
+                var pekerjaan = document.getElementById("ubah_pekerjaan");
+                var alamat = document.getElementById("ubah_alamat");
+                var usaha = document.getElementById("ubah_usaha");
+                var keperluan = document.getElementById("ubah_keperluan");
+                var jabatan = document.getElementById("ubah_jabatan");
+                if (!nama.value) {
+                    // Tampilkan pesan kesalahan jika ada input yang kosong
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Semua inputan wajib diisi!",
+                    });
+                } else {
+                    // Tampilkan pesan konfirmasi jika semua input telah diisi
+                    Swal.fire({
+                        icon: "info",
+                        title: "Konfirmasi",
+                        text: "Apakah Anda yakin data sudah benar?",
+                        showCancelButton: true,
+                        confirmButtonText: "Ya, Lanjutkan",
+                        cancelButtonText: "Tidak, Batalkan",
+                    }).then(function (result) {
+                        if (result.isConfirmed) {
+                            // Jika pengguna mengonfirmasi, lanjutkan dengan pengiriman formulir
+                            $('#ubah_sku').submit();
+                        }
+                    });
+                }
+            });
         });
-        $.ajax({
-            type: "GET",
-            url: "/ubah_isi_sktm/"+id_sk_tidak_mampu,
-            data: { id_sk_tidak_mampu: id_sk_tidak_mampu },
-            success: function (response) {
-            console.log(response);
-                $('#id_sk_tidak_mampu').val(response.surat.id_sk_tidak_mampu);
-                $('#jenis_surat_4').val(response.surat.jenis_surat);
-                $('#ubah_nama_4').val(response.surat.nama);
-                $('#ubah_nik_4').val(response.surat.nik);
-                $('#ubah_ttl_4').val(response.surat.ttl);
-                $('#ubah_agama_4').val(response.surat.agama);
-                $('#ubah_pekerjaan_4').val(response.surat.pekerjaan);
-                $('#ubah_alamat_4').val(response.surat.alamat);
-                $('#ubah_keperluan_4').val(response.surat.keperluan);
-                $('#ubah_jabatan_4').val(response.surat.jabatan);
-                $('#ubahSKTM').modal('show');                
-            }
-        });        
-    });
 
-    $(document).ready(function() {
-        $('#simpan_sktm').click(function(event){
-            event.preventDefault(); // Mencegah pengiriman formulir secara default
-            var id_sk_tidak_mampu = document.getElementById("id_sk_tidak_mampu");
-            var jenis_surat = document.getElementById("jenis_surat_4");
-            var nama = document.getElementById("ubah_nama_4");
-            var nik = document.getElementById("ubah_nik_4");
-            var ttl = document.getElementById("ubah_ttl_4");
-            var agama = document.getElementById("ubah_agama_4");
-            var pekerjaan = document.getElementById("ubah_pekerjaan_4");
-            var alamat = document.getElementById("ubah_alamat_4");
-            var keperluan = document.getElementById("ubah_keperluan_4");
-            var jabatan = document.getElementById("ubah_jabatan_4");
-            if (!nama.value) {
-                // Tampilkan pesan kesalahan jika ada input yang kosong
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "Semua inputan wajib diisi!",
-                });
-            } else {
-                // Tampilkan pesan konfirmasi jika semua input telah diisi
-                Swal.fire({
-                    icon: "info",
-                    title: "Konfirmasi",
-                    text: "Apakah Anda yakin data sudah benar?",
-                    showCancelButton: true,
-                    confirmButtonText: "Ya, Lanjutkan",
-                    cancelButtonText: "Tidak, Batalkan",
-                }).then(function (result) {
-                    if (result.isConfirmed) {
-                        // Jika pengguna mengonfirmasi, lanjutkan dengan pengiriman formulir
-                        $('#ubah_sktm').submit();
+
+        // SURAT KETERANGAN BELUM MENIKAH
+        $('#ubahSKBM').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var id_sk_belum_menikah = button.data('id_sk_belum_menikah');
+            $.ajax({
+                url: '{{ route("get_data_skbm") }}',
+                type: 'POST',
+                data: {
+                    id: button.data('bs-id'),
+                    _token: '{{ csrf_token() }}',
+                },
+                dataType: 'JSON',
+                success: function(response) {
+                    if (response.status == 'success') {
+                        var surat = response.surat;
+                        $("#id_sk_belum_menikah").val(surat.id_sk_belum_menikah);
+                        $("#jenis_surat_2").val(surat.jenis_surat);
+                        $("#ubah_nama_2").val(surat.nama);
+                        $("#ubah_nik_2").val(surat.nik);
+                        $("#ubah_ttl_2").val(surat.ttl);
+                        $("#ubah_status_nikah_2").val(surat.status_nikah);
+                        $("#ubah_agama_2").val(surat.agama);
+                        $("#ubah_pekerjaan_2").val(surat.pekerjaan);
+                        $("#ubah_alamat_2").val(surat.alamat);
+                        $("#ubah_keperluan_2").val(surat.keperluan);
+                        $("#ubah_jabatan_2").val(surat.jabatan);
                     }
-                });
-            }
+                }, 
+            });
         });
-    });
+
+        $(document).on('click', '.btn-edit', function(e){
+            e.preventDefault();
+            var id_sk_belum_menikah = $(this).val();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: "GET",
+                url: "/ubah_isi_skbm/"+id_sk_belum_menikah,
+                data: { id_sk_belum_menikah: id_sk_belum_menikah },
+                success: function (response) {
+                console.log(response);
+                    $('#id_sk_belum_menikah').val(response.surat.id_sk_belum_menikah);
+                    $('#jenis_surat_2').val(response.surat.jenis_surat);
+                    $('#ubah_nama_2').val(response.surat.nama);
+                    $('#ubah_nik_2').val(response.surat.nik);
+                    $('#ubah_ttl_2').val(response.surat.ttl);
+                    $('#ubah_status_nikah_2').val(response.surat.status_nikah);
+                    $('#ubah_agama_2').val(response.surat.agama);
+                    $('#ubah_pekerjaan_2').val(response.surat.pekerjaan);
+                    $('#ubah_alamat_2').val(response.surat.alamat);
+                    $('#ubah_keperluan_2').val(response.surat.keperluan);
+                    $('#ubah_jabatan_2').val(response.surat.jabatan);
+                    $('#ubahSKBM').modal('show');                
+                }
+            });        
+        });
+
+        $(document).ready(function() {
+            $('#simpan_skbm').click(function(event){
+                event.preventDefault(); // Mencegah pengiriman formulir secara default
+                var id_sk_belum_menikah = document.getElementById("id_sk_belum_menikah");
+                var jenis_surat = document.getElementById("jenis_surat_2");
+                var nama = document.getElementById("ubah_nama_2");
+                var nik = document.getElementById("ubah_nik_2");
+                var ttl = document.getElementById("ubah_ttl_2");
+                var status_nikah = document.getElementById("ubah_status_nikah_2");
+                var agama = document.getElementById("ubah_agama_2");
+                var pekerjaan = document.getElementById("ubah_pekerjaan_2");
+                var alamat = document.getElementById("ubah_alamat_2");
+                var keperluan = document.getElementById("ubah_keperluan_2");
+                var jabatan = document.getElementById("ubah_jabatan_2");
+                if (!nama.value) {
+                    // Tampilkan pesan kesalahan jika ada input yang kosong
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Semua inputan wajib diisi!",
+                    });
+                } else {
+                    // Tampilkan pesan konfirmasi jika semua input telah diisi
+                    Swal.fire({
+                        icon: "info",
+                        title: "Konfirmasi",
+                        text: "Apakah Anda yakin data sudah benar?",
+                        showCancelButton: true,
+                        confirmButtonText: "Ya, Lanjutkan",
+                        cancelButtonText: "Tidak, Batalkan",
+                    }).then(function (result) {
+                        if (result.isConfirmed) {
+                            // Jika pengguna mengonfirmasi, lanjutkan dengan pengiriman formulir
+                            $('#ubah_skbm').submit();
+                        }
+                    });
+                }
+            });
+        });
 
 
+        // SURAT KETERANGAN DOMISILI
+        $('#ubahSKD').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var id_sk_domisili = button.data('id_sk_domisili');
+            $.ajax({
+                url: '{{ route("get_data_skd") }}',
+                type: 'POST',
+                data: {
+                    id: button.data('bs-id'),
+                    _token: '{{ csrf_token() }}',
+                },
+                dataType: 'JSON',
+                success: function(response) {
+                    if (response.status == 'success') {
+                        var surat = response.surat;
+                        $("#id_sk_domisili").val(surat.id_sk_domisili);
+                        $("#jenis_surat_3").val(surat.jenis_surat);
+                        $("#ubah_nama_3").val(surat.nama);
+                        $("#ubah_nik_3").val(surat.nik);
+                        $("#ubah_jenis_kelamin").val(surat.jenis_kelamin);
+                        $("#ubah_ttl_3").val(surat.ttl);
+                        $("#ubah_agama_3").val(surat.agama);
+                        $("#ubah_status_nikah_3").val(surat.status_nikah);
+                        $("#ubah_pekerjaan_3").val(surat.pekerjaan);
+                        $("#ubah_alamat_3").val(surat.alamat);
+                        $("#ubah_alamat_dom").val(surat.alamat_dom);
+                        $("#ubah_keperluan_3").val(surat.keperluan);
+                        $("#ubah_jabatan_3").val(surat.jabatan);
+                    }
+                }, 
+            });
+        });
 
+        $(document).on('click', '.btn-edit', function(e){
+            e.preventDefault();
+            var id_sk_domisili = $(this).val();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: "GET",
+                url: "/ubah_isi_skd/"+id_sk_domisili,
+                data: { id_sk_domisili: id_sk_domisili },
+                success: function (response) {
+                console.log(response);
+                    $('#id_sk_domisili').val(response.surat.id_sk_domisili);
+                    $('#jenis_surat_3').val(response.surat.jenis_surat);
+                    $('#ubah_nama_3').val(response.surat.nama);
+                    $('#ubah_nik_3').val(response.surat.nik);
+                    $('#ubah_jenis_kelamin').val(response.surat.jenis_kelamin);
+                    $('#ubah_ttl_3').val(response.surat.ttl);
+                    $('#ubah_agama_3').val(response.surat.agama);
+                    $('#ubah_status_nikah_3').val(response.surat.status_nikah);
+                    $('#ubah_pekerjaan_3').val(response.surat.pekerjaan);
+                    $('#ubah_alamat_3').val(response.surat.alamat);
+                    $('#ubah_alamat_dom').val(response.surat.alamat_dom);
+                    $('#ubah_keperluan_3').val(response.surat.keperluan);
+                    $('#ubah_jabatan_3').val(response.surat.jabatan);
+                    $('#ubahSKD').modal('show');                
+                }
+            });        
+        });
+
+        $(document).ready(function() {
+            $('#simpan_skd').click(function(event){
+                event.preventDefault(); // Mencegah pengiriman formulir secara default
+                var id_sk_domisili = document.getElementById("id_sk_domisili");
+                var jenis_surat = document.getElementById("jenis_surat_3");
+                var nama = document.getElementById("ubah_nama_3");
+                var nik = document.getElementById("ubah_nik_3");
+                var jenis_kelamin = document.getElementById("ubah_jenis_kelamin");
+                var ttl = document.getElementById("ubah_ttl_3");
+                var agama = document.getElementById("ubah_agama_3");
+                var status_nikah = document.getElementById("ubah_status_nikah_3");
+                var pekerjaan = document.getElementById("ubah_pekerjaan_3");
+                var alamat = document.getElementById("ubah_alamat_3");
+                var alamat_dom = document.getElementById("ubah_alamat_dom");
+                var keperluan = document.getElementById("ubah_keperluan_3");
+                var jabatan = document.getElementById("ubah_jabatan_3");
+                if (!nama.value) {
+                    // Tampilkan pesan kesalahan jika ada input yang kosong
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Semua inputan wajib diisi!",
+                    });
+                } else {
+                    // Tampilkan pesan konfirmasi jika semua input telah diisi
+                    Swal.fire({
+                        icon: "info",
+                        title: "Konfirmasi",
+                        text: "Apakah Anda yakin data sudah benar?",
+                        showCancelButton: true,
+                        confirmButtonText: "Ya, Lanjutkan",
+                        cancelButtonText: "Tidak, Batalkan",
+                    }).then(function (result) {
+                        if (result.isConfirmed) {
+                            // Jika pengguna mengonfirmasi, lanjutkan dengan pengiriman formulir
+                            $('#ubah_skd').submit();
+                        }
+                    });
+                }
+            });
+        });
+
+
+        // SURAT KETERANGAN TIDAK MAMPU
+        $('#ubahSKTM').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var id_sk_tidak_mampu = button.data('id_sk_tidak_mampu');
+            $.ajax({
+                url: '{{ route("get_data_sktm") }}',
+                type: 'POST',
+                data: {
+                    id: button.data('bs-id'),
+                    _token: '{{ csrf_token() }}',
+                },
+                dataType: 'JSON',
+                success: function(response) {
+                    if (response.status == 'success') {
+                        var surat = response.surat;
+                        $("#id_sk_tidak_mampu").val(surat.id_sk_tidak_mampu);
+                        $("#jenis_surat_4").val(surat.jenis_surat);
+                        $("#ubah_nama_4").val(surat.nama);
+                        $("#ubah_nik_4").val(surat.nik);
+                        $("#ubah_ttl_4").val(surat.ttl);
+                        $("#ubah_agama_4").val(surat.agama);
+                        $("#ubah_pekerjaan_4").val(surat.pekerjaan);
+                        $("#ubah_alamat_4").val(surat.alamat);
+                        $("#ubah_keperluan_4").val(surat.keperluan);
+                        $("#ubah_jabatan_4").val(surat.jabatan);
+                    }
+                }, 
+            });
+        });
+
+        $(document).on('click', '.btn-edit', function(e){
+            e.preventDefault();
+            var id_sk_tidak_mampu = $(this).val();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: "GET",
+                url: "/ubah_isi_sktm/"+id_sk_tidak_mampu,
+                data: { id_sk_tidak_mampu: id_sk_tidak_mampu },
+                success: function (response) {
+                console.log(response);
+                    $('#id_sk_tidak_mampu').val(response.surat.id_sk_tidak_mampu);
+                    $('#jenis_surat_4').val(response.surat.jenis_surat);
+                    $('#ubah_nama_4').val(response.surat.nama);
+                    $('#ubah_nik_4').val(response.surat.nik);
+                    $('#ubah_ttl_4').val(response.surat.ttl);
+                    $('#ubah_agama_4').val(response.surat.agama);
+                    $('#ubah_pekerjaan_4').val(response.surat.pekerjaan);
+                    $('#ubah_alamat_4').val(response.surat.alamat);
+                    $('#ubah_keperluan_4').val(response.surat.keperluan);
+                    $('#ubah_jabatan_4').val(response.surat.jabatan);
+                    $('#ubahSKTM').modal('show');                
+                }
+            });        
+        });
+
+        $(document).ready(function() {
+            $('#simpan_sktm').click(function(event){
+                event.preventDefault(); // Mencegah pengiriman formulir secara default
+                var id_sk_tidak_mampu = document.getElementById("id_sk_tidak_mampu");
+                var jenis_surat = document.getElementById("jenis_surat_4");
+                var nama = document.getElementById("ubah_nama_4");
+                var nik = document.getElementById("ubah_nik_4");
+                var ttl = document.getElementById("ubah_ttl_4");
+                var agama = document.getElementById("ubah_agama_4");
+                var pekerjaan = document.getElementById("ubah_pekerjaan_4");
+                var alamat = document.getElementById("ubah_alamat_4");
+                var keperluan = document.getElementById("ubah_keperluan_4");
+                var jabatan = document.getElementById("ubah_jabatan_4");
+                if (!nama.value) {
+                    // Tampilkan pesan kesalahan jika ada input yang kosong
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Semua inputan wajib diisi!",
+                    });
+                } else {
+                    // Tampilkan pesan konfirmasi jika semua input telah diisi
+                    Swal.fire({
+                        icon: "info",
+                        title: "Konfirmasi",
+                        text: "Apakah Anda yakin data sudah benar?",
+                        showCancelButton: true,
+                        confirmButtonText: "Ya, Lanjutkan",
+                        cancelButtonText: "Tidak, Batalkan",
+                    }).then(function (result) {
+                        if (result.isConfirmed) {
+                            // Jika pengguna mengonfirmasi, lanjutkan dengan pengiriman formulir
+                            $('#ubah_sktm').submit();
+                        }
+                    });
+                }
+            });
+        });
 
 
     // MODAL DETAIL DATA 1
-    $('#detailSKU').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var id_sk_usaha = button.data('id_sk_usaha');
-        $.ajax({
-            url: '{{ route("get_data_sku") }}',
-            type: 'POST',
-            data: {
-                id_sk_usaha: id_sk_usaha, // Menggunakan id_sk_usaha
-                _token: '{{ csrf_token() }}',
-            },
-            dataType: 'JSON',
-            success: function(response) {
-                if (response.status == 'success') {
-                    var surat = response.surat;
-                    $("#detail_jenis_surat").html(surat.jenis_surat);
-                    $("#detail_nama").html(surat.nama);
-                    $("#detail_nik").html(surat.nik);
-                    $("#detail_ttl").html(surat.ttl);
-                    $("#detail_status_nikah").html(surat.status_nikah);
-                    $("#detail_agama").html(surat.agama);
-                    $("#detail_pekerjaan").html(surat.pekerjaan);
-                    $("#detail_alamat").html(surat.alamat);
-                    $("#detail_usaha").html(surat.usaha);
-                    $("#detail_keperluan").html(surat.keperluan);
-                    $("#detail_status_surat").html(surat.status_surat);
-                    $("#detail_tanggal").html(surat.tanggal);
-                    $("#detail_jabatan").html(surat.jabatan);
-                }
-            }, 
-        });
-
-    });
-
-    // MODAL DETAIL DATA 2
     // $('#detailSKU').on('show.bs.modal', function (event) {
     //     var button = $(event.relatedTarget);
+    //     var id_sk_usaha = button.data('id_sk_usaha');
     //     $.ajax({
-    //         url: '{{ route("get_data_surat") }}',
+    //         url: '{{ route("get_data_sku") }}',
     //         type: 'POST',
     //         data: {
-    //             id: button.data('bs-id'),
+    //             id_sk_usaha: id_sk_usaha, 
     //             _token: '{{ csrf_token() }}',
     //         },
     //         dataType: 'JSON',
     //         success: function(response) {
     //             if (response.status == 'success') {
-    //                 var surats = response.surats;
-    //                 // Hide all detail elements initially
-    //                 $(".modal-body .row").hide();
-    //                 // Show specific detail elements based on the type of surat
-    //                 switch(surats.jenis_surat) {
-    //                     case "SURAT KETERANGAN DOMISILI":
-    //                         $("#detail_jenis_surat").closest('.row').show();
-    //                         $("#detail_nama").closest('.row').show();
-    //                         $("#detail_nik").closest('.row').show();
-    //                         $("#detail_jenis_kelamin").closest('.row').show();
-    //                         $("#detail_ttl").closest('.row').show();
-    //                         $("#detail_agama").closest('.row').show();
-    //                         $("#detail_status_nikah").closest('.row').show();
-    //                         $("#detail_pekerjaan").closest('.row').show();
-    //                         $("#detail_alamat").closest('.row').show();
-    //                         $("#detail_alamat_dom").closest('.row').show();
-    //                         $("#detail_keperluan").closest('.row').show();
-    //                         break;
-    //                     case "SURAT KETERANGAN BELUM MENIKAH":
-    //                         $("#detail_jenis_surat").closest('.row').show();
-    //                         $("#detail_nama").closest('.row').show();
-    //                         $("#detail_nik").closest('.row').show();
-    //                         $("#detail_ttl").closest('.row').show();
-    //                         $("#detail_status_nikah").closest('.row').show();
-    //                         $("#detail_agama").closest('.row').show();
-    //                         $("#detail_pekerjaan").closest('.row').show();
-    //                         $("#detail_alamat").closest('.row').show();
-    //                         $("#detail_keperluan").closest('.row').show();
-    //                         break;
-    //                     case "SURAT KETERANGAN USAHA":
-    //                         $("#detail_jenis_surat").closest('.row').show();
-    //                         $("#detail_nama").closest('.row').show();
-    //                         $("#detail_nik").closest('.row').show();
-    //                         $("#detail_ttl").closest('.row').show();
-    //                         $("#detail_status_nikah").closest('.row').show();
-    //                         $("#detail_agama").closest('.row').show();
-    //                         $("#detail_pekerjaan").closest('.row').show();
-    //                         $("#detail_alamat").closest('.row').show();
-    //                         $("#detail_usaha").closest('.row').show();
-    //                         $("#detail_keperluan").closest('.row').show();
-    //                         break;
-    //                     case "SURAT KETERANGAN TIDAK MAMPU":
-    //                         $("#detail_jenis_surat").closest('.row').show();
-    //                         $("#detail_nama").closest('.row').show();
-    //                         $("#detail_nik").closest('.row').show();
-    //                         $("#detail_ttl").closest('.row').show();
-    //                         $("#detail_agama").closest('.row').show();
-    //                         $("#detail_pekerjaan").closest('.row').show();
-    //                         $("#detail_alamat").closest('.row').show();
-    //                         $("#detail_keperluan").closest('.row').show();
-    //                         break;
-    //                     default:
-    //                 }
-    //                 $('#modalDetail').modal('show');
+    //                 var surat = response.surat;
+    //                 $("#detail_jenis_surat").html(surat.jenis_surat);
+    //                 $("#detail_nama").html(surat.nama);
+    //                 $("#detail_nik").html(surat.nik);
+    //                 $("#detail_ttl").html(surat.ttl);
+    //                 $("#detail_status_nikah").html(surat.status_nikah);
+    //                 $("#detail_agama").html(surat.agama);
+    //                 $("#detail_pekerjaan").html(surat.pekerjaan);
+    //                 $("#detail_alamat").html(surat.alamat);
+    //                 $("#detail_usaha").html(surat.usaha);
+    //                 $("#detail_keperluan").html(surat.keperluan);
+    //                 $("#detail_status_surat").html(surat.status_surat);
+    //                 $("#detail_tanggal").html(surat.tanggal);
+    //                 $("#detail_jabatan").html(surat.jabatan);
     //             }
     //         }, 
     //     });
+
     // });
 
-    // // MODAL DETAIL DATA 1
-    // $('#detail_sk_usaha').on('show.bs.modal', function (event) {
-    //     var button = $(event.relatedTarget);
-    //     var id = button.data('bs-id');
-    //     $.ajax({
-    //         url: '{{ route("detail_sk_usaha") }}',
-    //         type: 'POST',
-    //         data: {
-    //             id: button.data('bs-id'),
-    //             _token: '{{ csrf_token() }}',
-    //         },
-    //         dataType: 'JSON',
-    //         success: function(response) {
-    //             if (response.status == 'success') {
-    //                 var sk_usaha = response.sk_usaha;
-    //                 $("#detail_jenis_surat").html(sk_usaha.jenis_surat);
-    //                 $("#detail_nama").html(sk_usaha.nama);
-    //                 $("#detail_nik").html(sk_usaha.nik);
-    //                 $("#detail_ttl").html(sk_usaha.ttl);
-    //                 $("#detail_status_nikah").html(sk_usaha.status_nikah);
-    //                 $("#detail_agama").html(sk_usaha.agama);
-    //                 $("#detail_pekerjaan").html(sk_usaha.pekerjaan);
-    //                 $("#detail_alamat").html(sk_usaha.alamat);
-    //                 $("#detail_usaha").html(sk_usaha.usaha);
-    //                 $("#detail_keperluan").html(sk_usaha.keperluan);
-    //                 $("#detail_tanggal").html(sk_usaha.tanggal);
-    //             }
-    //         }, 
-    //     });
-    // });
+        // DETAIL SKU
+        $('#detailSKU').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    $.ajax({
+        url: '{{ route("get_data_sku") }}',
+        type: 'POST',
+        data: {
+            id: button.data('bs-id'),
+            _token: '{{ csrf_token() }}',
+        },
+        dataType: 'JSON',
+        success: function(response) {
+            if (response.status == 'success') {
+                var surat = response.surat;
+                $("#detail_jenis_surat").html(surat.jenis_surat);
+                $("#detail_nama").html(surat.nama);
+                $("#detail_nik").html(surat.nik);
+                $("#detail_ttl").html(surat.ttl);
+                $("#detail_status_nikah").html(surat.status_nikah);
+                $("#detail_agama").html(surat.agama);
+                $("#detail_pekerjaan").html(surat.pekerjaan);
+                $("#detail_alamat").html(surat.alamat);
+                $("#detail_usaha").html(surat.usaha);
+                $("#detail_keperluan").html(surat.keperluan);
 
-    // // MODAL DETAIL DATA 2
-    // $('#detail_sk_usaha').on('show.bs.modal', function (event) {
-    //     var button = $(event.relatedTarget);
-    //     $.ajax({
-    //         url: '{{ route("detail_sk_usaha") }}',
-    //         type: 'POST',
-    //         data: {
-    //             id: button.data('bs-id'),
-    //             _token: '{{ csrf_token() }}',
-    //         },
-    //         dataType: 'JSON',
-    //         success: function(response) {
-    //             if (response.status == 'success') {
-    //                 var sk_usaha = response.sk_usaha;
-    //                     $("#detail_jenis_surat").closest('.row').show();
-    //                     $("#detail_nama").closest('.row').show();
-    //                     $("#detail_nik").closest('.row').show();
-    //                     $("#detail_ttl").closest('.row').show();
-    //                     $("#detail_status_nikah").closest('.row').show();
-    //                     $("#detail_agama").closest('.row').show();
-    //                     $("#detail_pekerjaan").closest('.row').show();
-    //                     $("#detail_alamat").closest('.row').show();
-    //                     $("#detail_usaha").closest('.row').show();
-    //                     $("#detail_keperluan").closest('.row').show();
-    //                     $("#detail_tanggal").closest('.row').show();
-    //                 }
-    //                 $('#detail_sk_usaha').modal('show');
-    //             }
-    //         }), 
-    //     });
-    // </script>
+                if (surat.pekerjaan === 'Lainnya') {
+                    $("#detail_pekerjaan_lainnya").html(surat.pekerjaan_lainnya);
+                    $("#pekerjaan_lainnya_row").show();
+                } else {
+                    $("#pekerjaan_lainnya_row").hide();
+                }
+            }
+        }, 
+    });
+});
+
+    
+    </script>
 @endsection

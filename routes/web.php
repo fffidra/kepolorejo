@@ -60,7 +60,9 @@ Route::middleware(['auth'])->group(function() {
     Route::post('get_data_jabatan', [UserController::class, 'get_data_jabatan'])->name('get_data_jabatan');
     Route::get('ubah_isi_jabatan/{nip}', [UserController::class, 'ubah_isi_jabatan'])->name('ubah_isi_jabatan');
     Route::delete('hapus_jabatan/{nip}', [UserController::class, 'hapus_jabatan'])->name('hapus_jabatan');
+    Route::post('/update-peran', [UserController::class, 'updatePeran'])->name('update_peran');
 
+    Route::post('get_data_sku', [SuratController::class, 'get_data_sku'])->name('get_data_sku');
 
     Route::get('keluar', [UserController::class, 'keluar'])->name('keluar'); 
 
@@ -129,7 +131,6 @@ Route::put('ubah_sktm', [SuratController::class, 'ubah_sktm'])->name('ubah_sktm'
 Route::put('edit_surat', [SuratController::class, 'edit_surat'])->name('edit_surat');
 
 Route::post('get_data_surat', [SuratController::class, 'get_data_surat'])->name('get_data_surat');
-Route::post('get_data_sku', [SuratController::class, 'get_data_sku'])->name('get_data_sku');
 Route::post('get_data_skbm', [SuratController::class, 'get_data_skbm'])->name('get_data_skbm');
 Route::post('get_data_skd', [SuratController::class, 'get_data_skd'])->name('get_data_skd');
 Route::post('get_data_sktm', [SuratController::class, 'get_data_sktm'])->name('get_data_sktm');

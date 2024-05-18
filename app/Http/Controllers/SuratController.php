@@ -1136,16 +1136,11 @@ class SuratController extends Controller
     public function unduh_sk_usaha($id_sk_usaha)
     {
         $surat = SKUsaha::findOrFail($id_sk_usaha);
-        $nama = $surat->jabatan; 
-        $jabatan = Jabatan::where('nama', $nama)->first();
-        
-        $defaultJabatan = 'Aditya Surendra Mawardi, SE, MM';
-        $defaultPosisi = 'Pembina';
-        $defaultNIP = '19740309 200501 1 007';
+        $jabatan = Jabatan::where('peran', 'Penanda Tangan')->first();
 
-        $jabatanNama = $jabatan ? strtoupper($jabatan->nama) : strtoupper($defaultJabatan);
-        $jabatanPosisi = $jabatan ? $jabatan->posisi : $defaultPosisi;
-        $jabatanNIP = $jabatan ? $jabatan->nip : $defaultNIP;
+        $jabatanNama = $jabatan->nama;
+        $jabatanPosisi = $jabatan->posisi;
+        $jabatanNIP = $jabatan->nip;
 
         if ($surat->pekerjaan == 'Lainnya' && !empty($surat->pekerjaan_lainnya)) {
             $pekerjaan = $surat->pekerjaan_lainnya;
@@ -1274,7 +1269,7 @@ class SuratController extends Controller
             $tableFoot->addCell(4700)->addText('');
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText($jabatanNama, ['size' => 12, 'bold' => true, 'underline' => 'single'], ['align' => 'center']);
+            $tableFoot->addCell(4700)->addText(strtoupper($jabatanNama), ['size' => 12, 'bold' => true, 'underline' => 'single'], ['align' => 'center']);
             $tableFoot->addRow();
             $tableFoot->addCell(4700)->addText($jabatanPosisi, ['size' => 12], ['align' => 'center']);
 
@@ -1767,38 +1762,6 @@ class SuratController extends Controller
         return view('surat.sku', compact('surat'));
     }
 
-
-
-    // public function dokumen_surat(Request $request)
-    // {
-    //     // Validasi request
-    //     $request->validate([
-    //         'dokumen_surat' => 'required|file|mimes:pdf,doc,docx|max:2048', // Sesuaikan dengan jenis file yang diizinkan dan batasan ukuran
-    //     ]);
-
-    //     // Mengambil file dokumen surat dari request
-    //     $dokumenSurat = $request->file('dokumen_surat');
-
-    //     // Menyimpan file dokumen surat ke storage
-    //     $path = $dokumenSurat->store('dokumen_surat');
-
-    //     // Mengambil id surat dari form, sesuaikan dengan nama input id yang digunakan di form Anda
-    //     $suratId = $request->input('surat_id');
-
-    //     // Menemukan surat berdasarkan id
-    //     $surat = Surat::findOrFail($suratId);
-
-    //     // Menyimpan nama file dokumen surat ke dalam kolom dokumen_surat di tabel surat
-    //     $surat->dokumen_surat = $path;
-    //     $surat->save();
-
-    //     // Menetapkan pesan flash ke session
-    //     $request->session()->flash('success', 'Surat telah berhasil diupload.');
-
-    //     // Redirect ke halaman atau rute yang sesuai
-    //     return back();
-    // }
-
     public function dokumen_surat(Request $request)
     {
         // Mengambil semua data surat
@@ -1834,37 +1797,4 @@ class SuratController extends Controller
             return back()->with('error', 'Gagal mengupload surat. Silakan coba lagi.');
         }
     }
-
-
-//     public function dokumen_surat(Request $request)
-// {
-//     $surat = Surat::get();
-
-//     foreach($surat as $letter){
-//         // Mengambil nama input file dokumen_surat
-//         $inputName = 'dokumen_surat'.$letter->id_surat;
-
-//         // Memeriksa apakah file dokumen_surat telah diunggah
-//         if($request->hasFile($inputName)){
-//             // Mengambil file dokumen_surat dari request
-//             $dokumen = $request->file($inputName);
-
-//             // Mengambil data surat berdasarkan id_surat
-//             $data = Surat::where('id_surat', $request['id_surat'.$letter->id_surat])->first();
-
-//             // Mengubah file menjadi data biner
-//             $dokumenBinary = file_get_contents($dokumen->getRealPath());
-
-//             // Menyimpan data biner ke dalam kolom dokumen_surat di tabel surat
-//             $data->dokumen_surat = $dokumenBinary;
-
-//             // Menyimpan perubahan
-//             $data->save();
-//         }
-//     }
-
-//     return back();
-// }
-
 }
-
