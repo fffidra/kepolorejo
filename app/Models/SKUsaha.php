@@ -29,7 +29,6 @@ class SKUsaha extends Model
         'bukti',
         'status_surat',
         'tanggal',
-        'jabatan',
         'pemohon',
         'verifikator',
         'pesan',
@@ -37,7 +36,6 @@ class SKUsaha extends Model
 
     public $timestamps = false;
 
-    // TANGGAL & WAKTU
     protected static function boot(){
         parent::boot();
     
@@ -45,15 +43,6 @@ class SKUsaha extends Model
             $surat->tanggal = Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s');
         });
     }
-
-    // protected static function boot()
-    // {
-    //     parent::boot();
-
-    //     static::creating(function ($surat) {
-    //         $surat->tanggal = now()->format('Y-m-d'); 
-    //     });
-    // }
 
     public function sk_usaha_ibfk_1()
     {
@@ -76,8 +65,4 @@ class SKUsaha extends Model
         return $this->belongsTo(Status::class, 'status_nikah', 'id_status_nikah');
     }
 
-    public function sk_usaha_ibfk_5()
-    {
-        return $this->belongsTo(Jabatan::class, 'nama', 'nip');
-    }
 }

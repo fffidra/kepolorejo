@@ -29,13 +29,13 @@
                             <table class="table table-striped" id="tabelSPT" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th class="col-md-1 text-center align-middle">Tanggal Pengajuan</th>                           
-                                        <th class="col-md-2 text-center align-middle">Jenis Surat</th>                           
+                                        <th class="col-md-1 text-center align-middle">TANGGAL PENGAJUAN</th>                           
+                                        <th class="col-md-2 text-center align-middle">JENIS SURAT</th>                           
                                         <th class="col-md-2 text-center align-middle">NIK</th>                           
-                                        <th class="col-md-2 text-center align-middle">Nama</th>                           
-                                        <th class="col-md-1 text-center align-middle">Status</th>                           
-                                        <th class="col-md-1 text-center align-middle">Verifikator</th>                           
-                                        <th class="col-md-2 text-center align-middle">Aksi</th>                           
+                                        <th class="col-md-2 text-center align-middle">NAMA</th>                           
+                                        <th class="col-md-1 text-center align-middle">STATUS</th>                           
+                                        <th class="col-md-1 text-center align-middle">VERIFIKATOR</th>                           
+                                        <th class="col-md-2 text-center align-middle">AKSI</th>                           
                                     </tr>
                                 </thead>
                                 <tbody>

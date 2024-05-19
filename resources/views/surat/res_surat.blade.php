@@ -387,13 +387,13 @@
                         <div class="mb-3 row">
                             <label for="ubah_nama" class="col-md-2 col-form-label">Nama</label>
                             <div class="col-md-9">
-                                <textarea class="form-control" id="ubah_nama" name="ubah_nama" rows="1"></textarea>
+                                <input type="text" class="form-control" id="nama" name="nama" readonly>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label for="ubah_nik_warga" class="col-md-2 col-form-label">NIK</label>
                             <div class="col-md-9">
-                                <textarea class="form-control" id="ubah_nik" name="ubah_nik" rows="1"></textarea>
+                                <input type="text" class="form-control" id="nik" name="nik" readonly>
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -432,16 +432,6 @@
                                 </select>
                             </div>
                         </div>
-                        {{-- <div class="mb-3 row">
-                            <label for="ubah_jenis_kelamin" class="col-md-2 col-form-label">Jenis Kelamin</label>
-                            <div class="col-md-9">
-                                <select class="form-select" id="ubah_jenis_kelamin" name="ubah_jenis_kelamin">
-                                    @foreach(\App\Models\JenisKelamin::all() as $jenis_kelamins)
-                                        <option value="{{ $jenis_kelamins->nama_jenis_kelamin }}">{{ $jenis_kelamins->nama_jenis_kelamin }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div> --}}
                         <div class="mb-3 row">
                             <label for="ubah_alamat" class="col-md-2 col-form-label">Alamat</label>
                             <div class="col-md-9">
@@ -454,26 +444,10 @@
                                 <textarea class="form-control" id="ubah_usaha" name="ubah_usaha" rows="1"></textarea>
                             </div>
                         </div>
-                        {{-- <div class="mb-3 row">
-                            <label for="ubah_alamat_dom" class="col-md-2 col-form-label">Alamat Domisili</label>
-                            <div class="col-md-9">
-                                <textarea class="form-control" id="ubah_alamat_dom" name="ubah_alamat_dom" rows="1"></textarea>
-                            </div>
-                        </div> --}}
                         <div class="mb-3 row">
                             <label for="ubah_keperluan" class="col-md-2 col-form-label">Keperluan</label>
                             <div class="col-md-9">
                                 <textarea class="form-control" id="ubah_keperluan" name="ubah_keperluan" rows="1"></textarea>
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label for="ubah_jabatan" class="col-md-2 col-form-label">TTD Persetujuan</label>
-                            <div class="col-md-9">
-                                <select class="form-select" id="ubah_jabatan" name="ubah_jabatan">
-                                    @foreach(\App\Models\Jabatan::all() as $jabatan)
-                                        <option value="{{ $jabatan->nama }}">{{ $jabatan->nama }}</option>
-                                    @endforeach
-                                </select>
                             </div>
                         </div>
                     </div>
@@ -538,12 +512,6 @@
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_pekerjaan"></label></span>
                         </div>
                     </div>
-                    <div class="row mb-1" id="pekerjaan_lainnya_row" style="display: none;">
-                        <label class="col-md-2 col-form-label">Pekerjaan Lainnya</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_pekerjaan_lainnya"></label></span>
-                        </div>
-                    </div>
                     <div class="row mb-1">
                         <label class="col-md-2 col-form-label">Alamat</label>
                         <div class="col-md-9 d-flex align-items-center">
@@ -558,6 +526,12 @@
                     </div>
                     <div class="row mb-1">
                         <label class="col-md-2 col-form-label">Keperluan</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_keperluan"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Bukti Dokumen</label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_keperluan"></label></span>
                         </div>
@@ -916,7 +890,7 @@
         });
 
 
-        // SURAT KETERANGAN USAHA
+        // UBAH SKU
         $('#ubahSKU').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var id_sk_usaha = button.data('id_sk_usaha');
@@ -933,8 +907,8 @@
                         var surat = response.surat;
                         $("#id_sk_usaha").val(surat.id_sk_usaha);
                         $("#jenis_surat").val(surat.jenis_surat);
-                        $("#ubah_nama").val(surat.nama);
-                        $("#ubah_nik").val(surat.nik);
+                        $("#nama").val(surat.nama);
+                        $("#nik").val(surat.nik);
                         $("#ubah_ttl").val(surat.ttl);
                         $("#ubah_status_nikah").val(surat.status_nikah);
                         $("#ubah_agama").val(surat.agama);
@@ -942,7 +916,6 @@
                         $("#ubah_alamat").val(surat.alamat);
                         $("#ubah_usaha").val(surat.usaha);
                         $("#ubah_keperluan").val(surat.keperluan);
-                        $("#ubah_jabatan").val(surat.jabatan);
                     }
                 }, 
             });
@@ -964,8 +937,8 @@
                 console.log(response);
                     $('#id_sk_usaha').val(response.surat.id_sk_usaha);
                     $('#jenis_surat').val(response.surat.jenis_surat);
-                    $('#ubah_nama').val(response.surat.nama);
-                    $('#ubah_nik').val(response.surat.nik);
+                    $('#nama').val(response.surat.nama);
+                    $('#nik').val(response.surat.nik);
                     $('#ubah_ttl').val(response.surat.ttl);
                     $('#ubah_status_nikah').val(response.surat.status_nikah);
                     $('#ubah_agama').val(response.surat.agama);
@@ -973,7 +946,6 @@
                     $('#ubah_alamat').val(response.surat.alamat);
                     $('#ubah_usaha').val(response.surat.usaha);
                     $('#ubah_keperluan').val(response.surat.keperluan);
-                    $('#ubah_jabatan').val(response.surat.jabatan);
                     $('#ubahSKU').modal('show');                
                 }
             });        
@@ -981,11 +953,11 @@
 
         $(document).ready(function() {
             $('#simpan_sku').click(function(event){
-                event.preventDefault(); // Mencegah pengiriman formulir secara default
+                event.preventDefault();
                 var id_sk_usaha = document.getElementById("id_sk_usaha");
                 var jenis_surat = document.getElementById("jenis_surat");
-                var nama = document.getElementById("ubah_nama");
-                var nik = document.getElementById("ubah_nik");
+                var nama = document.getElementById("nama");
+                var nik = document.getElementById("nik");
                 var ttl = document.getElementById("ubah_ttl");
                 var status_nikah = document.getElementById("ubah_status_nikah");
                 var agama = document.getElementById("ubah_agama");
@@ -993,16 +965,13 @@
                 var alamat = document.getElementById("ubah_alamat");
                 var usaha = document.getElementById("ubah_usaha");
                 var keperluan = document.getElementById("ubah_keperluan");
-                var jabatan = document.getElementById("ubah_jabatan");
                 if (!nama.value) {
-                    // Tampilkan pesan kesalahan jika ada input yang kosong
                     Swal.fire({
                         icon: "error",
                         title: "Oops...",
-                        text: "Semua inputan wajib diisi!",
+                        text: "Semua inputan data wajib diisi!",
                     });
                 } else {
-                    // Tampilkan pesan konfirmasi jika semua input telah diisi
                     Swal.fire({
                         icon: "info",
                         title: "Konfirmasi",
@@ -1012,7 +981,6 @@
                         cancelButtonText: "Tidak, Batalkan",
                     }).then(function (result) {
                         if (result.isConfirmed) {
-                            // Jika pengguna mengonfirmasi, lanjutkan dengan pengiriman formulir
                             $('#ubah_sku').submit();
                         }
                     });
@@ -1366,40 +1334,39 @@
 
         // DETAIL SKU
         $('#detailSKU').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget);
-    $.ajax({
-        url: '{{ route("get_data_sku") }}',
-        type: 'POST',
-        data: {
-            id: button.data('bs-id'),
-            _token: '{{ csrf_token() }}',
-        },
-        dataType: 'JSON',
-        success: function(response) {
-            if (response.status == 'success') {
-                var surat = response.surat;
-                $("#detail_jenis_surat").html(surat.jenis_surat);
-                $("#detail_nama").html(surat.nama);
-                $("#detail_nik").html(surat.nik);
-                $("#detail_ttl").html(surat.ttl);
-                $("#detail_status_nikah").html(surat.status_nikah);
-                $("#detail_agama").html(surat.agama);
-                $("#detail_pekerjaan").html(surat.pekerjaan);
-                $("#detail_alamat").html(surat.alamat);
-                $("#detail_usaha").html(surat.usaha);
-                $("#detail_keperluan").html(surat.keperluan);
+            var button = $(event.relatedTarget);
+            $.ajax({
+                url: '{{ route("get_data_sku") }}',
+                type: 'POST',
+                data: {
+                    id: button.data('bs-id'),
+                    _token: '{{ csrf_token() }}',
+                },
+                dataType: 'JSON',
+                success: function(response) {
+                    if (response.status == 'success') {
+                        var surat = response.surat;
+                        $("#detail_jenis_surat").html(surat.jenis_surat);
+                        $("#detail_nama").html(surat.nama);
+                        $("#detail_nik").html(surat.nik);
+                        $("#detail_ttl").html(surat.ttl);
+                        $("#detail_status_nikah").html(surat.status_nikah);
+                        $("#detail_agama").html(surat.agama);
+                        $("#detail_pekerjaan").html(surat.pekerjaan);
+                        $("#detail_alamat").html(surat.alamat);
+                        $("#detail_usaha").html(surat.usaha);
+                        $("#detail_keperluan").html(surat.keperluan);
 
-                if (surat.pekerjaan === 'Lainnya') {
-                    $("#detail_pekerjaan_lainnya").html(surat.pekerjaan_lainnya);
-                    $("#pekerjaan_lainnya_row").show();
-                } else {
-                    $("#pekerjaan_lainnya_row").hide();
-                }
-            }
-        }, 
-    });
-});
-
-    
+                        if (surat.pekerjaan === 'Lainnya') {
+                            $("#detail_pekerjaan").html(surat.pekerjaan_lainnya);
+                            $("#pekerjaan_lainnya_row").show();
+                        } else {
+                            $("#detail_pekerjaan").html(surat.pekerjaan);
+                            $("#pekerjaan_lainnya_row").hide();
+                        }
+                    }
+                }, 
+            });
+        });
     </script>
 @endsection

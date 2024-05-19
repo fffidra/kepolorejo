@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class SKBelumMenikah extends Model
 {
@@ -21,33 +22,24 @@ class SKBelumMenikah extends Model
         'status_nikah',
         'agama',
         'pekerjaan',
+        'pekerjaan_lainnya',
         'alamat',
         'keperluan',
         'bukti',
         'status_surat',
         'tanggal',
-        'jabatan',
         'pemohon',
         'verifikator',
+        'pesan',
     ];
 
     public $timestamps = false;
 
-    // TANGGAL & WAKTU
-    // protected static function boot(){
-    //     parent::boot();
-
-    //     static::creating(function ($surat) {
-    //         $surat->tanggal = now()->format('Y-m-d H:i:s'); 
-    //     });
-    // }
-
-    protected static function boot()
-    {
+    protected static function boot(){
         parent::boot();
-
+    
         static::creating(function ($surat) {
-            $surat->tanggal = now()->format('Y-m-d'); 
+            $surat->tanggal = Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s');
         });
     }
 
@@ -69,10 +61,5 @@ class SKBelumMenikah extends Model
     public function sk_belum_menikah_ibfk_4()
     {
         return $this->belongsTo(Pekerjaan::class, 'pekerjaan', 'id_pekerjaan');
-    }
-
-    public function sk_belum_menikah_ibfk_5()
-    {
-        return $this->belongsTo(Jabatan::class, 'nama', 'nip');
     }
 }

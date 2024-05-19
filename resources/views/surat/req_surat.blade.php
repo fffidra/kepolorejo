@@ -51,7 +51,6 @@
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center">
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" class="btn btn-info btn-sm">Detail</button>
-
                                                     @if($sk_usaha->status_surat === 'Ditolak')
                                                         <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" data-bs-pesan="{{ $sk_usaha->pesan }}" class="btn btn-info btn-sm">Pesan Ditolak</button>
                                                     @endif
@@ -132,21 +131,22 @@
                     <h5 class="modal-title" id="exampleModalLabel">Pengajuan Surat Baru</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" action="{{ route('buat_surat') }}" enctype="multipart/form-data"> 
-                    @csrf
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="jenis_surat" class="form-label">Jenis Surat</label>
-                            <select class="form-select" id="jenis_surat" name="jenis_surat" required onchange="showForm()" required>
-                                <option value="" selected hidden>-- Pilih Jenis Surat --</option>
-                                @foreach(\App\Models\JenisSurat::all() as $jenis_surats)
-                                    <option value="{{ $jenis_surats->nama_jenis_surat }}">{{ $jenis_surats->nama_jenis_surat }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="jenis_surat" class="form-label">Jenis Surat</label>
+                        <select class="form-select" id="jenis_surat" name="jenis_surat" required onchange="showForm()" required>
+                            <option value="" selected hidden>-- Pilih Jenis Surat --</option>
+                            @foreach(\App\Models\JenisSurat::all() as $jenis_surats)
+                                <option value="{{ $jenis_surats->nama_jenis_surat }}">{{ $jenis_surats->nama_jenis_surat }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                        {{-- USAHA --}}
+                    {{-- SKU --}}
+                    <form method="POST" action="{{ route('buat_sku') }}" enctype="multipart/form-data">
+                        @csrf
                         <div id="form_surat_SURAT KETERANGAN USAHA" class="form_surat" style="display: none;">
+                            <input type="hidden" id="hidden_jenis_surat" name="jenis_surat" value="">
                             <div class="mb-3">
                                 <label for="nama" class="form-label">Nama</label>
                                 <input type="text" class="form-control" id="nama" name="nama" value="{{ auth()->user()->nama }}" readonly>
@@ -154,7 +154,7 @@
                             <div class="mb-3">
                                 <label for="nik" class="form-label">NIK</label>
                                 <input type="text" class="form-control" id="nik" name="nik" value="{{ auth()->user()->nik }}" readonly>
-                            </div>                            
+                            </div>
                             <div class="mb-3">
                                 <label for="ttl" class="form-label">Tempat, Tanggal Lahir (Contoh Format: Magetan, 30 Maret 1999)</label>
                                 <input type="text" class="form-control" id="ttl" name="ttl" placeholder="Contoh: Magetan, 30 Maret 1999" required>
@@ -179,7 +179,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="pekerjaan" class="form-label">Pekerjaan</label>
-                                <select class="form-select" id="pekerjaan" name="pekerjaan" required>
+                                <select class="form-select" id="pekerjaan" name="pekerjaan" required onchange="togglePekerjaanLainnya(this)">
                                     <option value="" selected hidden>-- Pilih Pekerjaan --</option>
                                     @foreach(\App\Models\Pekerjaan::all() as $pekerjaan)
                                         <option value="{{ $pekerjaan->nama_pekerjaan }}">{{ $pekerjaan->nama_pekerjaan }}</option>
@@ -189,7 +189,7 @@
                             </div>
                             <div class="mb-3" id="pekerjaan_lainnya_div" style="display: none;">
                                 <label for="pekerjaan_lainnya" class="form-label">Pekerjaan Lainnya</label>
-                                <input type="text" class="form-control" id="pekerjaan_lainnya" name="pekerjaan_lainnya" placeholder="Isikan pekerjaan lainnya yang belum ada di pilihan" required>
+                                <input type="text" class="form-control" id="pekerjaan_lainnya" name="pekerjaan_lainnya" placeholder="Isikan pekerjaan lainnya yang belum ada di pilihan">
                             </div>
                             <div class="mb-3">
                                 <label for="alamat" class="form-label">Alamat</label>
@@ -205,186 +205,188 @@
                             </div>
                             <div class="mb-3">
                                 <label for="bukti" class="form-label">Dokumen</label>
-                                <input type="file" class="form-control" id="bukti" name="bukti" value="{{ old('bukti') }}" multiple>
-                                {{-- <input type="file" class="form-control" id="bukti" name="bukti" value="{{ old('bukti') }}" multiple>
-                                <input type="file" class="form-control" id="bukti" name="bukti" value="{{ old('bukti') }}" multiple> --}}
+                                <input type="file" class="form-control" id="bukti" name="bukti" value="{{ old('bukti') }}" multiple required>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
                             </div>
                         </div>
+                    </form>
+                    
+                    {{-- DOMISILI --}}
+                    {{-- <div id="form_surat_SURAT KETERANGAN DOMISILI" class="form_surat" style="display: none;">
+                        <div class="mb-3">
+                            <label for="nama" class="form-label">Nama</label>
+                            <input type="text" class="form-control" id="nama" name="nama_2">
+                        </div>
+                        <div class="mb-3">
+                            <label for="nik" class="form-label">NIK</label>
+                            <input type="text" class="form-control" id="nik" name="nik_2">
+                        </div>
+                        <div class="mb-3">
+                            <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
+                            <select class="form-select" id="jenis_kelamin" name="jenis_kelamin">
+                                <option value="" selected hidden>-- Pilih Jenis Kelamin --</option>
+                                @foreach(\App\Models\JenisKelamin::all() as $jenis_kelamins)
+                                    <option value="{{ $jenis_kelamins->nama_jenis_kelamin }}">{{ $jenis_kelamins->nama_jenis_kelamin }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="ttl" class="form-label">Tempat, Tanggal Lahir</label>
+                            <input type="text" class="form-control" id="ttl" name="ttl_2">
+                        </div>
+                        <div class="mb-3">
+                            <label for="agama" class="form-label">Agama</label>
+                            <select class="form-select" id="agama" name="agama_2">
+                                <option value="" selected hidden>-- Pilih Agama --</option>
+                                @foreach(\App\Models\Agama::all() as $agamas)
+                                    <option value="{{ $agamas->nama_agama }}">{{ $agamas->nama_agama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="status_nikah" class="form-label">Status</label>
+                            <select class="form-select" id="status_nikah" name="status_nikah_2">
+                                <option value="" selected hidden>-- Pilih Status --</option>
+                                @foreach(\App\Models\Status::all() as $status_nikahs)
+                                    <option value="{{ $status_nikahs->nama_status_nikah }}">{{ $status_nikahs->nama_status_nikah }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pekerjaan" class="form-label">Pekerjaan</label>
+                            <select class="form-select" id="pekerjaan" name="pekerjaan_2">
+                                <option value="" selected hidden>-- Pilih Pekerjaan --</option>
+                                @foreach(\App\Models\Pekerjaan::all() as $pekerjaans)
+                                    <option value="{{ $pekerjaans->nama_pekerjaan }}">{{ $pekerjaans->nama_pekerjaan }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="alamat" class="form-label">Alamat</label>
+                            <input type="text" class="form-control" id="alamat" name="alamat_2">
+                        </div>
+                        <div class="mb-3">
+                            <label for="alamat_dom" class="form-label">Alamat Domisili</label>
+                            <input type="text" class="form-control" id="alamat_dom" name="alamat_dom">
+                        </div>
+                        <div class="mb-3">
+                            <label for="keperluan" class="form-label">Keperluan</label>
+                            <input type="text" class="form-control" id="keperluan" name="keperluan_2">
+                        </div>
+                        <div class="mb-3">
+                            <label for="bukti" class="form-label">Dokumen</label>
+                            <input type="file" class="form-control" id="bukti" name="bukti_2" value="{{ old('bukti') }}" multiple>
+                        </div>
+                    </div> --}}
 
-                        {{-- DOMISILI --}}
-                        <div id="form_surat_SURAT KETERANGAN DOMISILI" class="form_surat" style="display: none;">
-                            <div class="mb-3">
-                                <label for="nama" class="form-label">Nama</label>
-                                <input type="text" class="form-control" id="nama" name="nama_2">
-                            </div>
-                            <div class="mb-3">
-                                <label for="nik" class="form-label">NIK</label>
-                                <input type="text" class="form-control" id="nik" name="nik_2">
-                            </div>
-                            <div class="mb-3">
-                                <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
-                                <select class="form-select" id="jenis_kelamin" name="jenis_kelamin">
-                                    <option value="" selected hidden>-- Pilih Jenis Kelamin --</option>
-                                    @foreach(\App\Models\JenisKelamin::all() as $jenis_kelamins)
-                                        <option value="{{ $jenis_kelamins->nama_jenis_kelamin }}">{{ $jenis_kelamins->nama_jenis_kelamin }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="ttl" class="form-label">Tempat, Tanggal Lahir</label>
-                                <input type="text" class="form-control" id="ttl" name="ttl_2">
-                            </div>
-                            <div class="mb-3">
-                                <label for="agama" class="form-label">Agama</label>
-                                <select class="form-select" id="agama" name="agama_2">
-                                    <option value="" selected hidden>-- Pilih Agama --</option>
-                                    @foreach(\App\Models\Agama::all() as $agamas)
-                                        <option value="{{ $agamas->nama_agama }}">{{ $agamas->nama_agama }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="status_nikah" class="form-label">Status</label>
-                                <select class="form-select" id="status_nikah" name="status_nikah_2">
-                                    <option value="" selected hidden>-- Pilih Status --</option>
-                                    @foreach(\App\Models\Status::all() as $status_nikahs)
-                                        <option value="{{ $status_nikahs->nama_status_nikah }}">{{ $status_nikahs->nama_status_nikah }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="pekerjaan" class="form-label">Pekerjaan</label>
-                                <select class="form-select" id="pekerjaan" name="pekerjaan_2">
-                                    <option value="" selected hidden>-- Pilih Pekerjaan --</option>
-                                    @foreach(\App\Models\Pekerjaan::all() as $pekerjaans)
-                                        <option value="{{ $pekerjaans->nama_pekerjaan }}">{{ $pekerjaans->nama_pekerjaan }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="alamat" class="form-label">Alamat</label>
-                                <input type="text" class="form-control" id="alamat" name="alamat_2">
-                            </div>
-                            <div class="mb-3">
-                                <label for="alamat_dom" class="form-label">Alamat Domisili</label>
-                                <input type="text" class="form-control" id="alamat_dom" name="alamat_dom">
-                            </div>
-                            <div class="mb-3">
-                                <label for="keperluan" class="form-label">Keperluan</label>
-                                <input type="text" class="form-control" id="keperluan" name="keperluan_2">
-                            </div>
-                            <div class="mb-3">
-                                <label for="bukti" class="form-label">Dokumen</label>
-                                <input type="file" class="form-control" id="bukti" name="bukti_2" value="{{ old('bukti') }}" multiple>
-                            </div>
+                    {{-- BELUM MENIKAH --}}
+                    {{-- <div id="form_surat_SURAT KETERANGAN BELUM MENIKAH" class="form_surat" style="display: none;">
+                        <div class="mb-3">
+                            <label for="nama_3" class="form-label">Nama</label>
+                            <input type="text" class="form-control" id="nama_3" name="nama_3" value="{{ auth()->user()->nama }}" readonly>
                         </div>
+                        <div class="mb-3">
+                            <label for="nik_3" class="form-label">NIK</label>
+                            <input type="text" class="form-control" id="nik_3" name="nik_3" value="{{ auth()->user()->nik }}" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="ttl_3" class="form-label">Tempat, Tanggal Lahir (Contoh Format: Magetan, 30 Maret 1999)</label>
+                            <input type="text" class="form-control" id="ttl_3" name="ttl_3" placeholder="Contoh: Magetan, 30 Maret 1999" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="status_nikah_3" class="form-label">Status</label>
+                            <select class="form-select" id="status_nikah_3" name="status_nikah_3" required>
+                                <option value="" selected hidden>-- Pilih Status --</option>
+                                @foreach(\App\Models\Status::where('nama_status_nikah', '!=', 'kawin')->get() as $status_nikahs)
+                                    <option value="{{ $status_nikahs->nama_status_nikah }}">{{ $status_nikahs->nama_status_nikah }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="agama_3" class="form-label">Agama</label>
+                            <select class="form-select" id="agama_3" name="agama_3" required>
+                                <option value="" selected hidden>-- Pilih Agama --</option>
+                                @foreach(\App\Models\Agama::all() as $agamas)
+                                    <option value="{{ $agamas->nama_agama }}">{{ $agamas->nama_agama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pekerjaan_3" class="form-label">Pekerjaan</label>
+                            <select class="form-select" id="pekerjaan_3" name="pekerjaan_3" required>
+                                <option value="" selected hidden>-- Pilih Pekerjaan --</option>
+                                @foreach(\App\Models\Pekerjaan::all() as $pekerjaans)
+                                    <option value="{{ $pekerjaans->nama_pekerjaan }}">{{ $pekerjaans->nama_pekerjaan }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3" id="pekerjaan_lainnya_div_3" style="display: none;">
+                            <label for="pekerjaan_lainnya_3" class="form-label">Pekerjaan Lainnya</label>
+                            <input type="text" class="form-control" id="pekerjaan_lainnya_3" name="pekerjaan_lainnya_3" placeholder="Isikan pekerjaan lainnya yang belum ada di pilihan" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="alamat_3" class="form-label">Alamat</label>
+                            <input type="text" class="form-control" id="alamat_3" name="alamat_3" placeholder="Isikan alamat lengkap" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="keperluan_3" class="form-label">Keperluan</label>
+                            <input type="text" class="form-control" id="keperluan_3" name="keperluan_3" placeholder="Isikan keperluan pengajuan surat" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="bukti_3" class="form-label">Dokumen</label>
+                            <input type="file" class="form-control" id="bukti_3" name="bukti_3" value="{{ old('bukti') }}" multiple required>
+                        </div>
+                    </div> --}}
 
-                        {{-- BELUM MENIKAH --}}
-                        <div id="form_surat_SURAT KETERANGAN BELUM MENIKAH" class="form_surat" style="display: none;">
-                            <div class="mb-3">
-                                <label for="nama" class="form-label">Nama</label>
-                                <input type="text" class="form-control" id="nama" name="nama_3">
-                            </div>
-                            <div class="mb-3">
-                                <label for="nik" class="form-label">NIK</label>
-                                <input type="text" class="form-control" id="nik" name="nik_3">
-                            </div>
-                            <div class="mb-3">
-                                <label for="ttl" class="form-label">Tempat, Tanggal Lahir</label>
-                                <input type="text" class="form-control" id="ttl" name="ttl_3">
-                            </div>
-                            <div class="mb-3">
-                                <label for="status_nikah" class="form-label">Status</label>
-                                <select class="form-select" id="status_nikah" name="status_nikah_3">
-                                    <option value="" selected hidden>-- Pilih Status --</option>
-                                    @foreach(\App\Models\Status::where('nama_status_nikah', '!=', 'kawin')->get() as $status_nikahs)
-                                        <option value="{{ $status_nikahs->nama_status_nikah }}">{{ $status_nikahs->nama_status_nikah }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="agama" class="form-label">Agama</label>
-                                <select class="form-select" id="agama" name="agama_3">
-                                    <option value="" selected hidden>-- Pilih Agama --</option>
-                                    @foreach(\App\Models\Agama::all() as $agamas)
-                                        <option value="{{ $agamas->nama_agama }}">{{ $agamas->nama_agama }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="pekerjaan" class="form-label">Pekerjaan</label>
-                                <select class="form-select" id="pekerjaan" name="pekerjaan_3">
-                                    <option value="" selected hidden>-- Pilih Pekerjaan --</option>
-                                    @foreach(\App\Models\Pekerjaan::all() as $pekerjaans)
-                                        <option value="{{ $pekerjaans->nama_pekerjaan }}">{{ $pekerjaans->nama_pekerjaan }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="alamat" class="form-label">Alamat</label>
-                                <input type="text" class="form-control" id="alamat" name="alamat_3">
-                            </div>
-                            <div class="mb-3">
-                                <label for="keperluan" class="form-label">Keperluan</label>
-                                <input type="text" class="form-control" id="keperluan" name="keperluan_3">
-                            </div>
-                            <div class="mb-3">
-                                <label for="bukti" class="form-label">Dokumen</label>
-                                <input type="file" class="form-control" id="bukti" name="bukti_3" value="{{ old('bukti') }}" multiple>
-                            </div>
+                    {{-- TIDAK MAMPU --}}
+                    {{-- <div id="form_surat_SURAT KETERANGAN TIDAK MAMPU" class="form_surat" style="display: none;">
+                        <div class="mb-3">
+                            <label for="nama" class="form-label">Nama</label>
+                            <input type="text" class="form-control" id="nama" name="nama_4">
                         </div>
-
-                        {{-- TIDAK MAMPU --}}
-                        <div id="form_surat_SURAT KETERANGAN TIDAK MAMPU" class="form_surat" style="display: none;">
-                            <div class="mb-3">
-                                <label for="nama" class="form-label">Nama</label>
-                                <input type="text" class="form-control" id="nama" name="nama_4">
-                            </div>
-                            <div class="mb-3">
-                                <label for="nik" class="form-label">NIK</label>
-                                <input type="text" class="form-control" id="nik" name="nik_4">
-                            </div>
-                            <div class="mb-3">
-                                <label for="ttl" class="form-label">Tempat, Tanggal Lahir</label>
-                                <input type="text" class="form-control" id="ttl" name="ttl_4">
-                            </div>
-                            <div class="mb-3">
-                                <label for="agama" class="form-label">Agama</label>
-                                <select class="form-select" id="agama" name="agama_4">
-                                    <option value="" selected hidden>-- Pilih Agama --</option>
-                                    @foreach(\App\Models\Agama::all() as $agamas)
-                                        <option value="{{ $agamas->nama_agama }}">{{ $agamas->nama_agama }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="pekerjaan" class="form-label">Pekerjaan</label>
-                                <select class="form-select" id="pekerjaan" name="pekerjaan_4">
-                                    <option value="" selected hidden>-- Pilih Pekerjaan --</option>
-                                    @foreach(\App\Models\Pekerjaan::all() as $pekerjaans)
-                                        <option value="{{ $pekerjaans->nama_pekerjaan }}">{{ $pekerjaans->nama_pekerjaan }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="alamat" class="form-label">Alamat</label>
-                                <input type="text" class="form-control" id="alamat" name="alamat_4">
-                            </div>
-                            <div class="mb-3">
-                                <label for="keperluan" class="form-label">Keperluan</label>
-                                <input type="text" class="form-control" id="keperluan" name="keperluan_4">
-                            </div>
-                            <div class="mb-3">
-                                <label for="bukti" class="form-label">Dokumen</label>
-                                <input type="file" class="form-control" id="bukti" name="bukti_4" value="{{ old('bukti') }}" multiple>
-                            </div>
+                        <div class="mb-3">
+                            <label for="nik" class="form-label">NIK</label>
+                            <input type="text" class="form-control" id="nik" name="nik_4">
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>                
-                    </div>
-                </form>
+                        <div class="mb-3">
+                            <label for="ttl" class="form-label">Tempat, Tanggal Lahir</label>
+                            <input type="text" class="form-control" id="ttl" name="ttl_4">
+                        </div>
+                        <div class="mb-3">
+                            <label for="agama" class="form-label">Agama</label>
+                            <select class="form-select" id="agama" name="agama_4">
+                                <option value="" selected hidden>-- Pilih Agama --</option>
+                                @foreach(\App\Models\Agama::all() as $agamas)
+                                    <option value="{{ $agamas->nama_agama }}">{{ $agamas->nama_agama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pekerjaan" class="form-label">Pekerjaan</label>
+                            <select class="form-select" id="pekerjaan" name="pekerjaan_4">
+                                <option value="" selected hidden>-- Pilih Pekerjaan --</option>
+                                @foreach(\App\Models\Pekerjaan::all() as $pekerjaans)
+                                    <option value="{{ $pekerjaans->nama_pekerjaan }}">{{ $pekerjaans->nama_pekerjaan }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="alamat" class="form-label">Alamat</label>
+                            <input type="text" class="form-control" id="alamat" name="alamat_4">
+                        </div>
+                        <div class="mb-3">
+                            <label for="keperluan" class="form-label">Keperluan</label>
+                            <input type="text" class="form-control" id="keperluan" name="keperluan_4">
+                        </div>
+                        <div class="mb-3">
+                            <label for="bukti" class="form-label">Dokumen</label>
+                            <input type="file" class="form-control" id="bukti" name="bukti_4" value="{{ old('bukti') }}" multiple>
+                        </div>
+                    </div> --}}
+                </div>
             </div>
         </div>
     </div>
@@ -535,6 +537,23 @@
             });
         });    
 
+        // PEKERJAAN LAINNYA SKBM
+        document.addEventListener('DOMContentLoaded', function () {
+            var pekerjaanSelect = document.getElementById('pekerjaan_3');
+            var pekerjaanLainnyaDiv = document.getElementById('pekerjaan_lainnya_div_3');
+            var pekerjaanLainnyaInput = document.getElementById('pekerjaan_lainnya_3');
+
+            pekerjaanSelect.addEventListener('change', function () {
+                if (pekerjaanSelect.value === 'Lainnya') {
+                    pekerjaanLainnyaDiv.style.display = 'block';
+                    pekerjaanLainnyaInput.setAttribute('required', 'required');
+                } else {
+                    pekerjaanLainnyaDiv.style.display = 'none';
+                    pekerjaanLainnyaInput.removeAttribute('required');
+                }
+            });
+        });    
+
         document.addEventListener('DOMContentLoaded', function () {
             var pesanModal = document.getElementById('pesan_ditolak');
             pesanModal.addEventListener('show.bs.modal', function (event) {
@@ -547,20 +566,16 @@
         });
 
         function showForm() {
-            var selectedOption = document.getElementById("jenis_surat").value;
-            console.log("Selected option: ", selectedOption);
-            
-            var forms = document.querySelectorAll('.form_surat');
-            console.log("Forms: ", forms);
+            var jenisSurat = document.getElementById("jenis_surat").value;
+            document.getElementById("hidden_jenis_surat").value = jenisSurat; // Set the hidden input value
 
-            forms.forEach(function(form) {
-                var formId = form.id.split("_").pop(); 
-                if (formId === selectedOption) {
-                    form.style.display = "block";
-                } else {
-                    form.style.display = "none";
-                }
-            });
+            var formSurat = document.getElementsByClassName("form_surat");
+            for (var i = 0; i < formSurat.length; i++) {
+                formSurat[i].style.display = "none";
+            }
+            if (jenisSurat) {
+                document.getElementById("form_surat_" + jenisSurat).style.display = "block";
+            }
         }
 
         // DETAIL SKU

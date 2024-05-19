@@ -40,7 +40,8 @@ Route::middleware(['auth'])->group(function() {
         return view('jabatan');
     })->name('jabatan')->middleware('userAccess:Pegawai');
     
-    
+    Route::post('buat_sku', [SuratController::class, 'buat_sku'])->name('buat_sku');
+
     Route::get('surat_disetujui', [SuratController::class, 'surat_disetujui'])->name('surat.surat_disetujui')->middleware('userAccess:Pegawai'); 
     Route::get('surat_ditolak', [SuratController::class, 'surat_ditolak'])->name('surat.surat_ditolak')->middleware('userAccess:Pegawai'); 
 

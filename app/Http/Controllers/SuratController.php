@@ -197,7 +197,63 @@ class SuratController extends Controller
         }
         return back();
     }
+
+    public function buat_sku(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'jenis_surat' => 'required',
+            'nama' => 'required',
+            'nik' => 'required',
+            'ttl' => 'required',
+            'status_nikah' => 'required',
+            'agama' => 'required',
+            'pekerjaan' => 'required',
+            'pekerjaan_lainnya' => 'nullable',
+            'alamat' => 'required',
+            'usaha' => 'required',
+            'keperluan' => 'required',
+            'bukti' => 'required|mimes:jpg,jpeg,png,doc,docx,pdf',
+        ]);
+        // dd($validator);
+
+        if ($validator->fails()) {
+            Session::flash('alert', [
+                'type' => 'error',
+                'title' => 'Pengajuan Surat Gagal',
+                'message' => 'Ada data yang salah!'
+            ]);
+            return back()->withErrors($validator)->withInput();
+        }
     
+        $bukti = $request->file('bukti');
+        $nama_bukti = 'SKU_' . date('Ymdhis') . '.' . $bukti->getClientOriginalExtension();
+        $bukti->move(public_path('bukti_dokumen'), $nama_bukti);
+    
+        SKUsaha::create([
+            'jenis_surat' => $request->jenis_surat,
+            'nama' => $request->nama,
+            'nik' => $request->nik,
+            'ttl' => $request->ttl,
+            'status_nikah' => $request->status_nikah,
+            'agama' => $request->agama,
+            'pekerjaan' => $request->pekerjaan,
+            'pekerjaan_lainnya' => $request->pekerjaan == 'Lainnya' ? $request->pekerjaan_lainnya : null,
+            'alamat' => $request->alamat,
+            'usaha' => $request->usaha,
+            'keperluan' => $request->keperluan,
+            'bukti' => $nama_bukti,
+            'pemohon' => auth()->user()->nik,
+        ]);
+    
+        Session::flash('alert', [
+            'type' => 'success',
+            'title' => 'Pengajuan Surat Berhasil',
+            'message' => ''
+        ]);
+    
+        return back();
+    }
+        
     public function get_data_surat(Request $request)
     {
         $surats = Surat::where('id_surat', $request->id)->first();
@@ -404,7 +460,6 @@ class SuratController extends Controller
             'ubah_alamat' => 'nullable',
             'ubah_usaha' => 'nullable',
             'ubah_keperluan' => 'nullable',
-            'ubah_jabatan' => 'nullable'
         ]);
 
         // dd($validator);
@@ -920,14 +975,14 @@ class SuratController extends Controller
             if($surat->save()) {
                 Session::flash('alert', [
                     'type' => 'success',
-                    'title' => 'Kirim Data Berhasil',
+                    'title' => 'Surat Berhasil Disetujui',
                     'message' => ''
                 ]);
             } else {
                 Session::flash('alert', [
                     'type' => 'error',
-                    'title' => 'Kirim Data Gagal',
-                    'message' => 'Gagal menyimpan status surat.'
+                    'title' => 'Surat Gagal Disetujui',
+                    'message' => ''
                 ]);
             }
         } else {
