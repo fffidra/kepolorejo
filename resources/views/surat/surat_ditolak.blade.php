@@ -29,13 +29,13 @@
                             <table class="table table-striped" id="tabelSPT" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th class="col-md-2 text-center align-middle">Tanggal Pengajuan</th>                           
-                                        <th class="col-md-2 text-center align-middle">Jenis Surat</th>                           
+                                        <th class="col-md-1 text-center align-middle">TANGGAL PENGAJUAN</th>                           
+                                        <th class="col-md-2 text-center align-middle">JENIS SURAT</th>                           
                                         <th class="col-md-2 text-center align-middle">NIK</th>                           
-                                        <th class="col-md-2 text-center align-middle">Nama</th>                           
-                                        <th class="col-md-2 text-center align-middle">Status</th>                           
-                                        <th class="col-md-2 text-center align-middle">Verifikator</th>                           
-                                        <th class="col-md-2 text-center align-middle">Aksi</th>                           
+                                        <th class="col-md-2 text-center align-middle">NAMA</th>                           
+                                        <th class="col-md-1 text-center align-middle">STATUS</th>                           
+                                        <th class="col-md-2 text-center align-middle">VERIFIKATOR</th>                           
+                                        <th class="col-md-2 text-center align-middle">AKSI</th>                           
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -50,40 +50,13 @@
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center">
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" data-bs-pesan="{{ $sk_usaha->pesan }}" class="btn btn-info btn-sm">Pesan Ditolak</button>
-
                                                     <form method="POST" action="{{ route('hapus_sk_usaha', $sk_usaha->id_sk_usaha) }}" id="hapus-surat-{{ $sk_usaha->id_sk_usaha }}" class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="button" id="btnHapus-{{ $sk_usaha->id_sk_usaha }}" class="btn btn-danger btn-sm mx-1"><i class="bx bx-trash-alt"></i></button>
                                                     </form>
-
-                                                    {{-- <a href="{{ route('unduh_sk_usaha', ['id_sk_usaha' => $sk_usaha->id_sk_usaha]) }}" target="_blank" class="btn btn-info btn-sm" style="margin-right: 10px;">Unduh</a>  --}}
-
-                                                    {{-- <button type="button" data-bs-toggle="modal" data-bs-target="#modalDokumen" data-bs-id="{{ $surat->id_surat }}" class="btn btn-info btn-sm">Ubah</button> --}}
-
-                                                    {{-- <form method="POST" action="{{ route('sku_selesai', $sk_usaha->id_sk_usaha) }}" id="selesai-surat-{{ $sk_usaha->id_sk_usaha  }}">
-                                                        @csrf
-                                                        @method('PUT')
-                                                        <button type="button" id="btnSelesai-{{ $sk_usaha->id_sk_usaha  }}" class="btn btn-primary btn-sm">Selesai</button>
-                                                    </form> --}}
                                                 </div>
                                                 <script>
-                                                    // $('#btnSelesai-{{ $sk_usaha->id_sk_usaha  }}').click(function(event){
-                                                    //     event.preventDefault();
-                                                    //     Swal.fire({
-                                                    //         icon: "info",
-                                                    //         title: "Konfirmasi",
-                                                    //         text: "Apakah Anda yakin ingin mengirim data ini?",
-                                                    //         showCancelButton: true,
-                                                    //         confirmButtonText: "Ya, Lanjutkan",
-                                                    //         cancelButtonText: "Tidak, Batalkan",
-                                                    //     }).then(function (result) {
-                                                    //         if (result.isConfirmed) {
-                                                    //             $('#selesai-surat-{{ $sk_usaha->id_sk_usaha  }}').submit();
-                                                    //         }
-                                                    //     });
-                                                    // });
-
                                                     $('#btnHapus-{{ $sk_usaha->id_sk_usaha }}').click(function(event){
                                                         event.preventDefault();
                                                         Swal.fire({
@@ -99,80 +72,50 @@
                                                             }
                                                         });
                                                     });
-
-
-                                                    // Menambahkan event listener ke tombol 'Unduh'
-                                                    // $('#unduhButton').click(function() {
-                                                    //     // Mendapatkan jenis surat dan id surat dari baris tabel terpilih
-                                                    //     var jenisSurat = $('.selected-row').attr('data-jenis-surat');
-                                                    //     var idSurat = $('.selected-row').attr('data-id-surat');
-
-                                                    //     // Membuat URL unduhan berdasarkan jenis surat dan id surat
-                                                    //     var url = "{{ route('unduh_surat', ['jenis_surat' => ':jenis_surat', 'id_surat' => ':id_surat']) }}";
-                                                    //     url = url.replace(':jenis_surat', jenisSurat).replace(':id_surat', idSurat);
-
-                                                    //     // Mengarahkan jendela baru untuk mengunduh surat
-                                                    //     window.open(url, '_blank');
-                                                    // });
                                                 </script>
                                             </td>
                                         </tr>
                                     @endforeach
 
-                                    {{-- @foreach(\App\Models\SKBelumMenikah::where('status_surat', '=', 'Disetujui')->get() as $sk_bm)
+                                    @foreach(\App\Models\SKBelumMenikah::where('status_surat', '=', 'Ditolak')->get() as $skbm)
                                         <tr>
-                                            <td class="text-center align-middle">{{ $sk_bm->tanggal }}</td>
-                                            <td class="text-center align-middle">{{ $sk_bm->jenis_surat }}</td>
-                                            <td class="text-center align-middle">{{ $sk_bm->nik }}</td>
-                                            <td class="text-center align-middle">{{ $sk_bm->nama }}</td>
-                                            <td class="text-center align-middle">{{ $sk_bm->status_surat }}</td>
-                                            <td class="text-center align-middle">{{ $sk_bm->verifikator }}</td>
+                                            <td class="text-center align-middle">{{ $skbm->tanggal }}</td>
+                                            <td class="text-center align-middle">{{ $skbm->jenis_surat }}</td>
+                                            <td class="text-center align-middle">{{ $skbm->nik }}</td>
+                                            <td class="text-center align-middle">{{ $skbm->nama }}</td>
+                                            <td class="text-center align-middle">{{ $skbm->status_surat }}</td>
+                                            <td class="text-center align-middle">{{ $skbm->verifikator }}</td>
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center">
-                                                    <a href="{{ route('unduh_sk_belum_menikah', ['id_sk_belum_menikah' => $sk_bm->id_sk_belum_menikah]) }}" target="_blank" class="btn btn-info btn-sm" style="margin-right: 10px;">Unduh</a> 
-
-                                                    <form method="POST" action="{{ route('skbm_selesai', $sk_bm->id_sk_belum_menikah) }}" id="selesai-surat-{{ $sk_bm->id_sk_belum_menikah  }}">
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $skbm->id_sk_belum_menikah }}" data-bs-pesan="{{ $skbm->pesan }}" class="btn btn-info btn-sm">Pesan Ditolak</button>
+                                                    <form method="POST" action="{{ route('hapus_skbm', $skbm->id_sk_belum_menikah) }}" id="hapus-surat-{{ $skbm->id_sk_belum_menikah }}" class="d-inline">
                                                         @csrf
-                                                        @method('PUT')
-                                                        <button type="button" id="btnSelesai-{{ $sk_bm->id_sk_belum_menikah  }}" class="btn btn-primary btn-sm">Selesai</button>
+                                                        @method('DELETE')
+                                                        <button type="button" id="btnHapus-{{ $skbm->id_sk_belum_menikah }}" class="btn btn-danger btn-sm mx-1"><i class="bx bx-trash-alt"></i></button>
                                                     </form>
                                                 </div>
                                                 <script>
-                                                    $('#btnSelesai-{{ $sk_bm->id_sk_belum_menikah  }}').click(function(event){
+                                                    $('#btnHapus-{{ $skbm->id_sk_belum_menikah }}').click(function(event){
                                                         event.preventDefault();
                                                         Swal.fire({
                                                             icon: "info",
-                                                            title: "Konfirmasi",
-                                                            text: "Apakah Anda yakin ingin mengirim data ini?",
+                                                            title: "Hapus Surat",
+                                                            text: "Apakah Anda yakin ingin menghapus surat ini?",
                                                             showCancelButton: true,
                                                             confirmButtonText: "Ya, Lanjutkan",
                                                             cancelButtonText: "Tidak, Batalkan",
                                                         }).then(function (result) {
                                                             if (result.isConfirmed) {
-                                                                $('#selesai-surat-{{ $sk_bm->id_sk_belum_menikah  }}').submit();
+                                                                $('#hapus-surat-{{ $skbm->id_sk_belum_menikah }}').submit();
                                                             }
                                                         });
-                                                    });
-
-                                                    // Menambahkan event listener ke tombol 'Unduh'
-                                                    $('#unduhButton').click(function() {
-                                                        // Mendapatkan jenis surat dan id surat dari baris tabel terpilih
-                                                        var jenisSurat = $('.selected-row').attr('data-jenis-surat');
-                                                        var idSurat = $('.selected-row').attr('data-id-surat');
-
-                                                        // Membuat URL unduhan berdasarkan jenis surat dan id surat
-                                                        var url = "{{ route('unduh_surat', ['jenis_surat' => ':jenis_surat', 'id_surat' => ':id_surat']) }}";
-                                                        url = url.replace(':jenis_surat', jenisSurat).replace(':id_surat', idSurat);
-
-                                                        // Mengarahkan jendela baru untuk mengunduh surat
-                                                        window.open(url, '_blank');
                                                     });
                                                 </script>
                                             </td>
                                         </tr>
                                     @endforeach
 
-                                    @foreach(\App\Models\SKDomisili::where('status_surat', '=', 'Disetujui')->get() as $skd)
+                                    {{-- @foreach(\App\Models\SKDomisili::where('status_surat', '=', 'Disetujui')->get() as $skd)
                                         <tr>
                                             <td class="text-center align-middle">{{ $skd->tanggal }}</td>
                                             <td class="text-center align-middle">{{ $skd->jenis_surat }}</td>
@@ -223,9 +166,9 @@
                                                 </script>
                                             </td>
                                         </tr>
-                                    @endforeach
+                                    @endforeach --}}
 
-                                    @foreach(\App\Models\SKTidakMampu::where('status_surat', '=', 'Disetujui')->get() as $sktm)
+                                    {{-- @foreach(\App\Models\SKTidakMampu::where('status_surat', '=', 'Disetujui')->get() as $sktm)
                                         <tr>
                                             <td class="text-center align-middle">{{ $sktm->tanggal }}</td>
                                             <td class="text-center align-middle">{{ $sktm->jenis_surat }}</td>
@@ -307,9 +250,10 @@
 @section('script')
     <script>
         $(document).ready(function() {
-            $('.table').DataTable({
+            var table = $('.table').DataTable({
+                order: [[0, 'desc']],
                 columnDefs: [
-                    { orderable: false, targets: [6] }
+                    { orderable: false, targets: [5] }
                 ],
                 language: {
                     lengthMenu: "Tampilkan _MENU_ data per halaman",
@@ -326,7 +270,7 @@
                     }
                 }
             });
-        });
+        });    
 
         document.addEventListener('DOMContentLoaded', function () {
             $('#pesan_ditolak').on('show.bs.modal', function (event) {

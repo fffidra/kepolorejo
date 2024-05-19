@@ -54,7 +54,7 @@
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center flex-wrap">
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" class="btn btn-info btn-sm mx-1">Detail</button>
-                                                    <a role="button" class="btn btn-warning btn-sm mx-1" title="Ubah Data" data-bs-toggle="modal" data-bs-target="#ubahSKU" data-bs-id="{{ $sk_usaha->id_sk_usaha }}">Ubah</a>
+                                                    {{-- <a role="button" class="btn btn-warning btn-sm mx-1" title="Ubah Data" data-bs-toggle="modal" data-bs-target="#ubahSKU" data-bs-id="{{ $sk_usaha->id_sk_usaha }}">Ubah</a> --}}
                                                     <form method="POST" action="{{ route('sku_setuju', $sk_usaha->id_sk_usaha) }}" id="setuju-surat-{{ $sk_usaha->id_sk_usaha }}" class="d-inline">
                                                         @csrf
                                                         @method('PUT')
@@ -65,13 +65,6 @@
                                                         @method('PUT')
                                                         <button type="button" id="btnTolak-{{ $sk_usaha->id_sk_usaha }}" class="btn btn-danger btn-sm mx-1">Tolak</button>
                                                     </form>
-                                                    @if($sk_usaha->status_surat === 'Ditolak')
-                                                        <form method="POST" action="{{ route('hapus_sk_usaha', $sk_usaha->id_sk_usaha) }}" id="hapus-surat-{{ $sk_usaha->id_sk_usaha }}" class="d-inline">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="button" id="btnHapus-{{ $sk_usaha->id_sk_usaha }}" class="btn btn-danger btn-sm mx-1"><i class="bx bx-trash-alt"></i></button>
-                                                        </form>
-                                                    @endif
                                                 </div>
                                                 <script>
                                                     // BUTTON SETUJU
@@ -113,20 +106,75 @@
                                                             }
                                                         });
                                                     });
+                                                </script>
+                                            </td>
+                                        </tr>
+                                    @endforeach
 
-                                                    // BUTTON DELETE
-                                                    $('#btnHapus-{{ $sk_usaha->id_sk_usaha }}').click(function(event){
+                                    @foreach(\App\Models\SKBelumMenikah::where('status_surat', 'Diproses')->get() as $skbm)
+                                        <tr>
+                                            <td class="text-center align-middle">{{ $skbm->tanggal }}</td>
+                                            <td class="text-center align-middle">{{ $skbm->jenis_surat }}</td>
+                                            <td class="text-center align-middle">{{ $skbm->nik }}</td>
+                                            <td class="text-center align-middle">{{ $skbm->nama }}</td>
+                                            <td class="text-center align-middle">{{ $skbm->status_surat }}</td>
+                                            {{-- <td class="text-center align-middle">
+                                                <a href="{{ url('dokumen_bukti/' . $sk_usaha->bukti) }}">
+                                                    <button class="btn btn-success" type="button">Unduh</button>
+                                                </a>
+                                            </td> --}}
+                                            <td class="text-center">
+                                                <div class="d-flex justify-content-center flex-wrap">
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKBM" data-bs-id="{{ $skbm->id_sk_belum_menikah }}" class="btn btn-info btn-sm mx-1">Detail</button>
+                                                    {{-- <a role="button" class="btn btn-warning btn-sm mx-1" title="Ubah Data" data-bs-toggle="modal" data-bs-target="#ubahSKBM" data-bs-id="{{ $skbm->id_sk_belum_menikah }}">Ubah</a> --}}
+                                                    <form method="POST" action="{{ route('skbm_setuju', $skbm->id_sk_belum_menikah) }}" id="setuju-surat-{{ $skbm->id_sk_belum_menikah }}" class="d-inline">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="button" id="btnSetuju-{{ $skbm->id_sk_belum_menikah }}" class="btn btn-success btn-sm mx-1">Setuju</button>
+                                                    </form>
+                                                    <form method="POST" action="{{ route('skbm_tolak', $skbm->id_sk_belum_menikah) }}" id="tolak-surat-{{ $skbm->id_sk_belum_menikah }}" class="d-inline">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="button" id="btnTolak-{{ $skbm->id_sk_belum_menikah }}" class="btn btn-danger btn-sm mx-1">Tolak</button>
+                                                    </form>
+                                                </div>
+                                                <script>
+                                                    // BUTTON SETUJU
+                                                    $('#btnSetuju-{{ $skbm->id_sk_belum_menikah  }}').click(function(event){
                                                         event.preventDefault();
                                                         Swal.fire({
                                                             icon: "info",
-                                                            title: "Hapus Surat",
-                                                            text: "Apakah Anda yakin ingin menghapus surat ini?",
+                                                            title: "Setujui Surat",
+                                                            text: "Apakah Anda yakin ingin menyetujui surat ini?",
                                                             showCancelButton: true,
                                                             confirmButtonText: "Ya, Lanjutkan",
                                                             cancelButtonText: "Tidak, Batalkan",
                                                         }).then(function (result) {
                                                             if (result.isConfirmed) {
-                                                                $('#hapus-surat-{{ $sk_usaha->id_sk_usaha }}').submit();
+                                                                $('#setuju-surat-{{ $skbm->id_sk_belum_menikah}}').submit();
+                                                            }
+                                                        });
+                                                    });
+
+                                                    // BUTTON TOLAK
+                                                    $('#btnTolak-{{ $skbm->id_sk_belum_menikah }}').click(function(event){
+                                                        event.preventDefault();
+                                                        Swal.fire({
+                                                            icon: "info",
+                                                            title: "Tolak Surat",
+                                                            text: "Apakah Anda yakin ingin menolak surat ini?",
+                                                            input: 'textarea',
+                                                            inputPlaceholder: 'Masukkan pesan penolakan jika surat akan ditolak',
+                                                            showCancelButton: true,
+                                                            confirmButtonText: "Tolak",
+                                                            cancelButtonText: "Kembali",
+                                                        }).then((result) => {
+                                                            if (result.isConfirmed) {
+                                                                var pesan = result.value; // Ambil nilai dari input teks
+                                                                $('#tolak-surat-{{ $skbm->id_sk_belum_menikah }}')
+                                                                    .append('<input type="hidden" name="aksi" value="tolak">')
+                                                                    .append('<input type="hidden" name="alasan_tolak" value="' + pesan + '">') // Kirim nilai pesan ke server
+                                                                    .submit();
                                                             }
                                                         });
                                                     });
@@ -543,6 +591,78 @@
             </div>
         </div>
     </div>
+
+    {{-- DETAIL SKBM --}}
+    <div class="modal fade" id="detailSKBM" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">DETAIL SURAT KETERANGAN BELUM MENIKAH</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id_sk_belum_menikah" id="id_sk_belum_menikah" required>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Jenis Surat</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_jenis_surat_2"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Nama</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nama_2"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">NIK</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nik_2"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Tempat, Tanggal Lahir</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_ttl_2"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Status Nikah</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_status_nikah_2"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Agama</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_agama_2"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Pekerjaan</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_pekerjaan_2"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Alamat</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_alamat_2"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Keperluan</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_keperluan_2"></label></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>    
 
     {{-- SURAT KETERANGAN BELUM MENIKAH --}}
     <div class="modal fade" id="ubahSKBM" tabindex="-1" aria-hidden="true">
@@ -1366,6 +1486,41 @@
                         }
                     }
                 }, 
+            });
+        });
+
+        // DETAIL SKBM
+        $('#detailSKBM').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            $.ajax({
+                url: '{{ route("get_data_skbm") }}',
+                type: 'POST',
+                data: {
+                    id: button.data('bs-id'),
+                    _token: '{{ csrf_token() }}',
+                },
+                dataType: 'JSON',
+                success: function(response) {
+                    if (response.status == 'success') {
+                        var surat = response.surat;
+                        $("#detail_jenis_surat_2").html(surat.jenis_surat);
+                        $("#detail_nama_2").html(surat.nama);
+                        $("#detail_nik_2").html(surat.nik);
+                        $("#detail_ttl_2").html(surat.ttl);
+                        $("#detail_status_nikah_2").html(surat.status_nikah);
+                        $("#detail_agama_2").html(surat.agama);
+                        $("#detail_alamat_2").html(surat.alamat);
+                        $("#detail_keperluan_2").html(surat.keperluan);
+
+                        if (surat.pekerjaan === 'Lainnya') {
+                            $("#detail_pekerjaan_2").html(surat.pekerjaan_lainnya);
+                            $("#pekerjaan_lainnya_2_row").show();
+                        } else {
+                            $("#detail_pekerjaan_2").html(surat.pekerjaan);
+                            $("#pekerjaan_lainnya_2_row").hide();
+                        }
+                    }
+                },
             });
         });
     </script>

@@ -41,6 +41,7 @@ Route::middleware(['auth'])->group(function() {
     })->name('jabatan')->middleware('userAccess:Pegawai');
     
     Route::post('buat_sku', [SuratController::class, 'buat_sku'])->name('buat_sku');
+    Route::post('buat_skbm', [SuratController::class, 'buat_skbm'])->name('buat_skbm');
 
     Route::get('surat_disetujui', [SuratController::class, 'surat_disetujui'])->name('surat.surat_disetujui')->middleware('userAccess:Pegawai'); 
     Route::get('surat_ditolak', [SuratController::class, 'surat_ditolak'])->name('surat.surat_ditolak')->middleware('userAccess:Pegawai'); 
@@ -64,6 +65,23 @@ Route::middleware(['auth'])->group(function() {
     Route::post('/update-peran', [UserController::class, 'updatePeran'])->name('update_peran');
 
     Route::post('get_data_sku', [SuratController::class, 'get_data_sku'])->name('get_data_sku');
+    Route::post('get_data_skbm', [SuratController::class, 'get_data_skbm'])->name('get_data_skbm');
+
+    Route::put('sku_setuju/{id_sk_usaha}', [SuratController::class, 'sku_setuju'])->name('sku_setuju'); 
+    Route::put('skbm_setuju/{id_sk_belum_menikah}', [SuratController::class, 'skbm_setuju'])->name('skbm_setuju'); 
+
+
+    Route::put('verifikasi_sk_usaha/{id_sk_usaha}', [SuratController::class, 'verifikasi_sk_usaha'])->name('verifikasi_sk_usaha');
+    Route::put('skbm_tolak/{id_sk_belum_menikah}', [SuratController::class, 'skbm_tolak'])->name('skbm_tolak');
+
+    Route::get('unduh_sku/{id_sk_usaha}', [SuratController::class, 'unduh_sku'])->name('unduh_sku');
+    Route::get('unduh_skbm/{id_sk_belum_menikah}', [SuratController::class, 'unduh_skbm'])->name('unduh_skbm');
+
+    Route::put('sku_selesai/{id_sk_usaha}', [SuratController::class, 'sku_selesai'])->name('sku_selesai'); 
+    Route::put('skbm_selesai/{id_sk_belum_menikah}', [SuratController::class, 'skbm_selesai'])->name('skbm_selesai'); 
+
+    Route::delete('hapus_sk_usaha/{id_sk_usaha}', [SuratController::class, 'hapus_sk_usaha'])->name('hapus_sk_usaha');
+    Route::delete('hapus_skbm/{id_sk_belum_menikah}', [SuratController::class, 'hapus_skbm'])->name('hapus_skbm');
 
     Route::get('keluar', [UserController::class, 'keluar'])->name('keluar'); 
 
@@ -144,8 +162,6 @@ Route::get('ubah_isi_skd/{id_sk_domisili}', [SuratController::class, 'ubah_isi_s
 Route::get('ubah_isi_sktm/{id_sk_tidak_mampu}', [SuratController::class, 'ubah_isi_sktm']);
 
 Route::put('verifikasi_surat/{id_surat}', [SuratController::class, 'verifikasi_surat'])->name('verifikasi_surat');
-Route::put('verifikasi_sk_usaha/{id_sk_usaha}', [SuratController::class, 'verifikasi_sk_usaha'])->name('verifikasi_sk_usaha');
-Route::put('verifikasi_sk_belum_menikah/{id_sk_belum_menikah}', [SuratController::class, 'verifikasi_sk_belum_menikah'])->name('verifikasi_sk_belum_menikah');
 Route::put('verifikasi_sk_domisili/{id_sk_domisili}', [SuratController::class, 'verifikasi_sk_domisili'])->name('verifikasi_sk_domisili');
 Route::put('verifikasi_sk_tidak_mampu/{id_sk_tidak_mampu}', [SuratController::class, 'verifikasi_sk_tidak_mampu'])->name('verifikasi_sk_tidak_mampu');
 
@@ -153,23 +169,17 @@ Route::get('surat_masuk', [SuratController::class, 'index'])->name('surat.res_su
 Route::get('riwayat_surat', [SuratController::class, 'riwayat_surat'])->name('surat.riwayat_surat'); 
 Route::put('surat_selesai/{id_surat}', [SuratController::class, 'surat_selesai'])->name('surat_selesai'); 
 
-Route::put('sku_selesai/{id_sk_usaha}', [SuratController::class, 'sku_selesai'])->name('sku_selesai'); 
 Route::put('sku_setuju/{id_sk_usaha}', [SuratController::class, 'sku_setuju'])->name('sku_setuju'); 
-Route::put('skbm_selesai/{id_sk_belum_menikah}', [SuratController::class, 'skbm_selesai'])->name('skbm_selesai'); 
 Route::put('skd_selesai/{id_sk_domisili}', [SuratController::class, 'skd_selesai'])->name('skd_selesai'); 
 Route::put('sktm_selesai/{id_sk_tidak_mampu}', [SuratController::class, 'sktm_selesai'])->name('sktm_selesai'); 
 
 Route::get('cari_surat', [SuratController::class, 'cari_surat'])->name('cari_surat');
 
 Route::delete('hapus_surat/{id_surat}', [SuratController::class, 'hapus_surat'])->name('hapus_surat');
-Route::delete('hapus_sk_usaha/{id_sk_usaha}', [SuratController::class, 'hapus_sk_usaha'])->name('hapus_sk_usaha');
-Route::delete('hapus_sk_belum_menikah/{id_sk_belum_menikah}', [SuratController::class, 'hapus_sk_belum_menikah'])->name('hapus_sk_belum_menikah');
 Route::delete('hapus_sk_domisili/{id_sk_domisili}', [SuratController::class, 'hapus_sk_domisili'])->name('hapus_sk_domisili');
 Route::delete('hapus_sk_tidak_mampu/{id_sk_tidak_mampu}', [SuratController::class, 'hapus_sk_tidak_mampu'])->name('hapus_sk_tidak_mampu');
 
 Route::get('unduh_surat/{jenis_surat}/{id_surat}', [SuratController::class, 'unduh_surat'])->name('unduh_surat');
-Route::get('unduh_sk_usaha/{id_sk_usaha}', [SuratController::class, 'unduh_sk_usaha'])->name('unduh_sk_usaha');
-Route::get('unduh_sk_belum_menikah/{id_sk_belum_menikah}', [SuratController::class, 'unduh_sk_belum_menikah'])->name('unduh_sk_belum_menikah');
 Route::get('unduh_sk_domisili/{id_sk_domisili}', [SuratController::class, 'unduh_sk_domisili'])->name('unduh_sk_domisili');
 Route::get('unduh_sk_tidak_mampu/{id_sk_tidak_mampu}', [SuratController::class, 'unduh_sk_tidak_mampu'])->name('unduh_sk_tidak_mampu');
 
