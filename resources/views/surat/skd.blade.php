@@ -47,7 +47,7 @@
                                             <td class="text-center align-middle">{{ $skd->status_surat }}</td>
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKD" data-bs-id="{{ $skd->id_sk_domisili }}" class="btn btn-info btn-sm">Detail</button>
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKD" data-bs-id="{{ $skd->id_sk_domisili }}" class="btn btn-primary btn-sm me-1">Detail</button>
                                                 </div>
                                                 <script>
                                                 </script>

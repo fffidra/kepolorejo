@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class SKTidakMampu extends Model
 {
@@ -20,33 +21,24 @@ class SKTidakMampu extends Model
         'ttl',
         'agama',
         'pekerjaan',
+        'pekerjaan_lainnya',
         'alamat',
         'keperluan',
         'bukti',
         'status_surat',
         'tanggal',
-        'jabatan',
         'pemohon',
         'verifikator',
+        'pesan',
     ];
 
     public $timestamps = false;
 
-    // TANGGAL & WAKTU
-    // protected static function boot(){
-    //     parent::boot();
-
-    //     static::creating(function ($surat) {
-    //         $surat->tanggal = now()->format('Y-m-d H:i:s'); 
-    //     });
-    // }
-
-    protected static function boot()
-    {
+    protected static function boot(){
         parent::boot();
-
+    
         static::creating(function ($surat) {
-            $surat->tanggal = now()->format('Y-m-d'); 
+            $surat->tanggal = Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s');
         });
     }
 

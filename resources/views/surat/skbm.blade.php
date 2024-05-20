@@ -47,7 +47,7 @@
                                             <td class="text-center align-middle">{{ $skbm->status_surat }}</td>
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKBM" data-bs-id="{{ $skbm->id_sk_belum_menikah }}" class="btn btn-info btn-sm">Detail</button>
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKBM" data-bs-id="{{ $skbm->id_sk_belum_menikah }}" class="btn btn-primary btn-sm me-1">Detail</button>
                                                 </div>
                                                 <script>
                                                 </script>

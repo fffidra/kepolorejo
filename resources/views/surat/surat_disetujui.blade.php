@@ -49,9 +49,9 @@
                                             <td class="text-center align-middle">{{ $sk_usaha->verifikator }}</td>
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" class="btn btn-info btn-sm me-2">Detail</button>
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" class="btn btn-primary btn-sm me-2">Detail</button>
                                                 
-                                                    <a href="{{ route('unduh_sku', ['id_sk_usaha' => $sk_usaha->id_sk_usaha]) }}" target="_blank" class="btn btn-success btn-sm" style="margin-right: 10px;">Unduh</a> 
+                                                    <a href="{{ route('unduh_sku', ['id_sk_usaha' => $sk_usaha->id_sk_usaha]) }}" target="_blank" class="btn btn-success btn-sm me-2" style="margin-right: 10px;">Unduh</a> 
                                                 
                                                     {{-- <button type="button" data-bs-toggle="modal" data-bs-target="#modalDokumen" data-bs-id="{{ $surat->id_surat }}" class="btn btn-info btn-sm">Ubah</button> --}}
                                                 
@@ -106,9 +106,9 @@
                                             <td class="text-center align-middle">{{ $skbm->verifikator }}</td>
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKBM" data-bs-id="{{ $skbm->id_sk_belum_menikah }}" class="btn btn-info btn-sm me-2">Detail</button>
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKBM" data-bs-id="{{ $skbm->id_sk_belum_menikah }}" class="btn btn-primary btn-sm me-2">Detail</button>
                                                 
-                                                    <a href="{{ route('unduh_skbm', ['id_sk_belum_menikah' => $skbm->id_sk_belum_menikah]) }}" target="_blank" class="btn btn-success btn-sm" style="margin-right: 10px;">Unduh</a> 
+                                                    <a href="{{ route('unduh_skbm', ['id_sk_belum_menikah' => $skbm->id_sk_belum_menikah]) }}" target="_blank" class="btn btn-success btn-sm me-2" style="margin-right: 10px;">Unduh</a> 
                                                 
                                                     {{-- <button type="button" data-bs-toggle="modal" data-bs-target="#modalDokumen" data-bs-id="{{ $surat->id_surat }}" class="btn btn-info btn-sm">Ubah</button> --}}
                                                 
@@ -163,9 +163,9 @@
                                             <td class="text-center align-middle">{{ $skd->verifikator }}</td>
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKD" data-bs-id="{{ $skd->id_sk_domisili }}" class="btn btn-info btn-sm me-2">Detail</button>
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKD" data-bs-id="{{ $skd->id_sk_domisili }}" class="btn btn-primary btn-sm me-2">Detail</button>
                                                 
-                                                    <a href="{{ route('unduh_skd', ['id_sk_domisili' => $skd->id_sk_domisili]) }}" target="_blank" class="btn btn-success btn-sm" style="margin-right: 10px;">Unduh</a> 
+                                                    <a href="{{ route('unduh_skd', ['id_sk_domisili' => $skd->id_sk_domisili]) }}" target="_blank" class="btn btn-success btn-sm me-2" style="margin-right: 10px;">Unduh</a> 
                                                 
                                                     {{-- <button type="button" data-bs-toggle="modal" data-bs-target="#modalDokumen" data-bs-id="{{ $surat->id_surat }}" class="btn btn-info btn-sm">Ubah</button> --}}
                                                 
@@ -189,6 +189,65 @@
                                                             if (result.isConfirmed) {
                                                                 $('#selesai-surat-{{ $skd->id_sk_domisili }}').submit();
                                                             }
+                                                        });
+                                                    });
+
+                                                    // Menambahkan event listener ke tombol 'Unduh'
+                                                    $('#unduhButton').click(function() {
+                                                        // Mendapatkan jenis surat dan id surat dari baris tabel terpilih
+                                                        var jenisSurat = $('.selected-row').attr('data-jenis-surat');
+                                                        var idSurat = $('.selected-row').attr('data-id-surat');
+
+                                                        // Membuat URL unduhan berdasarkan jenis surat dan id surat
+                                                        var url = "{{ route('unduh_surat', ['jenis_surat' => ':jenis_surat', 'id_surat' => ':id_surat']) }}";
+                                                        url = url.replace(':jenis_surat', jenisSurat).replace(':id_surat', idSurat);
+
+                                                        // Mengarahkan jendela baru untuk mengunduh surat
+                                                        window.open(url, '_blank');
+                                                    });
+                                                </script>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+
+                                    @foreach(\App\Models\SKTidakMampu::where('status_surat', '=', 'Disetujui')->get() as $sktm)
+                                        <tr>
+                                            <td class="text-center align-middle">{{ $sktm->tanggal }}</td>
+                                            <td class="text-center align-middle">{{ $sktm->jenis_surat }}</td>
+                                            <td class="text-center align-middle">{{ $sktm->nik }}</td>
+                                            <td class="text-center align-middle">{{ $sktm->nama }}</td>
+                                            <td class="text-center align-middle">{{ $sktm->status_surat }}</td>
+                                            <td class="text-center align-middle">{{ $sktm->verifikator }}</td>
+                                            <td class="text-center">
+                                                <div class="d-flex justify-content-center">
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKTM" data-bs-id="{{ $sktm->id_sk_tidak_mampu }}" class="btn btn-primary btn-sm me-2">Detail</button>
+                                                
+                                                    <a href="{{ route('unduh_sktm', ['id_sk_tidak_mampu' => $sktm->id_sk_tidak_mampu]) }}" target="_blank" class="btn btn-success btn-sm me-2">Unduh</a>
+                                                
+                                                    {{-- <button type="button" data-bs-toggle="modal" data-bs-target="#modalDokumen" data-bs-id="{{ $surat->id_surat }}" class="btn btn-info btn-sm">Ubah</button> --}}
+                                                
+                                                    <form method="POST" action="{{ route('sktm_selesai', $sktm->id_sk_tidak_mampu) }}" id="selesai-surat-{{ $sktm->id_sk_tidak_mampu }}">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="button" id="btnSelesai-{{ $sktm->id_sk_tidak_mampu }}" class="btn btn-warning btn-sm">Selesai</button>
+                                                    </form>
+                                                </div>
+                                                <script>
+                                                    $(document).ready(function() {
+                                                        $('#btnSelesai-{{ $sktm->id_sk_tidak_mampu }}').click(function(event){
+                                                            event.preventDefault();
+                                                            Swal.fire({
+                                                                icon: "info",
+                                                                title: "Konfirmasi",
+                                                                text: "Apakah Anda yakin ingin menyelesaikan surat ini?",
+                                                                showCancelButton: true,
+                                                                confirmButtonText: "Ya, Lanjutkan",
+                                                                cancelButtonText: "Tidak, Batalkan",
+                                                            }).then(function (result) {
+                                                                if (result.isConfirmed) {
+                                                                    $('#selesai-surat-{{ $sktm->id_sk_tidak_mampu }}').submit();
+                                                                }
+                                                            });
                                                         });
                                                     });
 
@@ -480,6 +539,72 @@
                 </div>
             </div>
         </div>
+    </div>
+    
+    {{-- DETAIL SKTM --}}
+    <div class="modal fade" id="detailSKTM" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">DETAIL SURAT KETERANGAN TIDAK MAMPU</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id_sk_tidak_mampu" id="id_sk_tidak_mampu" required>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Jenis Surat</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_jenis_surat_4"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Nama</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nama_4"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">NIK</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nik_4"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Tempat, Tanggal Lahir</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_ttl_4"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Agama</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_agama_4"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Pekerjaan</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_pekerjaan_4"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Alamat</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_alamat_4"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Keperluan</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_keperluan_4"></label></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
     </div>    
 @endsection
 
@@ -610,6 +735,40 @@
                         } else {
                             $("#detail_pekerjaan_3").html(surat.pekerjaan);
                             $("#pekerjaan_lainnya_3_row").hide();
+                        }
+                    }
+                },
+            });
+        });
+
+        // DETAIL SKTM
+        $('#detailSKTM').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            $.ajax({
+                url: '{{ route("get_data_sktm") }}',
+                type: 'POST',
+                data: {
+                    id: button.data('bs-id'),
+                    _token: '{{ csrf_token() }}',
+                },
+                dataType: 'JSON',
+                success: function(response) {
+                    if (response.status == 'success') {
+                        var surat = response.surat;
+                        $("#detail_jenis_surat_4").html(surat.jenis_surat);
+                        $("#detail_nama_4").html(surat.nama);
+                        $("#detail_nik_4").html(surat.nik);
+                        $("#detail_ttl_4").html(surat.ttl);
+                        $("#detail_agama_4").html(surat.agama);
+                        $("#detail_alamat_4").html(surat.alamat);
+                        $("#detail_keperluan_4").html(surat.keperluan);
+
+                        if (surat.pekerjaan === 'Lainnya') {
+                            $("#detail_pekerjaan_4").html(surat.pekerjaan_lainnya);
+                            $("#pekerjaan_lainnya_4_row").show();
+                        } else {
+                            $("#detail_pekerjaan_4").html(surat.pekerjaan);
+                            $("#pekerjaan_lainnya_4_row").hide();
                         }
                     }
                 },

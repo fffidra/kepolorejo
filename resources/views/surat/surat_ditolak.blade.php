@@ -49,7 +49,7 @@
                                             <td class="text-center align-middle">{{ $sk_usaha->verifikator }}</td>
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" data-bs-pesan="{{ $sk_usaha->pesan }}" class="btn btn-info btn-sm">Pesan Ditolak</button>
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" data-bs-pesan="{{ $sk_usaha->pesan }}" class="btn btn-primary btn-sm me-1">Pesan Ditolak</button>
                                                     <form method="POST" action="{{ route('hapus_sk_usaha', $sk_usaha->id_sk_usaha) }}" id="hapus-surat-{{ $sk_usaha->id_sk_usaha }}" class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
@@ -87,7 +87,7 @@
                                             <td class="text-center align-middle">{{ $skbm->verifikator }}</td>
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $skbm->id_sk_belum_menikah }}" data-bs-pesan="{{ $skbm->pesan }}" class="btn btn-info btn-sm">Pesan Ditolak</button>
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $skbm->id_sk_belum_menikah }}" data-bs-pesan="{{ $skbm->pesan }}" class="btn btn-primary btn-sm me-1">Pesan Ditolak</button>
                                                     <form method="POST" action="{{ route('hapus_skbm', $skbm->id_sk_belum_menikah) }}" id="hapus-surat-{{ $skbm->id_sk_belum_menikah }}" class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
@@ -125,7 +125,7 @@
                                             <td class="text-center align-middle">{{ $skd->verifikator }}</td>
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $skd->id_sk_domisili }}" data-bs-pesan="{{ $skd->pesan }}" class="btn btn-info btn-sm">Pesan Ditolak</button>
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $skd->id_sk_domisili }}" data-bs-pesan="{{ $skd->pesan }}" class="btn btn-primary btn-sm me-1">Pesan Ditolak</button>
                                                     <form method="POST" action="{{ route('hapus_skd', $skd->id_sk_domisili) }}" id="hapus-surat-{{ $skd->id_sk_domisili }}" class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
@@ -145,6 +145,44 @@
                                                         }).then(function (result) {
                                                             if (result.isConfirmed) {
                                                                 $('#hapus-surat-{{ $skd->id_sk_domisili }}').submit();
+                                                            }
+                                                        });
+                                                    });
+                                                </script>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+
+                                    @foreach(\App\Models\SKTidakMampu::where('status_surat', '=', 'Ditolak')->get() as $sktm)
+                                        <tr>
+                                            <td class="text-center align-middle">{{ $sktm->tanggal }}</td>
+                                            <td class="text-center align-middle">{{ $sktm->jenis_surat }}</td>
+                                            <td class="text-center align-middle">{{ $sktm->nik }}</td>
+                                            <td class="text-center align-middle">{{ $sktm->nama }}</td>
+                                            <td class="text-center align-middle">{{ $sktm->status_surat }}</td>
+                                            <td class="text-center align-middle">{{ $sktm->verifikator }}</td>
+                                            <td class="text-center">
+                                                <div class="d-flex justify-content-center">
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $sktm->id_sk_tidak_mampu }}" data-bs-pesan="{{ $sktm->pesan }}" class="btn btn-primary btn-sm me-1">Pesan Ditolak</button>
+                                                    <form method="POST" action="{{ route('hapus_sktm', $sktm->id_sk_tidak_mampu) }}" id="hapus-surat-{{ $sktm->id_sk_tidak_mampu }}" class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="button" id="btnHapus-{{ $sktm->id_sk_tidak_mampu }}" class="btn btn-danger btn-sm mx-1"><i class="bx bx-trash-alt"></i></button>
+                                                    </form>
+                                                </div>
+                                                <script>
+                                                    $('#btnHapus-{{ $sktm->id_sk_tidak_mampu }}').click(function(event){
+                                                        event.preventDefault();
+                                                        Swal.fire({
+                                                            icon: "info",
+                                                            title: "Hapus Surat",
+                                                            text: "Apakah Anda yakin ingin menghapus surat ini?",
+                                                            showCancelButton: true,
+                                                            confirmButtonText: "Ya, Lanjutkan",
+                                                            cancelButtonText: "Tidak, Batalkan",
+                                                        }).then(function (result) {
+                                                            if (result.isConfirmed) {
+                                                                $('#hapus-surat-{{ $sktm->id_sk_tidak_mampu }}').submit();
                                                             }
                                                         });
                                                     });
