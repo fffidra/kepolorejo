@@ -201,7 +201,7 @@ class SuratController extends Controller
     public function buat_sku(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'jenis_surat' => 'required',
+            'jenis_surat_1' => 'required',
             'nama' => 'required',
             'nik' => 'required',
             'ttl' => 'required',
@@ -212,7 +212,9 @@ class SuratController extends Controller
             'alamat' => 'required',
             'usaha' => 'required',
             'keperluan' => 'required',
-            'bukti' => 'required|mimes:jpg,jpeg,png,doc,docx,pdf',
+            'bukti_suket' => 'required|mimes:jpg,jpeg,png,doc,docx,pdf',
+            'bukti_kk' => 'required|mimes:jpg,jpeg,png,doc,docx,pdf',
+            'bukti_ktp' => 'required|mimes:jpg,jpeg,png,doc,docx,pdf',
         ]);
         // dd($validator);
 
@@ -225,12 +227,22 @@ class SuratController extends Controller
             return back()->withErrors($validator)->withInput();
         }
     
-        $bukti = $request->file('bukti');
-        $nama_bukti = 'SKU_' . date('Ymdhis') . '.' . $bukti->getClientOriginalExtension();
-        $bukti->move(public_path('bukti_dokumen'), $nama_bukti);
+        $nik = Auth::user()->nik;
+        
+        $bukti_suket = $request->file('bukti_suket');
+        $nama_bukti_suket = 'SUKET_' . $nik . '_' . date('Ymdhis') . '.' . $bukti_suket->getClientOriginalExtension();
+        $bukti_suket->move(public_path('bukti_dokumen/SKU'), $nama_bukti_suket);
+
+        $bukti_kk = $request->file('bukti_kk');
+        $nama_bukti_kk = 'KK_' . $nik . '_' . date('Ymdhis') . '.' . $bukti_kk->getClientOriginalExtension();
+        $bukti_kk->move(public_path('bukti_dokumen/SKU'), $nama_bukti_kk);
+
+        $bukti_ktp = $request->file('bukti_ktp');
+        $nama_bukti_ktp = 'KTP_' . $nik . '_' . date('Ymdhis') . '.' . $bukti_ktp->getClientOriginalExtension();
+        $bukti_ktp->move(public_path('bukti_dokumen/SKU'), $nama_bukti_ktp);
     
         SKUsaha::create([
-            'jenis_surat' => $request->jenis_surat,
+            'jenis_surat' => $request->jenis_surat_1,
             'nama' => $request->nama,
             'nik' => $request->nik,
             'ttl' => $request->ttl,
@@ -241,7 +253,9 @@ class SuratController extends Controller
             'alamat' => $request->alamat,
             'usaha' => $request->usaha,
             'keperluan' => $request->keperluan,
-            'bukti' => $nama_bukti,
+            'bukti_suket' => $nama_bukti_suket,
+            'bukti_kk' => $nama_bukti_kk,
+            'bukti_ktp' => $nama_bukti_ktp,
             'pemohon' => auth()->user()->nik,
         ]);
     
@@ -323,7 +337,9 @@ class SuratController extends Controller
             'alamat' => 'required',
             'alamat_dom' => 'required',
             'keperluan' => 'required',
-            'bukti' => 'required|mimes:jpg,jpeg,png,doc,docx,pdf',
+            'bukti_suket' => 'required|mimes:jpg,jpeg,png,doc,docx,pdf',
+            'bukti_kk' => 'required|mimes:jpg,jpeg,png,doc,docx,pdf',
+            'bukti_ktp' => 'required|mimes:jpg,jpeg,png,doc,docx,pdf',
         ]);
         // dd($validator);
 
@@ -336,9 +352,19 @@ class SuratController extends Controller
             return back()->withErrors($validator)->withInput();
         }
     
-        $bukti = $request->file('bukti');
-        $nama_bukti = 'SKD_' . date('Ymdhis') . '.' . $bukti->getClientOriginalExtension();
-        $bukti->move(public_path('bukti_dokumen'), $nama_bukti);
+        $nik = Auth::user()->nik;
+        
+        $bukti_suket = $request->file('bukti_suket');
+        $nama_bukti_suket = 'SUKET_' . $nik . '_' . date('Ymdhis') . '.' . $bukti_suket->getClientOriginalExtension();
+        $bukti_suket->move(public_path('bukti_dokumen/SKD'), $nama_bukti_suket);
+
+        $bukti_kk = $request->file('bukti_kk');
+        $nama_bukti_kk = 'KK_' . $nik . '_' . date('Ymdhis') . '.' . $bukti_kk->getClientOriginalExtension();
+        $bukti_kk->move(public_path('bukti_dokumen/SKD'), $nama_bukti_kk);
+
+        $bukti_ktp = $request->file('bukti_ktp');
+        $nama_bukti_ktp = 'KTP_' . $nik . '_' . date('Ymdhis') . '.' . $bukti_ktp->getClientOriginalExtension();
+        $bukti_ktp->move(public_path('bukti_dokumen/SKD'), $nama_bukti_ktp);
     
         SKDomisili::create([
             'jenis_surat' => $request->jenis_surat_3,
@@ -353,7 +379,9 @@ class SuratController extends Controller
             'alamat' => $request->alamat,
             'alamat_dom' => $request->alamat_dom,
             'keperluan' => $request->keperluan,
-            'bukti' => $nama_bukti,
+            'bukti_suket' => $nama_bukti_suket,
+            'bukti_kk' => $nama_bukti_kk,
+            'bukti_ktp' => $nama_bukti_ktp,
             'pemohon' => auth()->user()->nik,
         ]);
     
@@ -378,7 +406,9 @@ class SuratController extends Controller
             'pekerjaan_lainnya_4' => 'nullable',
             'alamat' => 'required',
             'keperluan' => 'required',
-            'bukti' => 'required|mimes:jpg,jpeg,png,doc,docx,pdf',
+            'bukti_suket' => 'required|mimes:jpg,jpeg,png,doc,docx,pdf',
+            'bukti_kk' => 'required|mimes:jpg,jpeg,png,doc,docx,pdf',
+            'bukti_ktp' => 'required|mimes:jpg,jpeg,png,doc,docx,pdf',
         ]);
         // dd($validator);
 
@@ -391,9 +421,19 @@ class SuratController extends Controller
             return back()->withErrors($validator)->withInput();
         }
     
-        $bukti = $request->file('bukti');
-        $nama_bukti = 'SKTM_' . date('Ymdhis') . '.' . $bukti->getClientOriginalExtension();
-        $bukti->move(public_path('bukti_dokumen'), $nama_bukti);
+        $nik = Auth::user()->nik;
+        
+        $bukti_suket = $request->file('bukti_suket');
+        $nama_bukti_suket = 'SUKET_' . $nik . '_' . date('Ymdhis') . '.' . $bukti_suket->getClientOriginalExtension();
+        $bukti_suket->move(public_path('bukti_dokumen/SKTM'), $nama_bukti_suket);
+
+        $bukti_kk = $request->file('bukti_kk');
+        $nama_bukti_kk = 'KK_' . $nik . '_' . date('Ymdhis') . '.' . $bukti_kk->getClientOriginalExtension();
+        $bukti_kk->move(public_path('bukti_dokumen/SKTM'), $nama_bukti_kk);
+
+        $bukti_ktp = $request->file('bukti_ktp');
+        $nama_bukti_ktp = 'KTP_' . $nik . '_' . date('Ymdhis') . '.' . $bukti_ktp->getClientOriginalExtension();
+        $bukti_ktp->move(public_path('bukti_dokumen/SKTM'), $nama_bukti_ktp);
     
         SKTidakMampu::create([
             'jenis_surat' => $request->jenis_surat_4,
@@ -405,7 +445,9 @@ class SuratController extends Controller
             'pekerjaan_lainnya' => $request->pekerjaan_4 == 'Lainnya' ? $request->pekerjaan_lainnya_4 : null,
             'alamat' => $request->alamat,
             'keperluan' => $request->keperluan,
-            'bukti' => $nama_bukti,
+            'bukti_suket' => $nama_bukti_suket,
+            'bukti_kk' => $nama_bukti_kk,
+            'bukti_ktp' => $nama_bukti_ktp,
             'pemohon' => auth()->user()->nik,
         ]);
     
@@ -1530,26 +1572,6 @@ class SuratController extends Controller
         }
         return back();
     }
-
-    // public function hapus_sk_tidak_mampu($id_sk_tidak_mampu) 
-    // {
-    //     $surat = SKTidakMampu::findOrFail($id_sk_tidak_mampu);
-    //     if($surat) {
-    //         Session::flash('alert', [
-    //             'type' => 'success',
-    //             'title' => 'Hapus Data '.$surat->nama.' Berhasil',
-    //             'message' => "",
-    //         ]); 
-    //         $surat->delete();
-    //     } else {
-    //         Session::flash('alert', [
-    //             'type' => 'error',
-    //             'title' => 'Hapus Data Gagal',
-    //             'message' => 'NIP Tidak Valid!',
-    //         ]); 
-    //     }
-    //     return back();
-    // }
 
     public function unduh_sku($id_sk_usaha)
     {

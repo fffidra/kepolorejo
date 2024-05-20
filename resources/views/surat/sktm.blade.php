@@ -77,51 +77,85 @@
                 <div class="modal-body">
                     <input type="hidden" name="id_sk_tidak_mampu" id="id_sk_tidak_mampu" required>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Jenis Surat</label>
+                        <label class="col-md-2 col-form-label"><strong>JENIS SURAT</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_jenis_surat_4"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Nama</label>
+                        <label class="col-md-2 col-form-label"><strong>NAMA</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nama_4"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">NIK</label>
+                        <label class="col-md-2 col-form-label"><strong>NIK</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nik_4"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Tempat, Tanggal Lahir</label>
+                        <label class="col-md-2 col-form-label"><strong>TEMPAT, TANGGAL LAHIR</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_ttl_4"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Agama</label>
+                        <label class="col-md-2 col-form-label"><strong>AGAMA</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_agama_4"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Pekerjaan</label>
+                        <label class="col-md-2 col-form-label"><strong>PEKERJAAN</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_pekerjaan_4"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Alamat</label>
+                        <label class="col-md-2 col-form-label"><strong>ALAMAT</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_alamat_4"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Keperluan</label>
+                        <label class="col-md-2 col-form-label"><strong>KEPERLUAN</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_keperluan_4"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label"><strong>BERKAS PERSYARATAN</strong></label>
+                        <div class="col-md-9">
+                            <div class="d-flex">
+                                <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <ul class="list-unstyled mb-0 w-100">
+                                    <li class="row align-items-center mb-1">
+                                        <div class="col-md-6">
+                                            <label class="form-label mb-0">Surat Pengantar RT/RW</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a id="detail_bukti_suket_4" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
+                                        </div>
+                                    </li>
+                                    <li class="row align-items-center mb-1">
+                                        <div class="col-md-6">
+                                            <label class="form-label mb-0">Kartu Keluarga (KK)</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a id="detail_bukti_kk_4" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
+                                        </div>
+                                    </li>
+                                    <li class="row align-items-center">
+                                        <div class="col-md-6">
+                                            <label class="form-label mb-0">Kartu Tanda Penduduk (KTP)</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a id="detail_bukti_ktp_4" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -130,7 +164,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> 
 @endsection
 
 @section('script')
@@ -179,6 +213,9 @@
                         $("#detail_agama_4").html(surat.agama);
                         $("#detail_alamat_4").html(surat.alamat);
                         $("#detail_keperluan_4").html(surat.keperluan);
+                        $("#detail_bukti_suket_4").attr("href", '/bukti_dokumen/SKTM/' + surat.bukti_suket);
+                        $("#detail_bukti_kk_4").attr("href", '/bukti_dokumen/SKTM/' + surat.bukti_kk);
+                        $("#detail_bukti_ktp_4").attr("href", '/bukti_dokumen/SKTM/' + surat.bukti_ktp);
 
                         if (surat.pekerjaan === 'Lainnya') {
                             $("#detail_pekerjaan_4").html(surat.pekerjaan_lainnya);

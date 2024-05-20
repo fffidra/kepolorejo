@@ -142,7 +142,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="jenis_surat" class="form-label">Jenis Surat</label>
+                        <label for="jenis_surat" class="form-label"><strong>JENIS SURAT</strong></label>
                         <select class="form-select" id="jenis_surat" name="jenis_surat" required onchange="showForm()" required>
                             <option value="" selected hidden>-- Pilih Jenis Surat --</option>
                             @foreach(\App\Models\JenisSurat::all() as $jenis_surats)
@@ -151,25 +151,25 @@
                         </select>
                     </div>
 
-                    {{-- SKU --}}
+                    {{-- USAHA --}}
                     <form method="POST" action="{{ route('buat_sku') }}" enctype="multipart/form-data">
                         @csrf
                         <div id="form_surat_SURAT KETERANGAN USAHA" class="form_surat" style="display: none;">
-                            <input type="hidden" id="jenis_surat" name="jenis_surat" value="">
+                            <input type="hidden" id="jenis_surat_1" name="jenis_surat_1" value="">
                             <div class="mb-3">
-                                <label for="nama" class="form-label">Nama</label>
+                                <label for="nama" class="form-label"><strong>NAMA</strong></label>
                                 <input type="text" class="form-control" id="nama" name="nama" value="{{ auth()->user()->nama }}" readonly>
                             </div>
                             <div class="mb-3">
-                                <label for="nik" class="form-label">NIK</label>
+                                <label for="nik" class="form-label"><strong>NIK</strong></label>
                                 <input type="text" class="form-control" id="nik" name="nik" value="{{ auth()->user()->nik }}" readonly>
                             </div>
                             <div class="mb-3">
-                                <label for="ttl" class="form-label">Tempat, Tanggal Lahir (Contoh Format: Magetan, 30 Maret 1999)</label>
+                                <label for="ttl" class="form-label"><strong>TEMPAT, TANGGAL LAHIR - <span style="color: red;">(Contoh: Magetan, 30 Maret 1999)</span></strong></label>
                                 <input type="text" class="form-control" id="ttl" name="ttl" placeholder="Contoh: Magetan, 30 Maret 1999" required>
                             </div>
                             <div class="mb-3">
-                                <label for="status_nikah" class="form-label">Status</label>
+                                <label for="status_nikah" class="form-label"><strong>STATUS NIKAH</strong></label>
                                 <select class="form-select" id="status_nikah" name="status_nikah" required>
                                     <option value="" selected hidden>-- Pilih Status --</option>
                                     @foreach(\App\Models\Status::all() as $status_nikahs)
@@ -178,7 +178,7 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="agama" class="form-label">Agama</label>
+                                <label for="agama" class="form-label"><strong>AGAMA</strong></label>
                                 <select class="form-select" id="agama" name="agama" required>
                                     <option value="" selected hidden>-- Pilih Agama --</option>
                                     @foreach(\App\Models\Agama::all() as $agamas)
@@ -187,34 +187,39 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="pekerjaan" class="form-label">Pekerjaan</label>
-                                <select class="form-select" id="pekerjaan" name="pekerjaan" required onchange="togglePekerjaanLainnya(this)">
+                                <label for="pekerjaan" class="form-label"><strong>PEKERJAAN</strong></label>
+                                <select class="form-select" id="pekerjaan" name="pekerjaan" required>
                                     <option value="" selected hidden>-- Pilih Pekerjaan --</option>
-                                    @foreach(\App\Models\Pekerjaan::all() as $pekerjaan)
-                                        <option value="{{ $pekerjaan->nama_pekerjaan }}">{{ $pekerjaan->nama_pekerjaan }}</option>
+                                    @foreach(\App\Models\Pekerjaan::all() as $pekerjaans)
+                                        <option value="{{ $pekerjaans->nama_pekerjaan }}">{{ $pekerjaans->nama_pekerjaan }}</option>
                                     @endforeach
-                                    <option value="Lainnya">Lainnya</option>
                                 </select>
                             </div>
                             <div class="mb-3" id="pekerjaan_lainnya_div" style="display: none;">
-                                <label for="pekerjaan_lainnya" class="form-label">Pekerjaan Lainnya</label>
-                                <input type="text" class="form-control" id="pekerjaan_lainnya" name="pekerjaan_lainnya" placeholder="Isikan pekerjaan lainnya yang belum ada di pilihan">
+                                <label for="pekerjaan_lainnya" class="form-label"><strong>PEKERJAAN LAINNYA</strong></label>
+                                <input type="text" class="form-control" id="pekerjaan_lainnya" name="pekerjaan_lainnya" placeholder="Isikan pekerjaan lainnya yang belum ada di pilihan" required>
                             </div>
                             <div class="mb-3">
-                                <label for="alamat" class="form-label">Alamat</label>
+                                <label for="alamat" class="form-label"><strong>ALAMAT</strong></label>
                                 <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Isikan alamat lengkap" required>
                             </div>
                             <div class="mb-3">
-                                <label for="usaha" class="form-label">Jenis Usaha</label>
+                                <label for="usaha" class="form-label"><strong>JENIS DAN NAMA USAHA</strong></label>
                                 <input type="text" class="form-control" id="usaha" name="usaha" placeholder="Isikan jenis dan nama usaha" required>
                             </div>
                             <div class="mb-3">
-                                <label for="keperluan" class="form-label">Keperluan</label>
+                                <label for="keperluan" class="form-label"><strong>TEMPAT, TANGGAL LAHIR - <span style="color: red;">(Contoh: Magetan, 30 Maret 1999)</span></strong></label>
                                 <input type="text" class="form-control" id="keperluan" name="keperluan" placeholder="Isikan keperluan pengajuan surat" required>
                             </div>
                             <div class="mb-3">
-                                <label for="bukti" class="form-label">Dokumen</label>
-                                <input type="file" class="form-control" id="bukti" name="bukti" value="{{ old('bukti') }}" multiple required>
+                                <label for="bukti" class="form-label"><strong>BERKAS PERSYARATAN - <span style="color: red;">(Format: jpg, jpeg, png, doc, docx, pdf)</span></strong><br>
+                                    (1) Surat Pengantar RT/RW<br>
+                                    <input type="file" class="form-control" id="bukti_suket" name="bukti_suket" value="{{ old('bukti_suket') }}" multiple required><br>
+                                    (2) Kartu Keluarga (KK)<br>
+                                    <input type="file" class="form-control" id="bukti_kk" name="bukti_kk" value="{{ old('bukti_kk') }}" multiple required><br>
+                                    (3) Kartu Tanda Penduduk (KTP)<br> 
+                                    <input type="file" class="form-control" id="bukti_ktp" name="bukti_ktp" value="{{ old('bukti_ktp') }}" multiple required><br>
+                                </label>                                                                
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -296,15 +301,15 @@
                         <div id="form_surat_SURAT KETERANGAN DOMISILI" class="form_surat" style="display: none;">
                             <input type="hidden" id="jenis_surat_3" name="jenis_surat_3" value="">
                             <div class="mb-3">
-                                <label for="nama" class="form-label">Nama</label>
+                                <label for="nama" class="form-label"><strong>NAMA</strong></label>
                                 <input type="text" class="form-control" id="nama" name="nama" value="{{ auth()->user()->nama }}" readonly>
                             </div>
                             <div class="mb-3">
-                                <label for="nik" class="form-label">NIK</label>
+                                <label for="nik" class="form-label"><strong>NIK</strong></label>
                                 <input type="text" class="form-control" id="nik" name="nik" value="{{ auth()->user()->nik }}" readonly>
                             </div>
                             <div class="mb-3">
-                                <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
+                                <label for="jenis_kelamin" class="form-label"><strong>JENIS KELAMIN</strong></label>
                                 <select class="form-select" id="jenis_kelamin" name="jenis_kelamin" required>
                                     <option value="" selected hidden>-- Pilih Jenis Kelamin --</option>
                                     @foreach(\App\Models\JenisKelamin::all() as $jenis_kelamins)
@@ -313,11 +318,11 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="ttl" class="form-label">Tempat, Tanggal Lahir (Contoh Format: Magetan, 30 Maret 1999)</label>
+                                <label for="ttl" class="form-label"><strong>TEMPAT, TANGGAL LAHIR - <span style="color: red;">(Contoh: Magetan, 30 Maret 1999)</span></strong></label>
                                 <input type="text" class="form-control" id="ttl" name="ttl" placeholder="Contoh: Magetan, 30 Maret 1999" required>
                             </div>
                             <div class="mb-3">
-                                <label for="agama" class="form-label">Agama</label>
+                                <label for="agama" class="form-label"><strong>AGAMA</strong></label>
                                 <select class="form-select" id="agama" name="agama" required>
                                     <option value="" selected hidden>-- Pilih Agama --</option>
                                     @foreach(\App\Models\Agama::all() as $agamas)
@@ -326,7 +331,7 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="status_nikah" class="form-label">Status</label>
+                                <label for="status_nikah" class="form-label"><strong>STATUS NIKAH</strong></label>
                                 <select class="form-select" id="status_nikah" name="status_nikah" required>
                                     <option value="" selected hidden>-- Pilih Status --</option>
                                     @foreach(\App\Models\Status::all() as $status_nikahs)
@@ -335,7 +340,7 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="pekerjaan_3" class="form-label">Pekerjaan</label>
+                                <label for="pekerjaan_3" class="form-label"><strong>PEKERJAAN</strong></label>
                                 <select class="form-select" id="pekerjaan_3" name="pekerjaan_3" required>
                                     <option value="" selected hidden>-- Pilih Pekerjaan --</option>
                                     @foreach(\App\Models\Pekerjaan::all() as $pekerjaans)
@@ -344,25 +349,31 @@
                                 </select>
                             </div>
                             <div class="mb-3" id="pekerjaan_lainnya_div_3" style="display: none;">
-                                <label for="pekerjaan_lainnya_3" class="form-label">Pekerjaan Lainnya</label>
+                                <label for="pekerjaan_lainnya_3" class="form-label"><strong>PEKERJAAN LAINNYA</strong></label>
                                 <input type="text" class="form-control" id="pekerjaan_lainnya_3" name="pekerjaan_lainnya_3" placeholder="Isikan pekerjaan lainnya yang belum ada di pilihan" required>
                             </div>
                             <div class="mb-3">
-                                <label for="alamat" class="form-label">Alamat</label>
-                                <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Isikan alamat lengkap" required>
+                                <label for="alamat" class="form-label"><strong>ALAMAT KTP</strong></label>
+                                <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Isikan alamat lengkap sesuai dengan KTP" required>
                             </div>
                             <div class="mb-3">
-                                <label for="alamat_dom" class="form-label">Alamat Domisili</label>
-                                <input type="text" class="form-control" id="alamat_dom" name="alamat_dom" required>
+                                <label for="alamat_dom" class="form-label"><strong>ALAMAT DOMISILI</strong></label>
+                                <input type="text" class="form-control" id="alamat_dom" name="alamat_dom" placeholder="Isikan alamat lengkap domisili/tempat tinggal sekarang" required>
                             </div>
                             <div class="mb-3">
-                                <label for="keperluan" class="form-label">Keperluan</label>
+                                <label for="keperluan" class="form-label"><strong>KEPERLUAN</strong></label>
                                 <input type="text" class="form-control" id="keperluan" name="keperluan" placeholder="Isikan keperluan pengajuan surat" required>
                             </div>
                             <div class="mb-3">
-                                <label for="bukti" class="form-label">Dokumen</label>
-                                <input type="file" class="form-control" id="bukti" name="bukti" value="{{ old('bukti') }}" multiple required>
-                            </div>
+                                <label for="bukti" class="form-label"><strong>BERKAS PERSYARATAN - <span style="color: red;">(Format: jpg, jpeg, png, doc, docx, pdf)</span></strong><br>
+                                    (1) Surat Pengantar RT/RW<br>
+                                    <input type="file" class="form-control" id="bukti_suket" name="bukti_suket" value="{{ old('bukti_suket') }}" multiple required><br>
+                                    (2) Kartu Keluarga (KK)<br>
+                                    <input type="file" class="form-control" id="bukti_kk" name="bukti_kk" value="{{ old('bukti_kk') }}" multiple required><br>
+                                    (3) Kartu Tanda Penduduk (KTP)<br> 
+                                    <input type="file" class="form-control" id="bukti_ktp" name="bukti_ktp" value="{{ old('bukti_ktp') }}" multiple required><br>
+                                </label>                                                                
+                            </div>                            
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                                 <button type="submit" class="btn btn-primary">Simpan</button>
@@ -376,19 +387,19 @@
                         <div id="form_surat_SURAT KETERANGAN TIDAK MAMPU" class="form_surat" style="display: none;">
                             <input type="hidden" id="jenis_surat_4" name="jenis_surat_4" value="">
                             <div class="mb-3">
-                                <label for="nama" class="form-label">Nama</label>
+                                <label for="nama" class="form-label"><strong>NAMA</strong></label>
                                 <input type="text" class="form-control" id="nama" name="nama" value="{{ auth()->user()->nama }}" readonly>
                             </div>
                             <div class="mb-3">
-                                <label for="nik" class="form-label">NIK</label>
+                                <label for="nik" class="form-label"><strong>NIK</strong></label>
                                 <input type="text" class="form-control" id="nik" name="nik" value="{{ auth()->user()->nik }}" readonly>
                             </div>
                             <div class="mb-3">
-                                <label for="ttl" class="form-label">Tempat, Tanggal Lahir (Contoh Format: Magetan, 30 Maret 1999)</label>
+                                <label for="ttl" class="form-label"><strong>TEMPAT, TANGGAL LAHIR - <span style="color: red;">(Contoh: Magetan, 30 Maret 1999)</span></strong></label>
                                 <input type="text" class="form-control" id="ttl" name="ttl" placeholder="Contoh: Magetan, 30 Maret 1999" required>
                             </div>
                             <div class="mb-3">
-                                <label for="agama" class="form-label">Agama</label>
+                                <label for="agama" class="form-label"><strong>AGAMA</strong></label>
                                 <select class="form-select" id="agama" name="agama" required>
                                     <option value="" selected hidden>-- Pilih Agama --</option>
                                     @foreach(\App\Models\Agama::all() as $agamas)
@@ -397,7 +408,7 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="pekerjaan_4" class="form-label">Pekerjaan</label>
+                                <label for="pekerjaan_4" class="form-label"><strong>PEKERJAAN</strong></label>
                                 <select class="form-select" id="pekerjaan_4" name="pekerjaan_4" required>
                                     <option value="" selected hidden>-- Pilih Pekerjaan --</option>
                                     @foreach(\App\Models\Pekerjaan::all() as $pekerjaans)
@@ -406,21 +417,27 @@
                                 </select>
                             </div>
                             <div class="mb-3" id="pekerjaan_lainnya_div_4" style="display: none;">
-                                <label for="pekerjaan_lainnya_4" class="form-label">Pekerjaan Lainnya</label>
+                                <label for="pekerjaan_lainnya_4" class="form-label"><strong>PEKERJAAN LAINNYA</strong></label>
                                 <input type="text" class="form-control" id="pekerjaan_lainnya_4" name="pekerjaan_lainnya_4" placeholder="Isikan pekerjaan lainnya yang belum ada di pilihan" required>
                             </div>
                             <div class="mb-3">
-                                <label for="alamat" class="form-label">Alamat</label>
+                                <label for="alamat" class="form-label"><strong>ALAMAT</strong></label>
                                 <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Isikan alamat lengkap" required>
                             </div>
                             <div class="mb-3">
-                                <label for="keperluan" class="form-label">Keperluan</label>
+                                <label for="keperluan" class="form-label"><strong>KEPERLUAN</strong></label>
                                 <input type="text" class="form-control" id="keperluan" name="keperluan" placeholder="Isikan keperluan pengajuan surat" required>
                             </div>
                             <div class="mb-3">
-                                <label for="bukti" class="form-label">Dokumen</label>
-                                <input type="file" class="form-control" id="bukti" name="bukti" value="{{ old('bukti') }}" multiple required>
-                            </div>
+                                <label for="bukti" class="form-label"><strong>BERKAS PERSYARATAN - <span style="color: red;">(Format: jpg, jpeg, png, doc, docx, pdf)</span></strong><br>
+                                    (1) Surat Pengantar RT/RW<br>
+                                    <input type="file" class="form-control" id="bukti_suket" name="bukti_suket" value="{{ old('bukti_suket') }}" multiple required><br>
+                                    (2) Kartu Keluarga (KK)<br>
+                                    <input type="file" class="form-control" id="bukti_kk" name="bukti_kk" value="{{ old('bukti_kk') }}" multiple required><br>
+                                    (3) Kartu Tanda Penduduk (KTP)<br> 
+                                    <input type="file" class="form-control" id="bukti_ktp" name="bukti_ktp" value="{{ old('bukti_ktp') }}" multiple required><br>
+                                </label>                                                                
+                            </div>                            
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                                 <button type="submit" class="btn btn-primary">Simpan</button>
@@ -458,65 +475,99 @@
                 <div class="modal-body">
                     <input type="hidden" name="id_sk_usaha" id="id_sk_usaha" required>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Jenis Surat</label>
+                        <label class="col-md-2 col-form-label"><strong>JENIS SURAT</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_jenis_surat"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Nama</label>
+                        <label class="col-md-2 col-form-label"><strong>NAMA</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nama"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">NIK</label>
+                        <label class="col-md-2 col-form-label"><strong>NIK</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nik"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Tempat, Tanggal Lahir</label>
+                        <label class="col-md-2 col-form-label"><strong>TEMPAT, TANGGAL LAHIR</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_ttl"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Status Nikah</label>
+                        <label class="col-md-2 col-form-label"><strong>STATUS NIKAH</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_status_nikah"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Agama</label>
+                        <label class="col-md-2 col-form-label"><strong>AGAMA</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_agama"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Pekerjaan</label>
+                        <label class="col-md-2 col-form-label"><strong>PEKERJAAN</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_pekerjaan"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Alamat</label>
+                        <label class="col-md-2 col-form-label"><strong>ALAMAT</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_alamat"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Usaha</label>
+                        <label class="col-md-2 col-form-label"><strong>USAHA</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_usaha"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Keperluan</label>
+                        <label class="col-md-2 col-form-label"><strong>KEPERLUAN</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_keperluan"></label></span>
                         </div>
                     </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label"><strong>BERKAS PERSYARATAN</strong></label>
+                        <div class="col-md-9">
+                            <div class="d-flex">
+                                <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <ul class="list-unstyled mb-0 w-100">
+                                    <li class="row align-items-center mb-1">
+                                        <div class="col-md-6">
+                                            <label class="form-label mb-0">Surat Pengantar RT/RW</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a id="detail_bukti_suket" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
+                                        </div>
+                                    </li>
+                                    <li class="row align-items-center mb-1">
+                                        <div class="col-md-6">
+                                            <label class="form-label mb-0">Kartu Keluarga (KK)</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a id="detail_bukti_kk" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
+                                        </div>
+                                    </li>
+                                    <li class="row align-items-center">
+                                        <div class="col-md-6">
+                                            <label class="form-label mb-0">Kartu Tanda Penduduk (KTP)</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a id="detail_bukti_ktp" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -608,69 +659,103 @@
                 <div class="modal-body">
                     <input type="hidden" name="id_sk_domisili" id="id_sk_domisili" required>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Jenis Surat</label>
+                        <label class="col-md-2 col-form-label"><strong>JENIS SURAT</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_jenis_surat_3"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Nama</label>
+                        <label class="col-md-2 col-form-label"><strong>NAMA</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nama_3"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">NIK</label>
+                        <label class="col-md-2 col-form-label"><strong>NIK</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nik_3"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Jenis Kelamin</label>
+                        <label class="col-md-2 col-form-label"><strong>JENIS KELAMIN</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_jenis_kelamin_3"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Tempat, Tanggal Lahir</label>
+                        <label class="col-md-2 col-form-label"><strong>TEMPAT, TANGGAL LAHIR</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_ttl_3"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Agama</label>
+                        <label class="col-md-2 col-form-label"><strong>AGAMA</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_agama_3"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Status Nikah</label>
+                        <label class="col-md-2 col-form-label"><strong>STATUS NIKAH</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_status_nikah_3"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Pekerjaan</label>
+                        <label class="col-md-2 col-form-label"><strong>PEKERJAAN</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_pekerjaan_3"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Alamat</label>
+                        <label class="col-md-2 col-form-label"><strong>ALAMAT KTP</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_alamat_3"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Alamat Domisili</label>
+                        <label class="col-md-2 col-form-label"><strong>ALAMAT DOMISILI</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_alamat_dom_3"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Keperluan</label>
+                        <label class="col-md-2 col-form-label"><strong>KEPERLUAN</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_keperluan_3"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label"><strong>BERKAS PERSYARATAN</strong></label>
+                        <div class="col-md-9">
+                            <div class="d-flex">
+                                <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <ul class="list-unstyled mb-0 w-100">
+                                    <li class="row align-items-center mb-1">
+                                        <div class="col-md-6">
+                                            <label class="form-label mb-0">Surat Pengantar RT/RW</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a id="detail_bukti_suket_3" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
+                                        </div>
+                                    </li>
+                                    <li class="row align-items-center mb-1">
+                                        <div class="col-md-6">
+                                            <label class="form-label mb-0">Kartu Keluarga (KK)</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a id="detail_bukti_kk_3" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
+                                        </div>
+                                    </li>
+                                    <li class="row align-items-center">
+                                        <div class="col-md-6">
+                                            <label class="form-label mb-0">Kartu Tanda Penduduk (KTP)</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a id="detail_bukti_ktp_3" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -679,7 +764,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>    
 
     {{-- DETAIL SKTM --}}
     <div class="modal fade" id="detailSKTM" tabindex="-1" aria-hidden="true">
@@ -692,51 +777,85 @@
                 <div class="modal-body">
                     <input type="hidden" name="id_sk_tidak_mampu" id="id_sk_tidak_mampu" required>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Jenis Surat</label>
+                        <label class="col-md-2 col-form-label"><strong>JENIS SURAT</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_jenis_surat_4"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Nama</label>
+                        <label class="col-md-2 col-form-label"><strong>NAMA</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nama_4"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">NIK</label>
+                        <label class="col-md-2 col-form-label"><strong>NIK</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nik_4"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Tempat, Tanggal Lahir</label>
+                        <label class="col-md-2 col-form-label"><strong>TEMPAT, TANGGAL LAHIR</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_ttl_4"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Agama</label>
+                        <label class="col-md-2 col-form-label"><strong>AGAMA</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_agama_4"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Pekerjaan</label>
+                        <label class="col-md-2 col-form-label"><strong>PEKERJAAN</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_pekerjaan_4"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Alamat</label>
+                        <label class="col-md-2 col-form-label"><strong>ALAMAT</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_alamat_4"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Keperluan</label>
+                        <label class="col-md-2 col-form-label"><strong>KEPERLUAN</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_keperluan_4"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label"><strong>BERKAS PERSYARATAN</strong></label>
+                        <div class="col-md-9">
+                            <div class="d-flex">
+                                <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <ul class="list-unstyled mb-0 w-100">
+                                    <li class="row align-items-center mb-1">
+                                        <div class="col-md-6">
+                                            <label class="form-label mb-0">Surat Pengantar RT/RW</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a id="detail_bukti_suket_4" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
+                                        </div>
+                                    </li>
+                                    <li class="row align-items-center mb-1">
+                                        <div class="col-md-6">
+                                            <label class="form-label mb-0">Kartu Keluarga (KK)</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a id="detail_bukti_kk_4" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
+                                        </div>
+                                    </li>
+                                    <li class="row align-items-center">
+                                        <div class="col-md-6">
+                                            <label class="form-label mb-0">Kartu Tanda Penduduk (KTP)</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a id="detail_bukti_ktp_4" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -745,7 +864,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>    
 @endsection
 
 @section('script')
@@ -798,7 +917,7 @@
         function showForm() {
             var jenisSurat = document.getElementById("jenis_surat").value;
             
-            document.getElementById("jenis_surat").value = jenisSurat;
+            document.getElementById("jenis_surat_1").value = jenisSurat;
             document.getElementById("jenis_surat_2").value = jenisSurat;
             document.getElementById("jenis_surat_3").value = jenisSurat;
             document.getElementById("jenis_surat_4").value = jenisSurat;
@@ -916,9 +1035,13 @@
                         $("#detail_ttl").html(surat.ttl);
                         $("#detail_status_nikah").html(surat.status_nikah);
                         $("#detail_agama").html(surat.agama);
+                        $("#detail_pekerjaan").html(surat.pekerjaan);
                         $("#detail_alamat").html(surat.alamat);
                         $("#detail_usaha").html(surat.usaha);
                         $("#detail_keperluan").html(surat.keperluan);
+                        $("#detail_bukti_suket").attr("href", '/bukti_dokumen/SKU/' + surat.bukti_suket);
+                        $("#detail_bukti_kk").attr("href", '/bukti_dokumen/SKU/' + surat.bukti_kk);
+                        $("#detail_bukti_ktp").attr("href", '/bukti_dokumen/SKU/' + surat.bukti_ktp);
 
                         if (surat.pekerjaan === 'Lainnya') {
                             $("#detail_pekerjaan").html(surat.pekerjaan_lainnya);
@@ -928,7 +1051,7 @@
                             $("#pekerjaan_lainnya_row").hide();
                         }
                     }
-                },
+                }, 
             });
         });
 
@@ -991,6 +1114,9 @@
                         $("#detail_alamat_3").html(surat.alamat);
                         $("#detail_alamat_dom_3").html(surat.alamat_dom);
                         $("#detail_keperluan_3").html(surat.keperluan);
+                        $("#detail_bukti_suket_3").attr("href", '/bukti_dokumen/SKD/' + surat.bukti_suket);
+                        $("#detail_bukti_kk_3").attr("href", '/bukti_dokumen/SKD/' + surat.bukti_kk);
+                        $("#detail_bukti_ktp_3").attr("href", '/bukti_dokumen/SKD/' + surat.bukti_ktp);
 
                         if (surat.pekerjaan === 'Lainnya') {
                             $("#detail_pekerjaan_3").html(surat.pekerjaan_lainnya);
@@ -1025,6 +1151,9 @@
                         $("#detail_agama_4").html(surat.agama);
                         $("#detail_alamat_4").html(surat.alamat);
                         $("#detail_keperluan_4").html(surat.keperluan);
+                        $("#detail_bukti_suket_4").attr("href", '/bukti_dokumen/SKTM/' + surat.bukti_suket);
+                        $("#detail_bukti_kk_4").attr("href", '/bukti_dokumen/SKTM/' + surat.bukti_kk);
+                        $("#detail_bukti_ktp_4").attr("href", '/bukti_dokumen/SKTM/' + surat.bukti_ktp);
 
                         if (surat.pekerjaan === 'Lainnya') {
                             $("#detail_pekerjaan_4").html(surat.pekerjaan_lainnya);

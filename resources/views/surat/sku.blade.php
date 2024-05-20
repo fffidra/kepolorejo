@@ -77,71 +77,99 @@
                 <div class="modal-body">
                     <input type="hidden" name="id_sk_usaha" id="id_sk_usaha" required>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Jenis Surat</label>
+                        <label class="col-md-2 col-form-label"><strong>JENIS SURAT</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_jenis_surat"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Nama</label>
+                        <label class="col-md-2 col-form-label"><strong>NAMA</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nama"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">NIK</label>
+                        <label class="col-md-2 col-form-label"><strong>NIK</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nik"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Tempat, Tanggal Lahir</label>
+                        <label class="col-md-2 col-form-label"><strong>TEMPAT, TANGGAL LAHIR</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_ttl"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Status Nikah</label>
+                        <label class="col-md-2 col-form-label"><strong>STATUS NIKAH</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_status_nikah"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Agama</label>
+                        <label class="col-md-2 col-form-label"><strong>AGAMA</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_agama"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Pekerjaan</label>
+                        <label class="col-md-2 col-form-label"><strong>PEKERJAAN</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_pekerjaan"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Alamat</label>
+                        <label class="col-md-2 col-form-label"><strong>ALAMAT</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_alamat"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Usaha</label>
+                        <label class="col-md-2 col-form-label"><strong>USAHA</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_usaha"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Keperluan</label>
+                        <label class="col-md-2 col-form-label"><strong>KEPERLUAN</strong></label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_keperluan"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Bukti Dokumen</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_keperluan"></label></span>
+                        <label class="col-md-2 col-form-label"><strong>BERKAS PERSYARATAN</strong></label>
+                        <div class="col-md-9">
+                            <div class="d-flex">
+                                <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <ul class="list-unstyled mb-0 w-100">
+                                    <li class="row align-items-center mb-1">
+                                        <div class="col-md-6">
+                                            <label class="form-label mb-0">Surat Pengantar RT/RW</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a id="detail_bukti_suket" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
+                                        </div>
+                                    </li>
+                                    <li class="row align-items-center mb-1">
+                                        <div class="col-md-6">
+                                            <label class="form-label mb-0">Kartu Keluarga (KK)</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a id="detail_bukti_kk" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
+                                        </div>
+                                    </li>
+                                    <li class="row align-items-center">
+                                        <div class="col-md-6">
+                                            <label class="form-label mb-0">Kartu Tanda Penduduk (KTP)</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a id="detail_bukti_ktp" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
+                    </div>                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -200,6 +228,9 @@
                         $("#detail_alamat").html(surat.alamat);
                         $("#detail_usaha").html(surat.usaha);
                         $("#detail_keperluan").html(surat.keperluan);
+                        $("#detail_bukti_suket").attr("href", '/bukti_dokumen/SKU/' + surat.bukti_suket);
+                        $("#detail_bukti_kk").attr("href", '/bukti_dokumen/SKU/' + surat.bukti_kk);
+                        $("#detail_bukti_ktp").attr("href", '/bukti_dokumen/SKU/' + surat.bukti_ktp);
 
                         if (surat.pekerjaan === 'Lainnya') {
                             $("#detail_pekerjaan").html(surat.pekerjaan_lainnya);
