@@ -183,144 +183,70 @@
                                         </tr>
                                     @endforeach
 
-                                    {{-- @foreach(\App\Models\SKBelumMenikah::where('status_surat', 'Diproses')->orWhere('status_surat', 'Ditolak')->get() as $sk_belum_menikah)
-                                        <tr>
-                                            <td class="text-center align-middle">{{ $sk_belum_menikah->tanggal }}</td>
-                                            <td class="text-center align-middle">{{ $sk_belum_menikah->jenis_surat }}</td>
-                                            <td class="text-center align-middle">{{ $sk_belum_menikah->nik }}</td>
-                                            <td class="text-center align-middle">{{ $sk_belum_menikah->nama }}</td>
-                                            <td class="text-center align-middle">{{ $sk_belum_menikah->status_surat }}</td>
-                                            <td class="text-center">
-                                                <div class="d-flex justify-content-center">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKBM" data-bs-id="{{ $sk_belum_menikah->id_sk_belum_menikah }}" class="btn btn-info btn-sm">Detail</button>
-                                                    @if($sk_belum_menikah->status_surat === 'Diproses')
-                                                        <a role="button" class="btn btn-warning me-2" title="Ubah Data" style="padding: 0.25rem 0.5rem; font-size: 18px;" data-bs-toggle="modal" data-bs-target="#ubahSKBM" data-bs-id="{{ $sk_belum_menikah->id_sk_belum_menikah }}"><i class="bx bx-pencil"></i></a>
-                                                        <form method="POST" action="{{ route('verifikasi_sk_belum_menikah', $sk_belum_menikah->id_sk_belum_menikah) }}" id="verifikasi-surat-{{ $sk_belum_menikah->id_sk_belum_menikah }}">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <button type="button" id="btnVerifikasi-{{ $sk_belum_menikah->id_sk_belum_menikah }}" class="btn btn-primary btn-sm">Verifikasi</button>
-                                                        </form>
-                                                    @endif
-                                                    @if($sk_belum_menikah->status_surat === 'Ditolak')
-                                                        <form method="POST" action="{{ route('hapus_sk_belum_menikah', $sk_belum_menikah->id_sk_belum_menikah) }}" id="hapus-surat-{{ $sk_belum_menikah->id_sk_belum_menikah }}">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <a role="button" id="btnHapus-{{ $sk_belum_menikah->id_sk_belum_menikah }}" class="btn btn-danger" title="Hapus Data"style="padding: 0.25rem 0.5rem; font-size: 18px;"><i class="bx bx-trash-alt"></i></a>
-                                                        </form>
-                                                    @endif
-                                                </div>
-                                                <script>
-                                                    // BUTTON VERIFIKASI
-                                                    $('#btnVerifikasi-{{ $sk_belum_menikah->id_sk_belum_menikah }}').click(function(event){
-                                                        event.preventDefault();
-                                                        Swal.fire({
-                                                            icon: "info",
-                                                            title: "Verifikasi Surat",
-                                                            text: "Apakah Anda yakin ingin verifikasi surat ini?",
-                                                            showDenyButton: true,
-                                                            showCancelButton: true,
-                                                            confirmButtonText: "Setuju",
-                                                            denyButtonText: "Tolak",
-                                                            cancelButtonText: "Batal",
-                                                        }).then((result) => {
-                                                            if (result.isConfirmed) {
-                                                                $('#verifikasi-surat-{{ $sk_belum_menikah->id_sk_belum_menikah }}')
-                                                                    .append('<input type="hidden" name="aksi" value="setuju" required>')
-                                                                    .submit();
-                                                            } else if (result.isDenied) {
-                                                                $('#verifikasi-surat-{{ $sk_belum_menikah->id_sk_belum_menikah }}')
-                                                                    .append('<input type="hidden" name="aksi" value="tolak" required>')
-                                                                    .submit();
-                                                            }
-                                                        });
-                                                    });
-
-                                                    // BUTTON DELETE
-                                                    $('#btnHapus-{{ $sk_belum_menikah->id_sk_belum_menikah }}').click(function(event){
-                                                        event.preventDefault();
-                                                        Swal.fire({
-                                                            icon: "info",
-                                                            title: "Hapus Surat",
-                                                            text: "Apakah Anda yakin ingin menghapus surat ini?",
-                                                            showCancelButton: true,
-                                                            confirmButtonText: "Ya, Lanjutkan",
-                                                            cancelButtonText: "Tidak, Batalkan",
-                                                        }).then(function (result) {
-                                                            if (result.isConfirmed) {
-                                                                $('#hapus-surat-{{ $sk_belum_menikah->id_sk_belum_menikah }}').submit();
-                                                            }
-                                                        });
-                                                    });
-                                                </script>
-                                            </td>
-                                        </tr>
-                                    @endforeach --}}
-
-                                    {{-- @foreach(\App\Models\SKDomisili::where('status_surat', 'Diproses')->orWhere('status_surat', 'Ditolak')->get() as $skd)
+                                    @foreach(\App\Models\SKDomisili::where('status_surat', 'Diproses')->get() as $skd)
                                         <tr>
                                             <td class="text-center align-middle">{{ $skd->tanggal }}</td>
                                             <td class="text-center align-middle">{{ $skd->jenis_surat }}</td>
                                             <td class="text-center align-middle">{{ $skd->nik }}</td>
                                             <td class="text-center align-middle">{{ $skd->nama }}</td>
                                             <td class="text-center align-middle">{{ $skd->status_surat }}</td>
+                                            {{-- <td class="text-center align-middle">
+                                                <a href="{{ url('dokumen_bukti/' . $sk_usaha->bukti) }}">
+                                                    <button class="btn btn-success" type="button">Unduh</button>
+                                                </a>
+                                            </td> --}}
                                             <td class="text-center">
-                                                <div class="d-flex justify-content-center">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKD" data-bs-id="{{ $skd->id_sk_domisili }}" class="btn btn-info btn-sm">Detail</button>
-                                                    @if($skd->status_surat === 'Diproses')
-                                                        <a role="button" class="btn btn-warning me-2" title="Ubah Data" style="padding: 0.25rem 0.5rem; font-size: 18px;" data-bs-toggle="modal" data-bs-target="#ubahSKD" data-bs-id="{{ $skd->id_sk_domisili }}"><i class="bx bx-pencil"></i></a>
-                                                        <form method="POST" action="{{ route('verifikasi_sk_domisili', $skd->id_sk_domisili) }}" id="verifikasi-surat-{{ $skd->id_sk_domisili }}">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <button type="button" id="btnVerifikasi-{{ $skd->id_sk_domisili }}" class="btn btn-primary btn-sm">Verifikasi</button>
-                                                        </form>
-                                                    @endif
-                                                    @if($skd->status_surat === 'Ditolak')
-                                                        <form method="POST" action="{{ route('hapus_sk_domisili', $skd->id_sk_domisili) }}" id="hapus-surat-{{ $skd->id_sk_domisili }}">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <a role="button" id="btnHapus-{{ $skd->id_sk_domisili }}" class="btn btn-danger" title="Hapus Data"style="padding: 0.25rem 0.5rem; font-size: 18px;"><i class="bx bx-trash-alt"></i></a>
-                                                        </form>
-                                                    @endif
+                                                <div class="d-flex justify-content-center flex-wrap">
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKD" data-bs-id="{{ $skd->id_sk_domisili }}" class="btn btn-info btn-sm mx-1">Detail</button>
+                                                    {{-- <a role="button" class="btn btn-warning btn-sm mx-1" title="Ubah Data" data-bs-toggle="modal" data-bs-target="#ubahSKBM" data-bs-id="{{ $skbm->id_sk_belum_menikah }}">Ubah</a> --}}
+                                                    <form method="POST" action="{{ route('skd_setuju', $skd->id_sk_domisili) }}" id="setuju-surat-{{ $skd->id_sk_domisili }}" class="d-inline">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="button" id="btnSetuju-{{ $skd->id_sk_domisili }}" class="btn btn-success btn-sm mx-1">Setuju</button>
+                                                    </form>
+                                                    <form method="POST" action="{{ route('skd_tolak', $skd->id_sk_domisili) }}" id="tolak-surat-{{ $skd->id_sk_domisili }}" class="d-inline">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="button" id="btnTolak-{{ $skd->id_sk_domisili }}" class="btn btn-danger btn-sm mx-1">Tolak</button>
+                                                    </form>
                                                 </div>
                                                 <script>
-                                                    // BUTTON VERIFIKASI
-                                                    $('#btnVerifikasi-{{ $skd->id_sk_domisili }}').click(function(event){
+                                                    // BUTTON SETUJU
+                                                    $('#btnSetuju-{{ $skd->id_sk_domisili }}').click(function(event){
                                                         event.preventDefault();
                                                         Swal.fire({
                                                             icon: "info",
-                                                            title: "Verifikasi Surat",
-                                                            text: "Apakah Anda yakin ingin verifikasi surat ini?",
-                                                            showDenyButton: true,
-                                                            showCancelButton: true,
-                                                            confirmButtonText: "Setuju",
-                                                            denyButtonText: "Tolak",
-                                                            cancelButtonText: "Batal",
-                                                        }).then((result) => {
-                                                            if (result.isConfirmed) {
-                                                                $('#verifikasi-surat-{{ $skd->id_sk_domisili }}')
-                                                                    .append('<input type="hidden" name="aksi" value="setuju" required>')
-                                                                    .submit();
-                                                            } else if (result.isDenied) {
-                                                                $('#verifikasi-surat-{{ $skd->id_sk_domisili }}')
-                                                                    .append('<input type="hidden" name="aksi" value="tolak" required>')
-                                                                    .submit();
-                                                            }
-                                                        });
-                                                    });
-
-                                                    // BUTTON DELETE
-                                                    $('#btnHapus-{{ $skd->id_sk_domisili }}').click(function(event){
-                                                        event.preventDefault();
-                                                        Swal.fire({
-                                                            icon: "info",
-                                                            title: "Hapus Surat",
-                                                            text: "Apakah Anda yakin ingin menghapus surat ini?",
+                                                            title: "Setujui Surat",
+                                                            text: "Apakah Anda yakin ingin menyetujui surat ini?",
                                                             showCancelButton: true,
                                                             confirmButtonText: "Ya, Lanjutkan",
                                                             cancelButtonText: "Tidak, Batalkan",
                                                         }).then(function (result) {
                                                             if (result.isConfirmed) {
-                                                                $('#hapus-surat-{{ $skd->id_sk_domisili }}').submit();
+                                                                $('#setuju-surat-{{ $skd->id_sk_domisili}}').submit();
+                                                            }
+                                                        });
+                                                    });
+
+                                                    // BUTTON TOLAK
+                                                    $('#btnTolak-{{ $skd->id_sk_domisili }}').click(function(event){
+                                                        event.preventDefault();
+                                                        Swal.fire({
+                                                            icon: "info",
+                                                            title: "Tolak Surat",
+                                                            text: "Apakah Anda yakin ingin menolak surat ini?",
+                                                            input: 'textarea',
+                                                            inputPlaceholder: 'Masukkan pesan penolakan jika surat akan ditolak',
+                                                            showCancelButton: true,
+                                                            confirmButtonText: "Tolak",
+                                                            cancelButtonText: "Kembali",
+                                                        }).then((result) => {
+                                                            if (result.isConfirmed) {
+                                                                var pesan = result.value; // Ambil nilai dari input teks
+                                                                $('#tolak-surat-{{ $skd->id_sk_domisili }}')
+                                                                    .append('<input type="hidden" name="aksi" value="tolak">')
+                                                                    .append('<input type="hidden" name="alasan_tolak" value="' + pesan + '">') // Kirim nilai pesan ke server
+                                                                    .submit();
                                                             }
                                                         });
                                                     });
@@ -329,7 +255,7 @@
                                         </tr>
                                     @endforeach
 
-                                    @foreach(\App\Models\SKTidakMampu::where('status_surat', 'Diproses')->orWhere('status_surat', 'Ditolak')->get() as $sktm)
+                                    {{-- @foreach(\App\Models\SKTidakMampu::where('status_surat', 'Diproses')->orWhere('status_surat', 'Ditolak')->get() as $sktm)
                                         <tr>
                                             <td class="text-center align-middle">{{ $sktm->tanggal }}</td>
                                             <td class="text-center align-middle">{{ $sktm->jenis_surat }}</td>
@@ -654,6 +580,90 @@
                         <label class="col-md-2 col-form-label">Keperluan</label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_keperluan_2"></label></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>   
+    
+        {{-- DETAIL SKD --}}
+    <div class="modal fade" id="detailSKD" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">DETAIL SURAT KETERANGAN DOMISILI</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id_sk_domisili" id="id_sk_domisili" required>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Jenis Surat</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_jenis_surat_3"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Nama</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nama_3"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">NIK</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nik_3"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Jenis Kelamin</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_jenis_kelamin_3"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Tempat, Tanggal Lahir</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_ttl_3"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Agama</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_agama_3"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Status Nikah</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_status_nikah_3"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Pekerjaan</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_pekerjaan_3"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Alamat</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_alamat_3"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Alamat Domisili</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_alamat_dom_3"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Keperluan</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_keperluan_3"></label></span>
                         </div>
                     </div>
                 </div>
@@ -1417,41 +1427,6 @@
             });
         });
 
-
-    // MODAL DETAIL DATA 1
-    // $('#detailSKU').on('show.bs.modal', function (event) {
-    //     var button = $(event.relatedTarget);
-    //     var id_sk_usaha = button.data('id_sk_usaha');
-    //     $.ajax({
-    //         url: '{{ route("get_data_sku") }}',
-    //         type: 'POST',
-    //         data: {
-    //             id_sk_usaha: id_sk_usaha, 
-    //             _token: '{{ csrf_token() }}',
-    //         },
-    //         dataType: 'JSON',
-    //         success: function(response) {
-    //             if (response.status == 'success') {
-    //                 var surat = response.surat;
-    //                 $("#detail_jenis_surat").html(surat.jenis_surat);
-    //                 $("#detail_nama").html(surat.nama);
-    //                 $("#detail_nik").html(surat.nik);
-    //                 $("#detail_ttl").html(surat.ttl);
-    //                 $("#detail_status_nikah").html(surat.status_nikah);
-    //                 $("#detail_agama").html(surat.agama);
-    //                 $("#detail_pekerjaan").html(surat.pekerjaan);
-    //                 $("#detail_alamat").html(surat.alamat);
-    //                 $("#detail_usaha").html(surat.usaha);
-    //                 $("#detail_keperluan").html(surat.keperluan);
-    //                 $("#detail_status_surat").html(surat.status_surat);
-    //                 $("#detail_tanggal").html(surat.tanggal);
-    //                 $("#detail_jabatan").html(surat.jabatan);
-    //             }
-    //         }, 
-    //     });
-
-    // });
-
         // DETAIL SKU
         $('#detailSKU').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
@@ -1518,6 +1493,43 @@
                         } else {
                             $("#detail_pekerjaan_2").html(surat.pekerjaan);
                             $("#pekerjaan_lainnya_2_row").hide();
+                        }
+                    }
+                },
+            });
+        });
+
+        // DETAIL SKD
+        $('#detailSKD').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            $.ajax({
+                url: '{{ route("get_data_skd") }}',
+                type: 'POST',
+                data: {
+                    id: button.data('bs-id'),
+                    _token: '{{ csrf_token() }}',
+                },
+                dataType: 'JSON',
+                success: function(response) {
+                    if (response.status == 'success') {
+                        var surat = response.surat;
+                        $("#detail_jenis_surat_3").html(surat.jenis_surat);
+                        $("#detail_nama_3").html(surat.nama);
+                        $("#detail_nik_3").html(surat.nik);
+                        $("#detail_jenis_kelamin_3").html(surat.jenis_kelamin);
+                        $("#detail_ttl_3").html(surat.ttl);
+                        $("#detail_agama_3").html(surat.agama);
+                        $("#detail_status_nikah_3").html(surat.status_nikah);
+                        $("#detail_alamat_3").html(surat.alamat);
+                        $("#detail_alamat_dom_3").html(surat.alamat_dom);
+                        $("#detail_keperluan_3").html(surat.keperluan);
+
+                        if (surat.pekerjaan === 'Lainnya') {
+                            $("#detail_pekerjaan_3").html(surat.pekerjaan_lainnya);
+                            $("#pekerjaan_lainnya_3_row").show();
+                        } else {
+                            $("#detail_pekerjaan_3").html(surat.pekerjaan);
+                            $("#pekerjaan_lainnya_3_row").hide();
                         }
                     }
                 },

@@ -163,84 +163,31 @@
                                             <td class="text-center align-middle">{{ $skd->verifikator }}</td>
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center">
-                                                    <a href="{{ route('unduh_sk_domisili', ['id_sk_domisili' => $skd->id_sk_domisili]) }}" target="_blank" class="btn btn-info btn-sm" style="margin-right: 10px;">Unduh</a> 
-
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKD" data-bs-id="{{ $skd->id_sk_domisili }}" class="btn btn-info btn-sm me-2">Detail</button>
+                                                
+                                                    <a href="{{ route('unduh_skd', ['id_sk_domisili' => $skd->id_sk_domisili]) }}" target="_blank" class="btn btn-success btn-sm" style="margin-right: 10px;">Unduh</a> 
+                                                
                                                     {{-- <button type="button" data-bs-toggle="modal" data-bs-target="#modalDokumen" data-bs-id="{{ $surat->id_surat }}" class="btn btn-info btn-sm">Ubah</button> --}}
-
-                                                    <form method="POST" action="{{ route('skd_selesai', $skd->id_sk_domisili) }}" id="selesai-surat-{{ $skd->id_sk_domisili  }}">
+                                                
+                                                    <form method="POST" action="{{ route('skd_selesai', $skd->id_sk_domisili) }}" id="selesai-surat-{{ $skd->id_sk_domisili }}">
                                                         @csrf
                                                         @method('PUT')
-                                                        <button type="button" id="btnSelesai-{{ $skd->id_sk_domisili  }}" class="btn btn-primary btn-sm">Selesai</button>
+                                                        <button type="button" id="btnSelesai-{{ $skd->id_sk_domisili }}" class="btn btn-warning btn-sm">Selesai</button>
                                                     </form>
-                                                </div>
+                                                </div>                                                
                                                 <script>
-                                                    $('#btnSelesai-{{ $skd->id_sk_domisili  }}').click(function(event){
+                                                    $('#btnSelesai-{{ $skd->id_sk_domisili }}').click(function(event){
                                                         event.preventDefault();
                                                         Swal.fire({
                                                             icon: "info",
                                                             title: "Konfirmasi",
-                                                            text: "Apakah Anda yakin ingin mengirim data ini?",
+                                                            text: "Apakah Anda yakin ingin menyelesaikan surat ini?",
                                                             showCancelButton: true,
                                                             confirmButtonText: "Ya, Lanjutkan",
                                                             cancelButtonText: "Tidak, Batalkan",
                                                         }).then(function (result) {
                                                             if (result.isConfirmed) {
-                                                                $('#selesai-surat-{{ $skd->id_sk_domisili  }}').submit();
-                                                            }
-                                                        });
-                                                    });
-
-                                                    // Menambahkan event listener ke tombol 'Unduh'
-                                                    $('#unduhButton').click(function() {
-                                                        // Mendapatkan jenis surat dan id surat dari baris tabel terpilih
-                                                        var jenisSurat = $('.selected-row').attr('data-jenis-surat');
-                                                        var idSurat = $('.selected-row').attr('data-id-surat');
-
-                                                        // Membuat URL unduhan berdasarkan jenis surat dan id surat
-                                                        var url = "{{ route('unduh_surat', ['jenis_surat' => ':jenis_surat', 'id_surat' => ':id_surat']) }}";
-                                                        url = url.replace(':jenis_surat', jenisSurat).replace(':id_surat', idSurat);
-
-                                                        // Mengarahkan jendela baru untuk mengunduh surat
-                                                        window.open(url, '_blank');
-                                                    });
-                                                </script>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-
-                                    @foreach(\App\Models\SKTidakMampu::where('status_surat', '=', 'Disetujui')->get() as $sktm)
-                                        <tr>
-                                            <td class="text-center align-middle">{{ $sktm->tanggal }}</td>
-                                            <td class="text-center align-middle">{{ $sktm->jenis_surat }}</td>
-                                            <td class="text-center align-middle">{{ $sktm->nik }}</td>
-                                            <td class="text-center align-middle">{{ $sktm->nama }}</td>
-                                            <td class="text-center align-middle">{{ $sktm->status_surat }}</td>
-                                            <td class="text-center align-middle">{{ $sktm->verifikator }}</td>
-                                            <td class="text-center">
-                                                <div class="d-flex justify-content-center">
-                                                    <a href="{{ route('unduh_sk_tidak_mampu', ['id_sk_tidak_mampu' => $sktm->id_sk_tidak_mampu]) }}" target="_blank" class="btn btn-info btn-sm" style="margin-right: 10px;">Unduh</a> 
-
-                                                    {{-- <button type="button" data-bs-toggle="modal" data-bs-target="#modalDokumen" data-bs-id="{{ $surat->id_surat }}" class="btn btn-info btn-sm">Ubah</button> --}}
-
-                                                    <form method="POST" action="{{ route('sktm_selesai', $sktm->id_sk_tidak_mampu) }}" id="selesai-surat-{{ $sktm->id_sk_tidak_mampu  }}">
-                                                        @csrf
-                                                        @method('PUT')
-                                                        <button type="button" id="btnSelesai-{{ $sktm->id_sk_tidak_mampu  }}" class="btn btn-primary btn-sm">Selesai</button>
-                                                    </form>
-                                                </div>
-                                                <script>
-                                                    $('#btnSelesai-{{ $sktm->id_sk_tidak_mampu  }}').click(function(event){
-                                                        event.preventDefault();
-                                                        Swal.fire({
-                                                            icon: "info",
-                                                            title: "Konfirmasi",
-                                                            text: "Apakah Anda yakin ingin mengirim data ini?",
-                                                            showCancelButton: true,
-                                                            confirmButtonText: "Ya, Lanjutkan",
-                                                            cancelButtonText: "Tidak, Batalkan",
-                                                        }).then(function (result) {
-                                                            if (result.isConfirmed) {
-                                                                $('#selesai-surat-{{ $sktm->id_sk_tidak_mampu  }}').submit();
+                                                                $('#selesai-surat-{{ $skd->id_sk_domisili }}').submit();
                                                             }
                                                         });
                                                     });
@@ -449,7 +396,91 @@
                 </div>
             </div>
         </div>
-    </div>        
+    </div>
+    
+    {{-- DETAIL SKD --}}
+    <div class="modal fade" id="detailSKD" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">DETAIL SURAT KETERANGAN DOMISILI</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id_sk_domisili" id="id_sk_domisili" required>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Jenis Surat</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_jenis_surat_3"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Nama</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nama_3"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">NIK</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nik_3"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Jenis Kelamin</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_jenis_kelamin_3"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Tempat, Tanggal Lahir</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_ttl_3"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Agama</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_agama_3"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Status Nikah</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_status_nikah_3"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Pekerjaan</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_pekerjaan_3"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Alamat</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_alamat_3"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Alamat Domisili</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_alamat_dom_3"></label></span>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">Keperluan</label>
+                        <div class="col-md-9 d-flex align-items-center">
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_keperluan_3"></label></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>    
 @endsection
 
 @section('script')
@@ -542,6 +573,43 @@
                         } else {
                             $("#detail_pekerjaan_2").html(surat.pekerjaan);
                             $("#pekerjaan_lainnya_2_row").hide();
+                        }
+                    }
+                },
+            });
+        });
+
+        // DETAIL SKD
+        $('#detailSKD').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            $.ajax({
+                url: '{{ route("get_data_skd") }}',
+                type: 'POST',
+                data: {
+                    id: button.data('bs-id'),
+                    _token: '{{ csrf_token() }}',
+                },
+                dataType: 'JSON',
+                success: function(response) {
+                    if (response.status == 'success') {
+                        var surat = response.surat;
+                        $("#detail_jenis_surat_3").html(surat.jenis_surat);
+                        $("#detail_nama_3").html(surat.nama);
+                        $("#detail_nik_3").html(surat.nik);
+                        $("#detail_jenis_kelamin_3").html(surat.jenis_kelamin);
+                        $("#detail_ttl_3").html(surat.ttl);
+                        $("#detail_agama_3").html(surat.agama);
+                        $("#detail_status_nikah_3").html(surat.status_nikah);
+                        $("#detail_alamat_3").html(surat.alamat);
+                        $("#detail_alamat_dom_3").html(surat.alamat_dom);
+                        $("#detail_keperluan_3").html(surat.keperluan);
+
+                        if (surat.pekerjaan === 'Lainnya') {
+                            $("#detail_pekerjaan_3").html(surat.pekerjaan_lainnya);
+                            $("#pekerjaan_lainnya_3_row").show();
+                        } else {
+                            $("#detail_pekerjaan_3").html(surat.pekerjaan);
+                            $("#pekerjaan_lainnya_3_row").hide();
                         }
                     }
                 },
