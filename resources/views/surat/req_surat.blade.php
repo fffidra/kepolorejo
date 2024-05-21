@@ -234,28 +234,28 @@
                         <div id="form_surat_SURAT KETERANGAN BELUM MENIKAH" class="form_surat" style="display: none;">
                             <input type="hidden" id="jenis_surat_2" name="jenis_surat_2" value="">
                             <div class="mb-3">
-                                <label for="nama" class="form-label">Nama</label>
+                                <label for="nama" class="form-label"><strong>NAMA</strong></label>
                                 <input type="text" class="form-control" id="nama" name="nama" value="{{ auth()->user()->nama }}" readonly>
                             </div>
                             <div class="mb-3">
-                                <label for="nik" class="form-label">NIK</label>
+                                <label for="nik" class="form-label"><strong>NIK</strong></label>
                                 <input type="text" class="form-control" id="nik" name="nik" value="{{ auth()->user()->nik }}" readonly>
                             </div>
                             <div class="mb-3">
-                                <label for="ttl" class="form-label">Tempat, Tanggal Lahir (Contoh Format: Magetan, 30 Maret 1999)</label>
+                                <label for="ttl" class="form-label"><strong>TEMPAT, TANGGAL LAHIR - <span style="color: red;">(Contoh: Magetan, 30 Maret 1999)</span></strong></label>
                                 <input type="text" class="form-control" id="ttl" name="ttl" placeholder="Contoh: Magetan, 30 Maret 1999" required>
                             </div>
                             <div class="mb-3">
-                                <label for="status_nikah" class="form-label">Status</label>
-                                <select class="form-select" id="status_nikah" name="status_nikah">
+                                <label for="status_nikah" class="form-label"><strong>STATUS NIKAH</strong></label>
+                                <select class="form-select" id="status_nikah" name="status_nikah" required>
                                     <option value="" selected hidden>-- Pilih Status --</option>
-                                    @foreach(\App\Models\Status::where('nama_status_nikah', '=', 'Belum Kawin')->get() as $status_nikahs)
+                                    @foreach(\App\Models\Status::whereIn('nama_status_nikah', ['Belum Kawin', 'Cerai Hidup', 'Cerai Mati'])->get() as $status_nikahs)
                                         <option value="{{ $status_nikahs->nama_status_nikah }}">{{ $status_nikahs->nama_status_nikah }}</option>
                                     @endforeach
                                 </select>
-                            </div>                        
+                            </div>
                             <div class="mb-3">
-                                <label for="agama" class="form-label">Agama</label>
+                                <label for="agama" class="form-label"><strong>AGAMA</strong></label>
                                 <select class="form-select" id="agama" name="agama" required>
                                     <option value="" selected hidden>-- Pilih Agama --</option>
                                     @foreach(\App\Models\Agama::all() as $agamas)
@@ -264,7 +264,7 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="pekerjaan_2" class="form-label">Pekerjaan</label>
+                                <label for="pekerjaan_2" class="form-label"><strong>PEKERJAAN</strong></label>
                                 <select class="form-select" id="pekerjaan_2" name="pekerjaan_2" required>
                                     <option value="" selected hidden>-- Pilih Pekerjaan --</option>
                                     @foreach(\App\Models\Pekerjaan::all() as $pekerjaans)
@@ -273,20 +273,30 @@
                                 </select>
                             </div>
                             <div class="mb-3" id="pekerjaan_lainnya_div_2" style="display: none;">
-                                <label for="pekerjaan_lainnya_2" class="form-label">Pekerjaan Lainnya</label>
+                                <label for="pekerjaan_lainnya_2" class="form-label"><strong>PEKERJAAN LAINNYA</strong></label>
                                 <input type="text" class="form-control" id="pekerjaan_lainnya_2" name="pekerjaan_lainnya_2" placeholder="Isikan pekerjaan lainnya yang belum ada di pilihan" required>
                             </div>
                             <div class="mb-3">
-                                <label for="alamat" class="form-label">Alamat</label>
+                                <label for="alamat" class="form-label"><strong>ALAMAT</strong></label>
                                 <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Isikan alamat lengkap" required>
                             </div>
                             <div class="mb-3">
-                                <label for="keperluan" class="form-label">Keperluan</label>
+                                <label for="keperluan" class="form-label"><strong>KEPERLUAN</strong></label>
                                 <input type="text" class="form-control" id="keperluan" name="keperluan" placeholder="Isikan keperluan pengajuan surat" required>
                             </div>
                             <div class="mb-3">
-                                <label for="bukti" class="form-label">Dokumen</label>
-                                <input type="file" class="form-control" id="bukti" name="bukti" value="{{ old('bukti') }}" multiple required>
+                                <label for="bukti" class="form-label"><strong>BERKAS PERSYARATAN - <span style="color: red;">(Format: jpg, jpeg, png, doc, docx, pdf)</span></strong><br>
+                                    (1) Surat Pengantar RT/RW <b>*wajib</b><br>
+                                    <input type="file" class="form-control" id="bukti_suket" name="bukti_suket" value="{{ old('bukti_suket') }}" required><br>
+                                    (2) Kartu Keluarga (KK) <b>*wajib</b><br>
+                                    <input type="file" class="form-control" id="bukti_kk" name="bukti_kk" value="{{ old('bukti_kk') }}" required><br>
+                                    (3) Kartu Tanda Penduduk (KTP) <b>*wajib</b><br> 
+                                    <input type="file" class="form-control" id="bukti_ktp" name="bukti_ktp" value="{{ old('bukti_ktp') }}" required><br>
+                                    (4) Akta Cerai - <b>*berlaku untuk Status Cerai Hidup</b><br> 
+                                    <input type="file" class="form-control" id="bukti_cerai" name="bukti_cerai" value="{{ old('bukti_cerai') }}"><br>
+                                    (5) Akta Kematian - <b>*berlaku untuk Status Cerai Mati</b><br> 
+                                    <input type="file" class="form-control" id="bukti_kematian" name="bukti_kematian" value="{{ old('bukti_kematian') }}"><br>
+                                </label>                                                                
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -869,6 +879,22 @@
 
 @section('script')
     <script>
+        // document.addEventListener('DOMContentLoaded', function () {
+        //     var statusNikah = document.getElementById('status_nikah');
+        //     var belumKawin = document.getElementById('bukti_suket_bk');
+        //     var belumKawinInput = document.getElementById('bukti_suket_bk');
+
+        //     statusNikah.addEventListener('change', function () {
+        //         if (statusNikah.value === 'Cerai Hidup') {
+        //             belumKawin.style.display = 'block';
+        //             belumKawinInput.setAttribute('required', 'required');
+        //         } else {
+        //             belumKawin.style.display = 'none';
+        //             belumKawinInput.removeAttribute('required');
+        //         }
+        //     });
+        // });
+
         $(document).ready(function() {
             var table = $('.table').DataTable({
                 order: [[0, 'desc']], // Gantilah 3 dengan indeks kolom tanggal yang sesuai
@@ -948,22 +974,6 @@
             });
         });    
 
-        // PEKERJAAN LAINNYA SKBM
-        document.addEventListener('DOMContentLoaded', function () {
-            var pekerjaanSelect = document.getElementById('pekerjaan_2');
-            var pekerjaanLainnyaDiv = document.getElementById('pekerjaan_lainnya_div_2');
-            var pekerjaanLainnyaInput = document.getElementById('pekerjaan_lainnya_2');
-
-            pekerjaanSelect.addEventListener('change', function () {
-                if (pekerjaanSelect.value === 'Lainnya') {
-                    pekerjaanLainnyaDiv.style.display = 'block';
-                    pekerjaanLainnyaInput.setAttribute('required', 'required');
-                } else {
-                    pekerjaanLainnyaDiv.style.display = 'none';
-                    pekerjaanLainnyaInput.removeAttribute('required');
-                }
-            });
-        });    
         // PEKERJAAN LAINNYA SKBM
         document.addEventListener('DOMContentLoaded', function () {
             var pekerjaanSelect = document.getElementById('pekerjaan_2');

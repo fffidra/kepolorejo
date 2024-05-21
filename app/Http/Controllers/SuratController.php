@@ -281,7 +281,11 @@ class SuratController extends Controller
             'pekerjaan_lainnya_2' => 'nullable',
             'alamat' => 'required',
             'keperluan' => 'required',
-            'bukti' => 'required|mimes:jpg,jpeg,png,doc,docx,pdf',
+            'bukti_suket' => 'required|mimes:jpg,jpeg,png,doc,docx,pdf',
+            'bukti_kk' => 'required|mimes:jpg,jpeg,png,doc,docx,pdf',
+            'bukti_ktp' => 'required|mimes:jpg,jpeg,png,doc,docx,pdf',
+            'bukti_cerai' => 'nullable|mimes:jpg,jpeg,png,doc,docx,pdf',
+            'bukti_kematian' => 'nullable|mimes:jpg,jpeg,png,doc,docx,pdf',
         ]);
         // dd($validator);
 
@@ -294,9 +298,36 @@ class SuratController extends Controller
             return back()->withErrors($validator)->withInput();
         }
     
-        $bukti = $request->file('bukti');
-        $nama_bukti = 'SKBM_' . date('Ymdhis') . '.' . $bukti->getClientOriginalExtension();
-        $bukti->move(public_path('bukti_dokumen'), $nama_bukti);
+        $nik = Auth::user()->nik;
+        
+        $bukti_suket = $request->file('bukti_suket');
+        $nama_bukti_suket = 'SUKET_' . $nik . '_' . date('Ymdhis') . '.' . $bukti_suket->getClientOriginalExtension();
+        $bukti_suket->move(public_path('bukti_dokumen/SKBM'), $nama_bukti_suket);
+
+        $bukti_kk = $request->file('bukti_kk');
+        $nama_bukti_kk = 'KK_' . $nik . '_' . date('Ymdhis') . '.' . $bukti_kk->getClientOriginalExtension();
+        $bukti_kk->move(public_path('bukti_dokumen/SKBM'), $nama_bukti_kk);
+
+        $bukti_ktp = $request->file('bukti_ktp');
+        $nama_bukti_ktp = 'KTP_' . $nik . '_' . date('Ymdhis') . '.' . $bukti_ktp->getClientOriginalExtension();
+        $bukti_ktp->move(public_path('bukti_dokumen/SKBM'), $nama_bukti_ktp);
+
+        $nama_bukti_cerai = null;
+        $nama_bukti_kematian = null;
+
+        // Proses file bukti_cerai jika ada
+        if ($request->hasFile('bukti_cerai')) {
+            $bukti_cerai = $request->file('bukti_cerai');
+            $nama_bukti_cerai = 'KCR_' . $nik . '_' . date('Ymdhis') . '.' . $bukti_cerai->getClientOriginalExtension();
+            $bukti_cerai->move(public_path('bukti_dokumen/SKBM'), $nama_bukti_cerai);
+        }
+
+        // Proses file bukti_kematian jika ada
+        if ($request->hasFile('bukti_kematian')) {
+            $bukti_kematian = $request->file('bukti_kematian');
+            $nama_bukti_kematian = 'SKMTN_' . $nik . '_' . date('Ymdhis') . '.' . $bukti_kematian->getClientOriginalExtension();
+            $bukti_kematian->move(public_path('bukti_dokumen/SKBM'), $nama_bukti_kematian);
+        }
     
         SKBelumMenikah::create([
             'jenis_surat' => $request->jenis_surat_2,
@@ -309,7 +340,11 @@ class SuratController extends Controller
             'pekerjaan_lainnya' => $request->pekerjaan_2 == 'Lainnya' ? $request->pekerjaan_lainnya_2 : null,
             'alamat' => $request->alamat,
             'keperluan' => $request->keperluan,
-            'bukti' => $nama_bukti,
+            'bukti_suket' => $nama_bukti_suket,
+            'bukti_kk' => $nama_bukti_kk,
+            'bukti_ktp' => $nama_bukti_ktp,
+            'bukti_cerai' => $nama_bukti_cerai,
+            'bukti_kematian' => $nama_bukti_kematian,
             'pemohon' => auth()->user()->nik,
         ]);
     

@@ -34,7 +34,6 @@
                                         <th class="col-md-2 text-center align-middle">NIK</th>                           
                                         <th class="col-md-1 text-center align-middle">NAMA</th>                           
                                         <th class="col-md-1 text-center align-middle">STATUS</th>                           
-                                        {{-- <th class="col-md-2 text-center align-middle">BUKTI</th>                            --}}
                                         <th class="col-md-3 text-center align-middle">AKSI</th>                           
                                     </tr>
                                 </thead>
@@ -46,11 +45,6 @@
                                             <td class="text-center align-middle">{{ $sk_usaha->nik }}</td>
                                             <td class="text-center align-middle">{{ $sk_usaha->nama }}</td>
                                             <td class="text-center align-middle">{{ $sk_usaha->status_surat }}</td>
-                                            {{-- <td class="text-center align-middle">
-                                                <a href="{{ url('dokumen_bukti/' . $sk_usaha->bukti) }}">
-                                                    <button class="btn btn-success" type="button">Unduh</button>
-                                                </a>
-                                            </td> --}}
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center flex-wrap">
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" class="btn btn-primary btn-sm me-1">Detail</button>
@@ -118,11 +112,6 @@
                                             <td class="text-center align-middle">{{ $skbm->nik }}</td>
                                             <td class="text-center align-middle">{{ $skbm->nama }}</td>
                                             <td class="text-center align-middle">{{ $skbm->status_surat }}</td>
-                                            {{-- <td class="text-center align-middle">
-                                                <a href="{{ url('dokumen_bukti/' . $sk_usaha->bukti) }}">
-                                                    <button class="btn btn-success" type="button">Unduh</button>
-                                                </a>
-                                            </td> --}}
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center flex-wrap">
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKBM" data-bs-id="{{ $skbm->id_sk_belum_menikah }}" class="btn btn-primary btn-sm me-1">Detail</button>
@@ -190,11 +179,6 @@
                                             <td class="text-center align-middle">{{ $skd->nik }}</td>
                                             <td class="text-center align-middle">{{ $skd->nama }}</td>
                                             <td class="text-center align-middle">{{ $skd->status_surat }}</td>
-                                            {{-- <td class="text-center align-middle">
-                                                <a href="{{ url('dokumen_bukti/' . $sk_usaha->bukti) }}">
-                                                    <button class="btn btn-success" type="button">Unduh</button>
-                                                </a>
-                                            </td> --}}
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center flex-wrap">
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKD" data-bs-id="{{ $skd->id_sk_domisili }}" class="btn btn-primary btn-sm me-1">Detail</button>
@@ -262,11 +246,6 @@
                                             <td class="text-center align-middle">{{ $sktm->nik }}</td>
                                             <td class="text-center align-middle">{{ $sktm->nama }}</td>
                                             <td class="text-center align-middle">{{ $sktm->status_surat }}</td>
-                                            {{-- <td class="text-center align-middle">
-                                                <a href="{{ url('dokumen_bukti/' . $sk_usaha->bukti) }}">
-                                                    <button class="btn btn-success" type="button">Unduh</button>
-                                                </a>
-                                            </td> --}}
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center flex-wrap">
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKTM" data-bs-id="{{ $sktm->id_sk_tidak_mampu }}" class="btn btn-primary btn-sm me-1">Detail</button>
@@ -609,6 +588,57 @@
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_keperluan_2"></label></span>
                         </div>
                     </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label"><strong>BERKAS PERSYARATAN</strong></label>
+                        <div class="col-md-9">
+                            <div class="d-flex">
+                                <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <ul class="list-unstyled mb-0 w-100">
+                                    <li id="suket" class="row align-items-center mb-2">
+                                        <div class="col-md-6">
+                                            <label class="form-label mb-0">Surat Pengantar RT/RW</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a id="detail_bukti_suket_2" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
+                                        </div>
+                                    </li>
+                                    <li id="kk" class="row align-items-center mb-2">
+                                        <div class="col-md-6">
+                                            <label class="form-label mb-0">Kartu Keluarga (KK)</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a id="detail_bukti_kk_2" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
+                                        </div>
+                                    </li>
+                                    <li id="ktp" class="row align-items-center mb-2">
+                                        <div class="col-md-6">
+                                            <label class="form-label mb-0">Kartu Tanda Penduduk (KTP)</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a id="detail_bukti_ktp_2" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
+                                        </div>
+                                    </li>
+                                    <li id="akta_cerai" class="row align-items-center mb-2">
+                                        <div class="col-md-6">
+                                            <label class="form-label mb-0">Akta Cerai</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a id="detail_bukti_cerai_2" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
+                                        </div>
+                                    </li>
+                                    <li id="akta_kematian" class="row align-items-center mb-2">
+                                        <div class="col-md-6">
+                                            <label class="form-label mb-0">Akta Kematian</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a id="detail_bukti_kematian_2" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                        </div>
+                    </div>                
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -1650,6 +1680,11 @@
                         $("#detail_agama_2").html(surat.agama);
                         $("#detail_alamat_2").html(surat.alamat);
                         $("#detail_keperluan_2").html(surat.keperluan);
+                        $("#detail_bukti_suket_2").attr("href", '/bukti_dokumen/SKBM/' + surat.bukti_suket);
+                        $("#detail_bukti_kk_2").attr("href", '/bukti_dokumen/SKBM/' + surat.bukti_kk);
+                        $("#detail_bukti_ktp_2").attr("href", '/bukti_dokumen/SKBM/' + surat.bukti_ktp);
+                        $("#detail_bukti_cerai_2").attr("href", '/bukti_dokumen/SKBM/' + surat.bukti_cerai);
+                        $("#detail_bukti_kematian_2").attr("href", '/bukti_dokumen/SKBM/' + surat.bukti_kematian);
 
                         if (surat.pekerjaan === 'Lainnya') {
                             $("#detail_pekerjaan_2").html(surat.pekerjaan_lainnya);
@@ -1657,6 +1692,23 @@
                         } else {
                             $("#detail_pekerjaan_2").html(surat.pekerjaan);
                             $("#pekerjaan_lainnya_2_row").hide();
+                        }
+
+                        $("#suket").show();
+                        $("#kk").show();
+                        $("#ktp").show();
+                        $("#akta_cerai").hide();
+                        $("#akta_kematian").hide();
+
+                        if (surat.status_nikah === 'Belum Kawin') {
+                            $("#akta_cerai").hide();
+                            $("#akta_kematian").hide();
+                        } else if (surat.status_nikah === 'Cerai Hidup') {
+                            $("#akta_cerai").show();
+                            $("#akta_kematian").hide();
+                        } else if (surat.status_nikah === 'Cerai Mati') {
+                            $("#akta_cerai").hide();
+                            $("#akta_kematian").show();
                         }
                     }
                 },
