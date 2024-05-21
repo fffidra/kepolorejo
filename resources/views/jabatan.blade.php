@@ -42,6 +42,7 @@
                                     <tr>
                                         <th>NIP</th>
                                         <th>Nama</th>
+                                        <th class="text-center align-middle">Jabatan</th>
                                         <th class="text-center align-middle">Posisi</th>
                                         <th class="text-center align-middle">Peran</th>
                                         <th class="text-center align-middle">Aksi</th>
@@ -52,9 +53,15 @@
                                         <tr>
                                             <td>{{ $data->nip }}</td>
                                             <td>{{ $data->nama }}</td>
+                                            <td class="text-center align-middle">
+                                                <select class="form-select" name="jabatan" onchange="update_jabatan('{{ $data->nip }}', this.value)">
+                                                    <option value="Lurah" {{ $data->jabatan == 'Lurah' ? 'selected' : '' }}>Lurah</option>
+                                                    <option value="Non Lurah" {{ $data->jabatan == 'Non Lurah' ? 'selected' : '' }}>Non Lurah</option>
+                                                </select>
+                                            </td>
                                             <td class="text-center align-middle">{{ $data->posisi }}</td>
                                             <td class="text-center align-middle">
-                                                <select class="form-select" name="peran" onchange="updatePeran('{{ $data->nip }}', this.value)">
+                                                <select class="form-select" name="peran" onchange="update_peran('{{ $data->nip }}', this.value)">
                                                     <option value="Penanda Tangan" {{ $data->peran == 'Penanda Tangan' ? 'selected' : '' }}>Penanda Tangan</option>
                                                     <option value="Non Penanda Tangan" {{ $data->peran == 'Non Penanda Tangan' ? 'selected' : '' }}>Non Penanda Tangan</option>
                                                 </select>
@@ -180,7 +187,7 @@
         $(document).ready(function() {
             var table = $('.table').DataTable({
                 columnDefs: [
-                    { orderable: false, targets: [4] }
+                    { orderable: false, targets: [5] }
                 ],
                 language: {
                     lengthMenu: "Tampilkan _MENU_ data per halaman",
@@ -273,7 +280,7 @@
             });
         });
 
-        function updatePeran(nip, peran) {
+        function update_peran(nip, peran) {
             $.ajax({
                 url: '{{ route("update_peran") }}',
                 type: 'POST',
@@ -289,13 +296,42 @@
                             title: "Berhasil",
                             text: "Peran berhasil diperbarui",
                         }).then(() => {
-                            location.reload(); // Muat ulang halaman untuk memastikan hanya satu penandatangan
+                            location.reload();
                         });
                     } else {
                         Swal.fire({
                             icon: "error",
                             title: "Gagal",
                             text: "Peran gagal diperbarui",
+                        });
+                    }
+                }
+            });
+        }
+
+        function update_jabatan(nip, jabatan) {
+            $.ajax({
+                url: '{{ route("update_jabatan") }}',
+                type: 'POST',
+                data: {
+                    nip: nip,
+                    jabatan: jabatan,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Berhasil",
+                            text: "Jabatan berhasil diperbarui",
+                        }).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Gagal",
+                            text: "Jabatan gagal diperbarui",
                         });
                     }
                 }

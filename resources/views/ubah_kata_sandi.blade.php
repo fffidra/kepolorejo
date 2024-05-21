@@ -12,19 +12,16 @@
             <div class="main-content">
                 <div class="page-content">
                     <div class="container-fluid">
-    
-                        <!-- start page title -->
                         <div class="row mx-2">
                             <div class="col-12">
                                 <div class="page-title-box align-items-center justify-content-between">
                                     <h5 class="mb-2">Ubah Kata Sandi Akun</h5>
-                                    <h4 class="fs-base lh-base fw-medium text-muted mb-0">Silahkan buat kata sandi baru untuk keamanan akun Anda. Minimal 8 karakter, maksimal 16 karakter.</h4>
+                                    <h4 class="fs-base lh-base fw-medium text-muted mb-0">Silahkan buat kata sandi baru untuk keamanan akun Anda. Minimal 4 karakter, maksimal 16 karakter.</h4>
                                 </div>
                             </div>
-                        </div><!-- end page title -->
-                        
+                        </div>
                         <div>
-                            <form method="POST" action="{{ route('ubah_kata_sandi') }}">
+                            <form method="POST" action="{{ route('submit_kata_sandi', Auth::user()->nik) }}"">                               
                                 @csrf
                                 @method('PUT')
                                 <div class="row bg-white rounded-3 pb-3 mb-3 mx-2">
@@ -75,7 +72,7 @@
                                     </div>
                                 </div>
                             </form>
-                        </div>
+                                                    </div>
                     </div>
                 </div>
             </div>

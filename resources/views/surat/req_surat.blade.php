@@ -461,7 +461,7 @@
 
     {{-- ALASAN DITOLAK --}}
     <div class="modal fade" id="pesan_ditolak" tabindex="-1" aria-labelledby="pesanDitolakLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered"> <!-- Add modal-dialog-centered class here -->
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="pesanDitolakLabel">Pesan Ditolak</h5>
@@ -879,22 +879,6 @@
 
 @section('script')
     <script>
-        // document.addEventListener('DOMContentLoaded', function () {
-        //     var statusNikah = document.getElementById('status_nikah');
-        //     var belumKawin = document.getElementById('bukti_suket_bk');
-        //     var belumKawinInput = document.getElementById('bukti_suket_bk');
-
-        //     statusNikah.addEventListener('change', function () {
-        //         if (statusNikah.value === 'Cerai Hidup') {
-        //             belumKawin.style.display = 'block';
-        //             belumKawinInput.setAttribute('required', 'required');
-        //         } else {
-        //             belumKawin.style.display = 'none';
-        //             belumKawinInput.removeAttribute('required');
-        //         }
-        //     });
-        // });
-
         $(document).ready(function() {
             var table = $('.table').DataTable({
                 order: [[0, 'desc']], // Gantilah 3 dengan indeks kolom tanggal yang sesuai

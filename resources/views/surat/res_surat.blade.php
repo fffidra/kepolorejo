@@ -54,7 +54,7 @@
                                                         @method('PUT')
                                                         <button type="button" id="btnSetuju-{{ $sk_usaha->id_sk_usaha }}" class="btn btn-success btn-sm mx-2">Setuju</button>
                                                     </form>
-                                                    <form method="POST" action="{{ route('verifikasi_sk_usaha', $sk_usaha->id_sk_usaha) }}" id="verifikasi-surat-{{ $sk_usaha->id_sk_usaha }}" class="d-inline">
+                                                    <form method="POST" action="{{ route('sku_tolak', $sk_usaha->id_sk_usaha) }}" id="verifikasi-surat-{{ $sk_usaha->id_sk_usaha }}" class="d-inline">
                                                         @csrf
                                                         @method('PUT')
                                                         <button type="button" id="btnTolak-{{ $sk_usaha->id_sk_usaha }}" class="btn btn-danger btn-sm mx-1">Tolak</button>
@@ -1209,7 +1209,6 @@
                 }
             });
         });
-
 
         // UBAH SKU
         $('#ubahSKU').on('show.bs.modal', function (event) {

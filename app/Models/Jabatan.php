@@ -13,11 +13,12 @@ class Jabatan extends Model
     protected $table = 'jabatan';
 
     protected $primaryKey = 'nip';
-    public $incrementing = false; // Menetapkan bahwa 'nik' bukan auto-incrementing
+    public $incrementing = false;
 
     protected $fillable = [
         'nip',
         'nama',
+        'jabatan',
         'posisi',
         'peran',
     ];

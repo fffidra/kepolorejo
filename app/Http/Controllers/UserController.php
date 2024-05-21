@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Jabatan;
-use App\Models\Bidang;
 use App\Models\SKUsaha;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -11,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -254,26 +254,8 @@ class UserController extends Controller
         return back();
     }
 
-    // public function updatePeran(Request $request)
-    // {
-    //     $jabatan = Jabatan::where('nip', $request->nip)->first();
-    //     if ($jabatan) {
-    //         $jabatan->peran = $request->peran;
-    //         $jabatan->save();
-
-    //         return response()->json([
-    //             'status' => 'success',
-    //         ]);
-    //     } else {
-    //         return response()->json([
-    //             'status' => 'error',
-    //         ]);
-    //     }
-    // }
-
-    public function updatePeran(Request $request)
+    public function update_peran(Request $request)
     {
-        // Validasi input
         $validator = Validator::make($request->all(), [
             'nip' => 'required|exists:jabatan,nip',
             'peran' => 'required|in:Penanda Tangan,Non Penanda Tangan',
@@ -287,16 +269,39 @@ class UserController extends Controller
         $peran = $request->input('peran');
 
         if ($peran == 'Penanda Tangan') {
-            // Set semua peran 'Penanda Tangan' menjadi 'Non Penanda Tangan'
             Jabatan::where('peran', 'Penanda Tangan')->update(['peran' => 'Non Penanda Tangan']);
         }
 
-        // Update peran untuk pejabat yang dipilih
         $jabatan = Jabatan::where('nip', $nip)->first();
         $jabatan->peran = $peran;
         $jabatan->save();
 
         return response()->json(['status' => 'success', 'message' => 'Peran berhasil diperbarui']);
+    }
+
+    public function update_jabatan(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'nip' => 'required|exists:jabatan,nip',
+            'jabatan' => 'required|in:Lurah,Non Lurah',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error', 'message' => 'Data tidak valid'], 400);
+        }
+
+        $nip = $request->input('nip');
+        $jabatan_baru = $request->input('jabatan');
+
+        if ($jabatan_baru == 'Lurah') {
+            Jabatan::where('jabatan', 'Lurah')->update(['jabatan' => 'Non Lurah']);
+        }
+
+        $jabatan = Jabatan::where('nip', $nip)->first();
+        $jabatan->jabatan = $jabatan_baru; 
+        $jabatan->save();
+
+        return response()->json(['status' => 'success', 'message' => 'Jabatan berhasil diperbarui']);
     }
 
     public function masuk(Request $request)
@@ -354,7 +359,8 @@ class UserController extends Controller
         return back();
     }     
 
-    public function keluar() {
+    public function keluar() 
+    {
         Auth::logout();
         Session::flash('alert', [
             'type' => 'success',
@@ -364,9 +370,8 @@ class UserController extends Controller
         return redirect()->route("masuk");
     }
 
-    public function ubah_kata_sandi(Request $request) {
-        $nik = Auth::user()->nik;
-
+    public function ubah_kata_sandi(Request $request, $nik) 
+    {
         $this->validate($request, [
             'password_old' => 'required',
             'password_new' => 'required',
@@ -384,14 +389,13 @@ class UserController extends Controller
             } else {
                 $pengguna->update([
                     'password' => bcrypt($request->password_new),
-                    'password_reset' => 0,
                 ]);
                 Session::flash('alert', [
                     'type' => 'success',
                     'title' => 'Ubah Password Berhasil',
                     'message' => '',
                 ]);
-                return redirect()->route('surat_res.surat');
+                return back();
             }
         } else {
             Session::flash('alert', [

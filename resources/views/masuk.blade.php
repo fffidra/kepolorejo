@@ -41,10 +41,10 @@
                                             <div class="input-group">
                                                 <input type="password" class="form-control" name="password" id="password" placeholder="Masukkan password">
                                                 <span class="input-group-text toggle-password" onclick="togglePassword()">
-                                                    <i class="fa fa-eye-slash"></i>
+                                                    <i id="toggle-icon" class="fa fa-eye-slash"></i>
                                                 </span>
                                             </div>
-                                        </div>
+                                        </div>                                        
                                         <div class="text-center mb-3">
                                             <p><b>Silakan klik Buat Akun jika belum memiliki akun</b></p>
                                         </div>
@@ -74,17 +74,17 @@
 @section('script')
     <script>
         function togglePassword() {
-            var passwordInput = document.getElementById("kata-sandi");
-            var toggleIcon = document.querySelector('.toggle-password i');
+            const passwordField = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggle-icon');
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
             
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-                toggleIcon.classList.remove('fa-eye-slash');
-                toggleIcon.classList.add('fa-eye');
-            } else {
-                passwordInput.type = "password";
+            if (type === 'password') {
                 toggleIcon.classList.remove('fa-eye');
                 toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
             }
         }
     </script>

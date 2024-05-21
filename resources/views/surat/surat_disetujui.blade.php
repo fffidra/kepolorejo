@@ -77,20 +77,6 @@
                                                             }
                                                         });
                                                     });
-
-                                                    // Menambahkan event listener ke tombol 'Unduh'
-                                                    $('#unduhButton').click(function() {
-                                                        // Mendapatkan jenis surat dan id surat dari baris tabel terpilih
-                                                        var jenisSurat = $('.selected-row').attr('data-jenis-surat');
-                                                        var idSurat = $('.selected-row').attr('data-id-surat');
-
-                                                        // Membuat URL unduhan berdasarkan jenis surat dan id surat
-                                                        var url = "{{ route('unduh_surat', ['jenis_surat' => ':jenis_surat', 'id_surat' => ':id_surat']) }}";
-                                                        url = url.replace(':jenis_surat', jenisSurat).replace(':id_surat', idSurat);
-
-                                                        // Mengarahkan jendela baru untuk mengunduh surat
-                                                        window.open(url, '_blank');
-                                                    });
                                                 </script>
                                             </td>
                                         </tr>
@@ -134,20 +120,6 @@
                                                             }
                                                         });
                                                     });
-
-                                                    // Menambahkan event listener ke tombol 'Unduh'
-                                                    $('#unduhButton').click(function() {
-                                                        // Mendapatkan jenis surat dan id surat dari baris tabel terpilih
-                                                        var jenisSurat = $('.selected-row').attr('data-jenis-surat');
-                                                        var idSurat = $('.selected-row').attr('data-id-surat');
-
-                                                        // Membuat URL unduhan berdasarkan jenis surat dan id surat
-                                                        var url = "{{ route('unduh_surat', ['jenis_surat' => ':jenis_surat', 'id_surat' => ':id_surat']) }}";
-                                                        url = url.replace(':jenis_surat', jenisSurat).replace(':id_surat', idSurat);
-
-                                                        // Mengarahkan jendela baru untuk mengunduh surat
-                                                        window.open(url, '_blank');
-                                                    });
                                                 </script>
                                             </td>
                                         </tr>
@@ -190,20 +162,6 @@
                                                                 $('#selesai-surat-{{ $skd->id_sk_domisili }}').submit();
                                                             }
                                                         });
-                                                    });
-
-                                                    // Menambahkan event listener ke tombol 'Unduh'
-                                                    $('#unduhButton').click(function() {
-                                                        // Mendapatkan jenis surat dan id surat dari baris tabel terpilih
-                                                        var jenisSurat = $('.selected-row').attr('data-jenis-surat');
-                                                        var idSurat = $('.selected-row').attr('data-id-surat');
-
-                                                        // Membuat URL unduhan berdasarkan jenis surat dan id surat
-                                                        var url = "{{ route('unduh_surat', ['jenis_surat' => ':jenis_surat', 'id_surat' => ':id_surat']) }}";
-                                                        url = url.replace(':jenis_surat', jenisSurat).replace(':id_surat', idSurat);
-
-                                                        // Mengarahkan jendela baru untuk mengunduh surat
-                                                        window.open(url, '_blank');
                                                     });
                                                 </script>
                                             </td>
@@ -249,20 +207,6 @@
                                                                 }
                                                             });
                                                         });
-                                                    });
-
-                                                    // Menambahkan event listener ke tombol 'Unduh'
-                                                    $('#unduhButton').click(function() {
-                                                        // Mendapatkan jenis surat dan id surat dari baris tabel terpilih
-                                                        var jenisSurat = $('.selected-row').attr('data-jenis-surat');
-                                                        var idSurat = $('.selected-row').attr('data-id-surat');
-
-                                                        // Membuat URL unduhan berdasarkan jenis surat dan id surat
-                                                        var url = "{{ route('unduh_surat', ['jenis_surat' => ':jenis_surat', 'id_surat' => ':id_surat']) }}";
-                                                        url = url.replace(':jenis_surat', jenisSurat).replace(':id_surat', idSurat);
-
-                                                        // Mengarahkan jendela baru untuk mengunduh surat
-                                                        window.open(url, '_blank');
                                                     });
                                                 </script>
                                             </td>

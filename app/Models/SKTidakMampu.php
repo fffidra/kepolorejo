@@ -58,9 +58,4 @@ class SKTidakMampu extends Model
     {
         return $this->belongsTo(Agama::class, 'agama', 'id_agama');
     }
-    
-    public function sk_tidak_mampu_ibfk_4()
-    {
-        return $this->belongsTo(Jabatan::class, 'nama', 'nip');
     }
-}
