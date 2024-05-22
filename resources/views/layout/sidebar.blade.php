@@ -19,7 +19,7 @@
                 <li class="menu-title" data-key="t-applications">MENU SURAT</li>
                 @if(Auth::user()->role == 'Pegawai')
                     <li>
-                        <a href="{{ route('surat.res_surat') }}">
+                        <a href="{{ route('surat.surat_masuk') }}">
                             <i class="bx bx-envelope icon nav-icon"></i>
                             <span class="menu-item" data-key="t-calendar">Surat Masuk</span>
                         </a>

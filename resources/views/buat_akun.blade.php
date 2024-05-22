@@ -32,15 +32,15 @@
                                     <form method="POST" action="{{ route('tambah_user') }}">
                                         @csrf
                                         <div class="mb-3">
-                                            <label for="nama" class="form-label">Nama</label>
-                                            <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama">
+                                            <label for="nama" class="form-label"><strong>Nama Lengkap</strong></label>
+                                            <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama Lengkap Anda">
                                         </div>
                                         <div class="mb-3">
-                                            <label for="nik" class="form-label">NIK</label>
+                                            <label for="nik" class="form-label"><strong>NIK</strong></label>
                                             <input type="text" value="{{ old('nik') }}" class="form-control" id="nik" name="nik" placeholder="Masukkan NIK" required>
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label" for="password">Kata Sandi</label>
+                                            <label class="form-label" for="password"><strong>Kata Sandi</strong></label>
                                             <div class="input-group">
                                                 <input type="password" class="form-control" name="password" id="password" placeholder="Masukkan password">
                                                 <span class="input-group-text toggle-password" onclick="togglePassword()">
@@ -49,7 +49,7 @@
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-between align-items-center mt-3">
-                                            <a href="{{ route('masuk') }}" class="btn btn-primary w-sm waves-effect waves-light" style="background-color: #001f3f;">Kembali</a>
+                                            <a href="{{ route('masuk') }}" class="btn btn-primary w-sm waves-effect waves-light">Kembali</a>
                                             <button class="btn btn-primary w-sm waves-effect waves-light" type="submit">Buat Akun</button>
                                         </div>
                                     </form>
@@ -73,17 +73,17 @@
 @section('script')
     <script>
         function togglePassword() {
-            var passwordInput = document.getElementById("kata-sandi");
-            var toggleIcon = document.querySelector('.toggle-password i');
+            const passwordField = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggle-icon');
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
             
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-                toggleIcon.classList.remove('fa-eye-slash');
-                toggleIcon.classList.add('fa-eye');
-            } else {
-                passwordInput.type = "password";
+            if (type === 'password') {
                 toggleIcon.classList.remove('fa-eye');
                 toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
             }
         }
     </script>

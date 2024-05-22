@@ -48,9 +48,29 @@
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center">
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKTM" data-bs-id="{{ $sktm->id_sk_tidak_mampu }}" class="btn btn-primary btn-sm me-1">Detail</button>
+                                                    <form method="POST" action="{{ route('hapus_sktm', $sktm->id_sk_tidak_mampu) }}" id="hapus-surat-{{ $sktm->id_sk_tidak_mampu }}" class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="button" id="btnHapus-{{ $sktm->id_sk_tidak_mampu }}" class="btn btn-danger btn-sm mx-1"><i class="bx bx-trash-alt"></i></button>
+                                                    </form>
                                                 </div>
                                                 <script>
-                                                </script>
+                                                    $('#btnHapus-{{ $sktm->id_sk_tidak_mampu }}').click(function(event){
+                                                        event.preventDefault();
+                                                        Swal.fire({
+                                                            icon: "info",
+                                                            title: "Hapus Surat",
+                                                            text: "Apakah Anda yakin ingin menghapus surat ini?",
+                                                            showCancelButton: true,
+                                                            confirmButtonText: "Ya, Lanjutkan",
+                                                            cancelButtonText: "Tidak, Batalkan",
+                                                        }).then(function (result) {
+                                                            if (result.isConfirmed) {
+                                                                $('#hapus-surat-{{ $sktm->id_sk_tidak_mampu }}').submit();
+                                                            }
+                                                        });
+                                                    });
+                                                </script>                                            
                                             </td>
                                         </tr>
                                     @endforeach

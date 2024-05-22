@@ -9,6 +9,7 @@ use App\Models\SKDomisili;
 use App\Models\SKTidakMampu;
 use App\Models\SKUsaha;
 use App\Models\User;
+use App\Models\JenisSurat;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,7 +30,43 @@ class SuratController extends Controller
         $sktm = SKTidakMampu::all();
         $jabatan = Jabatan::all();
         $user = User::all();
-        return view('surat.res_surat', compact('surats', 'sk_usaha', 'sk_belum_menikah', 'skd', 'sktm', 'jabatan', 'user'));
+        return view('surat.surat_masuk', compact('surats', 'sk_usaha', 'sk_belum_menikah', 'skd', 'sktm', 'jabatan', 'user'));
+    }
+    
+    public function create()
+    {
+        $jenis_surat_yang_telah_diajukan = array_merge(
+            SKUsaha::where('pemohon', auth()->user()->nik)->pluck('jenis_surat')->toArray(),
+            SKBelumMenikah::where('pemohon', auth()->user()->nik)->pluck('jenis_surat')->toArray(),
+            SKDomisili::where('pemohon', auth()->user()->nik)->pluck('jenis_surat')->toArray(),
+            SKTidakMampu::where('pemohon', auth()->user()->nik)->pluck('jenis_surat')->toArray()
+        );
+    
+        $semua_jenis_surat = JenisSurat::all();
+    
+        $jenis_surat_tersedia = [];
+    
+        foreach ($semua_jenis_surat as $jenis_surat) {
+            if (!in_array($jenis_surat->nama_jenis_surat, $jenis_surat_yang_telah_diajukan)) {
+                $jenis_surat_tersedia[] = $jenis_surat;
+            }
+        }
+    
+        // Tambahkan ini untuk debugging
+        dd($jenis_surat_tersedia);
+    
+        return view('surat.req_surat', compact('jenis_surat_tersedia'));
+    }
+    
+    
+
+    public function surat_masuk(Request $request)
+    {
+        $sk_usaha = SKUsaha::where('status_surat', 'Diproses')->get();
+        $sk_belum_menikah = SKBelumMenikah::where('status_surat', 'Diproses')->get();
+        $skd = SKDomisili::where('status_surat', 'Diproses')->get();
+        $sktm = SKTidakMampu::where('status_surat', 'Diproses')->get();
+        return view('surat.surat_masuk', compact('sk_usaha', 'sk_belum_menikah', 'skd', 'sktm'));
     }
 
     public function surat_disetujui(Request $request)
@@ -982,15 +1019,15 @@ class SuratController extends Controller
             } else {
                 Session::flash('alert', [
                     'type' => 'error',
-                    'title' => 'Kirim Data Gagal',
-                    'message' => 'Gagal menyimpan status surat.'
+                    'title' => 'Surat Gagal Disimpan',
+                    'message' => ''
                 ]);
             }
         } else {
             Session::flash('alert', [
                 'type' => 'error',
-                'title' => 'Surat Gagal Disimpan',
-                'message' => ''
+                'title' => 'Terjadi Kesalahan',
+                'message' => 'Gagal menyimpan status surat.'
             ]);
         }
         return back();
@@ -1019,8 +1056,8 @@ class SuratController extends Controller
         } else {
             Session::flash('alert', [
                 'type' => 'error',
-                'title' => 'Kirim Data Gagal',
-                'message' => 'Data surat tidak ditemukan.'
+                'title' => 'Terjadi Kesalahan',
+                'message' => 'Gagal menyimpan status surat.'
             ]);
         }
         return back();
@@ -1049,8 +1086,8 @@ class SuratController extends Controller
         } else {
             Session::flash('alert', [
                 'type' => 'error',
-                'title' => 'Kirim Data Gagal',
-                'message' => 'Data surat tidak ditemukan.'
+                'title' => 'Terjadi Kesalahan',
+                'message' => 'Gagal menyimpan status surat.'
             ]);
         }
         return back();
@@ -1066,21 +1103,21 @@ class SuratController extends Controller
             if($surat->save()) {
                 Session::flash('alert', [
                     'type' => 'success',
-                    'title' => 'Kirim Data Berhasil',
+                    'title' => 'Surat Berhasil Disimpan',
                     'message' => ''
                 ]);
             } else {
                 Session::flash('alert', [
                     'type' => 'error',
-                    'title' => 'Kirim Data Gagal',
-                    'message' => 'Gagal menyimpan status surat.'
+                    'title' => 'Surat Gagal Disimpan',
+                    'message' => ''
                 ]);
             }
         } else {
             Session::flash('alert', [
                 'type' => 'error',
-                'title' => 'Kirim Data Gagal',
-                'message' => 'Data surat tidak ditemukan.'
+                'title' => 'Terjadi Kesalahan',
+                'message' => 'Gagal menyimpan status surat.'
             ]);
         }
         return back();
@@ -1089,18 +1126,19 @@ class SuratController extends Controller
     public function hapus_sku($id_sk_usaha) 
     {
         $surat = SKUsaha::findOrFail($id_sk_usaha);
+
         if($surat) {
             Session::flash('alert', [
                 'type' => 'success',
-                'title' => 'Hapus Data '.$surat->nama.' Berhasil',
+                'title' => 'Hapus Surat '.$surat->nama.' Berhasil',
                 'message' => "",
             ]); 
             $surat->delete();
         } else {
             Session::flash('alert', [
                 'type' => 'error',
-                'title' => 'Hapus Data Gagal',
-                'message' => 'NIP Tidak Valid!',
+                'title' => 'Hapus Surat Gagal',
+                'message' => '',
             ]); 
         }
         return back();
@@ -1109,17 +1147,18 @@ class SuratController extends Controller
     public function hapus_skbm($id_sk_belum_menikah) 
     {
         $surat = SKBelumMenikah::findOrFail($id_sk_belum_menikah);
+        
         if($surat) {
             Session::flash('alert', [
                 'type' => 'success',
-                'title' => 'Hapus Data '.$surat->nama.' Berhasil',
-                'message' => '',
+                'title' => 'Hapus Surat '.$surat->nama.' Berhasil',
+                'message' => "",
             ]); 
             $surat->delete();
         } else {
             Session::flash('alert', [
                 'type' => 'error',
-                'title' => 'Hapus Data Gagal',
+                'title' => 'Hapus Surat Gagal',
                 'message' => '',
             ]); 
         }
@@ -1129,17 +1168,18 @@ class SuratController extends Controller
     public function hapus_skd($id_sk_domisili) 
     {
         $surat = SKDomisili::findOrFail($id_sk_domisili);
+        
         if($surat) {
             Session::flash('alert', [
                 'type' => 'success',
-                'title' => 'Hapus Data '.$surat->nama.' Berhasil',
-                'message' => '',
+                'title' => 'Hapus Surat '.$surat->nama.' Berhasil',
+                'message' => "",
             ]); 
             $surat->delete();
         } else {
             Session::flash('alert', [
                 'type' => 'error',
-                'title' => 'Hapus Data Gagal',
+                'title' => 'Hapus Surat Gagal',
                 'message' => '',
             ]); 
         }
@@ -1149,17 +1189,18 @@ class SuratController extends Controller
     public function hapus_sktm($id_sk_tidak_mampu) 
     {
         $surat = SKTidakMampu::findOrFail($id_sk_tidak_mampu);
+        
         if($surat) {
             Session::flash('alert', [
                 'type' => 'success',
-                'title' => 'Hapus Data '.$surat->nama.' Berhasil',
-                'message' => '',
+                'title' => 'Hapus Surat '.$surat->nama.' Berhasil',
+                'message' => "",
             ]); 
             $surat->delete();
         } else {
             Session::flash('alert', [
                 'type' => 'error',
-                'title' => 'Hapus Data Gagal',
+                'title' => 'Hapus Surat Gagal',
                 'message' => '',
             ]); 
         }

@@ -324,14 +324,25 @@ class UserController extends Controller
         ];
 
         if(Auth::attempt($infoLogin)) {
+            Session::flash('alert', [
+                'type' => 'success',
+                'title' => 'Login Berhasil',
+                'message' => "Selamat Datang ".Auth::user()->nama,
+            ]);
+        
             if(Auth::user()->role == 'Warga') {
                 return redirect('req_surat');
             } elseif(Auth::user()->role == 'Pegawai') {
-                return redirect('home');
+                return redirect('surat_masuk');
             }
         } else {
-            return redirect()->back()->withErrors('Nik dan password tidak sesuai')->withInput();
-        }        
+            Session::flash('alert', [
+                'type' => 'error',
+                'title' => 'Login Gagal',
+                'message' => 'NIK atau password tidak sesuai',
+            ]);
+            return redirect()->back()->withInput();
+        }                
     }
 
     public function tambah_user(Request $request) {

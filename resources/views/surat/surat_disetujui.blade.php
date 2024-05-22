@@ -50,11 +50,8 @@
                                             <td class="text-center align-middle">
                                                 <div class="d-flex justify-content-center">
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" class="btn btn-primary btn-sm me-2">Detail</button>
-                                                
                                                     <a href="{{ route('unduh_sku', ['id_sk_usaha' => $sk_usaha->id_sk_usaha]) }}" target="_blank" class="btn btn-success btn-sm me-2" style="margin-right: 10px;">Unduh</a> 
-                                                
                                                     {{-- <button type="button" data-bs-toggle="modal" data-bs-target="#modalDokumen" data-bs-id="{{ $surat->id_surat }}" class="btn btn-info btn-sm">Ubah</button> --}}
-                                                
                                                     <form method="POST" action="{{ route('sku_selesai', $sk_usaha->id_sk_usaha) }}" id="selesai-surat-{{ $sk_usaha->id_sk_usaha }}">
                                                         @csrf
                                                         @method('PUT')

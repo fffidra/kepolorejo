@@ -141,16 +141,34 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="jenis_surat" class="form-label"><strong>JENIS SURAT</strong></label>
-                        <select class="form-select" id="jenis_surat" name="jenis_surat" required onchange="showForm()" required>
-                            <option value="" selected hidden>-- Pilih Jenis Surat --</option>
-                            @foreach(\App\Models\JenisSurat::all() as $jenis_surats)
-                                <option value="{{ $jenis_surats->nama_jenis_surat }}">{{ $jenis_surats->nama_jenis_surat }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
+                    @php
+                        $jenis_surat_yang_telah_diajukan = array_merge(
+                            \App\Models\SKUsaha::where('pemohon', auth()->user()->nik)->pluck('jenis_surat')->toArray(),
+                            \App\Models\SKBelumMenikah::where('pemohon', auth()->user()->nik)->pluck('jenis_surat')->toArray(),
+                            \App\Models\SKDomisili::where('pemohon', auth()->user()->nik)->pluck('jenis_surat')->toArray(),
+                            \App\Models\SKTidakMampu::where('pemohon', auth()->user()->nik)->pluck('jenis_surat')->toArray()
+                        );
+                
+                        $semua_jenis_surat = \App\Models\JenisSurat::all();
+                
+                        $jenis_surat_tersedia = [];
+                
+                        foreach ($semua_jenis_surat as $jenis_surat) {
+                            if (!in_array($jenis_surat->nama_jenis_surat, $jenis_surat_yang_telah_diajukan)) {
+                                $jenis_surat_tersedia[] = $jenis_surat;
+                            }
+                        }
+                    @endphp
+                        <div class="mb-3">
+                            <label for="jenis_surat" class="form-label"><strong>JENIS SURAT</strong></label>
+                            <select class="form-select form-control" id="jenis_surat" name="jenis_surat" required onchange="showForm()">
+                                <option value="" selected hidden>-- Pilih Jenis Surat --</option>
+                                @foreach($jenis_surat_tersedia as $jenis_surat)
+                                    <option value="{{ $jenis_surat->nama_jenis_surat }}">{{ $jenis_surat->nama_jenis_surat }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        
                     {{-- USAHA --}}
                     <form method="POST" action="{{ route('buat_sku') }}" enctype="multipart/form-data">
                         @csrf

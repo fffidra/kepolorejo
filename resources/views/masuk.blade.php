@@ -12,24 +12,14 @@
                 <div class="row justify-content-center my-auto">
                     <div class="col-md-8 col-lg-6 col-xl-5">
                         <div class="text-center mb-4">
-                                <img src="{{ asset('assets/images/logo-kab-magetan.png') }}" alt="" height="35"> <span class="logo-txt">E-Surat Kepolorejo</span>
+                            <img src="{{ asset('assets/images/logo-kab-magetan.png') }}" alt="" height="35"> <span class="logo-txt">E-Surat Kepolorejo</span>
                         </div>
-
                         <div class="card">
                             <div class="card-body p-4"> 
                                 <div class="text-center mt-2">
                                     <h5 class="text-primary">Selamat Datang</h5>
                                 </div>
                                 <div class="p-2 mt-4">
-                                    @if($errors->any())
-                                        <div class="alert alert-danger">
-                                            <ul>
-                                                @foreach ($errors->all() as $item)
-                                                    <li>{{ $item }}</li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
-                                    @endif
                                     <form method="POST" action="{{ route('masuk') }}">
                                         @csrf
                                         <div class="mb-3">
@@ -49,7 +39,7 @@
                                             <p><b>Silakan klik Buat Akun jika belum memiliki akun</b></p>
                                         </div>
                                         <div class="d-flex justify-content-between align-items-center mt-3">
-                                            <a href="{{ route('buat_akun') }}" class="btn btn-primary w-sm waves-effect waves-light" style="background-color: #001f3f;">Buat Akun</a>
+                                            <a href="{{ route('buat_akun') }}" class="btn btn-primary w-sm waves-effect waves-light">Buat Akun</a>
                                             <button class="btn btn-primary w-sm waves-effect waves-light" type="submit">Masuk</button>
                                         </div>
                                     </form>
@@ -58,7 +48,6 @@
                         </div>
                     </div>
                 </div>
-                
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="text-center text-muted p-4">

@@ -20,8 +20,8 @@ Route::middleware(['guest'])->group(function() {
 });
 
 Route::middleware(['auth'])->group(function() {
-    Route::get('/home', function () {
-        return redirect()->route('surat.res_surat');
+    Route::get('/surat_masuk', function () {
+        return redirect()->route('surat.surat_masuk');
     })->name('surat_masuk')->middleware('userAccess:Pegawai');  
     
     Route::get('/req_surat', function () {
@@ -40,9 +40,13 @@ Route::middleware(['auth'])->group(function() {
         return view('ubah_kata_sandi');
     })->name('ubah_kata_sandi');
     
+    Route::get('surat_masuk', [SuratController::class, 'surat_masuk'])->name('surat.surat_masuk')->middleware('userAccess:Pegawai'); 
     Route::get('surat_disetujui', [SuratController::class, 'surat_disetujui'])->name('surat.surat_disetujui')->middleware('userAccess:Pegawai'); 
     Route::get('surat_ditolak', [SuratController::class, 'surat_ditolak'])->name('surat.surat_ditolak')->middleware('userAccess:Pegawai'); 
 
+    Route::get('/surat/create', [SuratController::class, 'create'])->name('surat.create');
+
+    
     Route::put('ubah_kata_sandi/{nik}', [UserController::class, 'ubah_kata_sandi'])->name('submit_kata_sandi');
     
     Route::post('buat_sku', [SuratController::class, 'buat_sku'])->name('buat_sku');
@@ -133,5 +137,3 @@ Route::put('ubah_skbm', [SuratController::class, 'ubah_skbm'])->name('ubah_skbm'
 Route::put('ubah_skd', [SuratController::class, 'ubah_skd'])->name('ubah_skd');
 Route::put('ubah_sktm', [SuratController::class, 'ubah_sktm'])->name('ubah_sktm');
 
-Route::get('surat_masuk', [SuratController::class, 'index'])->name('surat.res_surat'); 
-Route::get('riwayat_surat', [SuratController::class, 'riwayat_surat'])->name('surat.riwayat_surat'); 

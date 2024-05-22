@@ -262,43 +262,45 @@
                                                     </form>
                                                 </div>
                                                 <script>
-                                                    // BUTTON SETUJU
-                                                    $('#btnSetuju-{{ $sktm->id_sk_tidak_mampu }}').click(function(event){
-                                                        event.preventDefault();
-                                                        Swal.fire({
-                                                            icon: "info",
-                                                            title: "Setujui Surat",
-                                                            text: "Apakah Anda yakin ingin menyetujui surat ini?",
-                                                            showCancelButton: true,
-                                                            confirmButtonText: "Ya, Lanjutkan",
-                                                            cancelButtonText: "Tidak, Batalkan",
-                                                        }).then(function (result) {
-                                                            if (result.isConfirmed) {
-                                                                $('#setuju-surat-{{ $sktm->id_sk_tidak_mampu}}').submit();
-                                                            }
+                                                    $(document).ready(function() {
+                                                        // BUTTON SETUJU
+                                                        $('#btnSetuju-{{ $sktm->id_sk_tidak_mampu }}').click(function(event){
+                                                            event.preventDefault();
+                                                            Swal.fire({
+                                                                icon: "info",
+                                                                title: "Setujui Surat",
+                                                                text: "Apakah Anda yakin ingin menyetujui surat ini?",
+                                                                showCancelButton: true,
+                                                                confirmButtonText: "Ya, Lanjutkan",
+                                                                cancelButtonText: "Tidak, Batalkan",
+                                                            }).then(function (result) {
+                                                                if (result.isConfirmed) {
+                                                                    $('#setuju-surat-{{ $sktm->id_sk_tidak_mampu}}').submit();
+                                                                }
+                                                            });
                                                         });
-                                                    });
 
-                                                    // BUTTON TOLAK
-                                                    $('#btnTolak-{{ $sktm->id_sk_tidak_mampu }}').click(function(event){
-                                                        event.preventDefault();
-                                                        Swal.fire({
-                                                            icon: "info",
-                                                            title: "Tolak Surat",
-                                                            text: "Apakah Anda yakin ingin menolak surat ini?",
-                                                            input: 'textarea',
-                                                            inputPlaceholder: 'Masukkan pesan penolakan jika surat akan ditolak',
-                                                            showCancelButton: true,
-                                                            confirmButtonText: "Tolak",
-                                                            cancelButtonText: "Kembali",
-                                                        }).then((result) => {
-                                                            if (result.isConfirmed) {
-                                                                var pesan = result.value; // Ambil nilai dari input teks
-                                                                $('#tolak-surat-{{ $sktm->id_sk_tidak_mampu }}')
-                                                                    .append('<input type="hidden" name="aksi" value="tolak">')
-                                                                    .append('<input type="hidden" name="alasan_tolak" value="' + pesan + '">') // Kirim nilai pesan ke server
-                                                                    .submit();
-                                                            }
+                                                        // BUTTON TOLAK
+                                                        $('#btnTolak-{{ $sktm->id_sk_tidak_mampu }}').click(function(event){
+                                                            event.preventDefault();
+                                                            Swal.fire({
+                                                                icon: "info",
+                                                                title: "Tolak Surat",
+                                                                text: "Apakah Anda yakin ingin menolak surat ini?",
+                                                                input: 'textarea',
+                                                                inputPlaceholder: 'Masukkan pesan penolakan jika surat akan ditolak',
+                                                                showCancelButton: true,
+                                                                confirmButtonText: "Tolak",
+                                                                cancelButtonText: "Kembali",
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    var pesan = result.value; // Ambil nilai dari input teks
+                                                                    $('#tolak-surat-{{ $sktm->id_sk_tidak_mampu }}')
+                                                                        .append('<input type="hidden" name="aksi" value="tolak">')
+                                                                        .append('<input type="hidden" name="alasan_tolak" value="' + pesan + '">') // Kirim nilai pesan ke server
+                                                                        .submit();
+                                                                }
+                                                            });
                                                         });
                                                     });
                                                 </script>
