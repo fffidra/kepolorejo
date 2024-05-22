@@ -53,12 +53,7 @@
                                         <tr>
                                             <td>{{ $data->nip }}</td>
                                             <td>{{ $data->nama }}</td>
-                                            <td class="text-center align-middle">
-                                                <select class="form-select" name="jabatan" onchange="update_jabatan('{{ $data->nip }}', this.value)">
-                                                    <option value="Lurah" {{ $data->jabatan == 'Lurah' ? 'selected' : '' }}>Lurah</option>
-                                                    <option value="Non Lurah" {{ $data->jabatan == 'Non Lurah' ? 'selected' : '' }}>Non Lurah</option>
-                                                </select>
-                                            </td>
+                                            <td class="text-center align-middle"> {{ $data->nama_jabatan }}</td>
                                             <td class="text-center align-middle">{{ $data->posisi }}</td>
                                             <td class="text-center align-middle">
                                                 <select class="form-select" name="peran" onchange="update_peran('{{ $data->nip }}', this.value)">
@@ -119,16 +114,20 @@
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="nip" class="col-form-label" name="nik">NIP (Format: 19XX0309 20X100 X 2XX)</label>
+                            <label for="nip" class="col-form-label" name="nik"><strong>NIP</strong> (Format: 19XX0309 20X100 X 2XX)</label>
                             <input type="text" class="form-control" id="nip" name="nip" required placeholder="Nomor Induk Pegawai">
                         </div> 
                         <div class="mb-3">
-                            <label for="nama" class="col-form-label" name="nama">Nama (Tambahkan Gelar)</label>
-                            <input type="text" class="form-control" id="nama" name="nama" required>
+                            <label for="nama" class="col-form-label" name="nama"><strong>NAMA</strong> (Tambahkan Gelar Lengkap)</label>
+                            <input type="text" class="form-control" id="nama" name="nama" placeholder="Isikan nama lengkap" required>
                         </div>
                         <div class="mb-3">
-                            <label for="posisi" class="col-form-label" name="posisi">Jabatan</label>
-                            <input type="text" class="form-control" id="posisi" name="posisi" required>
+                            <label for="nama_jabatan" class="col-form-label" name="jabatan"><strong>JABATAN</strong></label>
+                            <input type="text" class="form-control" id="nama_jabatan" name="nama_jabatan" placeholder="Isikan jabatan lengkap" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="posisi" class="col-form-label" name="posisi"><strong>POSISI</strong></label>
+                            <input type="text" class="form-control" id="posisi" name="posisi" placeholder="Isikan posisi lengkap" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -163,6 +162,12 @@
                             <label for="ubah_nama" class="col-md-2 col-form-label">Nama (Tambahkan Gelar)</label>
                             <div class="col-md-9">
                                 <input type="text" class="form-control" id="ubah_nama" name="ubah_nama" required>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="ubah_nama_jabatan" class="col-md-2 col-form-label">Jabatan</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="ubah_nama_jabatan" name="ubah_nama_jabatan" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -223,6 +228,7 @@
                         $("#nip2").val(jabatan.nip);
                         $("#ubah_nip").val(jabatan.nip);
                         $("#ubah_nama").val(jabatan.nama);
+                        $("#ubah_nama_jabatan").val(jabatan.nama_jabatan);
                         $("#ubah_posisi").val(jabatan.posisi);
                     }
                 }, 
@@ -245,6 +251,7 @@
                 console.log(response);
                     $('#ubah_nip').val(response.jabatan.nip);
                     $('#ubah_nama').val(response.jabatan.nama);
+                    $('#ubah_nama_jabatan').val(response.jabatan.nama_jabatan);
                     $('#ubah_posisi').val(response.jabatan.posisi);
                     $('#ubahjabatan').modal('show');                
                 }
@@ -256,6 +263,7 @@
                 event.preventDefault();
                 var nip = document.getElementById("ubah_nip");
                 var nama = document.getElementById("ubah_nama");
+                var nama_jabatan = document.getElementById("ubah_nama_jabatan");
                 var posisi = document.getElementById("ubah_posisi");
                 if (!nip.value) {
                     Swal.fire({
@@ -303,35 +311,6 @@
                             icon: "error",
                             title: "Gagal",
                             text: "Peran gagal diperbarui",
-                        });
-                    }
-                }
-            });
-        }
-
-        function update_jabatan(nip, jabatan) {
-            $.ajax({
-                url: '{{ route("update_jabatan") }}',
-                type: 'POST',
-                data: {
-                    nip: nip,
-                    jabatan: jabatan,
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    if (response.status === 'success') {
-                        Swal.fire({
-                            icon: "success",
-                            title: "Berhasil",
-                            text: "Jabatan berhasil diperbarui",
-                        }).then(() => {
-                            location.reload();
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Gagal",
-                            text: "Jabatan gagal diperbarui",
                         });
                     }
                 }

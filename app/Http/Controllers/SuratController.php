@@ -32,6 +32,26 @@ class SuratController extends Controller
         return view('surat.res_surat', compact('surats', 'sk_usaha', 'sk_belum_menikah', 'skd', 'sktm', 'jabatan', 'user'));
     }
 
+    public function surat_disetujui(Request $request)
+    {
+        $surat = Surat::where('status_surat', 'Disetujui')->get();
+        $sk_usaha = SKUsaha::where('status_surat', 'Disetujui')->get();
+        $sk_belum_menikah = SKBelumMenikah::where('status_surat', 'Disetujui')->get();
+        $skd = SKDomisili::where('status_surat', 'Disetujui')->get();
+        $sktm = SKTidakMampu::where('status_surat', 'Disetujui')->get();
+        return view('surat.surat_disetujui', compact('surat', 'sk_usaha', 'sk_belum_menikah', 'skd', 'sktm'));
+    }
+
+    public function surat_ditolak(Request $request)
+    {
+        $surat = Surat::where('status_surat', 'Ditolak')->get();
+        $sk_usaha = SKUsaha::where('status_surat', 'Ditolak')->get();
+        $sk_belum_menikah = SKBelumMenikah::where('status_surat', 'Ditolak')->get();
+        $skd = SKDomisili::where('status_surat', 'Ditolak')->get();
+        $sktm = SKTidakMampu::where('status_surat', 'Ditolak')->get();
+        return view('surat.surat_ditolak', compact('surat', 'sk_usaha', 'sk_belum_menikah', 'skd', 'sktm'));
+    }
+
     public function buat_sku(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -1152,6 +1172,7 @@ class SuratController extends Controller
         $jabatan = Jabatan::where('peran', 'Penanda Tangan')->first();
 
         $jabatanNama = $jabatan->nama;
+        $jabatanNamaJabatan = $jabatan->nama_jabatan;
         $jabatanPosisi = $jabatan->posisi;
         $jabatanNIP = $jabatan->nip;
 
@@ -1261,33 +1282,40 @@ class SuratController extends Controller
 
             $section->addTextBreak();
             $section->addTextBreak();
-            $section->addTextBreak();
 
         // TANDA TANGAN 
-            $tableFoot = $section->addTable(['width' => 80, 'borderColor' => 'white', 'borderSize' => 1, 'alignment' => 'right']);
+            $tableFoot = $section->addTable(['width' => 100, 'borderColor' => 'white', 'borderSize' => 1, 'alignment' => 'right']);
             $tanggalLengkap = Carbon::parse(now())->locale('id_ID')->isoFormat('DD MMMM YYYY');
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('Magetan, ' . $tanggalLengkap, ['size' => 12], array('align' => 'center'));
+            $tableFoot->addCell(5000)->addText('Magetan, ' . $tanggalLengkap, ['size' => 12], array('align' => 'center'));
             $tableFoot->addCell(550)->addText('');
             $tableFoot->addRow();            
-            $tableFoot->addCell(4700)->addText('LURAH KEPOLOREJO', ['size' => 12], array('align' => 'center'));
+            $tableFoot->addCell(5000)->addText('LURAH KEPOLOREJO', ['size' => 12], array('align' => 'center'));
+
+            if ($jabatanNamaJabatan !== 'Lurah') {
+                $tableFoot->addRow();            
+                $tableFoot->addCell(5000)->addText('An. '.$jabatanNamaJabatan, ['size' => 12], array('align' => 'center'));
+                $tableFoot->addRow();
+                $tableFoot->addCell(5000)->addText('');
+    
+            }
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('');
+            $tableFoot->addCell(5000)->addText('');
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('');
+            $tableFoot->addCell(5000)->addText('');
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('');
+            $tableFoot->addCell(5000)->addText('');
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText(strtoupper($jabatanNama), ['size' => 12, 'bold' => true, 'underline' => 'single'], ['align' => 'center']);
+            $tableFoot->addCell(5000)->addText($jabatanNama, ['size' => 12, 'bold' => true, 'underline' => 'single'], ['align' => 'center']);
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText($jabatanPosisi, ['size' => 12], ['align' => 'center']);
+            $tableFoot->addCell(5000)->addText($jabatanPosisi, ['size' => 12], ['align' => 'center']);
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('NIP. ' . $jabatanNIP, ['size' => 12], ['align' => 'center']);
+            $tableFoot->addCell(5000)->addText('NIP. ' . $jabatanNIP, ['size' => 12], ['align' => 'center']);
 
             $section->addTextBreak();
 
@@ -1305,6 +1333,7 @@ class SuratController extends Controller
         $jabatan = Jabatan::where('peran', 'Penanda Tangan')->first();
         
         $jabatanNama = $jabatan->nama;
+        $jabatanNamaJabatan = $jabatan->nama_jabatan;
         $jabatanPosisi = $jabatan->posisi;
         $jabatanNIP = $jabatan->nip;
 
@@ -1411,33 +1440,39 @@ class SuratController extends Controller
             $section->addTextBreak();
 
         // TANDA TANGAN 
-            $tableFoot = $section->addTable(['width' => 80, 'borderColor' => 'white', 'borderSize' => 1, 'alignment' => 'right']);
+            $tableFoot = $section->addTable(['width' => 100, 'borderColor' => 'white', 'borderSize' => 1, 'alignment' => 'right']);
             $tanggalLengkap = Carbon::parse(now())->locale('id_ID')->isoFormat('DD MMMM YYYY');
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('Magetan, ' . $tanggalLengkap, ['size' => 12], array('align' => 'center'));
+            $tableFoot->addCell(5000)->addText('Magetan, ' . $tanggalLengkap, ['size' => 12], array('align' => 'center'));
             $tableFoot->addCell(550)->addText('');
             $tableFoot->addRow();            
-            $tableFoot->addCell(4700)->addText('LURAH KEPOLOREJO', ['size' => 12], array('align' => 'center'));
+            $tableFoot->addCell(5000)->addText('LURAH KEPOLOREJO', ['size' => 12], array('align' => 'center'));
+
+            if ($jabatanNamaJabatan !== 'Lurah') {
+                $tableFoot->addRow();            
+                $tableFoot->addCell(5000)->addText('An. '.$jabatanNamaJabatan, ['size' => 12], array('align' => 'center'));
+                $tableFoot->addRow();
+                $tableFoot->addCell(5000)->addText('');
+            }
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('');
+            $tableFoot->addCell(5000)->addText('');
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('');
+            $tableFoot->addCell(5000)->addText('');
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('');
+            $tableFoot->addCell(5000)->addText('');
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText(strtoupper($jabatanNama), ['size' => 12, 'bold' => true, 'underline' => 'single'], ['align' => 'center']);
+            $tableFoot->addCell(5000)->addText($jabatanNama, ['size' => 12, 'bold' => true, 'underline' => 'single'], ['align' => 'center']);
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText($jabatanPosisi, ['size' => 12], ['align' => 'center']);
+            $tableFoot->addCell(5000)->addText($jabatanPosisi, ['size' => 12], ['align' => 'center']);
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('NIP. ' . $jabatanNIP, ['size' => 12], ['align' => 'center']);
-            
+            $tableFoot->addCell(5000)->addText('NIP. ' . $jabatanNIP, ['size' => 12], ['align' => 'center']);
+
             $section->addTextBreak();
-
 
         $filename = ucfirst(str_replace('_', ' ', $surat->jenis_surat)) . ' ' . date('Y-m-d H-i-s') . '.docx';
         $filepath = storage_path('app/' . $filename);
@@ -1453,6 +1488,7 @@ class SuratController extends Controller
         $jabatan = Jabatan::where('peran', 'Penanda Tangan')->first();
         
         $jabatanNama = $jabatan->nama;
+        $jabatanNamaJabatan = $jabatan->nama_jabatan;
         $jabatanPosisi = $jabatan->posisi;
         $jabatanNIP = $jabatan->nip;
 
@@ -1573,31 +1609,38 @@ class SuratController extends Controller
             $section->addTextBreak();
 
         // TANDA TANGAN 
-            $tableFoot = $section->addTable(['width' => 80, 'borderColor' => 'white', 'borderSize' => 1, 'alignment' => 'right']);
+            $tableFoot = $section->addTable(['width' => 100, 'borderColor' => 'white', 'borderSize' => 1, 'alignment' => 'right']);
             $tanggalLengkap = Carbon::parse(now())->locale('id_ID')->isoFormat('DD MMMM YYYY');
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('Magetan, ' . $tanggalLengkap, ['size' => 12], array('align' => 'center'));
+            $tableFoot->addCell(5000)->addText('Magetan, ' . $tanggalLengkap, ['size' => 12], array('align' => 'center'));
             $tableFoot->addCell(550)->addText('');
             $tableFoot->addRow();            
-            $tableFoot->addCell(4700)->addText('LURAH KEPOLOREJO', ['size' => 12], array('align' => 'center'));
+            $tableFoot->addCell(5000)->addText('LURAH KEPOLOREJO', ['size' => 12], array('align' => 'center'));
+
+            if ($jabatanNamaJabatan !== 'Lurah') {
+                $tableFoot->addRow();            
+                $tableFoot->addCell(5000)->addText('An. '.$jabatanNamaJabatan, ['size' => 12], array('align' => 'center'));
+                $tableFoot->addRow();
+                $tableFoot->addCell(5000)->addText('');
+            }
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('');
+            $tableFoot->addCell(5000)->addText('');
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('');
+            $tableFoot->addCell(5000)->addText('');
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('');
+            $tableFoot->addCell(5000)->addText('');
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText(strtoupper($jabatanNama), ['size' => 12, 'bold' => true, 'underline' => 'single'], ['align' => 'center']);
+            $tableFoot->addCell(5000)->addText($jabatanNama, ['size' => 12, 'bold' => true, 'underline' => 'single'], ['align' => 'center']);
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText($jabatanPosisi, ['size' => 12], ['align' => 'center']);
+            $tableFoot->addCell(5000)->addText($jabatanPosisi, ['size' => 12], ['align' => 'center']);
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('NIP. ' . $jabatanNIP, ['size' => 12], ['align' => 'center']);
-            
+            $tableFoot->addCell(5000)->addText('NIP. ' . $jabatanNIP, ['size' => 12], ['align' => 'center']);
+
             $section->addTextBreak();
 
         $filename = ucfirst(str_replace('_', ' ', $surat->jenis_surat)) . ' ' . date('Y-m-d H-i-s') . '.docx';
@@ -1614,6 +1657,7 @@ class SuratController extends Controller
         $jabatan = Jabatan::where('peran', 'Penanda Tangan')->first();
         
         $jabatanNama = $jabatan->nama;
+        $jabatanNamaJabatan = $jabatan->nama_jabatan;
         $jabatanPosisi = $jabatan->posisi;
         $jabatanNIP = $jabatan->nip;
 
@@ -1718,32 +1762,40 @@ class SuratController extends Controller
             $section->addTextBreak();
 
         // TANDA TANGAN 
-            $tableFoot = $section->addTable(['width' => 80, 'borderColor' => 'white', 'borderSize' => 1, 'alignment' => 'right']);
+            $tableFoot = $section->addTable(['width' => 100, 'borderColor' => 'white', 'borderSize' => 1, 'alignment' => 'right']);
             $tanggalLengkap = Carbon::parse(now())->locale('id_ID')->isoFormat('DD MMMM YYYY');
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('Magetan, ' . $tanggalLengkap, ['size' => 12], array('align' => 'center'));
+            $tableFoot->addCell(5000)->addText('Magetan, ' . $tanggalLengkap, ['size' => 12], array('align' => 'center'));
             $tableFoot->addCell(550)->addText('');
             $tableFoot->addRow();            
-            $tableFoot->addCell(4700)->addText('LURAH KEPOLOREJO', ['size' => 12], array('align' => 'center'));
+            $tableFoot->addCell(5000)->addText('LURAH KEPOLOREJO', ['size' => 12], array('align' => 'center'));
+
+            if ($jabatanNamaJabatan !== 'Lurah') {
+                $tableFoot->addRow();            
+                $tableFoot->addCell(5000)->addText('An. '.$jabatanNamaJabatan, ['size' => 12], array('align' => 'center'));
+                $tableFoot->addRow();
+                $tableFoot->addCell(5000)->addText('');
+            }
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('');
+            $tableFoot->addCell(5000)->addText('');
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('');
+            $tableFoot->addCell(5000)->addText('');
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('');
+            $tableFoot->addCell(5000)->addText('');
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText(strtoupper($jabatanNama), ['size' => 12, 'bold' => true, 'underline' => 'single'], ['align' => 'center']);
+            $tableFoot->addCell(5000)->addText($jabatanNama, ['size' => 12, 'bold' => true, 'underline' => 'single'], ['align' => 'center']);
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText($jabatanPosisi, ['size' => 12], ['align' => 'center']);
+            $tableFoot->addCell(5000)->addText($jabatanPosisi, ['size' => 12], ['align' => 'center']);
 
             $tableFoot->addRow();
-            $tableFoot->addCell(4700)->addText('NIP. ' . $jabatanNIP, ['size' => 12], ['align' => 'center']);
-            
+            $tableFoot->addCell(5000)->addText('NIP. ' . $jabatanNIP, ['size' => 12], ['align' => 'center']);
+
             $section->addTextBreak();
+            
         $filename = ucfirst(str_replace('_', ' ', $surat->jenis_surat)) . ' ' . date('Y-m-d H-i-s') . '.docx';
         $filepath = storage_path('app/' . $filename);
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');

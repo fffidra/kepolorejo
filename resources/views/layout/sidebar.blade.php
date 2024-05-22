@@ -50,15 +50,15 @@
                 @if(Auth::user()->role == 'Pegawai')
                     <li class="menu-title" data-key="t-applications">DATA MASTER</li>
                     <li>
-                        <a href="{{ route('pegawai') }}">
-                            <i class=" mdi mdi-checkbox-blank-circle-outline"></i>
-                            <span class="menu-item" data-key="t-calendar">Data Pegawai</span>
-                        </a>
-                    </li>
-                    <li>
                         <a href="{{ route('jabatan') }}">
                             <i class=" mdi mdi-checkbox-blank-circle-outline"></i>
                             <span class="menu-item" data-key="t-calendar">Data Jabatan</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('pegawai') }}">
+                            <i class=" mdi mdi-checkbox-blank-circle-outline"></i>
+                            <span class="menu-item" data-key="t-calendar">Data Pegawai</span>
                         </a>
                     </li>
 

@@ -144,6 +144,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'nip' => 'required|size:21|unique:jabatan,nip',            
             'nama' => 'required',
+            'nama_jabatan' => 'required',
             'posisi' => 'required',
         ]);
         
@@ -158,6 +159,7 @@ class UserController extends Controller
             Jabatan::create([
                 'nip' => $request->nip,
                 'nama' => $request->nama,
+                'nama_jabatan' => $request->nama_jabatan,
                 'posisi' => $request->posisi,
                 'peran' => 'Non Penanda Tangan'
             ]);
@@ -176,6 +178,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'ubah_nip' => 'required|size:21|unique:jabatan,nip,' . $request->nip . ',nip',
             'ubah_nama' => 'required',
+            'ubah_nama_jabatan' => 'required',
             'ubah_posisi' => 'required',
         ]);
     
@@ -192,6 +195,7 @@ class UserController extends Controller
                 $jabatan->update([
                     'nip' => $request->ubah_nip,
                     'nama' => $request->ubah_nama,
+                    'nama_jabatan' => $request->ubah_nama_jabatan,
                     'posisi' => $request->ubah_posisi,
                 ]);
                 Session::flash('alert', [
