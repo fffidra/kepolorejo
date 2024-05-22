@@ -51,8 +51,8 @@
                                 <tbody>
                                     @foreach(\App\Models\Jabatan::all() as $data)
                                         <tr>
-                                            <td>{{ $data->nip }}</td>
-                                            <td>{{ $data->nama }}</td>
+                                            <td class="align-middle">{{ $data->nip }}</td>
+                                            <td class="align-middle">{{ $data->nama }}</td>
                                             <td class="text-center align-middle"> {{ $data->nama_jabatan }}</td>
                                             <td class="text-center align-middle">{{ $data->posisi }}</td>
                                             <td class="text-center align-middle">
@@ -122,8 +122,13 @@
                             <input type="text" class="form-control" id="nama" name="nama" placeholder="Isikan nama lengkap" required>
                         </div>
                         <div class="mb-3">
-                            <label for="nama_jabatan" class="col-form-label" name="jabatan"><strong>JABATAN</strong></label>
-                            <input type="text" class="form-control" id="nama_jabatan" name="nama_jabatan" placeholder="Isikan jabatan lengkap" required>
+                            <label for="nama_jabatan" class="form-label"><strong>JABATAN</strong></label>
+                            <select class="form-select" id="nama_jabatan" name="nama_jabatan" required>
+                                <option value="" selected hidden>-- Pilih Jabatan --</option>
+                                @foreach(\App\Models\JabatanStruktural::all() as $jabatans)
+                                    <option value="{{ $jabatans->nama_jabatan_struktural }}">{{ $jabatans->nama_jabatan_struktural }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="posisi" class="col-form-label" name="posisi"><strong>POSISI</strong></label>
@@ -153,25 +158,29 @@
                     <input type="hidden" name="nip" id="nip2" required>
                     <div class="modal-body">
                         <div class="mb-3 row">
-                            <label for="ubah_nip" class="col-md-2 col-form-label">NIP (Nomor Induk Pegawai)</label>
+                            <label for="ubah_nip" class="col-md-2 col-form-label"><strong>NIP</strong> (Nomor Induk Pegawai)</label>
                             <div class="col-md-9">
                                 <input type="text" class="form-control" id="ubah_nip" name="ubah_nip" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="ubah_nama" class="col-md-2 col-form-label">Nama (Tambahkan Gelar)</label>
+                            <label for="ubah_nama" class="col-md-2 col-form-label"><strong>NAMA</strong> (Tambahkan Gelar)</label>
                             <div class="col-md-9">
                                 <input type="text" class="form-control" id="ubah_nama" name="ubah_nama" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="ubah_nama_jabatan" class="col-md-2 col-form-label">Jabatan</label>
+                            <label for="ubah_nama_jabatan" class="col-md-2 col-form-label"><strong>JABATAN</strong></label>
                             <div class="col-md-9">
-                                <input type="text" class="form-control" id="ubah_nama_jabatan" name="ubah_nama_jabatan" required>
+                                <select class="form-select" id="ubah_nama_jabatan" name="ubah_nama_jabatan">
+                                    @foreach(\App\Models\JabatanStruktural::all() as $jabatans)
+                                        <option value="{{ $jabatans->nama_jabatan_struktural }}">{{ $jabatans->nama_jabatan_struktural }}</option>
+                                    @endforeach
+                                </select>
                             </div>
-                        </div>
+                        </div> 
                         <div class="mb-3 row">
-                            <label for="ubah_posisi" class="col-md-2 col-form-label">Posisi</label>
+                            <label for="ubah_posisi" class="col-md-2 col-form-label"><strong>POSISI</strong></label>
                             <div class="col-md-9">
                                 <input type="text" class="form-control" id="ubah_posisi" name="ubah_posisi" required>
                             </div>

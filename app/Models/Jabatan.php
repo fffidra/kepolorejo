@@ -24,4 +24,9 @@ class Jabatan extends Model
     ];
 
     public $timestamps = false;
+
+    public function jabatan_ibfk_1()
+    {
+        return $this->belongsTo(JabatanStruktural::class, 'nama_jabatan_struktural', 'id_jabatan_struktural');
+    }
 }

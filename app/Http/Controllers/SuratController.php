@@ -1171,6 +1171,8 @@ class SuratController extends Controller
         $surat = SKUsaha::findOrFail($id_sk_usaha);
         $jabatan = Jabatan::where('peran', 'Penanda Tangan')->first();
 
+        $jenisSurat = $surat->jenis_surat;
+        $year = date('Y');
         $jabatanNama = $jabatan->nama;
         $jabatanNamaJabatan = $jabatan->nama_jabatan;
         $jabatanPosisi = $jabatan->posisi;
@@ -1200,13 +1202,13 @@ class SuratController extends Controller
 
         // ISI SURAT
             $textRunHeader = $section->addTextRun(['alignment' => 'center']);
-            $textRunHeader->addText('SURAT KETERANGAN USAHA', ['bold' => true, 'underline' => 'single', 'size' => 16]);
+            $textRunHeader->addText(strtoupper($jenisSurat), ['bold' => true, 'underline' => 'single', 'size' => 16]);            
             $textRunHeader->addTextBreak();
-            $textRunHeader->addText('Nomor : 500.3.4.3/     /403.406.6/2024', ['size' => 12]); 
-
+            $textRunHeader->addText('Nomor : 500.3.4.3/     /403.406.6/' . $year, ['size' => 12]);
+            
             $section->addTextBreak();
 
-            $paragraph1 = 'Yang bertanda tangan dibawah ini Lurah Kepolorejo Kecamatan Magetan Kabupaten Magetan, menerangkan dengan sebenarnya bahwa : ';
+            $paragraph1 = 'Yang bertanda tangan di bawah ini Lurah Kepolorejo Kecamatan Magetan Kabupaten Magetan, menerangkan dengan sebenarnya bahwa : ';
             $section->addText($paragraph1, ['size' => 12], ['alignment' => 'both', 'indentation' => ['left' => 700, 'right' => 700,'firstLine' => 1000]]);
             
             $section->addTextBreak();
@@ -1331,6 +1333,8 @@ class SuratController extends Controller
     {
         $surat = SKBelumMenikah::findOrFail($id_sk_belum_menikah);
         $jabatan = Jabatan::where('peran', 'Penanda Tangan')->first();
+        $jenisSurat = $surat->jenis_surat;
+        $year = date('Y');
         
         $jabatanNama = $jabatan->nama;
         $jabatanNamaJabatan = $jabatan->nama_jabatan;
@@ -1361,13 +1365,13 @@ class SuratController extends Controller
 
         // ISI SURAT
             $textRunHeader = $section->addTextRun(['alignment' => 'center']);
-            $textRunHeader->addText('SURAT KETERANGAN BELUM MENIKAH', ['bold' => true, 'underline' => 'single', 'size' => 16]);
+            $textRunHeader->addText(strtoupper($jenisSurat), ['bold' => true, 'underline' => 'single', 'size' => 16]);            
             $textRunHeader->addTextBreak();
-            $textRunHeader->addText('Nomor : 471.1/     /403.406.6/2024', ['size' => 12]);
+            $textRunHeader->addText('Nomor : 500.3.4.3/     /403.406.6/' . $year, ['size' => 12]);
             
             $section->addTextBreak();
 
-            $paragraph1 = 'Yang bertanda tangan dibawah ini Lurah Kepolorejo Kecamatan Magetan Kabupaten Magetan, menerangkan dengan sebenarnya bahwa : ';
+            $paragraph1 = 'Yang bertanda tangan di bawah ini Lurah Kepolorejo Kecamatan Magetan Kabupaten Magetan, menerangkan dengan sebenarnya bahwa : ';
             $section->addText($paragraph1, ['size' => 12], ['alignment' => 'both', 'indentation' => ['left' => 700, 'right' => 700,'firstLine' => 1000]]);
             
             $section->addTextBreak();
@@ -1419,7 +1423,7 @@ class SuratController extends Controller
             $tableKeterangan->addCell($lebarA4 * 0.10)->addText('');
             $tableKeterangan->addCell($lebarA4 * 0.20)->addText('Keterangan', ['size' => 12]);
             $tableKeterangan->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableKeterangan->addCell($lebarA4 * 0.58)->addText('Bahwa orang yang namanya tersebut diatas benar-benar Warga Kelurahan Kepolorejo dan saat ini belum menikah', ['size' => 12]);
+            $tableKeterangan->addCell($lebarA4 * 0.58)->addText('Bahwa orang yang namanya tersebut di atas benar-benar Warga Kelurahan Kepolorejo dan saat ini belum menikah', ['size' => 12]);
             $tableKeterangan->addCell($lebarA4 * 0.07)->addText('');
 
             $tableKeperluan = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
@@ -1486,6 +1490,8 @@ class SuratController extends Controller
     {
         $surat = SKDomisili::findOrFail($id_sk_domisili);
         $jabatan = Jabatan::where('peran', 'Penanda Tangan')->first();
+        $jenisSurat = $surat->jenis_surat;
+        $year = date('Y');
         
         $jabatanNama = $jabatan->nama;
         $jabatanNamaJabatan = $jabatan->nama_jabatan;
@@ -1516,13 +1522,13 @@ class SuratController extends Controller
 
         // ISI SURAT
             $textRunHeader = $section->addTextRun(['alignment' => 'center']);
-            $textRunHeader->addText('SURAT KETERANGAN DOMISILI', ['bold' => true, 'underline' => 'single', 'size' => 16]);
+            $textRunHeader->addText(strtoupper($jenisSurat), ['bold' => true, 'underline' => 'single', 'size' => 16]);            
             $textRunHeader->addTextBreak();
-            $textRunHeader->addText('Nomor : 400.12.4.4/     /403.406.6/2023', ['size' => 12]);
+            $textRunHeader->addText('Nomor : 500.3.4.3/     /403.406.6/' . $year, ['size' => 12]);
 
             $section->addTextBreak();
 
-            $paragraph1 = 'Yang bertanda tangan dibawah ini Lurah Kepolorejo Kecamatan Magetan Kabupaten Magetan, menerangkan dengan sebenarnya bahwa : ';
+            $paragraph1 = 'Yang bertanda tangan di bawah ini Lurah Kepolorejo Kecamatan Magetan Kabupaten Magetan, menerangkan dengan sebenarnya bahwa : ';
             $section->addText($paragraph1, ['size' => 12], ['alignment' => 'both', 'indentation' => ['left' => 700, 'right' => 700,'firstLine' => 1000]]);
 
             $section->addTextBreak();
@@ -1588,7 +1594,7 @@ class SuratController extends Controller
             $tableKeterangan->addCell($lebarA4 * 0.10)->addText('');
             $tableKeterangan->addCell($lebarA4 * 0.20)->addText('Keterangan', ['size' => 12]);
             $tableKeterangan->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableKeterangan->addCell($lebarA4 * 0.58)->addText('Menerangkan bahwa orang tersebut di atas benar warga  Kepolorejo dan berdomisili di '. $surat->alamat_dom, ['size' => 12]);
+            $tableKeterangan->addCell($lebarA4 * 0.58)->addText('Menerangkan bahwa orang tersebut di atas benar berdomisili di '. $surat->alamat_dom, ['size' => 12]);
             $tableKeterangan->addCell($lebarA4 * 0.07)->addText('');
 
             $tableKeperluan = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
@@ -1655,7 +1661,9 @@ class SuratController extends Controller
     {
         $surat = SKTidakMampu::findOrFail($id_sk_tidak_mampu);
         $jabatan = Jabatan::where('peran', 'Penanda Tangan')->first();
-        
+        $jenisSurat = $surat->jenis_surat;
+        $year = date('Y');
+
         $jabatanNama = $jabatan->nama;
         $jabatanNamaJabatan = $jabatan->nama_jabatan;
         $jabatanPosisi = $jabatan->posisi;
@@ -1684,13 +1692,13 @@ class SuratController extends Controller
         $section->addLine(['weight' => 2,'width' => 535, 'height' => 0]);
         // ISI SURAT
             $textRunHeader = $section->addTextRun(['alignment' => 'center']);
-            $textRunHeader->addText('SURAT KETERANGAN TIDAK MAMPU', ['bold' => true, 'underline' => 'single', 'size' => 16]);
+            $textRunHeader->addText(strtoupper($jenisSurat), ['bold' => true, 'underline' => 'single', 'size' => 16]);            
             $textRunHeader->addTextBreak();
-            $textRunHeader->addText('Nomor : 400.12.4.4/     /403.406.6/2024', ['size' => 12]);
+            $textRunHeader->addText('Nomor : 500.3.4.3/     /403.406.6/' . $year, ['size' => 12]);
 
             $section->addTextBreak();
 
-            $paragraph1 = 'Yang bertanda tangan dibawah ini Lurah Kepolorejo Kecamatan Magetan Kabupaten Magetan, menerangkan dengan sebenarnya bahwa : ';
+            $paragraph1 = 'Yang bertanda tangan di bawah ini Lurah Kepolorejo Kecamatan Magetan Kabupaten Magetan, menerangkan dengan sebenarnya bahwa : ';
             $section->addText($paragraph1, ['size' => 12], ['alignment' => 'both', 'indentation' => ['left' => 700, 'right' => 700,'firstLine' => 1000]]);
             
             $section->addTextBreak();
