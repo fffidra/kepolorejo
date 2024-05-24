@@ -54,7 +54,7 @@
                                                     @if($sk_usaha->status_surat === 'Ditolak')
                                                         <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" data-bs-pesan="{{ $sk_usaha->pesan }}" class="btn btn-danger btn-sm">Pesan Ditolak</button>
                                                     @endif
-                                                    <form method="POST" action="{{ route('hapus_sku', $sk_usaha->id_sk_usaha) }}" id="hapus-surat-{{ $sk_usaha->id_sk_usaha }}" class="d-inline">
+                                                    {{-- <form method="POST" action="{{ route('hapus_sku', $sk_usaha->id_sk_usaha) }}" id="hapus-surat-{{ $sk_usaha->id_sk_usaha }}" class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="button" id="btnHapus-{{ $sk_usaha->id_sk_usaha }}" class="btn btn-danger btn-sm mx-1"><i class="bx bx-trash-alt"></i></button>
@@ -76,7 +76,7 @@
                                                             }
                                                         });
                                                     });
-                                                </script>
+                                                </script> --}}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -94,7 +94,7 @@
                                                     @if($sk_belum_menikah->status_surat === 'Ditolak')
                                                         <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $sk_belum_menikah->id_sk_belum_menikah }}" data-bs-pesan="{{ $sk_belum_menikah->pesan }}" class="btn btn-danger btn-sm">Pesan Ditolak</button>
                                                     @endif
-                                                    <form method="POST" action="{{ route('hapus_skbm', $sk_belum_menikah->id_sk_belum_menikah) }}" id="hapus-surat-{{ $sk_belum_menikah->id_sk_belum_menikah }}" class="d-inline">
+                                                    {{-- <form method="POST" action="{{ route('hapus_skbm', $sk_belum_menikah->id_sk_belum_menikah) }}" id="hapus-surat-{{ $sk_belum_menikah->id_sk_belum_menikah }}" class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="button" id="btnHapus-{{ $sk_belum_menikah->id_sk_belum_menikah }}" class="btn btn-danger btn-sm mx-1"><i class="bx bx-trash-alt"></i></button>
@@ -116,7 +116,7 @@
                                                             }
                                                         });
                                                     });
-                                                </script>
+                                                </script> --}}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -134,7 +134,7 @@
                                                     @if($skd->status_surat === 'Ditolak')
                                                         <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $skd->id_sk_domisili }}" data-bs-pesan="{{ $skd->pesan }}" class="btn btn-danger btn-sm">Pesan Ditolak</button>
                                                     @endif
-                                                    <form method="POST" action="{{ route('hapus_skd', $skd->id_sk_domisili) }}" id="hapus-surat-{{ $skd->id_sk_domisili }}" class="d-inline">
+                                                    {{-- <form method="POST" action="{{ route('hapus_skd', $skd->id_sk_domisili) }}" id="hapus-surat-{{ $skd->id_sk_domisili }}" class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="button" id="btnHapus-{{ $skd->id_sk_domisili }}" class="btn btn-danger btn-sm mx-1"><i class="bx bx-trash-alt"></i></button>
@@ -156,7 +156,7 @@
                                                             }
                                                         });
                                                     });
-                                                </script>
+                                                </script> --}}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -174,7 +174,7 @@
                                                     @if($sktm->status_surat === 'Ditolak')
                                                         <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $sktm->id_sk_tidak_mampu }}" data-bs-pesan="{{ $sktm->pesan }}" class="btn btn-danger btn-sm">Pesan Ditolak</button>
                                                     @endif
-                                                    <form method="POST" action="{{ route('hapus_sktm', $sktm->id_sk_tidak_mampu) }}" id="hapus-surat-{{ $sktm->id_sk_tidak_mampu }}" class="d-inline">
+                                                    {{-- <form method="POST" action="{{ route('hapus_sktm', $sktm->id_sk_tidak_mampu) }}" id="hapus-surat-{{ $sktm->id_sk_tidak_mampu }}" class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="button" id="btnHapus-{{ $sktm->id_sk_tidak_mampu }}" class="btn btn-danger btn-sm mx-1"><i class="bx bx-trash-alt"></i></button>
@@ -196,7 +196,7 @@
                                                             }
                                                         });
                                                     });
-                                                </script>
+                                                </script> --}}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -213,7 +213,7 @@
 
 @section('modal')
     {{-- TAMBAH SURAT --}}
-    <div class="modal fade" id="tambahsuratbaru" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="tambahsuratbaru" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -230,7 +230,6 @@
                         );
                 
                         $semua_jenis_surat = \App\Models\JenisSurat::all();
-                
                         $jenis_surat_tersedia = [];
                 
                         foreach ($semua_jenis_surat as $jenis_surat) {
@@ -264,7 +263,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="ttl" class="form-label"><strong>TEMPAT, TANGGAL LAHIR - <span style="color: red;">(Contoh: Magetan, 30 Maret 1999)</span></strong></label>
-                                <input type="text" class="form-control" id="ttl" name="ttl" placeholder="Contoh: Magetan, 30 Maret 1999" required>
+                                <input type="text" class="form-control" id="ttl" name="ttl" placeholder="Masukkan tempat, tanggal lahir" required>
                             </div>
                             <div class="mb-3">
                                 <label for="status_nikah" class="form-label"><strong>STATUS NIKAH</strong></label>
@@ -295,19 +294,19 @@
                             </div>
                             <div class="mb-3" id="pekerjaan_lainnya_div" style="display: none;">
                                 <label for="pekerjaan_lainnya" class="form-label"><strong>PEKERJAAN LAINNYA</strong></label>
-                                <input type="text" class="form-control" id="pekerjaan_lainnya" name="pekerjaan_lainnya" placeholder="Isikan pekerjaan lainnya yang belum ada di pilihan" required>
+                                <input type="text" class="form-control" id="pekerjaan_lainnya" name="pekerjaan_lainnya" placeholder="Masukkan pekerjaan lainnya yang belum ada di pilihan pekerjaan" required>
                             </div>
                             <div class="mb-3">
                                 <label for="alamat" class="form-label"><strong>ALAMAT</strong></label>
-                                <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Isikan alamat lengkap" required>
+                                <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukkan alamat lengkap" required>
                             </div>
                             <div class="mb-3">
                                 <label for="usaha" class="form-label"><strong>JENIS DAN NAMA USAHA</strong></label>
-                                <input type="text" class="form-control" id="usaha" name="usaha" placeholder="Isikan jenis dan nama usaha" required>
+                                <input type="text" class="form-control" id="usaha" name="usaha" placeholder="Masukkan jenis dan nama usaha lengkap" required>
                             </div>
                             <div class="mb-3">
                                 <label for="keperluan" class="form-label"><strong>TEMPAT, TANGGAL LAHIR - <span style="color: red;">(Contoh: Magetan, 30 Maret 1999)</span></strong></label>
-                                <input type="text" class="form-control" id="keperluan" name="keperluan" placeholder="Isikan keperluan pengajuan surat" required>
+                                <input type="text" class="form-control" id="keperluan" name="keperluan" placeholder="Masukkan keperluan pengajuan surat" required>
                             </div>
                             <div class="mb-3">
                                 <label for="bukti" class="form-label"><strong>BERKAS PERSYARATAN - <span style="color: red;">(Format: jpg, jpeg, png, doc, docx, pdf)</span></strong><br>
@@ -341,7 +340,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="ttl" class="form-label"><strong>TEMPAT, TANGGAL LAHIR - <span style="color: red;">(Contoh: Magetan, 30 Maret 1999)</span></strong></label>
-                                <input type="text" class="form-control" id="ttl" name="ttl" placeholder="Contoh: Magetan, 30 Maret 1999" required>
+                                <input type="text" class="form-control" id="ttl" name="ttl" placeholder="Masukkan tempat, tanggal lahir" required>
                             </div>
                             <div class="mb-3">
                                 <label for="status_nikah" class="form-label"><strong>STATUS NIKAH</strong></label>
@@ -372,15 +371,15 @@
                             </div>
                             <div class="mb-3" id="pekerjaan_lainnya_div_2" style="display: none;">
                                 <label for="pekerjaan_lainnya_2" class="form-label"><strong>PEKERJAAN LAINNYA</strong></label>
-                                <input type="text" class="form-control" id="pekerjaan_lainnya_2" name="pekerjaan_lainnya_2" placeholder="Isikan pekerjaan lainnya yang belum ada di pilihan" required>
+                                <input type="text" class="form-control" id="pekerjaan_lainnya_2" name="pekerjaan_lainnya_2" placeholder="Masukkan pekerjaan lainnya yang belum ada di pilihan pekerjaan" required>
                             </div>
                             <div class="mb-3">
                                 <label for="alamat" class="form-label"><strong>ALAMAT</strong></label>
-                                <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Isikan alamat lengkap" required>
+                                <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukkan alamat lengkap" required>
                             </div>
                             <div class="mb-3">
                                 <label for="keperluan" class="form-label"><strong>KEPERLUAN</strong></label>
-                                <input type="text" class="form-control" id="keperluan" name="keperluan" placeholder="Isikan keperluan pengajuan surat" required>
+                                <input type="text" class="form-control" id="keperluan" name="keperluan" placeholder="Masukkan keperluan pengajuan surat" required>
                             </div>
                             <div class="mb-3">
                                 <label for="bukti" class="form-label"><strong>BERKAS PERSYARATAN - <span style="color: red;">(Format: jpg, jpeg, png, doc, docx, pdf)</span></strong><br>
@@ -427,7 +426,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="ttl" class="form-label"><strong>TEMPAT, TANGGAL LAHIR - <span style="color: red;">(Contoh: Magetan, 30 Maret 1999)</span></strong></label>
-                                <input type="text" class="form-control" id="ttl" name="ttl" placeholder="Contoh: Magetan, 30 Maret 1999" required>
+                                <input type="text" class="form-control" id="ttl" name="ttl" placeholder="Masukkan tempat, tanggal lahir" required>
                             </div>
                             <div class="mb-3">
                                 <label for="agama" class="form-label"><strong>AGAMA</strong></label>
@@ -458,19 +457,19 @@
                             </div>
                             <div class="mb-3" id="pekerjaan_lainnya_div_3" style="display: none;">
                                 <label for="pekerjaan_lainnya_3" class="form-label"><strong>PEKERJAAN LAINNYA</strong></label>
-                                <input type="text" class="form-control" id="pekerjaan_lainnya_3" name="pekerjaan_lainnya_3" placeholder="Isikan pekerjaan lainnya yang belum ada di pilihan" required>
+                                <input type="text" class="form-control" id="pekerjaan_lainnya_3" name="pekerjaan_lainnya_3" placeholder="Masukkan pekerjaan lainnya yang belum ada di pilihan pekerjaan" required>
                             </div>
                             <div class="mb-3">
                                 <label for="alamat" class="form-label"><strong>ALAMAT KTP</strong></label>
-                                <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Isikan alamat lengkap sesuai dengan KTP" required>
+                                <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukkan alamat lengkap sesuai dengan KTP" required>
                             </div>
                             <div class="mb-3">
                                 <label for="alamat_dom" class="form-label"><strong>ALAMAT DOMISILI</strong></label>
-                                <input type="text" class="form-control" id="alamat_dom" name="alamat_dom" placeholder="Isikan alamat lengkap domisili/tempat tinggal sekarang" required>
+                                <input type="text" class="form-control" id="alamat_dom" name="alamat_dom" placeholder="Masukkan alamat lengkap domisili/tempat tinggal sekarang" required>
                             </div>
                             <div class="mb-3">
                                 <label for="keperluan" class="form-label"><strong>KEPERLUAN</strong></label>
-                                <input type="text" class="form-control" id="keperluan" name="keperluan" placeholder="Isikan keperluan pengajuan surat" required>
+                                <input type="text" class="form-control" id="keperluan" name="keperluan" placeholder="Masukkan keperluan pengajuan surat" required>
                             </div>
                             <div class="mb-3">
                                 <label for="bukti" class="form-label"><strong>BERKAS PERSYARATAN - <span style="color: red;">(Format: jpg, jpeg, png, doc, docx, pdf)</span></strong><br>
@@ -504,7 +503,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="ttl" class="form-label"><strong>TEMPAT, TANGGAL LAHIR - <span style="color: red;">(Contoh: Magetan, 30 Maret 1999)</span></strong></label>
-                                <input type="text" class="form-control" id="ttl" name="ttl" placeholder="Contoh: Magetan, 30 Maret 1999" required>
+                                <input type="text" class="form-control" id="ttl" name="ttl" placeholder="Masukkan tempat, tanggal lahir" required>
                             </div>
                             <div class="mb-3">
                                 <label for="agama" class="form-label"><strong>AGAMA</strong></label>
@@ -526,15 +525,15 @@
                             </div>
                             <div class="mb-3" id="pekerjaan_lainnya_div_4" style="display: none;">
                                 <label for="pekerjaan_lainnya_4" class="form-label"><strong>PEKERJAAN LAINNYA</strong></label>
-                                <input type="text" class="form-control" id="pekerjaan_lainnya_4" name="pekerjaan_lainnya_4" placeholder="Isikan pekerjaan lainnya yang belum ada di pilihan" required>
+                                <input type="text" class="form-control" id="pekerjaan_lainnya_4" name="pekerjaan_lainnya_4" placeholder="Masukkan pekerjaan lainnya yang belum ada di pilihan pekerjaan" required>
                             </div>
                             <div class="mb-3">
                                 <label for="alamat" class="form-label"><strong>ALAMAT</strong></label>
-                                <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Isikan alamat lengkap" required>
+                                <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukkan alamat lengkap" required>
                             </div>
                             <div class="mb-3">
                                 <label for="keperluan" class="form-label"><strong>KEPERLUAN</strong></label>
-                                <input type="text" class="form-control" id="keperluan" name="keperluan" placeholder="Isikan keperluan pengajuan surat" required>
+                                <input type="text" class="form-control" id="keperluan" name="keperluan" placeholder="Masukkan keperluan pengajuan surat" required>
                             </div>
                             <div class="mb-3">
                                 <label for="bukti" class="form-label"><strong>BERKAS PERSYARATAN - <span style="color: red;">(Format: jpg, jpeg, png, doc, docx, pdf)</span></strong><br>

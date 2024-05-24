@@ -92,7 +92,7 @@
 
 @section('modal')
     {{-- MODAL TAMBAH PEGAWAI --}}
-    <div class="modal fade" id="tambahpegawaibaru" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="tambahpegawaibaru" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -103,12 +103,12 @@
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="nik" class="col-form-label" name="nik">NIK (Nomor Induk Kependudukan)</label>
-                            <input type="text" class="form-control" id="nik" name="nik" required>
+                            <label for="nik" class="col-form-label" name="nik"><strong>NIK</strong> - (Nomor Induk Kependudukan)</label>
+                            <input type="text" class="form-control" id="nik" name="nik" placeholder="Masukkan NIK" required>
                         </div> 
                         <div class="mb-3">
-                            <label for="nama" class="col-form-label" name="nama">Nama</label>
-                            <input type="text" class="form-control" id="nama" name="nama" required>
+                            <label for="nama" class="col-form-label" name="nama"><strong>NAMA LENGKAP</strong></label>
+                            <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama Lengkap" required>
                         </div>
                     </div>
                     <div class="modal-footer">

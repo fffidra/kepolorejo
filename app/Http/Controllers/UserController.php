@@ -273,9 +273,9 @@ class UserController extends Controller
         $peran = $request->input('peran');
 
         if ($peran == 'Penanda Tangan') {
-            Jabatan::where('peran', 'Penanda Tangan')->update(['peran' => 'Non Penanda Tangan']);
+            Jabatan::where('nip', '!=', $nip)->update(['peran' => 'Non Penanda Tangan']);
         }
-
+                
         $jabatan = Jabatan::where('nip', $nip)->first();
         $jabatan->peran = $peran;
         $jabatan->save();

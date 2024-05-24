@@ -103,7 +103,7 @@
 
 @section('modal')
     {{-- MODAL TAMBAH JABATAN --}}
-    <div class="modal fade" id="tambahjabatan" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="tambahjabatan" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -114,12 +114,12 @@
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="nip" class="col-form-label" name="nik"><strong>NIP</strong> (Format: 19XX0309 20X100 X 2XX)</label>
-                            <input type="text" class="form-control" id="nip" name="nip" required placeholder="Nomor Induk Pegawai">
+                            <label for="nip" class="col-form-label" name="nik"><strong>NIP</strong> - (Format: 19XX0309 20X100 X 2XX)</label>
+                            <input type="text" class="form-control" id="nip" name="nip" required placeholder="Masukkan NIP sesuai format">
                         </div> 
                         <div class="mb-3">
                             <label for="nama" class="col-form-label" name="nama"><strong>NAMA</strong> (Tambahkan Gelar Lengkap)</label>
-                            <input type="text" class="form-control" id="nama" name="nama" placeholder="Isikan nama lengkap" required>
+                            <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama Lengkap beserta Gelar Lengkap" required>
                         </div>
                         <div class="mb-3">
                             <label for="nama_jabatan" class="form-label"><strong>JABATAN</strong></label>
@@ -132,7 +132,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="posisi" class="col-form-label" name="posisi"><strong>POSISI</strong></label>
-                            <input type="text" class="form-control" id="posisi" name="posisi" placeholder="Isikan posisi lengkap" required>
+                            <input type="text" class="form-control" id="posisi" name="posisi" placeholder="Masukkan posisi lengkap" required>
                         </div>
                     </div>
                     <div class="modal-footer">
