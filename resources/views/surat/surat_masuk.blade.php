@@ -281,7 +281,7 @@
                                                         });
 
                                                         // BUTTON TOLAK
-                                                        $('#btnTolak-{{ $sktm->id_sk_tidak_mampu }}').click(function(event){
+                                                        $('#btnTolak-{{ $sktm->id_sk_tidak_mampu }}').click(function(event) {
                                                             event.preventDefault();
                                                             Swal.fire({
                                                                 icon: "info",
@@ -289,6 +289,15 @@
                                                                 text: "Apakah Anda yakin ingin menolak surat ini?",
                                                                 input: 'textarea',
                                                                 inputPlaceholder: 'Masukkan pesan penolakan jika surat akan ditolak',
+                                                                inputAttributes: {
+                                                                    'aria-label': 'Masukkan pesan penolakan',
+                                                                    'required': 'required' // Menambahkan atribut required
+                                                                },
+                                                                inputValidator: (value) => {
+                                                                    if (!value) {
+                                                                        return 'Anda harus memasukkan pesan penolakan!' // Pesan kesalahan jika input kosong
+                                                                    }
+                                                                },
                                                                 showCancelButton: true,
                                                                 confirmButtonText: "Tolak",
                                                                 cancelButtonText: "Kembali",

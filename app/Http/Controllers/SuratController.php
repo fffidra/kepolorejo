@@ -71,22 +71,20 @@ class SuratController extends Controller
 
     public function surat_disetujui(Request $request)
     {
-        $surat = Surat::where('status_surat', 'Disetujui')->get();
         $sk_usaha = SKUsaha::where('status_surat', 'Disetujui')->get();
         $sk_belum_menikah = SKBelumMenikah::where('status_surat', 'Disetujui')->get();
         $skd = SKDomisili::where('status_surat', 'Disetujui')->get();
         $sktm = SKTidakMampu::where('status_surat', 'Disetujui')->get();
-        return view('surat.surat_disetujui', compact('surat', 'sk_usaha', 'sk_belum_menikah', 'skd', 'sktm'));
+        return view('surat.surat_disetujui', compact('sk_usaha', 'sk_belum_menikah', 'skd', 'sktm'));
     }
 
     public function surat_ditolak(Request $request)
     {
-        $surat = Surat::where('status_surat', 'Ditolak')->get();
         $sk_usaha = SKUsaha::where('status_surat', 'Ditolak')->get();
         $sk_belum_menikah = SKBelumMenikah::where('status_surat', 'Ditolak')->get();
         $skd = SKDomisili::where('status_surat', 'Ditolak')->get();
         $sktm = SKTidakMampu::where('status_surat', 'Ditolak')->get();
-        return view('surat.surat_ditolak', compact('surat', 'sk_usaha', 'sk_belum_menikah', 'skd', 'sktm'));
+        return view('surat.surat_ditolak', compact('sk_usaha', 'sk_belum_menikah', 'skd', 'sktm'));
     }
 
     public function buat_sku(Request $request)
