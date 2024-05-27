@@ -58,8 +58,6 @@ class SuratController extends Controller
         return view('surat.req_surat', compact('jenis_surat_tersedia'));
     }
     
-    
-
     public function surat_masuk(Request $request)
     {
         $sk_usaha = SKUsaha::where('status_surat', 'Diproses')->get();
@@ -1210,6 +1208,13 @@ class SuratController extends Controller
         $surat = SKUsaha::findOrFail($id_sk_usaha);
         $jabatan = Jabatan::where('peran', 'Penanda Tangan')->first();
 
+        if (!$jabatan) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Peran Penanda Tangan belum dipilih!'
+            ]);
+        }
+
         $jenisSurat = $surat->jenis_surat;
         $year = date('Y');
         $jabatanNama = $jabatan->nama;
@@ -1338,7 +1343,6 @@ class SuratController extends Controller
                 $tableFoot->addCell(5000)->addText('An. '.$jabatanNamaJabatan, ['size' => 12], array('align' => 'center'));
                 $tableFoot->addRow();
                 $tableFoot->addCell(5000)->addText('');
-    
             }
 
             $tableFoot->addRow();
@@ -1372,9 +1376,16 @@ class SuratController extends Controller
     {
         $surat = SKBelumMenikah::findOrFail($id_sk_belum_menikah);
         $jabatan = Jabatan::where('peran', 'Penanda Tangan')->first();
+
+        if (!$jabatan) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Peran Penanda Tangan belum dipilih!'
+            ]);
+        }
+
         $jenisSurat = $surat->jenis_surat;
         $year = date('Y');
-        
         $jabatanNama = $jabatan->nama;
         $jabatanNamaJabatan = $jabatan->nama_jabatan;
         $jabatanPosisi = $jabatan->posisi;
@@ -1529,9 +1540,16 @@ class SuratController extends Controller
     {
         $surat = SKDomisili::findOrFail($id_sk_domisili);
         $jabatan = Jabatan::where('peran', 'Penanda Tangan')->first();
+
+        if (!$jabatan) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Peran Penanda Tangan belum dipilih!'
+            ]);
+        }
+
         $jenisSurat = $surat->jenis_surat;
         $year = date('Y');
-        
         $jabatanNama = $jabatan->nama;
         $jabatanNamaJabatan = $jabatan->nama_jabatan;
         $jabatanPosisi = $jabatan->posisi;
@@ -1700,9 +1718,16 @@ class SuratController extends Controller
     {
         $surat = SKTidakMampu::findOrFail($id_sk_tidak_mampu);
         $jabatan = Jabatan::where('peran', 'Penanda Tangan')->first();
+
+        if (!$jabatan) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Peran Penanda Tangan belum dipilih!'
+            ]);
+        }
+
         $jenisSurat = $surat->jenis_surat;
         $year = date('Y');
-
         $jabatanNama = $jabatan->nama;
         $jabatanNamaJabatan = $jabatan->nama_jabatan;
         $jabatanPosisi = $jabatan->posisi;
@@ -1853,25 +1878,25 @@ class SuratController extends Controller
 
     public function skbm(Request $request)
     {
-        $surat = Surat::where('status_surat', 'Selesai')->get();
+        $surat = SKBelumMenikah::where('status_surat', 'Selesai')->get();
         return view('surat.skbm', compact('surat'));
     }
 
     public function skd(Request $request)
     {
-        $surat = Surat::where('status_surat', 'Selesai')->get();
+        $surat = SKDomisili::where('status_surat', 'Selesai')->get();
         return view('surat.skd', compact('surat'));
     }
 
     public function sktm(Request $request)
     {
-        $surat = Surat::where('status_surat', 'Selesai')->get();
+        $surat = SKTidakMampu::where('status_surat', 'Selesai')->get();
         return view('surat.sktm', compact('surat'));
     }
 
     public function sku(Request $request)
     {
-        $surat = Surat::where('status_surat', 'Selesai')->get();
+        $surat = SKUsaha::where('status_surat', 'Selesai')->get();
         return view('surat.sku', compact('surat'));
     }
 }
