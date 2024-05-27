@@ -82,7 +82,7 @@ Route::middleware(['auth'])->group(function() {
     Route::put('sku_setuju/{id_sk_usaha}', [SuratController::class, 'sku_setuju'])->name('sku_setuju'); 
     Route::put('skbm_setuju/{id_sk_belum_menikah}', [SuratController::class, 'skbm_setuju'])->name('skbm_setuju'); 
     Route::put('skd_setuju/{id_sk_domisili}', [SuratController::class, 'skd_setuju'])->name('skd_setuju'); 
-    Route::put('sktm_setuju/{id_sk_domisili}', [SuratController::class, 'sktm_setuju'])->name('sktm_setuju'); 
+    Route::put('sktm_setuju/{id_sk_tidak_mampu}', [SuratController::class, 'sktm_setuju'])->name('sktm_setuju'); 
 
     Route::put('sku_tolak/{id_sk_usaha}', [SuratController::class, 'sku_tolak'])->name('sku_tolak');
     Route::put('skbm_tolak/{id_sk_belum_menikah}', [SuratController::class, 'skbm_tolak'])->name('skbm_tolak');
