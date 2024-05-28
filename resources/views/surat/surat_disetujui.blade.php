@@ -23,7 +23,7 @@
                 <div class="container-fluid">                   
                     <div class="row bg-white rounded-3 pb-3 mb-3 mx-2">
                         <div class="page-title-box bg-light-subtle rounded-3 d-flex align-items-center justify-content-between px-3 py-2">
-                            <h5>Data Surat Disetujui</h5>
+                            <h5>DATA SURAT DISETUJUI</h5>
                         </div>
                         <div class="container-fluid table-responsive px-3 py-3">
                             <table class="table table-striped" id="tabelSPT" style="width:100%">

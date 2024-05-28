@@ -200,6 +200,7 @@
     <script>
         $(document).ready(function() {
             var table = $('.table').DataTable({
+                order: [[3, 'asc']],
                 columnDefs: [
                     { orderable: false, targets: [5] }
                 ],
