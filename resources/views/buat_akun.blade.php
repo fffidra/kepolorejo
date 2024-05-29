@@ -33,16 +33,16 @@
                                         @csrf
                                         <div class="mb-3">
                                             <label for="nama" class="form-label"><strong>Nama Lengkap</strong></label>
-                                            <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama Lengkap Anda">
+                                            <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama Lengkap Anda" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="nik" class="form-label"><strong>NIK</strong></label>
                                             <input type="text" value="{{ old('nik') }}" class="form-control" id="nik" name="nik" placeholder="Masukkan NIK" required>
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label" for="password"><strong>Kata Sandi</strong></label>
+                                            <label class="form-label" for="password"><strong>Kata Sandi</strong> - Minimal 4 dan maksimal 12 karakter</label>
                                             <div class="input-group">
-                                                <input type="password" class="form-control" name="password" id="password" placeholder="Masukkan password">
+                                                <input type="password" class="form-control" name="password" id="password" placeholder="Masukkan password" required>
                                                 <span class="input-group-text toggle-password" onclick="togglePassword()">
                                                     <i class="fa fa-eye-slash"></i>
                                                 </span>

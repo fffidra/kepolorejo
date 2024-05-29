@@ -24,12 +24,12 @@
                                         @csrf
                                         <div class="mb-3">
                                             <label for="nik" class="form-label">NIK</label>
-                                            <input type="text" value="{{ old('nik') }}" class="form-control" id="nik" name="nik" placeholder="Masukkan NIK">
+                                            <input type="text" value="{{ old('nik') }}" class="form-control" id="nik" name="nik" placeholder="Masukkan NIK" required>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="password">Kata Sandi</label>
                                             <div class="input-group">
-                                                <input type="password" class="form-control" name="password" id="password" placeholder="Masukkan password">
+                                                <input type="password" class="form-control" name="password" id="password" placeholder="Masukkan password" required>
                                                 <span class="input-group-text toggle-password" onclick="togglePassword()">
                                                     <i id="toggle-icon" class="fa fa-eye-slash"></i>
                                                 </span>

@@ -54,29 +54,7 @@
                                                     @if($sk_usaha->status_surat === 'Ditolak')
                                                         <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" data-bs-pesan="{{ $sk_usaha->pesan }}" class="btn btn-danger btn-sm">Pesan Ditolak</button>
                                                     @endif
-                                                    {{-- <form method="POST" action="{{ route('hapus_sku', $sk_usaha->id_sk_usaha) }}" id="hapus-surat-{{ $sk_usaha->id_sk_usaha }}" class="d-inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="button" id="btnHapus-{{ $sk_usaha->id_sk_usaha }}" class="btn btn-danger btn-sm mx-1"><i class="bx bx-trash-alt"></i></button>
-                                                    </form>
                                                 </div>
-                                                <script>
-                                                    $('#btnHapus-{{ $sk_usaha->id_sk_usaha }}').click(function(event){
-                                                        event.preventDefault();
-                                                        Swal.fire({
-                                                            icon: "info",
-                                                            title: "Hapus Surat",
-                                                            text: "Apakah Anda yakin ingin menghapus surat ini?",
-                                                            showCancelButton: true,
-                                                            confirmButtonText: "Ya, Lanjutkan",
-                                                            cancelButtonText: "Tidak, Batalkan",
-                                                        }).then(function (result) {
-                                                            if (result.isConfirmed) {
-                                                                $('#hapus-surat-{{ $sk_usaha->id_sk_usaha }}').submit();
-                                                            }
-                                                        });
-                                                    });
-                                                </script> --}}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -94,29 +72,7 @@
                                                     @if($sk_belum_menikah->status_surat === 'Ditolak')
                                                         <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $sk_belum_menikah->id_sk_belum_menikah }}" data-bs-pesan="{{ $sk_belum_menikah->pesan }}" class="btn btn-danger btn-sm">Pesan Ditolak</button>
                                                     @endif
-                                                    {{-- <form method="POST" action="{{ route('hapus_skbm', $sk_belum_menikah->id_sk_belum_menikah) }}" id="hapus-surat-{{ $sk_belum_menikah->id_sk_belum_menikah }}" class="d-inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="button" id="btnHapus-{{ $sk_belum_menikah->id_sk_belum_menikah }}" class="btn btn-danger btn-sm mx-1"><i class="bx bx-trash-alt"></i></button>
-                                                    </form>
                                                 </div>
-                                                <script>
-                                                    $('#btnHapus-{{ $sk_belum_menikah->id_sk_belum_menikah }}').click(function(event){
-                                                        event.preventDefault();
-                                                        Swal.fire({
-                                                            icon: "info",
-                                                            title: "Hapus Surat",
-                                                            text: "Apakah Anda yakin ingin menghapus surat ini?",
-                                                            showCancelButton: true,
-                                                            confirmButtonText: "Ya, Lanjutkan",
-                                                            cancelButtonText: "Tidak, Batalkan",
-                                                        }).then(function (result) {
-                                                            if (result.isConfirmed) {
-                                                                $('#hapus-surat-{{ $sk_belum_menikah->id_sk_belum_menikah }}').submit();
-                                                            }
-                                                        });
-                                                    });
-                                                </script> --}}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -134,29 +90,7 @@
                                                     @if($skd->status_surat === 'Ditolak')
                                                         <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $skd->id_sk_domisili }}" data-bs-pesan="{{ $skd->pesan }}" class="btn btn-danger btn-sm">Pesan Ditolak</button>
                                                     @endif
-                                                    {{-- <form method="POST" action="{{ route('hapus_skd', $skd->id_sk_domisili) }}" id="hapus-surat-{{ $skd->id_sk_domisili }}" class="d-inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="button" id="btnHapus-{{ $skd->id_sk_domisili }}" class="btn btn-danger btn-sm mx-1"><i class="bx bx-trash-alt"></i></button>
-                                                    </form>
                                                 </div>
-                                                <script>
-                                                    $('#btnHapus-{{ $skd->id_sk_domisili }}').click(function(event){
-                                                        event.preventDefault();
-                                                        Swal.fire({
-                                                            icon: "info",
-                                                            title: "Hapus Surat",
-                                                            text: "Apakah Anda yakin ingin menghapus surat ini?",
-                                                            showCancelButton: true,
-                                                            confirmButtonText: "Ya, Lanjutkan",
-                                                            cancelButtonText: "Tidak, Batalkan",
-                                                        }).then(function (result) {
-                                                            if (result.isConfirmed) {
-                                                                $('#hapus-surat-{{ $skd->id_sk_domisili }}').submit();
-                                                            }
-                                                        });
-                                                    });
-                                                </script> --}}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -174,29 +108,7 @@
                                                     @if($sktm->status_surat === 'Ditolak')
                                                         <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $sktm->id_sk_tidak_mampu }}" data-bs-pesan="{{ $sktm->pesan }}" class="btn btn-danger btn-sm">Pesan Ditolak</button>
                                                     @endif
-                                                    {{-- <form method="POST" action="{{ route('hapus_sktm', $sktm->id_sk_tidak_mampu) }}" id="hapus-surat-{{ $sktm->id_sk_tidak_mampu }}" class="d-inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="button" id="btnHapus-{{ $sktm->id_sk_tidak_mampu }}" class="btn btn-danger btn-sm mx-1"><i class="bx bx-trash-alt"></i></button>
-                                                    </form>
                                                 </div>
-                                                <script>
-                                                    $('#btnHapus-{{ $sktm->id_sk_tidak_mampu }}').click(function(event){
-                                                        event.preventDefault();
-                                                        Swal.fire({
-                                                            icon: "info",
-                                                            title: "Hapus Surat",
-                                                            text: "Apakah Anda yakin ingin menghapus surat ini?",
-                                                            showCancelButton: true,
-                                                            confirmButtonText: "Ya, Lanjutkan",
-                                                            cancelButtonText: "Tidak, Batalkan",
-                                                        }).then(function (result) {
-                                                            if (result.isConfirmed) {
-                                                                $('#hapus-surat-{{ $sktm->id_sk_tidak_mampu }}').submit();
-                                                            }
-                                                        });
-                                                    });
-                                                </script> --}}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -221,19 +133,38 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    {{-- @php
+                    {{-- REQ NOT ALL --}}
+                    @php
                         $jenis_surat_yang_telah_diajukan = array_merge(
                             \App\Models\SKUsaha::where('pemohon', auth()->user()->nik)->pluck('jenis_surat')->toArray(),
                             \App\Models\SKBelumMenikah::where('pemohon', auth()->user()->nik)->pluck('jenis_surat')->toArray(),
                             \App\Models\SKDomisili::where('pemohon', auth()->user()->nik)->pluck('jenis_surat')->toArray(),
                             \App\Models\SKTidakMampu::where('pemohon', auth()->user()->nik)->pluck('jenis_surat')->toArray()
                         );
-                
+
+                        $querySKU = \App\Models\SKUsaha::where('pemohon', auth()->user()->nik)
+                                ->where('status_surat', 'Ditolak')
+                                ->pluck('jenis_surat');
+
+                        $querySKBM = \App\Models\SKBelumMenikah::where('pemohon', auth()->user()->nik)
+                                ->where('status_surat', 'Ditolak')
+                                ->pluck('jenis_surat');
+
+                        $querySKD = \App\Models\SKDomisili::where('pemohon', auth()->user()->nik)
+                                ->where('status_surat', 'Ditolak')
+                                ->pluck('jenis_surat');
+
+                        $querySKTM = \App\Models\SKTidakMampu::where('pemohon', auth()->user()->nik)
+                                ->where('status_surat', 'Ditolak')
+                                ->pluck('jenis_surat');
+                    
+                        $jenis_surat_ditolak = $querySKU->union($querySKBM)->union($querySKD)->union($querySKTM)->toArray();
+
                         $semua_jenis_surat = \App\Models\JenisSurat::all();
                         $jenis_surat_tersedia = [];
-                
+                    
                         foreach ($semua_jenis_surat as $jenis_surat) {
-                            if (!in_array($jenis_surat->nama_jenis_surat, $jenis_surat_yang_telah_diajukan)) {
+                            if (!in_array($jenis_surat->nama_jenis_surat, $jenis_surat_yang_telah_diajukan) || in_array($jenis_surat->nama_jenis_surat, $jenis_surat_ditolak)) {
                                 $jenis_surat_tersedia[] = $jenis_surat;
                             }
                         }
@@ -246,9 +177,10 @@
                                 <option value="{{ $jenis_surat->nama_jenis_surat }}">{{ $jenis_surat->nama_jenis_surat }}</option>
                             @endforeach
                         </select>
-                    </div> --}}
-                        
-                    <div class="mb-3">
+                    </div>
+                
+                    {{-- REQ ALL --}}
+                    {{-- <div class="mb-3">
                         <label for="jenis_surat" class="form-label"><strong>JENIS SURAT</strong></label>
                         <select class="form-select" id="jenis_surat" name="jenis_surat" required onchange="showForm()" required>
                             <option value="" selected hidden>-- Pilih Jenis Surat --</option>
@@ -256,7 +188,7 @@
                                 <option value="{{ $jenis_surats->nama_jenis_surat }}">{{ $jenis_surats->nama_jenis_surat }}</option>
                             @endforeach
                         </select>
-                    </div>
+                    </div> --}}
 
                     {{-- USAHA --}}
                     <form method="POST" action="{{ route('buat_sku') }}" enctype="multipart/form-data">

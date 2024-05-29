@@ -349,14 +349,13 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'nik' => 'required|unique:user,nik|size:16',            
             'nama' => 'required',
-            'password' => 'required',
+            'password' => 'required|min:4|max:12',
         ]);
         if ($validator->fails()) {
-            // Mengambil semua pesan kesalahan dan menyimpannya ke dalam session flash
             Session::flash('alert', [
                 'type' => 'error',
                 'title' => 'Buat Akun Gagal',
-                'message' => 'Ada inputan yang salah!',            
+                'message' => '',            
             ]);
         } else {
             User::create([
@@ -403,6 +402,45 @@ class UserController extends Controller
                 ]);
             } else {
                 $pengguna->update([
+                    'password' => bcrypt($request->password_new),
+                ]);
+                Session::flash('alert', [
+                    'type' => 'success',
+                    'title' => 'Ubah Password Berhasil',
+                    'message' => '',
+                ]);
+                return back();
+            }
+        } else {
+            Session::flash('alert', [
+                'type' => 'error',
+                'title' => 'Ubah Password Gagal',
+                'message' => "Mohon dicek kembali inputannya!",
+            ]);
+        }
+        return back();
+    }
+
+    public function ubah_profile(Request $request, $nik) 
+    {
+        $validator = Validator::make($request->all(), [
+            'ubah_nama' => 'nullable',
+            'password_old' => 'required',
+            'password_new' => 'nullable',
+        ]);
+
+        $pengguna = User::where('nik', $nik)->first();
+
+        if($pengguna && password_verify($request->password_old, $pengguna->password)) {
+            if ($request->password_old === $request->password_new) {
+                Session::flash('alert', [
+                    'type' => 'error',
+                    'title' => 'Ubah Password Gagal',
+                    'message' => "Password baru tidak boleh sama dengan yang lama",
+                ]);
+            } else {
+                $pengguna->update([
+                    'nama' => $request->ubah_nama,
                     'password' => bcrypt($request->password_new),
                 ]);
                 Session::flash('alert', [
