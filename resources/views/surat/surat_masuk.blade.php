@@ -27,6 +27,17 @@
                         </div>
                         <div class="container-fluid table-responsive px-3 py-3">
                             <table class="table table-striped" id="tabelsurat" style="width:100%">
+                                {{-- <div class="mb-3">
+                                    <label for="jenis_surat_filter" class="form-label">Filter Jenis Surat:</label>
+                                    <select id="jenis_surat_filter" class="form-select">
+                                        <option value="">Semua Jenis Surat</option>
+                                        @foreach(\App\Models\JenisSurat::all() as $js)
+                                            <option value="{{ $js->id_jenis_surat }}">{{ $js->nama_jenis_surat }}</option>
+                                        @endforeach
+                                    </select>
+                                    <input type="hidden" id="selected_jenis_surat" value="">
+                                </div> --}}
+                                
                                 <thead>
                                     <tr>
                                         <th class="col-md-1 text-center align-middle">TANGGAL PENGAJUAN</th>                           
@@ -361,87 +372,6 @@
                                             </td>
                                         </tr>
                                     @endforeach
-
-                                    {{-- @foreach(\App\Models\SKTidakMampu::where('status_surat', 'Diproses')->get() as $sktm)
-                                        <tr>
-                                            <td class="text-center align-middle">{{ $sktm->tanggal }}</td>
-                                            <td class="text-center align-middle">{{ $sktm->jenis_surat }}</td>
-                                            <td class="text-center align-middle">{{ $sktm->nik }}</td>
-                                            <td class="text-center align-middle">{{ $sktm->nama }}</td>
-                                            <td class="text-center align-middle">{{ $sktm->status_surat }}</td>
-                                            <td class="text-center align-middle">
-                                                <div class="d-flex justify-content-center flex-wrap">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKTM" data-bs-id="{{ $sktm->id_sk_tidak_mampu }}" class="btn btn-primary btn-sm me-1">Detail</button>
-
-                                                    <a role="button" class="btn btn-warning btn-sm mx-1" title="Ubah Data" data-bs-toggle="modal" data-bs-target="#ubahSKBM" data-bs-id="{{ $skbm->id_sk_belum_menikah }}">Ubah</a>
-
-                                                    <form method="POST" action="{{ route('sktm_setuju', $sktm->id_sk_tidak_mampu) }}" id="setuju-surat-{{ $sktm->id_sk_tidak_mampu }}" class="d-inline">
-                                                        @csrf
-                                                        @method('PUT')
-                                                        <button type="button" id="btnSetuju-{{ $sktm->id_sk_tidak_mampu }}" class="btn btn-success btn-sm mx-2">Setuju</button>
-                                                    </form>
-
-                                                    <form method="POST" action="{{ route('sktm_tolak', $sktm->id_sk_tidak_mampu) }}" id="tolak-surat-{{ $sktm->id_sk_tidak_mampu }}" class="d-inline">
-                                                        @csrf
-                                                        @method('PUT')
-                                                        <button type="button" id="btnTolak-{{ $sktm->id_sk_tidak_mampu }}" class="btn btn-danger btn-sm mx-1">Tolak</button>
-                                                    </form>
-                                                </div>
-                                                <script>
-                                                    $(document).ready(function() {
-                                                        // BUTTON SETUJU
-                                                        $('#btnSetuju-{{ $sktm->id_sk_tidak_mampu }}').click(function(event){
-                                                            event.preventDefault();
-                                                            Swal.fire({
-                                                                icon: "info",
-                                                                title: "Setujui Surat",
-                                                                text: "Apakah Anda yakin ingin menyetujui surat ini?",
-                                                                showCancelButton: true,
-                                                                confirmButtonText: "Ya, Lanjutkan",
-                                                                cancelButtonText: "Tidak, Batalkan",
-                                                            }).then(function (result) {
-                                                                if (result.isConfirmed) {
-                                                                    $('#setuju-surat-{{ $sktm->id_sk_tidak_mampu }}').submit();
-                                                                }
-                                                            });
-                                                        });
-
-                                                        // BUTTON TOLAK
-                                                        $('#btnTolak-{{ $sktm->id_sk_tidak_mampu }}').click(function(event) {
-                                                            event.preventDefault();
-                                                            Swal.fire({
-                                                                icon: "info",
-                                                                title: "Tolak Surat",
-                                                                text: "Apakah Anda yakin ingin menolak surat ini?",
-                                                                input: 'textarea',
-                                                                inputPlaceholder: 'Masukkan pesan penolakan jika surat akan ditolak',
-                                                                inputAttributes: {
-                                                                    'aria-label': 'Masukkan pesan penolakan',
-                                                                    'required': 'required'
-                                                                },
-                                                                inputValidator: (value) => {
-                                                                    if (!value) {
-                                                                        return 'Anda harus memasukkan pesan penolakan!' 
-                                                                    }
-                                                                },
-                                                                showCancelButton: true,
-                                                                confirmButtonText: "Tolak",
-                                                                cancelButtonText: "Kembali",
-                                                            }).then((result) => {
-                                                                if (result.isConfirmed) {
-                                                                    var pesan = result.value; 
-                                                                    $('#tolak-surat-{{ $sktm->id_sk_tidak_mampu }}')
-                                                                        .append('<input type="hidden" name="aksi" value="tolak">')
-                                                                        .append('<input type="hidden" name="alasan_tolak" value="' + pesan + '">')
-                                                                        .submit();
-                                                                }
-                                                            });
-                                                        });
-                                                    });
-                                                </script>
-                                            </td>
-                                        </tr>
-                                    @endforeach --}}
                                 </tbody>
                             </table>
                         </div>
@@ -1344,6 +1274,13 @@
                     }
                 }
             });
+
+            // $('#jenis_surat_filter').on('change', function() {
+            //     var jenis_surat_id = $(this).val();
+            //     $('#selected_jenis_surat').val(jenis_surat_id); // Set nilai input tersembunyi dengan nilai jenis surat yang dipilih
+            //     // Mengaplikasikan filter ke kolom 'JENIS SURAT'
+            //     table.column(1).search(jenis_surat_id).draw();
+            // });
         });
 
         // UBAH SKU

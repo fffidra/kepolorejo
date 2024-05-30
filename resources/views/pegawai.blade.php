@@ -21,20 +21,10 @@
         <div class="main-content">
             <div class="page-content">
                 <div class="container-fluid">
-                    <div class="row mx-2">
-                        <div class="col-12">
-                            <div class="page-title-box d-flex align-items-center justify-content-between">
-                                <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Data Master</a></li>
-                                    <li class="breadcrumb-item active">Pegawai</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
                     <div class="row bg-white rounded-3 pb-3 mb-3 mx-2">
                         <div class="page-title-box bg-light-subtle rounded-3 d-flex align-items-center justify-content-between px-3 py-2">
-                            <h5>List Data Pegawai Kelurahan Kepolorejo</h5>
-                            <button data-bs-toggle="modal" data-bs-target="#tambahpegawaibaru" class="btn btn-primary">Tambah Pegawai</button>
+                            <h5>DATA PEGAWAI KELURAHAN KEPOLOREJO</h5>
+                            <button data-bs-toggle="modal" data-bs-target="#tambahpegawaibaru" class="btn btn-primary">TAMBAH PEGAWAI</button>
                         </div>
                         <div class="container-fluid table-responsive px-3 py-3">
                             <table class="table table-striped" style="width:100%">

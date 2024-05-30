@@ -39,6 +39,10 @@ Route::middleware(['auth'])->group(function() {
     Route::get('ubah_kata_sandi', function () {
         return view('ubah_kata_sandi');
     })->name('ubah_kata_sandi');
+
+    Route::get('profile', function () {
+        return view('profile');
+    })->name('profile')->middleware('userAccess:Warga');
     
     Route::get('surat_masuk', [SuratController::class, 'surat_masuk'])->name('surat.surat_masuk')->middleware('userAccess:Pegawai'); 
     Route::get('surat_disetujui', [SuratController::class, 'surat_disetujui'])->name('surat.surat_disetujui')->middleware('userAccess:Pegawai'); 
@@ -48,6 +52,7 @@ Route::middleware(['auth'])->group(function() {
 
     
     Route::put('ubah_kata_sandi/{nik}', [UserController::class, 'ubah_kata_sandi'])->name('submit_kata_sandi');
+    Route::put('ubah_profile/{nik}', [UserController::class, 'ubah_profile'])->name('ubah_profile');
     
     Route::post('buat_sku', [SuratController::class, 'buat_sku'])->name('buat_sku');
     Route::post('buat_skbm', [SuratController::class, 'buat_skbm'])->name('buat_skbm');

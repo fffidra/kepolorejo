@@ -21,31 +21,21 @@
         <div class="main-content">
             <div class="page-content">
                 <div class="container-fluid">
-                    <div class="row mx-2">
-                        <div class="col-12">
-                            <div class="page-title-box d-flex align-items-center justify-content-between">
-                                <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Data Master</a></li>
-                                    <li class="breadcrumb-item active">Jabatan</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
                     <div class="row bg-white rounded-3 pb-3 mb-3 mx-2">
                         <div class="page-title-box bg-light-subtle rounded-3 d-flex align-items-center justify-content-between px-3 py-2">
-                            <h5>List Data Jabatan Kelurahan Kepolorejo</h5>
-                            <button data-bs-toggle="modal" data-bs-target="#tambahjabatan" class="btn btn-primary">Tambah Jabatan</button>
+                            <h5>DATA JABATAN KELURAHAN KEPOLOREJO</h5>
+                            <button data-bs-toggle="modal" data-bs-target="#tambahjabatan" class="btn btn-primary">TAMBAH JABATAN</button>
                         </div>
                         <div class="container-fluid table-responsive px-3 py-3">
                             <table class="table table-striped" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>NIP</th>
-                                        <th>Nama</th>
-                                        <th class="text-center align-middle">Jabatan</th>
-                                        <th class="text-center align-middle">Posisi</th>
-                                        <th class="text-center align-middle">Peran</th>
-                                        <th class="text-center align-middle">Aksi</th>
+                                        <th class="text-center align-middle">NIP</th>
+                                        <th class="text-center align-middle">NAMA</th>
+                                        <th class="text-center align-middle">JABATAN</th>
+                                        <th class="text-center align-middle">POSISI</th>
+                                        <th class="text-center align-middle">PERAN</th>
+                                        <th class="text-center align-middle">AKSI</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -67,7 +57,9 @@
                                                     <form method="POST" action="{{ route('hapus_jabatan', $data->nip) }}" id="hapus-jabatan-{{ $data->nip }}">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" role="button" id="btnHps-{{ $data->nip }}" class="btn btn-danger" title="Hapus Data" style="padding: 0.25rem 0.5rem; font-size: 18px;"><i class="bx bx-trash-alt"></i></button>
+                                                        <button type="submit" role="button" id="btnHps-{{ $data->nip }}" class="btn btn-danger" title="Hapus Data" style="padding: 0.25rem 0.5rem; font-size: 18px;">
+                                                            <i class="bx bx-trash-alt"></i>
+                                                        </button>
                                                     </form>
                                                 </div>
                                                 <script>
@@ -188,7 +180,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-warning" id="simpanjabatan">Simpan Perubahan</button>
+                        <button type="submit" class="btn btn-warning" id="simpanjabatan">Simpan</button>
                     </div>
                 </form>
             </div>
