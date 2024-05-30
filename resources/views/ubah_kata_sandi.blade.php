@@ -15,7 +15,7 @@
                         <div class="row mx-2">
                             <div class="col-12">
                                 <div class="page-title-box align-items-center justify-content-between">
-                                    <h5 class="mb-2">Ubah Kata Sandi Akun</h5>
+                                    <h5 class="mb-2">UBAH KATA SANDI</h5>
                                     <h4 class="fs-base lh-base fw-medium text-muted mb-0">Silahkan buat kata sandi baru untuk keamanan akun Anda. Minimal 4 karakter, maksimal 16 karakter.</h4>
                                 </div>
                             </div>
@@ -26,7 +26,7 @@
                                 @method('PUT')
                                 <div class="row bg-white rounded-3 pb-3 mb-3 mx-2">
                                     <div class="page-title-box bg-light-subtle rounded-3 d-flex align-items-center justify-content-between px-3 py-2">
-                                        <h5 class="block-tittle">Form Buat Kata Sandi Baru Akun</h5>
+                                        <h5 class="block-tittle">Form Buat Kata Sandi Baru</h5>
                                     </div>
                                     <div class="block-content">
                                         <div class="row">
