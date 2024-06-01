@@ -42,7 +42,7 @@ Route::middleware(['auth'])->group(function() {
 
     Route::get('profile', function () {
         return view('profile');
-    })->name('profile')->middleware('userAccess:Warga');
+    })->name('profile');
     
     Route::get('surat_masuk', [SuratController::class, 'surat_masuk'])->name('surat.surat_masuk')->middleware('userAccess:Pegawai'); 
     Route::get('surat_disetujui', [SuratController::class, 'surat_disetujui'])->name('surat.surat_disetujui')->middleware('userAccess:Pegawai'); 

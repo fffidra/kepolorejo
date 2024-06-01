@@ -423,40 +423,66 @@ class UserController extends Controller
 
     public function ubah_profile(Request $request, $nik) 
     {
-        $validator = Validator::make($request->all(), [
-            'ubah_nama' => 'nullable',
-            'password_old' => 'required',
-            'password_new' => 'nullable',
-        ]);
-
         $pengguna = User::where('nik', $nik)->first();
-
-        if($pengguna && password_verify($request->password_old, $pengguna->password)) {
-            if ($request->password_old === $request->password_new) {
-                Session::flash('alert', [
-                    'type' => 'error',
-                    'title' => 'Ubah Password Gagal',
-                    'message' => "Password baru tidak boleh sama dengan yang lama",
-                ]);
-            } else {
-                $pengguna->update([
-                    'nama' => $request->ubah_nama,
-                    'password' => bcrypt($request->password_new),
-                ]);
-                Session::flash('alert', [
-                    'type' => 'success',
-                    'title' => 'Ubah Password Berhasil',
-                    'message' => '',
-                ]);
-                return back();
-            }
-        } else {
+    
+        if (!$pengguna) {
+            // Handle jika pengguna tidak ditemukan
             Session::flash('alert', [
                 'type' => 'error',
-                'title' => 'Ubah Password Gagal',
-                'message' => "Mohon dicek kembali inputannya!",
+                'title' => 'Ubah Profile Gagal',
+                'message' => "Pengguna tidak ditemukan.",
             ]);
+            return back();
         }
+    
+        // Validasi hanya untuk bagian yang diubah
+        $validator = Validator::make($request->all(), [
+            'ubah_nik' => $request->filled('ubah_nik') ? 'required' : '',
+            'ubah_nama' => $request->filled('ubah_nama') ? 'required' : '',
+            'password_old' => $request->filled('password_old') ? 'required' : '',
+            'password_new' => $request->filled('password_new') ? 'required' : '',
+        ]);
+    
+        if ($validator->fails()) {
+            // Handle jika validasi gagal
+            Session::flash('alert', [
+                'type' => 'error',
+                'title' => 'Ubah Profile Gagal',
+                'message' => $validator->errors()->first(),
+            ]);
+            return back();
+        }
+    
+        // Cek kata sandi lama jika akan mengubah kata sandi
+        if ($request->filled('password_old') && !password_verify($request->password_old, $pengguna->password)) {
+            Session::flash('alert', [
+                'type' => 'error',
+                'title' => 'Ubah Profile Gagal',
+                'message' => "Kata sandi lama salah.",
+            ]);
+            return back();
+        }
+    
+        // Lakukan pembaruan sesuai dengan bagian yang diubah
+        $updateData = [];
+        if ($request->filled('ubah_nik')) {
+            $updateData['nik'] = $request->ubah_nik;
+        }
+        if ($request->filled('ubah_nama')) {
+            $updateData['nama'] = $request->ubah_nama;
+        }
+        if ($request->filled('password_new')) {
+            $updateData['password'] = bcrypt($request->password_new);
+        }
+    
+        $pengguna->update($updateData);
+    
+        Session::flash('alert', [
+            'type' => 'success',
+            'title' => 'Ubah Profile Berhasil',
+            'message' => '',
+        ]);
+    
         return back();
     }
-}
+    }
