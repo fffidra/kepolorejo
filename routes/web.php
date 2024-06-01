@@ -20,6 +20,10 @@ Route::middleware(['guest'])->group(function() {
 });
 
 Route::middleware(['auth'])->group(function() {
+    Route::get('/home', function () {
+        return redirect()->route('surat.surat_masuk');
+    })->middleware('userAccess:Pegawai,SuperAdmin');
+
     Route::get('/surat_masuk', function () {
         return redirect()->route('surat.surat_masuk');
     })->name('surat_masuk')->middleware('userAccess:Pegawai');  
@@ -30,7 +34,7 @@ Route::middleware(['auth'])->group(function() {
 
     Route::get('/pegawai', function () {
         return view('pegawai');
-    })->name('pegawai')->middleware('userAccess:Pegawai'); 
+    })->name('pegawai')->middleware('userAccess:SuperAdmin'); 
 
     Route::get('/jabatan', function () {
         return view('jabatan');
@@ -50,6 +54,7 @@ Route::middleware(['auth'])->group(function() {
 
     Route::get('/surat/create', [SuratController::class, 'create'])->name('surat.create');
 
+    Route::get('pegawai', [UserController::class, 'showForm'])->name('pegawai');
     
     Route::put('ubah_kata_sandi/{nik}', [UserController::class, 'ubah_kata_sandi'])->name('submit_kata_sandi');
     Route::put('ubah_profile/{nik}', [UserController::class, 'ubah_profile'])->name('ubah_profile');

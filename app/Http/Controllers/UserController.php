@@ -27,11 +27,18 @@ class UserController extends Controller
         return view('surat.req_surat', compact('sku'));
     }
 
+    public function showForm()
+    {
+        $roles = User::select('role')->distinct()->pluck('role')->toArray();
+        return view('pegawai', compact('roles'));
+    }    
+    
     public function tambah_pegawai(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'nik' => 'required|unique:user,nik|size:16',
             'nama' => 'required',
+            'role' => 'required',
         ]);
         
         if ($validator->fails()) {
@@ -47,7 +54,7 @@ class UserController extends Controller
                 'nik' => $request->nik,
                 'nama' => $request->nama,
                 'password' => bcrypt('1234'),
-                'role' => 'Pegawai'
+                'role' => $request->role
             ]);
                 
             Session::flash('alert', [
@@ -313,9 +320,6 @@ class UserController extends Controller
         $request->validate([
             'nik'=>'required',
             'password'=>'required',
-        ], [
-            'nik.required'=>'NIK wajib diisi!',
-            'password.required'=>'Password wajib diisi!',
         ]);
 
         $infoLogin = [
@@ -332,7 +336,7 @@ class UserController extends Controller
         
             if(Auth::user()->role == 'Warga') {
                 return redirect('req_surat');
-            } elseif(Auth::user()->role == 'Pegawai') {
+            } elseif(Auth::user()->role == 'Pegawai' || Auth::user()->role == 'SuperAdmin') {
                 return redirect('surat_masuk');
             }
         } else {
@@ -485,4 +489,4 @@ class UserController extends Controller
     
         return back();
     }
-    }
+}

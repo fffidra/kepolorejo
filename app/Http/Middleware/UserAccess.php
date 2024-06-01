@@ -16,9 +16,14 @@ class UserAccess
      */
     public function handle(Request $request, Closure $next, $role): Response
     {
-        if(Auth()->user()->role == $role) {
+        if (Auth::check() && Auth::user()->role === 'SuperAdmin') {
             return $next($request);
         }
+        
+        if (Auth::check() && Auth::user()->role == $role) {
+            return $next($request);
+        }
+        
         return back();
     }
 }

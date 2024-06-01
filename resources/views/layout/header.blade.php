@@ -25,12 +25,10 @@
                     <i class="bx bx-user"></i>&nbsp;{{ Auth::user()->nama }}
                 </button>
                 <div class="dropdown-menu dropdown-menu-end pt-0">
-                    @if(Auth::user()->role == 'Pegawai')
+                    {{-- @if(Auth::user()->role == 'Pegawai')
                         <a class="dropdown-item" href="{{ route("ubah_kata_sandi") }}"><i class='bx bx-lock text-muted font-size-18 align-middle me-1'></i> <span class="align-middle">Ubah Kata Sandi</span></a>
-                    @endif
-                    @if(Auth::user()->role == 'Warga')
-                        <a class="dropdown-item" href="{{ route("profile") }}"><i class='bx bx-lock text-muted font-size-18 align-middle me-1'></i> <span class="align-middle">Profile</span></a>
-                    @endif
+                    @endif --}}
+                    <a class="dropdown-item" href="{{ route("profile") }}"><i class='bx bx-lock text-muted font-size-18 align-middle me-1'></i> <span class="align-middle">Profile</span></a>
                     <a class="dropdown-item" href="{{ route("keluar") }}"><i class='bx bx-log-out text-muted font-size-18 align-middle me-1'></i> <span class="align-middle">Keluar</span></a>
                 </div>
             </div>

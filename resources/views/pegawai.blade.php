@@ -36,7 +36,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach(\App\Models\User::where('role', 'Pegawai')->get() as $data)
+                                    @foreach(\App\Models\User::where('role', 'Pegawai')->orWhere('role', 'SuperAdmin')->get() as $data)                                        
                                         <tr>
                                             <td class="text-center align-middle">{{ $data->nik }}</td>
                                             <td class="text-center align-middle">{{ $data->nama }}</td>
@@ -99,6 +99,15 @@
                         <div class="mb-3">
                             <label for="nama" class="col-form-label" name="nama"><strong>NAMA LENGKAP</strong></label>
                             <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama Lengkap" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="role" class="form-label"><strong>ROLE</strong></label>
+                            <select class="form-select" id="role" name="role" required>                        
+                                <option value="" selected hidden>-- Pilih Role --</option>
+                                @foreach($roles as $role)
+                                    <option value="{{ $role }}">{{ $role }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">

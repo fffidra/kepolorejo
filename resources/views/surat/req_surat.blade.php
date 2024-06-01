@@ -143,19 +143,19 @@
                         );
 
                         $querySKU = \App\Models\SKUsaha::where('pemohon', auth()->user()->nik)
-                                ->where('status_surat', 'Ditolak')
+                                ->where('status_surat', 'Ditolak')->orWhere('status_surat', 'Selesai')
                                 ->pluck('jenis_surat');
 
                         $querySKBM = \App\Models\SKBelumMenikah::where('pemohon', auth()->user()->nik)
-                                ->where('status_surat', 'Ditolak')
+                                ->where('status_surat', 'Ditolak')->orWhere('status_surat', 'Selesai')
                                 ->pluck('jenis_surat');
 
                         $querySKD = \App\Models\SKDomisili::where('pemohon', auth()->user()->nik)
-                                ->where('status_surat', 'Ditolak')
+                                ->where('status_surat', 'Ditolak')->orWhere('status_surat', 'Selesai')
                                 ->pluck('jenis_surat');
 
                         $querySKTM = \App\Models\SKTidakMampu::where('pemohon', auth()->user()->nik)
-                                ->where('status_surat', 'Ditolak')
+                                ->where('status_surat', 'Ditolak')->orWhere('status_surat', 'Selesai')
                                 ->pluck('jenis_surat');
                     
                         $jenis_surat_ditolak = $querySKU->union($querySKBM)->union($querySKD)->union($querySKTM)->toArray();

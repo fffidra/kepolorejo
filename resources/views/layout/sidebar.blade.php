@@ -17,7 +17,8 @@
         <div id="sidebar-menu">
             <ul class="metismenu list-unstyled" id="side-menu">
                 <li class="menu-title" data-key="t-applications">MENU SURAT</li>
-                @if(Auth::user()->role == 'Pegawai')
+                @if(Auth::user()->role == 'Pegawai' || Auth::user()->role == 'SuperAdmin')
+                <li>                    
                     <li>
                         <a href="{{ route('surat.surat_masuk') }}">
                             <i class="bx bx-envelope icon nav-icon"></i>
@@ -47,7 +48,8 @@
                     </li>
                 @endif
 
-                @if(Auth::user()->role == 'Pegawai')
+                @if(Auth::user()->role == 'Pegawai' || Auth::user()->role == 'SuperAdmin')
+                <li>                    
                     <li class="menu-title" data-key="t-applications">DATA MASTER</li>
                     <li>
                         <a href="{{ route('jabatan') }}">
@@ -55,13 +57,16 @@
                             <span class="menu-item" data-key="t-calendar">Data Jabatan</span>
                         </a>
                     </li>
+                @endif
+                @if(Auth::user()->role == 'SuperAdmin')
                     <li>
                         <a href="{{ route('pegawai') }}">
                             <i class=" mdi mdi-checkbox-blank-circle-outline"></i>
                             <span class="menu-item" data-key="t-calendar">Data Pegawai</span>
                         </a>
                     </li>
-
+                @endif
+                @if(Auth::user()->role == 'Pegawai' || Auth::user()->role == 'SuperAdmin')
                     <li class="menu-title" data-key="t-applications">RIWAYAT SURAT</li>
                     <li>
                         <a href="{{ route('surat.skbm') }}">
@@ -87,9 +92,9 @@
                             <span class="menu-item" data-key="t-calendar">SK Usaha</span>
                         </a>
                     </li>
+                </li>
                 @endif
             </ul>
         </div>
-        <!-- Sidebar -->
     </div>
 </div>
