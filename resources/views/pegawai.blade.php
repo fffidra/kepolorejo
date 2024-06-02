@@ -101,13 +101,15 @@
                             <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama Lengkap" required>
                         </div>
                         <div class="mb-3">
-                            <label for="role" class="form-label"><strong>ROLE</strong></label>
-                            <select class="form-select" id="role" name="role" required>                        
-                                <option value="" selected hidden>-- Pilih Role --</option>
+                            <label for="role" class="form-label"><strong>PERAN</strong></label>
+                            <select class="form-select" id="role" name="role" required>
+                                <option value="" selected hidden>-- Pilih Peran --</option>
                                 @foreach($roles as $role)
-                                    <option value="{{ $role }}">{{ $role }}</option>
+                                    @if($role !== 'Warga')
+                                        <option value="{{ $role }}">{{ $role }}</option>
+                                    @endif
                                 @endforeach
-                            </select>
+                            </select>                            
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -133,15 +135,27 @@
                     <input type="hidden" name="nik" id="nik2" required>
                     <div class="modal-body">
                         <div class="mb-3 row">
-                            <label for="ubah_nik" class="col-md-2 col-form-label">NIK (Nomor Induk Kependudukan)</label>
+                            <label for="ubah_nik" class="col-md-2 col-form-label"><strong>NIK</strong> - (Nomor Induk Kependudukan)</label>
                             <div class="col-md-9">
                                 <textarea class="form-control" id="ubah_nik" name="ubah_nik" rows="1"></textarea>
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="ubah_nama" class="col-md-2 col-form-label">Nama</label>
+                            <label for="ubah_nama" class="col-md-2 col-form-label"><strong>NAMA</strong></label>
                             <div class="col-md-9">
                                 <textarea class="form-control" id="ubah_nama" name="ubah_nama" rows="1"></textarea>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="ubah_role" class="col-md-2 col-form-label"><strong>PERAN</strong></label>
+                            <div class="col-md-9">
+                                <select class="form-select" id="ubah_role" name="ubah_role">
+                                    @foreach($roles as $role)
+                                        @if($role !== 'Warga')
+                                            <option value="{{ $role }}">{{ $role }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -197,6 +211,7 @@
                     $("#nik2").val(pegawai.nik);
                     $("#ubah_nik").val(pegawai.nik);
                     $("#ubah_nama").val(pegawai.nama);
+                    $("#ubah_role").val(pegawai.role);
                 }
             }, 
         });
@@ -218,6 +233,7 @@
             console.log(response);
                 $('#ubah_nik').val(response.pegawai.nik);
                 $('#ubah_nama').val(response.pegawai.nama);
+                $('#ubah_role').val(response.pegawai.role);
                 $('#ubahpegawai').modal('show');                
             }
         });        
@@ -228,6 +244,7 @@
             event.preventDefault();
             var nik = document.getElementById("ubah_nik");
             var nama = document.getElementById("ubah_nama");
+            var role = document.getElementById("ubah_role");
             if (!nik.value) {
                 Swal.fire({
                     icon: "error",

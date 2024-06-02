@@ -32,6 +32,10 @@ Route::middleware(['auth'])->group(function() {
         return view('surat.req_surat');
     })->name('req_surat')->middleware('userAccess:Warga');
 
+    Route::get('/warga', function () {
+        return view('warga');
+    })->name('warga')->middleware('userAccess:SuperAdmin'); 
+
     Route::get('/pegawai', function () {
         return view('pegawai');
     })->name('pegawai')->middleware('userAccess:SuperAdmin'); 
@@ -54,7 +58,7 @@ Route::middleware(['auth'])->group(function() {
 
     Route::get('/surat/create', [SuratController::class, 'create'])->name('surat.create');
 
-    Route::get('pegawai', [UserController::class, 'showForm'])->name('pegawai');
+    Route::get('pegawai', [UserController::class, 'showForm'])->name('pegawai')->middleware('userAccess:SuperAdmin');
     
     Route::put('ubah_kata_sandi/{nik}', [UserController::class, 'ubah_kata_sandi'])->name('submit_kata_sandi');
     Route::put('ubah_profile/{nik}', [UserController::class, 'ubah_profile'])->name('ubah_profile');
@@ -74,6 +78,9 @@ Route::middleware(['auth'])->group(function() {
     Route::post('get_data_pegawai', [UserController::class, 'get_data_pegawai'])->name('get_data_pegawai');
     Route::get('ubah_isi_pegawai/{nik}', [UserController::class, 'ubah_isi_pegawai'])->name('ubah_isi_pegawai');
     Route::delete('hapus_pegawai/{nik}', [UserController::class, 'hapus_pegawai'])->name('hapus_pegawai');
+
+    Route::post('tambah_warga', [UserController::class, 'tambah_warga'])->name('tambah_warga');
+    Route::delete('hapus_warga/{nik}', [UserController::class, 'hapus_warga'])->name('hapus_warga');
 
     Route::post('tambah_jabatan', [UserController::class, 'tambah_jabatan'])->name('tambah_jabatan');
     Route::put('ubah_jabatan', [UserController::class, 'ubah_jabatan'])->name('ubah_jabatan');

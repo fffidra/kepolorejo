@@ -65,6 +65,12 @@
                             <span class="menu-item" data-key="t-calendar">Data Pegawai</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ route('warga') }}">
+                            <i class=" mdi mdi-checkbox-blank-circle-outline"></i>
+                            <span class="menu-item" data-key="t-calendar">Data Warga</span>
+                        </a>
+                    </li>
                 @endif
                 @if(Auth::user()->role == 'Pegawai' || Auth::user()->role == 'SuperAdmin')
                     <li class="menu-title" data-key="t-applications">RIWAYAT SURAT</li>

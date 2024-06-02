@@ -66,11 +66,44 @@ class UserController extends Controller
         return back();
     }
 
+    public function tambah_warga(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'nik' => 'required|unique:user,nik|size:16',
+            'nama' => 'required',
+        ]);
+        
+        if ($validator->fails()) {
+            Session::flash('alert', [
+                'type' => 'error',
+                'title' => 'Tambah Warga Gagal',
+                'message' => '',
+            ]);
+        } else {
+            $nama = $request->nama;
+
+            User::create([
+                'nik' => $request->nik,
+                'nama' => $request->nama,
+                'password' => bcrypt('1234'),
+                'role' => 'Warga'
+            ]);
+                
+            Session::flash('alert', [
+                'type' => 'success',
+                'title' => 'Tambah Warga ' . $nama . ' Berhasil',                
+                'message' => '',
+            ]);
+        }
+        return back();
+    }
+
     public function ubah_pegawai(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'ubah_nik' => 'nullable',
             'ubah_nama' => 'nullable',
+            'ubah_role' => 'nullable',
         ]);
 
         // dd($validator);
@@ -87,6 +120,7 @@ class UserController extends Controller
                 $pegawai->update([
                     'nik' => $request->ubah_nik,
                     'nama' => $request->ubah_nama,
+                    'role' => $request->ubah_role,
                 ]);
                 Session::flash('alert', [
                     'type' => 'success',
@@ -136,6 +170,26 @@ class UserController extends Controller
                 'message' => "",
             ]); 
             $pegawai->delete();
+        } else {
+            Session::flash('alert', [
+                'type' => 'error',
+                'title' => 'Hapus Data Gagal',
+                'message' => 'Ada kesalahan!',
+            ]); 
+        }
+        return back();
+    }
+
+    public function hapus_warga($nik)
+    {
+        $warga = User::findOrFail($nik);
+        if($warga) {
+            Session::flash('alert', [
+                'type' => 'success',
+                'title' => 'Hapus Data '.$warga->nama.' Berhasil',
+                'message' => "",
+            ]); 
+            $warga->delete();
         } else {
             Session::flash('alert', [
                 'type' => 'error',
