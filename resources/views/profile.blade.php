@@ -65,9 +65,16 @@
                                             <button id="btn-simpan" class="btn btn-primary" type="submit">
                                                 Simpan
                                             </button>
-                                            <a class="btn btn-secondary" href="{{ route("req_surat") }}">
-                                                Kembali
-                                            </a>
+                                            @if(Auth::user()->role == 'Warga')                                            
+                                                <a class="btn btn-secondary" href="{{ route("req_surat") }}">
+                                                    Kembali
+                                                </a>
+                                            @endif
+                                            @if(Auth::user()->role == 'Pegawai')
+                                                <a class="btn btn-secondary" href="{{ url()->previous() }}">
+                                                    Kembali
+                                                </a>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

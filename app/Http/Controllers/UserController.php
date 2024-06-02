@@ -333,7 +333,6 @@ class UserController extends Controller
                 'title' => 'Login Berhasil',
                 'message' => "Selamat Datang ".Auth::user()->nama,
             ]);
-        
             if(Auth::user()->role == 'Warga') {
                 return redirect('req_surat');
             } elseif(Auth::user()->role == 'Pegawai' || Auth::user()->role == 'SuperAdmin') {
@@ -430,16 +429,14 @@ class UserController extends Controller
         $pengguna = User::where('nik', $nik)->first();
     
         if (!$pengguna) {
-            // Handle jika pengguna tidak ditemukan
             Session::flash('alert', [
                 'type' => 'error',
                 'title' => 'Ubah Profile Gagal',
-                'message' => "Pengguna tidak ditemukan.",
+                'message' => '',
             ]);
             return back();
         }
     
-        // Validasi hanya untuk bagian yang diubah
         $validator = Validator::make($request->all(), [
             'ubah_nik' => $request->filled('ubah_nik') ? 'required' : '',
             'ubah_nama' => $request->filled('ubah_nama') ? 'required' : '',
@@ -448,16 +445,14 @@ class UserController extends Controller
         ]);
     
         if ($validator->fails()) {
-            // Handle jika validasi gagal
             Session::flash('alert', [
                 'type' => 'error',
                 'title' => 'Ubah Profile Gagal',
-                'message' => $validator->errors()->first(),
+                'message' => '',
             ]);
             return back();
         }
     
-        // Cek kata sandi lama jika akan mengubah kata sandi
         if ($request->filled('password_old') && !password_verify($request->password_old, $pengguna->password)) {
             Session::flash('alert', [
                 'type' => 'error',
@@ -467,7 +462,6 @@ class UserController extends Controller
             return back();
         }
     
-        // Lakukan pembaruan sesuai dengan bagian yang diubah
         $updateData = [];
         if ($request->filled('ubah_nik')) {
             $updateData['nik'] = $request->ubah_nik;
@@ -486,7 +480,7 @@ class UserController extends Controller
             'title' => 'Ubah Profile Berhasil',
             'message' => '',
         ]);
-    
+        
         return back();
     }
 }
