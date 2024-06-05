@@ -137,7 +137,7 @@
     </div>
 
     {{-- MODAL UBAH JABATAN --}}
-    <div class="modal fade" id="ubahjabatan" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="ubahjabatan" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">

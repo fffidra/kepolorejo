@@ -427,7 +427,7 @@ class UserController extends Controller
                 'message' => 'Akun berhasil dibuat!',
             ]);
         }
-        return back();
+        return redirect()->route('masuk');
     }     
 
     public function keluar() 
