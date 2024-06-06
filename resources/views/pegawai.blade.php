@@ -31,8 +31,8 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center align-middle">NIK</th>
-                                        <th class="text-center align-middle">Nama</th>
-                                        <th class="text-center align-middle">Aksi</th>
+                                        <th class="text-center align-middle">NAMA</th>
+                                        <th class="text-center align-middle">AKSI</th>
                                     </tr>
                                 </thead>
                                 <tbody>

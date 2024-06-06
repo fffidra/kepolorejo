@@ -495,14 +495,14 @@ class UserController extends Controller
             'ubah_nik' => $request->filled('ubah_nik') ? 'required' : '',
             'ubah_nama' => $request->filled('ubah_nama') ? 'required' : '',
             'password_old' => $request->filled('password_old') ? 'required' : '',
-            'password_new' => $request->filled('password_new') ? 'required' : '',
+            'password_new' => $request->filled('password_new') ? 'required|min:4|max:12' : '',
         ]);
     
         if ($validator->fails()) {
             Session::flash('alert', [
                 'type' => 'error',
                 'title' => 'Ubah Profile Gagal',
-                'message' => '',
+                'message' => 'Periksa kembali inputan Anda!',
             ]);
             return back();
         }

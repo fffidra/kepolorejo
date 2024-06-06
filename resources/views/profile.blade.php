@@ -48,7 +48,7 @@
                                                 <input type="text" class="form-control" id="ubah_nama" name="ubah_nama" value="{{ auth()->user()->nama }}">
                                             </div>
                                             <div class="col-md-6 mb-3">
-                                                <label for="password_new" class="form-label"><strong>Kata Sandi Baru</label>
+                                                <label for="password_new" class="form-label"><strong>Kata Sandi Baru (Minimal 4 karakter, maksimal 12 karakter)</label>
                                                 <div class="input-group">
                                                     <input id="password_new" class="form-control form-control-alt" type="password" name="password_new" placeholder="Masukkan kata sandi baru">
                                                     <span class="input-group-text toggle-password" onclick="togglePassword('password_new')">

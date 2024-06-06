@@ -57,9 +57,7 @@
                                                     <form method="POST" action="{{ route('hapus_jabatan', $data->nip) }}" id="hapus-jabatan-{{ $data->nip }}">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" role="button" id="btnHps-{{ $data->nip }}" class="btn btn-danger" title="Hapus Data" style="padding: 0.25rem 0.5rem; font-size: 18px;">
-                                                            <i class="bx bx-trash-alt"></i>
-                                                        </button>
+                                                        <button type="submit" id="btnHps-{{ $data->nip }}" class="btn btn-danger" title="Hapus Data" style="padding: 0.25rem 0.5rem; font-size: 18px;"><i class="bx bx-trash-alt"></i></button>
                                                     </form>
                                                 </div>
                                                 <script>
@@ -106,7 +104,7 @@
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="nip" class="col-form-label" name="nik"><strong>NIP</strong> - (Format: 19XX0309 20X100 X 2XX)</label>
+                            <label for="nip" class="col-form-label" name="nip"><strong>NIP</strong> - (Format: 19XX0309 20X100 X 2XX)</label>
                             <input type="text" class="form-control" id="nip" name="nip" required placeholder="Masukkan NIP sesuai format">
                         </div> 
                         <div class="mb-3">
