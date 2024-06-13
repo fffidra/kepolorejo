@@ -48,9 +48,29 @@
                                             <td class="text-center align-middle">
                                                 <div class="d-flex justify-content-center">
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKD" data-bs-id="{{ $skd->id_sk_domisili }}" class="btn btn-primary btn-sm me-1">Detail</button>
+                                                    <form method="POST" action="{{ route('hapus_skd', $skd->id_sk_domisili) }}" id="hapus-surat-{{ $skd->id_sk_domisili }}" class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="button" id="btnHapus-{{ $skd->id_sk_domisili }}" class="btn btn-danger btn-sm mx-1"><i class="bx bx-trash-alt"></i></button>
+                                                    </form>
                                                 </div>
                                                 <script>
-                                                </script>
+                                                    $('#btnHapus-{{ $skd->id_sk_domisili }}').click(function(event){
+                                                        event.preventDefault();
+                                                        Swal.fire({
+                                                            icon: "info",
+                                                            title: "Hapus Surat",
+                                                            text: "Apakah Anda yakin ingin menghapus surat ini?",
+                                                            showCancelButton: true,
+                                                            confirmButtonText: "Ya, Lanjutkan",
+                                                            cancelButtonText: "Tidak, Batalkan",
+                                                        }).then(function (result) {
+                                                            if (result.isConfirmed) {
+                                                                $('#hapus-surat-{{ $skd->id_sk_domisili }}').submit();
+                                                            }
+                                                        });
+                                                    });
+                                                </script>                                            
                                             </td>
                                         </tr>
                                     @endforeach

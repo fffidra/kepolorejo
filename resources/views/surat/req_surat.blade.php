@@ -22,22 +22,36 @@
             <div class="page-content">
                 <div class="container-fluid">                   
                     <div class="row bg-white rounded-3 pb-3 mb-3 mx-2">
-                        <div class="page-title-box bg-light-subtle rounded-3 d-flex align-items-center justify-content-between px-3 py-2">
-                            <h5>DATA PENGAJUAN SURAT</h5>
+                        <div class="mt-3 d-flex px-3 py-2">
+                            <h5><b>DATA PENGAJUAN SURAT</b></h5>
                         </div>
-                        <div class="text-end mb-4">
-                            <button data-bs-toggle="modal" data-bs-target="#tambahsuratbaru" class="btn btn-primary">AJUKAN SURAT</button>
-                        </div>                    
+                        <div class="row mb-4 mx-2">
+                            <div class="col-9">
+                                <b>Note:</b>
+                                <br>
+                                <b>1) </b>Silakan baca deskripsi tiap jenis surat pada sidebar di sebelah kiri
+                                <br>
+                                <b>2) </b>Anda tidak dapat mengajukan jenis surat yang sama, jika status surat masih <b>Diproses</b> atau <b>Disetujui</b>
+                                <br>
+                                <b>3) </b>Anda harus mengajukan ulang surat yang <b>Ditolak</b>
+                                <br>
+                                <b>4) </b>Surat dapat diambil di Kantor Kelurahan Kepolorejo, setelah status surat berubah menjadi <b>Selesai</b>
+                            </div>
+                            <div class="col-3 text-end">
+                                <button data-bs-toggle="modal" data-bs-target="#tambahsuratbaru" class="btn btn-primary"><b>AJUKAN SURAT</b></button>
+                            </div>
+                        </div>
+                                                                    
                         <div class="container-fluid table-responsive px-3 py-3">
                             <table class="table table-striped" id="tabelSPT" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th class="col-md-1 text-center align-middle">TANGGAL PENGAJUAN</th>                           
                                         <th class="col-md-2 text-center align-middle">JENIS SURAT</th>                           
-                                        <th class="col-md-2 text-center align-middle">NIK</th>                           
+                                        <th class="col-md-1 text-center align-middle">NIK</th>                           
                                         <th class="col-md-2 text-center align-middle">NAMA</th>                           
-                                        <th class="col-md-2 text-center align-middle">STATUS</th>                           
-                                        <th class="col-md-2 text-center align-middle">AKSI</th>                           
+                                        <th class="col-md-1 text-center align-middle">STATUS</th>                           
+                                        <th class="col-md-3 text-center align-middle">AKSI</th>                           
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -106,9 +120,32 @@
                                                 <div class="d-flex justify-content-center">
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKTM" data-bs-id="{{ $sktm->id_sk_tidak_mampu }}" class="btn btn-primary btn-sm me-2">Detail</button>
                                                     @if($sktm->status_surat === 'Ditolak')
-                                                        <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $sktm->id_sk_tidak_mampu }}" data-bs-pesan="{{ $sktm->pesan }}" class="btn btn-danger btn-sm">Pesan Ditolak</button>
+                                                        <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $sktm->id_sk_tidak_mampu }}" data-bs-pesan="{{ $sktm->pesan }}" class="btn btn-warning btn-sm">Pesan Ditolak</button>
+                                                        
+                                                        <form method="POST" action="{{ route('hapus_sktm', $sktm->id_sk_tidak_mampu) }}" id="hapus-surat-{{ $sktm->id_sk_tidak_mampu }}" class="d-inline">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="button" id="btnHapus-{{ $sktm->id_sk_tidak_mampu }}" class="btn btn-danger btn-sm mx-2"><i class="bx bx-trash-alt"></i></button>
+                                                        </form>
                                                     @endif
                                                 </div>
+                                                <script>
+                                                    $('#btnHapus-{{ $sktm->id_sk_tidak_mampu }}').click(function(event){
+                                                        event.preventDefault();
+                                                        Swal.fire({
+                                                            icon: "info",
+                                                            title: "Hapus Surat",
+                                                            text: "Apakah Anda yakin ingin menghapus surat ini?",
+                                                            showCancelButton: true,
+                                                            confirmButtonText: "Ya, Lanjutkan",
+                                                            cancelButtonText: "Tidak, Batalkan",
+                                                        }).then(function (result) {
+                                                            if (result.isConfirmed) {
+                                                                $('#hapus-surat-{{ $sktm->id_sk_tidak_mampu }}').submit();
+                                                            }
+                                                        });
+                                                    });
+                                                </script>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -134,7 +171,7 @@
                 </div>
                 <div class="modal-body">
                     {{-- REQ NOT ALL --}}
-                    @php
+                    {{-- @php
                         $jenis_surat_yang_telah_diajukan = array_merge(
                             \App\Models\SKUsaha::where('pemohon', auth()->user()->nik)->pluck('jenis_surat')->toArray(),
                             \App\Models\SKBelumMenikah::where('pemohon', auth()->user()->nik)->pluck('jenis_surat')->toArray(),
@@ -182,8 +219,61 @@
                                 <option value="{{ $jenis_surat->nama_jenis_surat }}">{{ $jenis_surat->nama_jenis_surat }}</option>
                             @endforeach
                         </select>
+                    </div> --}}
+
+                    @php
+                        // Mengumpulkan semua jenis surat yang sudah diajukan oleh user
+                        $jenis_surat_yang_telah_diajukan = array_merge(
+                            \App\Models\SKUsaha::where('pemohon', auth()->user()->nik)->pluck('jenis_surat')->toArray(),
+                            \App\Models\SKBelumMenikah::where('pemohon', auth()->user()->nik)->pluck('jenis_surat')->toArray(),
+                            \App\Models\SKDomisili::where('pemohon', auth()->user()->nik)->pluck('jenis_surat')->toArray(),
+                            \App\Models\SKTidakMampu::where('pemohon', auth()->user()->nik)->pluck('jenis_surat')->toArray()
+                        );
+
+                        // Mengumpulkan jenis surat yang statusnya "Diproses", "Disetujui", atau "Selesai"
+                        $querySKU = \App\Models\SKUsaha::where('pemohon', auth()->user()->nik)
+                            ->whereIn('status_surat', ['Diproses', 'Disetujui', 'Selesai'])
+                            ->pluck('jenis_surat');
+
+                        $querySKBM = \App\Models\SKBelumMenikah::where('pemohon', auth()->user()->nik)
+                            ->whereIn('status_surat', ['Diproses', 'Disetujui', 'Selesai'])
+                            ->pluck('jenis_surat');
+
+                        $querySKD = \App\Models\SKDomisili::where('pemohon', auth()->user()->nik)
+                            ->whereIn('status_surat', ['Diproses', 'Disetujui', 'Selesai'])
+                            ->pluck('jenis_surat');
+
+                        $querySKTM = \App\Models\SKTidakMampu::where('pemohon', auth()->user()->nik)
+                            ->whereIn('status_surat', ['Diproses', 'Disetujui', 'Selesai'])
+                            ->pluck('jenis_surat');
+
+                        // Menggabungkan semua jenis surat yang statusnya "Diproses", "Disetujui", atau "Selesai"
+                        $jenis_surat_tidak_muncul = $querySKU->merge($querySKBM)->merge($querySKD)->merge($querySKTM)->toArray();
+
+                        // Mendapatkan semua jenis surat yang tersedia
+                        $semua_jenis_surat = \App\Models\JenisSurat::all();
+
+                        // Menyiapkan jenis surat yang tersedia untuk dropdown
+                        $jenis_surat_tersedia = [];
+
+                        foreach ($semua_jenis_surat as $jenis_surat) {
+                            // Menambahkan jenis surat ke array jika tidak diproses, disetujui, atau selesai
+                            if (!in_array($jenis_surat->nama_jenis_surat, $jenis_surat_tidak_muncul)) {
+                                $jenis_surat_tersedia[] = $jenis_surat;
+                            }
+                        }
+                    @endphp
+
+                    <div class="mb-3">
+                        <label for="jenis_surat" class="form-label"><strong>JENIS SURAT</strong></label>
+                        <select class="form-select form-control" id="jenis_surat" name="jenis_surat" required onchange="showForm()">
+                            <option value="" selected hidden>-- Pilih Jenis Surat --</option>
+                            @foreach($jenis_surat_tersedia as $jenis_surat)
+                                <option value="{{ $jenis_surat->nama_jenis_surat }}">{{ $jenis_surat->nama_jenis_surat }}</option>
+                            @endforeach
+                        </select>
                     </div>
-                
+
                     {{-- REQ ALL --}}
                     {{-- <div class="mb-3">
                         <label for="jenis_surat" class="form-label"><strong>JENIS SURAT</strong></label>
@@ -256,7 +346,7 @@
                                 <input type="text" class="form-control" id="keperluan" name="keperluan" placeholder="Masukkan keperluan pengajuan surat" required>
                             </div>
                             <div class="mb-3">
-                                <label for="bukti" class="form-label"><strong>BERKAS PERSYARATAN - <span style="color: red;">(Format: jpg, jpeg, png, doc, docx, pdf)</span></strong><br>
+                                <label for="bukti" class="form-label"><strong>BERKAS PERSYARATAN - </strong>(FORMAT: <b>.jpg .jpeg .png .doc .docx .pdf</b> )<br>
                                     (1) Surat Pengantar RT/RW<br>
                                     <input type="file" class="form-control" id="bukti_suket" name="bukti_suket" value="{{ old('bukti_suket') }}" multiple required><br>
                                     (2) Kartu Keluarga (KK)<br>
@@ -329,7 +419,7 @@
                                 <input type="text" class="form-control" id="keperluan" name="keperluan" placeholder="Masukkan keperluan pengajuan surat" required>
                             </div>
                             <div class="mb-3">
-                                <label for="bukti" class="form-label"><strong>BERKAS PERSYARATAN - <span style="color: red;">(Format: jpg, jpeg, png, doc, docx, pdf)</span></strong><br>
+                                <label for="bukti" class="form-label"><strong>BERKAS PERSYARATAN - </strong>(FORMAT: <b>.jpg .jpeg .png .doc .docx .pdf</b> )<br>
                                     (1) Surat Pengantar RT/RW <b>*wajib</b><br>
                                     <input type="file" class="form-control" id="bukti_suket" name="bukti_suket" value="{{ old('bukti_suket') }}" required><br>
                                     (2) Kartu Keluarga (KK) <b>*wajib</b><br>
@@ -419,7 +509,7 @@
                                 <input type="text" class="form-control" id="keperluan" name="keperluan" placeholder="Masukkan keperluan pengajuan surat" required>
                             </div>
                             <div class="mb-3">
-                                <label for="bukti" class="form-label"><strong>BERKAS PERSYARATAN - <span style="color: red;">(Format: jpg, jpeg, png, doc, docx, pdf)</span></strong><br>
+                                <label for="bukti" class="form-label"><strong>BERKAS PERSYARATAN - </strong>(FORMAT: <b>.jpg .jpeg .png .doc .docx .pdf</b> )<br>
                                     (1) Surat Pengantar RT/RW<br>
                                     <input type="file" class="form-control" id="bukti_suket" name="bukti_suket" value="{{ old('bukti_suket') }}" multiple required><br>
                                     (2) Kartu Keluarga (KK)<br>
@@ -483,7 +573,7 @@
                                 <input type="text" class="form-control" id="keperluan" name="keperluan" placeholder="Masukkan keperluan pengajuan surat" required>
                             </div>
                             <div class="mb-3">
-                                <label for="bukti" class="form-label"><strong>BERKAS PERSYARATAN - <span style="color: red;">(Format: jpg, jpeg, png, doc, docx, pdf)</span></strong><br>
+                                <label for="bukti" class="form-label"><strong>BERKAS PERSYARATAN - </strong>(FORMAT: <b>.jpg .jpeg .png .doc .docx .pdf</b> )<br>
                                     (1) Surat Pengantar RT/RW<br>
                                     <input type="file" class="form-control" id="bukti_suket" name="bukti_suket" value="{{ old('bukti_suket') }}" multiple required><br>
                                     (2) Kartu Keluarga (KK)<br>
@@ -504,7 +594,7 @@
     </div>
 
     {{-- ALASAN DITOLAK --}}
-    <div class="modal fade" id="pesan_ditolak" tabindex="-1" aria-labelledby="pesanDitolakLabel" aria-hidden="true">
+    <div class="modal fade" id="pesan_ditolak" tabindex="-1" aria-labelledby="pesanDitolakLabel" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -514,12 +604,15 @@
                 <div class="modal-body">
                     <p id="pesanDitolakContent"></p>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
             </div>
         </div>
     </div>
 
     {{-- DETAIL SKU --}}
-    <div class="modal fade" id="detailSKU" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="detailSKU" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -631,7 +724,7 @@
     </div>
 
     {{-- DETAIL SKBM --}}
-    <div class="modal fade" id="detailSKBM" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="detailSKBM" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -753,7 +846,7 @@
     </div>   
 
     {{-- DETAIL SKD --}}
-    <div class="modal fade" id="detailSKD" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="detailSKD" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -871,7 +964,7 @@
     </div>    
 
     {{-- DETAIL SKTM --}}
-    <div class="modal fade" id="detailSKTM" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="detailSKTM" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">

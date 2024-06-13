@@ -45,7 +45,7 @@
                                             <td class="text-center align-middle">{{ $sktm->nik }}</td>
                                             <td class="text-center align-middle">{{ $sktm->nama }}</td>
                                             <td class="text-center align-middle">{{ $sktm->status_surat }}</td>
-                                            <td class="text-center">
+                                            <td class="text-center align-middle">
                                                 <div class="d-flex justify-content-center">
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKTM" data-bs-id="{{ $sktm->id_sk_tidak_mampu }}" class="btn btn-primary btn-sm me-1">Detail</button>
                                                     <form method="POST" action="{{ route('hapus_sktm', $sktm->id_sk_tidak_mampu) }}" id="hapus-surat-{{ $sktm->id_sk_tidak_mampu }}" class="d-inline">

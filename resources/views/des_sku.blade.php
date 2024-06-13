@@ -23,7 +23,7 @@
                 <div class="container-fluid">                   
                     <div class="row bg-white rounded-3 pb-3 mb-3 mx-2">
                         <div class="page-title-box bg-light-subtle rounded-3 d-flex align-items-center justify-content-between px-3 py-2">
-                            <h5>SURAT KETERANGAN USAHA</h5>
+                            <h5><b>SURAT KETERANGAN USAHA</b></h5>
                         </div>                   
                         <div class="container-fluid table-responsive px-3 py-3">
                             <p><b>Surat Keterangan Usaha (SKU) </b>adalah dokumen resmi yang dikeluarkan oleh pemerintah desa atau kelurahan untuk memberikan keterangan bahwa seseorang memiliki usaha di wilayah tersebut. SKU ini sering digunakan oleh pemilik usaha untuk berbagai keperluan, seperti:
@@ -33,13 +33,26 @@
                                 2. Pendaftaran atau perpanjangan izin usaha
                                 <br>
                                 3. Keperluan administratif lainnya yang memerlukan bukti keberadaan usaha
+
+                                <br><br>
+
+                                <b>Berkas Persyaratan: </b>
+                                <br>
+                                - Surat Pengantar RT/RW
+                                <br>
+                                - Kartu Keluarga (KK)
+                                <br>
+                                - Kartu Tanda Penduduk (KTP)
+                                
                                 <br><br><br>
 
-                                <b>Note: </b>
+                                <b>Note:</b>
                                 <br>
-                                - Anda tidak dapat mengajukan jenis surat yang sama, jika status surat masih <b>'Diproses'</b> atau <b>'Disetujui'</b>
+                                <b>1) </b>Anda tidak dapat mengajukan jenis surat yang sama, jika status surat masih <b>Diproses</b> atau <b>Disetujui</b>
                                 <br>
-                                - Surat dapat diambil di Kantor Kelurahan Kepolorejo, setelah status surat berubah menjadi <b>'Selesai'</b>
+                                <b>2) </b>Anda harus mengajukan ulang surat yang <b>Ditolak</b>
+                                <br>
+                                <b>3) </b>Surat dapat diambil di Kantor Kelurahan Kepolorejo, setelah status surat berubah menjadi <b>Selesai</b>
                             </p>
                         </div>
                     </div>

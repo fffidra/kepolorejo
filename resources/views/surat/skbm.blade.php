@@ -45,12 +45,32 @@
                                             <td class="text-center align-middle">{{ $skbm->nik }}</td>
                                             <td class="text-center align-middle">{{ $skbm->nama }}</td>
                                             <td class="text-center align-middle">{{ $skbm->status_surat }}</td>
-                                            <td class="text-center">
+                                            <td class="text-center align-middle">
                                                 <div class="d-flex justify-content-center">
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKBM" data-bs-id="{{ $skbm->id_sk_belum_menikah }}" class="btn btn-primary btn-sm me-1">Detail</button>
+                                                    <form method="POST" action="{{ route('hapus_skbm', $skbm->id_sk_belum_menikah) }}" id="hapus-surat-{{ $skbm->id_sk_belum_menikah }}" class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="button" id="btnHapus-{{ $skbm->id_sk_belum_menikah }}" class="btn btn-danger btn-sm mx-1"><i class="bx bx-trash-alt"></i></button>
+                                                    </form>
                                                 </div>
                                                 <script>
-                                                </script>
+                                                    $('#btnHapus-{{ $skbm->id_sk_belum_menikah }}').click(function(event){
+                                                        event.preventDefault();
+                                                        Swal.fire({
+                                                            icon: "info",
+                                                            title: "Hapus Surat",
+                                                            text: "Apakah Anda yakin ingin menghapus surat ini?",
+                                                            showCancelButton: true,
+                                                            confirmButtonText: "Ya, Lanjutkan",
+                                                            cancelButtonText: "Tidak, Batalkan",
+                                                        }).then(function (result) {
+                                                            if (result.isConfirmed) {
+                                                                $('#hapus-surat-{{ $skbm->id_sk_belum_menikah }}').submit();
+                                                            }
+                                                        });
+                                                    });
+                                                </script>                                            
                                             </td>
                                         </tr>
                                     @endforeach
