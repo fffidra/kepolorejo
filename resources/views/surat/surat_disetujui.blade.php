@@ -51,7 +51,7 @@
                                                 <div class="d-flex justify-content-center">
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" class="btn btn-primary btn-sm me-2">Detail</button>
 
-                                                    <button class="btn-unduh btn btn-success btn-sm me-2" data-skuid="{{ $sk_usaha->id_sk_usaha }}" style="margin-right: 10px;">Unduh</button>
+                                                    <button class="btn-unduh-sku btn btn-success btn-sm me-2" data-id="{{ $sk_usaha->id_sk_usaha }}" style="margin-right: 10px;">Unduh</button>
 
                                                     {{-- <button type="button" data-bs-toggle="modal" data-bs-target="#modalDokumen" data-bs-id="{{ $surat->id_surat }}" class="btn btn-info btn-sm">Ubah</button> --}}
 
@@ -63,21 +63,26 @@
                                                 </div>
                                                 <script>
                                                     // BUTTON UNDUH
-                                                    $('.btn-unduh').on('click', function () {
-                                                        var sku_id = $(this).data('skuid');
-                                                        var penandaTangan = {{ \App\Models\Jabatan::where('peran', 'Penanda Tangan')->exists() ? 'true' : 'false' }};
-                                                        
-                                                        if (!penandaTangan) {
-                                                            Swal.fire({
-                                                                icon: "error",
-                                                                title: "Unduh Gagal",
-                                                                text: "Peran Penanda Tangan belum dipilih!",
-                                                            });
-                                                            return;
-                                                        }
-                                                        
-                                                        window.open('{{ route("unduh_sku", ["id_sk_usaha" => ' + sku_id + ']) }}', '_blank');
+                                                    $(document).ready(function() {
+                                                        $('.btn-unduh-sku').on('click', function () {
+                                                            var sku_id = $(this).data('id');
+                                                            var penandaTangan = {{ \App\Models\Jabatan::where('peran', 'Penanda Tangan')->exists() ? 'true' : 'false' }};
+                                                            
+                                                            if (!penandaTangan) {
+                                                                Swal.fire({
+                                                                    icon: "error",
+                                                                    title: "Unduh Gagal",
+                                                                    text: "Peran Penanda Tangan belum dipilih!",
+                                                                });
+                                                                return;
+                                                            }
+
+                                                            var url = "{{ route('unduh_sku', ['id_sk_usaha' => 'SKU_ID']) }}";
+                                                            url = url.replace('SKU_ID', sku_id);
+                                                            window.open(url, '_blank');
+                                                        });
                                                     });
+
                                                     // BUTTON SELESAI
                                                     $('#btnSelesai-{{ $sk_usaha->id_sk_usaha  }}').click(function(event){
                                                         event.preventDefault();
@@ -111,7 +116,7 @@
                                                 <div class="d-flex justify-content-center">
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKBM" data-bs-id="{{ $skbm->id_sk_belum_menikah }}" class="btn btn-primary btn-sm me-2">Detail</button>
 
-                                                    <button class="btn-unduh btn btn-success btn-sm me-2" data-skbmid="{{ $skbm->id_sk_belum_menikah }}" style="margin-right: 10px;">Unduh</button>
+                                                    <button class="btn-unduh-skbm btn btn-success btn-sm me-2" data-id="{{ $skbm->id_sk_belum_menikah }}" style="margin-right: 10px;">Unduh</button>
 
                                                     {{-- <button type="button" data-bs-toggle="modal" data-bs-target="#modalDokumen" data-bs-id="{{ $surat->id_surat }}" class="btn btn-info btn-sm">Ubah</button> --}}
 
@@ -123,22 +128,25 @@
                                                 </div>                                                
                                                 <script>
                                                     // BUTTON UNDUH
-                                                    $('.btn-unduh').on('click', function () {
-                                                        var skbm_id = $(this).data('skbmid');
-                                                        var penandaTangan = {{ \App\Models\Jabatan::where('peran', 'Penanda Tangan')->exists() ? 'true' : 'false' }};
-                                                        
-                                                        if (!penandaTangan) {
-                                                            Swal.fire({
-                                                                icon: "error",
-                                                                title: "Unduh Gagal",
-                                                                text: "Peran Penanda Tangan belum dipilih!",
-                                                            });
-                                                            return;
-                                                        }
-                                                        
-                                                        window.open('{{ route("unduh_skbm", ["id_sk_belum_menikah" => ' + skbm_id + ']) }}', '_blank');
-                                                    });
+                                                    $(document).ready(function() {
+                                                        $('.btn-unduh-skbm').on('click', function () {
+                                                            var skbm_id = $(this).data('id');
+                                                            var penandaTangan = {{ \App\Models\Jabatan::where('peran', 'Penanda Tangan')->exists() ? 'true' : 'false' }};
+                                                            
+                                                            if (!penandaTangan) {
+                                                                Swal.fire({
+                                                                    icon: "error",
+                                                                    title: "Unduh Gagal",
+                                                                    text: "Peran Penanda Tangan belum dipilih!",
+                                                                });
+                                                                return;
+                                                            }
 
+                                                            var url = "{{ route('unduh_skbm', ['id_sk_belum_menikah' => 'SKBM_ID']) }}";
+                                                            url = url.replace('SKBM_ID', skbm_id);
+                                                            window.open(url, '_blank');
+                                                        });
+                                                    });
                                                     // BUTTON SELESAI
                                                     $('#btnSelesai-{{ $skbm->id_sk_belum_menikah  }}').click(function(event){
                                                         event.preventDefault();
@@ -172,7 +180,7 @@
                                                 <div class="d-flex justify-content-center">
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKD" data-bs-id="{{ $skd->id_sk_domisili }}" class="btn btn-primary btn-sm me-2">Detail</button>
                                                 
-                                                    <button class="btn-unduh btn btn-success btn-sm me-2" data-skdid="{{ $skd->id_sk_domisili }}" style="margin-right: 10px;">Unduh</button>
+                                                    <button class="btn-unduh-skd btn btn-success btn-sm me-2" data-id="{{ $skd->id_sk_domisili }}" style="margin-right: 10px;">Unduh</button>
 
                                                     {{-- <button type="button" data-bs-toggle="modal" data-bs-target="#modalDokumen" data-bs-id="{{ $surat->id_surat }}" class="btn btn-info btn-sm">Ubah</button> --}}
                                                 
@@ -184,20 +192,24 @@
                                                 </div>                                                
                                                 <script>
                                                     // BUTTON UNDUH
-                                                    $('.btn-unduh').on('click', function () {
-                                                        var skd_id = $(this).data('skdid');
-                                                        var penandaTangan = {{ \App\Models\Jabatan::where('peran', 'Penanda Tangan')->exists() ? 'true' : 'false' }};
-                                                        
-                                                        if (!penandaTangan) {
-                                                            Swal.fire({
-                                                                icon: "error",
-                                                                title: "Unduh Gagal",
-                                                                text: "Peran Penanda Tangan belum dipilih!",
-                                                            });
-                                                            return;
-                                                        }
-                                                        
-                                                        window.open('{{ route("unduh_skd", ["id_sk_domisili" => ' + skd_id + ']) }}', '_blank');
+                                                    $(document).ready(function() {
+                                                        $('.btn-unduh-skd').on('click', function () {
+                                                            var skd_id = $(this).data('id');
+                                                            var penandaTangan = {{ \App\Models\Jabatan::where('peran', 'Penanda Tangan')->exists() ? 'true' : 'false' }};
+                                                            
+                                                            if (!penandaTangan) {
+                                                                Swal.fire({
+                                                                    icon: "error",
+                                                                    title: "Unduh Gagal",
+                                                                    text: "Peran Penanda Tangan belum dipilih!",
+                                                                });
+                                                                return;
+                                                            }
+
+                                                            var url = "{{ route('unduh_skd', ['id_sk_domisili' => 'SKD_ID']) }}";
+                                                            url = url.replace('SKD_ID', skd_id);
+                                                            window.open(url, '_blank');
+                                                        });
                                                     });
 
                                                     // BUTTON SELESAI
@@ -233,8 +245,8 @@
                                                 <div class="d-flex justify-content-center">
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKTM" data-bs-id="{{ $sktm->id_sk_tidak_mampu }}" class="btn btn-primary btn-sm me-2">Detail</button>
                                                 
-                                                    <button id="btn-unduh" class="btn btn-success btn-sm me-2" style="margin-right: 10px;">Unduh</button>
-                                                
+                                                    <button class="btn-unduh-sktm btn btn-success btn-sm me-2" data-id="{{ $sktm->id_sk_tidak_mampu }}" style="margin-right: 10px;">Unduh</button>
+
                                                     {{-- <button type="button" data-bs-toggle="modal" data-bs-target="#modalDokumen" data-bs-id="{{ $surat->id_surat }}" class="btn btn-info btn-sm">Ubah</button> --}}
                                                 
                                                     <form method="POST" action="{{ route('sktm_selesai', $sktm->id_sk_tidak_mampu) }}" id="selesai-surat-{{ $sktm->id_sk_tidak_mampu }}">
@@ -245,18 +257,24 @@
                                                 </div>
                                                 <script>
                                                     // BUTTON UNDUH
-                                                    $('#btn-unduh').on('click', function () {
-                                                        var penandaTangan = {{ \App\Models\Jabatan::where('peran', 'Penanda Tangan')->exists() ? 'true' : 'false' }};
-                                                        
-                                                        if (!penandaTangan) {
-                                                            Swal.fire({
-                                                                icon: "error",
-                                                                title: "Unduh Gagal",
-                                                                text: "Peran Penanda Tangan belum dipilih!",
-                                                            });
-                                                            return;
-                                                        }
-                                                        window.open('{{ route("unduh_sktm", ["id_sk_tidak_mampu" => $sktm->id_sk_tidak_mampu]) }}', '_blank');
+                                                    $(document).ready(function() {
+                                                        $('.btn-unduh-sktm').on('click', function () {
+                                                            var sktm_id = $(this).data('id');
+                                                            var penandaTangan = {{ \App\Models\Jabatan::where('peran', 'Penanda Tangan')->exists() ? 'true' : 'false' }};
+                                                            
+                                                            if (!penandaTangan) {
+                                                                Swal.fire({
+                                                                    icon: "error",
+                                                                    title: "Unduh Gagal",
+                                                                    text: "Peran Penanda Tangan belum dipilih!",
+                                                                });
+                                                                return;
+                                                            }
+
+                                                            var url = "{{ route('unduh_sktm', ['id_sk_tidak_mampu' => 'SKTM_ID']) }}";
+                                                            url = url.replace('SKTM_ID', sktm_id);
+                                                            window.open(url, '_blank');
+                                                        });
                                                     });
 
                                                     // BUTTON SELESAI

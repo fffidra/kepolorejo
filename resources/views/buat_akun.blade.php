@@ -56,6 +56,7 @@
                                 </div> 
                             </div>
                         </div>
+                        <div class="text-center" style="color: white">Jika terdapat kendala hubungi: <b>0857-1365-8134</b> (Heny)</div>
                     </div>
                 </div>
                 <div class="row">

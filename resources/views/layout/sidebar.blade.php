@@ -46,6 +46,31 @@
                             <span class="menu-item" data-key="t-calendar">Pengajuan Surat</span>
                         </a>
                     </li>
+                    <li class="menu-title" data-key="t-applications">DESKRIPSI SURAT</li>
+                    <li>
+                        <a href="{{ route('des_skbm') }}">
+                            <i class="bx bx-envelope icon nav-icon"></i>
+                            <span class="menu-item" data-key="t-calendar">SK Belum Menikah</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('des_skd') }}">
+                            <i class="bx bx-envelope icon nav-icon"></i>
+                            <span class="menu-item" data-key="t-calendar">SK Domisili</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('des_sktm') }}">
+                            <i class="bx bx-envelope icon nav-icon"></i>
+                            <span class="menu-item" data-key="t-calendar">SK Tidak Mampu</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('des_sku') }}">
+                            <i class="bx bx-envelope icon nav-icon"></i>
+                            <span class="menu-item" data-key="t-calendar">SK Usaha</span>
+                        </a>
+                    </li>
                 @endif
 
                 @if(Auth::user()->role == 'Pegawai' || Auth::user()->role == 'SuperAdmin')

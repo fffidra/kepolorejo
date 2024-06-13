@@ -143,20 +143,24 @@
                         );
 
                         $querySKU = \App\Models\SKUsaha::where('pemohon', auth()->user()->nik)
-                                ->where('status_surat', 'Ditolak')->orWhere('status_surat', 'Selesai')
-                                ->pluck('jenis_surat');
+                            ->where(function($query) {
+                                $query->where('status_surat', 'Ditolak')->orWhere('status_surat', 'Selesai');})
+                            ->pluck('jenis_surat');
 
                         $querySKBM = \App\Models\SKBelumMenikah::where('pemohon', auth()->user()->nik)
-                                ->where('status_surat', 'Ditolak')->orWhere('status_surat', 'Selesai')
-                                ->pluck('jenis_surat');
+                            ->where(function($query) {
+                                $query->where('status_surat', 'Ditolak')->orWhere('status_surat', 'Selesai');})
+                            ->pluck('jenis_surat');
 
                         $querySKD = \App\Models\SKDomisili::where('pemohon', auth()->user()->nik)
-                                ->where('status_surat', 'Ditolak')->orWhere('status_surat', 'Selesai')
-                                ->pluck('jenis_surat');
+                            ->where(function($query) {
+                                $query->where('status_surat', 'Ditolak')->orWhere('status_surat', 'Selesai');})
+                            ->pluck('jenis_surat');
 
                         $querySKTM = \App\Models\SKTidakMampu::where('pemohon', auth()->user()->nik)
-                                ->where('status_surat', 'Ditolak')->orWhere('status_surat', 'Selesai')
-                                ->pluck('jenis_surat');
+                            ->where(function($query) {
+                                $query->where('status_surat', 'Ditolak')->orWhere('status_surat', 'Selesai');})
+                            ->pluck('jenis_surat');
                     
                         $jenis_surat_ditolak = $querySKU->union($querySKBM)->union($querySKD)->union($querySKTM)->toArray();
 
@@ -169,6 +173,7 @@
                             }
                         }
                     @endphp
+
                     <div class="mb-3">
                         <label for="jenis_surat" class="form-label"><strong>JENIS SURAT</strong></label>
                         <select class="form-select form-control" id="jenis_surat" name="jenis_surat" required onchange="showForm()">
@@ -204,7 +209,7 @@
                                 <input type="text" class="form-control" id="nik" name="nik" value="{{ auth()->user()->nik }}" readonly>
                             </div>
                             <div class="mb-3">
-                                <label for="ttl" class="form-label"><strong>TEMPAT, TANGGAL LAHIR - <span style="color: red;">(Contoh: Magetan, 30 Maret 1999)</span></strong></label>
+                                <label for="ttl" class="form-label"><strong>TEMPAT, TANGGAL LAHIR - </strong>(Contoh: Magetan, 30 Maret 1999)</label>
                                 <input type="text" class="form-control" id="ttl" name="ttl" placeholder="Masukkan tempat, tanggal lahir" required>
                             </div>
                             <div class="mb-3">
@@ -281,7 +286,7 @@
                                 <input type="text" class="form-control" id="nik" name="nik" value="{{ auth()->user()->nik }}" readonly>
                             </div>
                             <div class="mb-3">
-                                <label for="ttl" class="form-label"><strong>TEMPAT, TANGGAL LAHIR - <span style="color: red;">(Contoh: Magetan, 30 Maret 1999)</span></strong></label>
+                                <label for="ttl" class="form-label"><strong>TEMPAT, TANGGAL LAHIR - </strong>(Contoh: Magetan, 30 Maret 1999)</label>
                                 <input type="text" class="form-control" id="ttl" name="ttl" placeholder="Masukkan tempat, tanggal lahir" required>
                             </div>
                             <div class="mb-3">
@@ -367,7 +372,7 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="ttl" class="form-label"><strong>TEMPAT, TANGGAL LAHIR - <span style="color: red;">(Contoh: Magetan, 30 Maret 1999)</span></strong></label>
+                                <label for="ttl" class="form-label"><strong>TEMPAT, TANGGAL LAHIR - </strong>(Contoh: Magetan, 30 Maret 1999)</label>
                                 <input type="text" class="form-control" id="ttl" name="ttl" placeholder="Masukkan tempat, tanggal lahir" required>
                             </div>
                             <div class="mb-3">
@@ -444,7 +449,7 @@
                                 <input type="text" class="form-control" id="nik" name="nik" value="{{ auth()->user()->nik }}" readonly>
                             </div>
                             <div class="mb-3">
-                                <label for="ttl" class="form-label"><strong>TEMPAT, TANGGAL LAHIR - <span style="color: red;">(Contoh: Magetan, 30 Maret 1999)</span></strong></label>
+                                <label for="ttl" class="form-label"><strong>TEMPAT, TANGGAL LAHIR - </strong>(Contoh: Magetan, 30 Maret 1999)</label>
                                 <input type="text" class="form-control" id="ttl" name="ttl" placeholder="Masukkan tempat, tanggal lahir" required>
                             </div>
                             <div class="mb-3">

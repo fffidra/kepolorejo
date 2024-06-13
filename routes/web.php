@@ -73,6 +73,22 @@ Route::middleware(['auth'])->group(function() {
     Route::get('sktm', [SuratController::class, 'sktm'])->name('surat.sktm'); 
     Route::get('sku', [SuratController::class, 'sku'])->name('surat.sku'); 
 
+    Route::get('des_skbm', function () {
+        return view('des_skbm');
+    })->name('des_skbm')->middleware('userAccess:Warga');
+
+    Route::get('des_skd', function () {
+        return view('des_skd');
+    })->name('des_skd')->middleware('userAccess:Warga');
+
+    Route::get('des_sktm', function () {
+        return view('des_sktm');
+    })->name('des_sktm')->middleware('userAccess:Warga');
+
+    Route::get('des_sku', function () {
+        return view('des_sku');
+    })->name('des_sku')->middleware('userAccess:Warga');
+
     Route::post('tambah_pegawai', [UserController::class, 'tambah_pegawai'])->name('tambah_pegawai');
     Route::put('ubah_pegawai', [UserController::class, 'ubah_pegawai'])->name('ubah_pegawai');
     Route::post('get_data_pegawai', [UserController::class, 'get_data_pegawai'])->name('get_data_pegawai');
