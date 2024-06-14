@@ -49,21 +49,26 @@ class SKBelumMenikah extends Model
 
     public function sk_belum_menikah_ibfk_1()
     {
-        return $this->belongsTo(Status::class, 'status_nikah', 'id_status_nikah');
+        return $this->belongsTo(Agama::class, 'agama', 'id_agama');
     }
 
     public function sk_belum_menikah_ibfk_2()
     {
-        return $this->belongsTo(JenisSurat::class, 'jenis_surat', 'id_jenis_surat');
+        return $this->belongsTo(Pekerjaan::class, 'pekerjaan', 'id_pekerjaan');
     }
 
     public function sk_belum_menikah_ibfk_3()
     {
-        return $this->belongsTo(Agama::class, 'agama', 'id_agama');
+        return $this->belongsTo(Status::class, 'status_nikah', 'id_status_nikah');
     }
-    
+
     public function sk_belum_menikah_ibfk_4()
     {
-        return $this->belongsTo(Pekerjaan::class, 'pekerjaan', 'id_pekerjaan');
+        return $this->belongsTo(JenisSurat::class, 'jenis_surat', 'id_jenis_surat');
+    }
+
+    public function jenisSurat()
+    {
+        return $this->belongsTo(JenisSurat::class, 'jenis_surat', 'id_jenis_surat');
     }
 }

@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Agama;
 use App\Models\Jabatan;
+use App\Models\JenisKelamin;
 use App\Models\Surat;
 use App\Models\SKBelumMenikah;
 use App\Models\SKDomisili;
 use App\Models\SKTidakMampu;
 use App\Models\SKUsaha;
 use App\Models\User;
+use App\Models\Status;
+use App\Models\Pekerjaan;
 use App\Models\JenisSurat;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -128,14 +132,23 @@ class SuratController extends Controller
         $nama_bukti_ktp = 'KTP_' . $nik . '_' . date('Ymdhis') . '.' . $bukti_ktp->getClientOriginalExtension();
         $bukti_ktp->move(public_path('bukti_dokumen/SKU'), $nama_bukti_ktp);
     
+        $namajenisSurat = $request->input('jenis_surat_1');
+        $idJenisSurat = JenisSurat::where('nama_jenis_surat', $namajenisSurat)->value('id_jenis_surat');
+        $namaPekerjaan = $request->input('pekerjaan');
+        $idPekerjaan = Pekerjaan::where('nama_pekerjaan', $namaPekerjaan)->value('id_pekerjaan');
+        $namaAgama = $request->input('agama');
+        $idAgama = Agama::where('nama_agama', $namaAgama)->value('id_agama');
+        $namaStatusNikah = $request->input('status_nikah');
+        $idStatusNikah = Status::where('nama_status_nikah', $namaStatusNikah)->value('id_status_nikah');
+
         SKUsaha::create([
-            'jenis_surat' => $request->jenis_surat_1,
+            'jenis_surat' => $idJenisSurat,            
             'nama' => $request->nama,
             'nik' => $request->nik,
             'ttl' => $request->ttl,
-            'status_nikah' => $request->status_nikah,
-            'agama' => $request->agama,
-            'pekerjaan' => $request->pekerjaan,
+            'status_nikah' => $idStatusNikah,
+            'agama' => $idAgama,
+            'pekerjaan' => $idPekerjaan,
             'pekerjaan_lainnya' => $request->pekerjaan == 'Lainnya' ? $request->pekerjaan_lainnya : null,
             'alamat' => $request->alamat,
             'usaha' => $request->usaha,
@@ -155,107 +168,18 @@ class SuratController extends Controller
         return back();
     }
 
-    public function buat_skbm(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'jenis_surat_2' => 'required',
-            'nama' => 'required',
-            'nik' => 'required',
-            'ttl' => 'required',
-            'status_nikah' => 'required',
-            'agama' => 'required',
-            'pekerjaan_2' => 'required',
-            'pekerjaan_lainnya_2' => 'nullable',
-            'alamat' => 'required',
-            'keperluan' => 'required',
-            'bukti_suket' => 'required|mimes:jpg,jpeg,png,doc,docx,pdf',
-            'bukti_kk' => 'required|mimes:jpg,jpeg,png,doc,docx,pdf',
-            'bukti_ktp' => 'required|mimes:jpg,jpeg,png,doc,docx,pdf',
-            'bukti_cerai' => 'nullable|mimes:jpg,jpeg,png,doc,docx,pdf',
-            'bukti_kematian' => 'nullable|mimes:jpg,jpeg,png,doc,docx,pdf',
-        ]);
-        // dd($validator);
-
-        if ($validator->fails()) {
-            Session::flash('alert', [
-                'type' => 'error',
-                'title' => 'Pengajuan Surat Gagal',
-                'message' => 'Ada data yang salah!'
-            ]);
-            return back()->withErrors($validator)->withInput();
-        }
-    
-        $nik = Auth::user()->nik;
-        
-        $bukti_suket = $request->file('bukti_suket');
-        $nama_bukti_suket = 'SUKET_' . $nik . '_' . date('Ymdhis') . '.' . $bukti_suket->getClientOriginalExtension();
-        $bukti_suket->move(public_path('bukti_dokumen/SKBM'), $nama_bukti_suket);
-
-        $bukti_kk = $request->file('bukti_kk');
-        $nama_bukti_kk = 'KK_' . $nik . '_' . date('Ymdhis') . '.' . $bukti_kk->getClientOriginalExtension();
-        $bukti_kk->move(public_path('bukti_dokumen/SKBM'), $nama_bukti_kk);
-
-        $bukti_ktp = $request->file('bukti_ktp');
-        $nama_bukti_ktp = 'KTP_' . $nik . '_' . date('Ymdhis') . '.' . $bukti_ktp->getClientOriginalExtension();
-        $bukti_ktp->move(public_path('bukti_dokumen/SKBM'), $nama_bukti_ktp);
-
-        $nama_bukti_cerai = null;
-        $nama_bukti_kematian = null;
-
-        // Proses file bukti_cerai jika ada
-        if ($request->hasFile('bukti_cerai')) {
-            $bukti_cerai = $request->file('bukti_cerai');
-            $nama_bukti_cerai = 'KCR_' . $nik . '_' . date('Ymdhis') . '.' . $bukti_cerai->getClientOriginalExtension();
-            $bukti_cerai->move(public_path('bukti_dokumen/SKBM'), $nama_bukti_cerai);
-        }
-
-        // Proses file bukti_kematian jika ada
-        if ($request->hasFile('bukti_kematian')) {
-            $bukti_kematian = $request->file('bukti_kematian');
-            $nama_bukti_kematian = 'SKMTN_' . $nik . '_' . date('Ymdhis') . '.' . $bukti_kematian->getClientOriginalExtension();
-            $bukti_kematian->move(public_path('bukti_dokumen/SKBM'), $nama_bukti_kematian);
-        }
-    
-        SKBelumMenikah::create([
-            'jenis_surat' => $request->jenis_surat_2,
-            'nama' => $request->nama,
-            'nik' => $request->nik,
-            'ttl' => $request->ttl,
-            'status_nikah' => $request->status_nikah,            
-            'agama' => $request->agama,
-            'pekerjaan' => $request->pekerjaan_2,
-            'pekerjaan_lainnya' => $request->pekerjaan_2 == 'Lainnya' ? $request->pekerjaan_lainnya_2 : null,
-            'alamat' => $request->alamat,
-            'keperluan' => $request->keperluan,
-            'bukti_suket' => $nama_bukti_suket,
-            'bukti_kk' => $nama_bukti_kk,
-            'bukti_ktp' => $nama_bukti_ktp,
-            'bukti_cerai' => $nama_bukti_cerai,
-            'bukti_kematian' => $nama_bukti_kematian,
-            'pemohon' => auth()->user()->nik,
-        ]);
-    
-        Session::flash('alert', [
-            'type' => 'success',
-            'title' => 'Pengajuan Surat Berhasil',
-            'message' => ''
-        ]);
-    
-        return back();
-    }
-
     public function buat_skd(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'jenis_surat_3' => 'required',
+            'jenis_surat_2' => 'required',
             'nama' => 'required',
             'nik' => 'required',
             'jenis_kelamin' => 'required',
             'ttl' => 'required',
             'agama' => 'required',
             'status_nikah' => 'required',
-            'pekerjaan_3' => 'required',
-            'pekerjaan_lainnya_3' => 'nullable',
+            'pekerjaan_2' => 'required',
+            'pekerjaan_lainnya_2' => 'nullable',
             'alamat' => 'required',
             'alamat_dom' => 'required',
             'keperluan' => 'required',
@@ -288,16 +212,27 @@ class SuratController extends Controller
         $nama_bukti_ktp = 'KTP_' . $nik . '_' . date('Ymdhis') . '.' . $bukti_ktp->getClientOriginalExtension();
         $bukti_ktp->move(public_path('bukti_dokumen/SKD'), $nama_bukti_ktp);
     
+        $namajenisSurat = $request->input('jenis_surat_2');
+        $idJenisSurat = JenisSurat::where('nama_jenis_surat', $namajenisSurat)->value('id_jenis_surat');
+        $namaPekerjaan = $request->input('pekerjaan_2');
+        $idPekerjaan = Pekerjaan::where('nama_pekerjaan', $namaPekerjaan)->value('id_pekerjaan');
+        $namaAgama = $request->input('agama');
+        $idAgama = Agama::where('nama_agama', $namaAgama)->value('id_agama');
+        $namaStatusNikah = $request->input('status_nikah');
+        $idStatusNikah = Status::where('nama_status_nikah', $namaStatusNikah)->value('id_status_nikah');
+        $namaJenisKelamin = $request->input('jenis_kelamin');
+        $idJenisKelamin = JenisKelamin::where('nama_jenis_kelamin', $namaJenisKelamin)->value('id_jenis_kelamin');
+
         SKDomisili::create([
-            'jenis_surat' => $request->jenis_surat_3,
+            'jenis_surat' => $idJenisSurat,
             'nama' => $request->nama,
             'nik' => $request->nik,
-            'jenis_kelamin' => $request->jenis_kelamin,
+            'jenis_kelamin' => $idJenisKelamin,
             'ttl' => $request->ttl,
-            'agama' => $request->agama,
-            'status_nikah' => $request->status_nikah,            
-            'pekerjaan' => $request->pekerjaan_3,
-            'pekerjaan_lainnya' => $request->pekerjaan_3 == 'Lainnya' ? $request->pekerjaan_lainnya_3 : null,
+            'agama' => $idAgama,
+            'status_nikah' => $idStatusNikah,            
+            'pekerjaan' => $idPekerjaan,
+            'pekerjaan_lainnya' => $request->pekerjaan_2 == 'Lainnya' ? $request->pekerjaan_lainnya_2 : null,
             'alamat' => $request->alamat,
             'alamat_dom' => $request->alamat_dom,
             'keperluan' => $request->keperluan,
@@ -316,6 +251,104 @@ class SuratController extends Controller
         return back();
     }
 
+    public function buat_skbm(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'jenis_surat_3' => 'required',
+            'nama' => 'required',
+            'nik' => 'required',
+            'ttl' => 'required',
+            'status_nikah' => 'required',
+            'agama' => 'required',
+            'pekerjaan_3' => 'required',
+            'pekerjaan_lainnya_3' => 'nullable',
+            'alamat' => 'required',
+            'keperluan' => 'required',
+            'bukti_suket' => 'required|mimes:jpg,jpeg,png,doc,docx,pdf',
+            'bukti_kk' => 'required|mimes:jpg,jpeg,png,doc,docx,pdf',
+            'bukti_ktp' => 'required|mimes:jpg,jpeg,png,doc,docx,pdf',
+            'bukti_cerai' => 'nullable|mimes:jpg,jpeg,png,doc,docx,pdf',
+            'bukti_kematian' => 'nullable|mimes:jpg,jpeg,png,doc,docx,pdf',
+        ]);
+        // dd($validator);
+    
+        if ($validator->fails()) {
+            Session::flash('alert', [
+                'type' => 'error',
+                'title' => 'Pengajuan Surat Gagal',
+                'message' => 'Ada data yang salah!'
+            ]);
+            return back()->withErrors($validator)->withInput();
+        }
+    
+        $nik = Auth::user()->nik;
+    
+        $bukti_suket = $request->file('bukti_suket');
+        $nama_bukti_suket = 'SUKET_' . $nik . '_' . date('Ymdhis') . '.' . $bukti_suket->getClientOriginalExtension();
+        $bukti_suket->move(public_path('bukti_dokumen/SKBM'), $nama_bukti_suket);
+    
+        $bukti_kk = $request->file('bukti_kk');
+        $nama_bukti_kk = 'KK_' . $nik . '_' . date('Ymdhis') . '.' . $bukti_kk->getClientOriginalExtension();
+        $bukti_kk->move(public_path('bukti_dokumen/SKBM'), $nama_bukti_kk);
+    
+        $bukti_ktp = $request->file('bukti_ktp');
+        $nama_bukti_ktp = 'KTP_' . $nik . '_' . date('Ymdhis') . '.' . $bukti_ktp->getClientOriginalExtension();
+        $bukti_ktp->move(public_path('bukti_dokumen/SKBM'), $nama_bukti_ktp);
+    
+        $nama_bukti_cerai = null;
+        $nama_bukti_kematian = null;
+    
+        // Proses file bukti_cerai jika ada
+        if ($request->hasFile('bukti_cerai')) {
+            $bukti_cerai = $request->file('bukti_cerai');
+            $nama_bukti_cerai = 'KCR_' . $nik . '_' . date('Ymdhis') . '.' . $bukti_cerai->getClientOriginalExtension();
+            $bukti_cerai->move(public_path('bukti_dokumen/SKBM'), $nama_bukti_cerai);
+        }
+    
+        // Proses file bukti_kematian jika ada
+        if ($request->hasFile('bukti_kematian')) {
+            $bukti_kematian = $request->file('bukti_kematian');
+            $nama_bukti_kematian = 'SKMTN_' . $nik . '_' . date('Ymdhis') . '.' . $bukti_kematian->getClientOriginalExtension();
+            $bukti_kematian->move(public_path('bukti_dokumen/SKBM'), $nama_bukti_kematian);
+        }
+
+        $namajenisSurat = $request->input('jenis_surat_3');
+        $idJenisSurat = JenisSurat::where('nama_jenis_surat', $namajenisSurat)->value('id_jenis_surat');
+        $namaPekerjaan = $request->input('pekerjaan_3');
+        $idPekerjaan = Pekerjaan::where('nama_pekerjaan', $namaPekerjaan)->value('id_pekerjaan');
+        $namaAgama = $request->input('agama');
+        $idAgama = Agama::where('nama_agama', $namaAgama)->value('id_agama');
+        $namaStatusNikah = $request->input('status_nikah');
+        $idStatusNikah = Status::where('nama_status_nikah', $namaStatusNikah)->value('id_status_nikah');
+    
+        SKBelumMenikah::create([
+            'jenis_surat' => $idJenisSurat,
+            'nama' => $request->nama,
+            'nik' => $request->nik,
+            'ttl' => $request->ttl,
+            'status_nikah' => $idStatusNikah,
+            'agama' => $idAgama,
+            'pekerjaan' => $idPekerjaan,
+            'pekerjaan_lainnya' => $request->pekerjaan_3 == 'Lainnya' ? $request->pekerjaan_lainnya_3 : null,
+            'alamat' => $request->alamat,
+            'keperluan' => $request->keperluan,
+            'bukti_suket' => $nama_bukti_suket,
+            'bukti_kk' => $nama_bukti_kk,
+            'bukti_ktp' => $nama_bukti_ktp,
+            'bukti_cerai' => $nama_bukti_cerai,
+            'bukti_kematian' => $nama_bukti_kematian,
+            'pemohon' => auth()->user()->nik,
+        ]);
+    
+        Session::flash('alert', [
+            'type' => 'success',
+            'title' => 'Pengajuan Surat Berhasil',
+            'message' => ''
+        ]);
+    
+        return back();
+    }
+    
     public function buat_sktm(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -357,13 +390,20 @@ class SuratController extends Controller
         $nama_bukti_ktp = 'KTP_' . $nik . '_' . date('Ymdhis') . '.' . $bukti_ktp->getClientOriginalExtension();
         $bukti_ktp->move(public_path('bukti_dokumen/SKTM'), $nama_bukti_ktp);
     
+        $namajenisSurat = $request->input('jenis_surat_4');
+        $idJenisSurat = JenisSurat::where('nama_jenis_surat', $namajenisSurat)->value('id_jenis_surat');
+        $namaPekerjaan = $request->input('pekerjaan_4');
+        $idPekerjaan = Pekerjaan::where('nama_pekerjaan', $namaPekerjaan)->value('id_pekerjaan');
+        $namaAgama = $request->input('agama');
+        $idAgama = Agama::where('nama_agama', $namaAgama)->value('id_agama');
+
         SKTidakMampu::create([
-            'jenis_surat' => $request->jenis_surat_4,
+            'jenis_surat' => $idJenisSurat,
             'nama' => $request->nama,
             'nik' => $request->nik,
             'ttl' => $request->ttl,
-            'agama' => $request->agama,
-            'pekerjaan' => $request->pekerjaan_4,
+            'agama' => $idAgama,
+            'pekerjaan' => $idPekerjaan,
             'pekerjaan_lainnya' => $request->pekerjaan_4 == 'Lainnya' ? $request->pekerjaan_lainnya_4 : null,
             'alamat' => $request->alamat,
             'keperluan' => $request->keperluan,
@@ -384,12 +424,18 @@ class SuratController extends Controller
 
     public function get_data_sku(Request $request)
     {
-        $surat = SKUsaha::where('id_sk_usaha', $request->id)->first();
+        $surat = SKUsaha::with('sk_usaha_ibfk_2', 'sk_usaha_ibfk_1', 'sk_usaha_ibfk_4', 'sk_usaha_ibfk_3')->where('id_sk_usaha', $request->id)->first();
+
         if($surat)
         {
             return response()->json([
                 'status'=>'success',
                 'surat'=> $surat,
+                'status_nikah' => $surat->sk_usaha_ibfk_2->nama_status_nikah,
+                'agama' => $surat->sk_usaha_ibfk_1->nama_agama,
+                'jenis_surat' => $surat->sk_usaha_ibfk_4->nama_jenis_surat,
+                'pekerjaan' => $surat->sk_usaha_ibfk_3->nama_pekerjaan,
+                'pekerjaan_lainnya' => $surat->pekerjaan_lainnya,
             ]);
         }
         else
@@ -399,15 +445,21 @@ class SuratController extends Controller
             ]);
         }
     }
-
+        
     public function get_data_skbm(Request $request)
     {
-        $surat = SKBelumMenikah::where('id_sk_belum_menikah', $request->id)->first();
+        $surat = SKBelumMenikah::with('sk_belum_menikah_ibfk_1', 'sk_belum_menikah_ibfk_2', 'sk_belum_menikah_ibfk_3', 'sk_belum_menikah_ibfk_4')->where('id_sk_belum_menikah', $request->id)->first();
+        
         if($surat)
         {
             return response()->json([
                 'status'=>'success',
                 'surat'=> $surat,
+                'agama' => $surat->sk_belum_menikah_ibfk_1->nama_agama,
+                'pekerjaan' => $surat->sk_belum_menikah_ibfk_2->nama_pekerjaan,
+                'status_nikah' => $surat->sk_belum_menikah_ibfk_3->nama_status_nikah,
+                'jenis_surat' => $surat->sk_belum_menikah_ibfk_4->nama_jenis_surat,
+                'pekerjaan_lainnya' => $surat->pekerjaan_lainnya,
             ]);
         }
         else
@@ -420,12 +472,18 @@ class SuratController extends Controller
 
     public function get_data_skd(Request $request)
     {
-        $surat = SKDomisili::where('id_sk_domisili', $request->id)->first();
+        $surat = SKDomisili::with('sk_domisili_ibfk_1', 'sk_domisili_ibfk_2', 'sk_domisili_ibfk_3', 'sk_domisili_ibfk_4', 'sk_domisili_ibfk_5')->where('id_sk_domisili', $request->id)->first();
         if($surat)
         {
             return response()->json([
                 'status'=>'success',
                 'surat'=> $surat,
+                'pekerjaan' => $surat->sk_domisili_ibfk_1->nama_pekerjaan,
+                'status_nikah' => $surat->sk_domisili_ibfk_2->nama_status_nikah,
+                'jenis_surat' => $surat->sk_domisili_ibfk_3->nama_jenis_surat,
+                'jenis_kelamin' => $surat->sk_domisili_ibfk_4->nama_jenis_kelamin,
+                'agama' => $surat->sk_domisili_ibfk_5->nama_agama,
+                'pekerjaan_lainnya' => $surat->pekerjaan_lainnya,
             ]);
         }
         else
@@ -438,12 +496,16 @@ class SuratController extends Controller
 
     public function get_data_sktm(Request $request)
     {
-        $surat = SKTidakMampu::where('id_sk_tidak_mampu', $request->id)->first();
+        $surat = SKTidakMampu::with('sk_tidak_mampu_ibfk_1', 'sk_tidak_mampu_ibfk_2', 'sk_tidak_mampu_ibfk_3')->where('id_sk_tidak_mampu', $request->id)->first();
         if($surat)
         {
             return response()->json([
                 'status'=>'success',
                 'surat'=> $surat,
+                'jenis_surat' => $surat->sk_tidak_mampu_ibfk_1->nama_jenis_surat,
+                'pekerjaan' => $surat->sk_tidak_mampu_ibfk_2->nama_pekerjaan,
+                'agama' => $surat->sk_tidak_mampu_ibfk_3->nama_agama,
+                'pekerjaan_lainnya' => $surat->pekerjaan_lainnya,
             ]);
         }
         else
@@ -1205,28 +1267,37 @@ class SuratController extends Controller
 
     public function unduh_sku($id_sk_usaha)
     {
-        $surat = SKUsaha::findOrFail($id_sk_usaha);
-        $jabatan = Jabatan::where('peran', 'Penanda Tangan')->first();
-
+        $surat = SKUsaha::with('sk_usaha_ibfk_1', 'sk_usaha_ibfk_2', 'sk_usaha_ibfk_3', 'sk_usaha_ibfk_4')->findOrFail($id_sk_usaha);
+        $jabatan = Jabatan::where('peran', 'Penanda Tangan')->with('jabatan_ibfk_1')->first();
+    
         if (!$jabatan) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Peran Penanda Tangan belum dipilih!'
             ]);
         }
+    
+        $jenisSurat = $surat->sk_usaha_ibfk_4 ? $surat->sk_usaha_ibfk_4->nama_jenis_surat : null;
+        $statusNikah = $surat->sk_usaha_ibfk_2 ? $surat->sk_usaha_ibfk_2->nama_status_nikah : null;
+        $agama = $surat->sk_usaha_ibfk_1 ? $surat->sk_usaha_ibfk_1->nama_agama : null;
+        $pekerjaan = $surat->sk_usaha_ibfk_3 ? $surat->sk_usaha_ibfk_3->nama_pekerjaan : null;     
 
-        $jenisSurat = $surat->jenis_surat;
         $year = date('Y');
         $jabatanNama = $jabatan->nama;
-        $jabatanNamaJabatan = $jabatan->nama_jabatan;
+        $jabatanNamaJabatan = $jabatan->jabatan_ibfk_1->nama_jabatan_struktural;
         $jabatanPosisi = $jabatan->posisi;
         $jabatanNIP = $jabatan->nip;
 
-        if ($surat->pekerjaan == 'Lainnya' && !empty($surat->pekerjaan_lainnya)) {
+        // if ($surat->pekerjaan == 'Lainnya' && !empty($surat->pekerjaan_lainnya)) {
+        //     $pekerjaan = $surat->pekerjaan_lainnya;
+        // } else {
+        //     $pekerjaan = $surat->pekerjaan;
+        // }
+
+        if ($pekerjaan && $pekerjaan === 'Lainnya' && $surat->pekerjaan_lainnya) {
             $pekerjaan = $surat->pekerjaan_lainnya;
-        } else {
-            $pekerjaan = $surat->pekerjaan;
         }
+        
 
         $phpWord = new PhpWord();
         $section = $phpWord->addSection([
@@ -1283,14 +1354,14 @@ class SuratController extends Controller
             $tableStatus->addCell($lebarA4 * 0.10)->addText('');
             $tableStatus->addCell($lebarA4 * 0.20)->addText('Status', ['size' => 12]);
             $tableStatus->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableStatus->addCell($lebarA4 * 0.65)->addText($surat->status_nikah, ['size' => 12]);
+            $tableStatus->addCell($lebarA4 * 0.65)->addText($statusNikah, ['size' => 12]);
 
             $tableAgama = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableAgama->addRow();
             $tableAgama->addCell($lebarA4 * 0.10)->addText('');
             $tableAgama->addCell($lebarA4 * 0.20)->addText('Agama', ['size' => 12]);
             $tableAgama->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableAgama->addCell($lebarA4 * 0.65)->addText($surat->agama, ['size' => 12]);
+            $tableAgama->addCell($lebarA4 * 0.65)->addText($agama, ['size' => 12]);
 
             $tablePekerjaan = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tablePekerjaan->addRow();
@@ -1304,21 +1375,21 @@ class SuratController extends Controller
             $tableAlamat->addCell($lebarA4 * 0.10)->addText('');
             $tableAlamat->addCell($lebarA4 * 0.20)->addText('Alamat', ['size' => 12]);
             $tableAlamat->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableAlamat->addCell($lebarA4 * 0.65)->addText($surat->alamat, ['size' => 12]);
+            $tableAlamat->addCell($lebarA4 * 0.55)->addText($surat->alamat, ['size' => 12]);
 
             $tableKeterangan = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableKeterangan->addRow();
             $tableKeterangan->addCell($lebarA4 * 0.10)->addText('');
             $tableKeterangan->addCell($lebarA4 * 0.20)->addText('Keterangan', ['size' => 12]);
             $tableKeterangan->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableKeterangan->addCell($lebarA4 * 0.65)->addText('Berdasarkan Surat Pernyataan yang dibuat, menerangkan bahwa orang tersebut diatas benar memiliki usaha '. $surat->usaha, ['size' => 12]);
+            $tableKeterangan->addCell($lebarA4 * 0.55)->addText('Berdasarkan Surat Pernyataan yang dibuat, menerangkan bahwa orang tersebut diatas benar memiliki usaha '. $surat->usaha, ['size' => 12]);
 
             $tableKeperluan = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableKeperluan->addRow();
             $tableKeperluan->addCell($lebarA4 * 0.10)->addText('');
             $tableKeperluan->addCell($lebarA4 * 0.20)->addText('Keperluan', ['size' => 12]);
             $tableKeperluan->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableKeperluan->addCell($lebarA4 * 0.65)->addText('Untuk '. $surat->keperluan, ['size' => 12]);
+            $tableKeperluan->addCell($lebarA4 * 0.55)->addText('Untuk '. $surat->keperluan, ['size' => 12]);
 
             $section->addTextBreak();        
 
@@ -1364,7 +1435,7 @@ class SuratController extends Controller
 
             $section->addTextBreak();
 
-        $filename = ucfirst(str_replace('_', ' ', $surat->jenis_surat)) . ' ' . date('Y-m-d H-i-s') . '.docx';
+        $filename = ucfirst(str_replace('_', ' ', $jenisSurat)) . ' ' . date('Y-m-d H-i-s') . '.docx';
         $filepath = storage_path('app/' . $filename);
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
         $objWriter->save($filepath);
@@ -1374,8 +1445,8 @@ class SuratController extends Controller
 
     public function unduh_skbm($id_sk_belum_menikah)
     {
-        $surat = SKBelumMenikah::findOrFail($id_sk_belum_menikah);
-        $jabatan = Jabatan::where('peran', 'Penanda Tangan')->first();
+        $surat = SKBelumMenikah::with('sk_belum_menikah_ibfk_1', 'sk_belum_menikah_ibfk_2', 'sk_belum_menikah_ibfk_3', 'sk_belum_menikah_ibfk_4')->findOrFail($id_sk_belum_menikah);
+        $jabatan = Jabatan::where('peran', 'Penanda Tangan')->with('jabatan_ibfk_1')->first();
 
         if (!$jabatan) {
             return response()->json([
@@ -1384,17 +1455,25 @@ class SuratController extends Controller
             ]);
         }
 
-        $jenisSurat = $surat->jenis_surat;
+        $jenisSurat = $surat->sk_belum_menikah_ibfk_4 ? $surat->sk_belum_menikah_ibfk_4->nama_jenis_surat : null;
+        // $statusNikah = $surat->sk_belum_menikah_ibfk_3 ? $surat->sk_belum_menikah_ibfk_3->nama_status_nikah : null;
+        $agama = $surat->sk_belum_menikah_ibfk_1 ? $surat->sk_belum_menikah_ibfk_1->nama_agama : null;
+        $pekerjaan = $surat->sk_belum_menikah_ibfk_2 ? $surat->sk_belum_menikah_ibfk_2->nama_pekerjaan : null;     
+
         $year = date('Y');
         $jabatanNama = $jabatan->nama;
-        $jabatanNamaJabatan = $jabatan->nama_jabatan;
+        $jabatanNamaJabatan = $jabatan->jabatan_ibfk_1->nama_jabatan_struktural;
         $jabatanPosisi = $jabatan->posisi;
         $jabatanNIP = $jabatan->nip;
 
-        if ($surat->pekerjaan == 'Lainnya' && !empty($surat->pekerjaan_lainnya)) {
+        // if ($surat->pekerjaan == 'Lainnya' && !empty($surat->pekerjaan_lainnya)) {
+        //     $pekerjaan = $surat->pekerjaan_lainnya;
+        // } else {
+        //     $pekerjaan = $surat->pekerjaan;
+        // }
+
+        if ($pekerjaan && $pekerjaan === 'Lainnya' && $surat->pekerjaan_lainnya) {
             $pekerjaan = $surat->pekerjaan_lainnya;
-        } else {
-            $pekerjaan = $surat->pekerjaan;
         }
 
         $phpWord = new PhpWord();
@@ -1452,7 +1531,7 @@ class SuratController extends Controller
             $tableAgama->addCell($lebarA4 * 0.10)->addText('');
             $tableAgama->addCell($lebarA4 * 0.20)->addText('Agama', ['size' => 12]);
             $tableAgama->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableAgama->addCell($lebarA4 * 0.65)->addText($surat->agama, ['size' => 12]);
+            $tableAgama->addCell($lebarA4 * 0.65)->addText($agama, ['size' => 12]);
 
             $tablePekerjaan = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tablePekerjaan->addRow();
@@ -1466,14 +1545,14 @@ class SuratController extends Controller
             $tableAlamat->addCell($lebarA4 * 0.10)->addText('');
             $tableAlamat->addCell($lebarA4 * 0.20)->addText('Alamat', ['size' => 12]);
             $tableAlamat->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableAlamat->addCell($lebarA4 * 0.65)->addText($surat->alamat, ['size' => 12]);
+            $tableAlamat->addCell($lebarA4 * 0.55)->addText($surat->alamat, ['size' => 12]);
 
             $tableKeterangan = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableKeterangan->addRow();
             $tableKeterangan->addCell($lebarA4 * 0.10)->addText('');
             $tableKeterangan->addCell($lebarA4 * 0.20)->addText('Keterangan', ['size' => 12]);
             $tableKeterangan->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableKeterangan->addCell($lebarA4 * 0.58)->addText('Bahwa orang yang namanya tersebut di atas benar-benar Warga Kelurahan Kepolorejo dan saat ini belum menikah', ['size' => 12]);
+            $tableKeterangan->addCell($lebarA4 * 0.55)->addText('Bahwa orang yang namanya tersebut di atas benar-benar Warga Kelurahan Kepolorejo dan saat ini belum menikah', ['size' => 12]);
             $tableKeterangan->addCell($lebarA4 * 0.07)->addText('');
 
             $tableKeperluan = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
@@ -1481,7 +1560,7 @@ class SuratController extends Controller
             $tableKeperluan->addCell($lebarA4 * 0.10)->addText('');
             $tableKeperluan->addCell($lebarA4 * 0.20)->addText('Keperluan', ['size' => 12]);
             $tableKeperluan->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableKeperluan->addCell($lebarA4 * 0.65)->addText('Untuk '. $surat->keperluan, ['size' => 12]);
+            $tableKeperluan->addCell($lebarA4 * 0.55)->addText('Untuk '. $surat->keperluan, ['size' => 12]);
 
             $section->addTextBreak();        
 
@@ -1528,7 +1607,7 @@ class SuratController extends Controller
 
             $section->addTextBreak();
 
-        $filename = ucfirst(str_replace('_', ' ', $surat->jenis_surat)) . ' ' . date('Y-m-d H-i-s') . '.docx';
+        $filename = ucfirst(str_replace('_', ' ', $jenisSurat)) . ' ' . date('Y-m-d H-i-s') . '.docx';
         $filepath = storage_path('app/' . $filename);
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
         $objWriter->save($filepath);
@@ -1539,7 +1618,7 @@ class SuratController extends Controller
     public function unduh_skd($id_sk_domisili)
     {
         $surat = SKDomisili::findOrFail($id_sk_domisili);
-        $jabatan = Jabatan::where('peran', 'Penanda Tangan')->first();
+        $jabatan = Jabatan::where('peran', 'Penanda Tangan')->with('jabatan_ibfk_1')->first();
 
         if (!$jabatan) {
             return response()->json([
@@ -1551,7 +1630,7 @@ class SuratController extends Controller
         $jenisSurat = $surat->jenis_surat;
         $year = date('Y');
         $jabatanNama = $jabatan->nama;
-        $jabatanNamaJabatan = $jabatan->nama_jabatan;
+        $jabatanNamaJabatan = $jabatan->jabatan_ibfk_1->nama_jabatan_struktural;
         $jabatanPosisi = $jabatan->posisi;
         $jabatanNIP = $jabatan->nip;
 
@@ -1644,14 +1723,14 @@ class SuratController extends Controller
             $tableAlamat->addCell($lebarA4 * 0.10)->addText('');
             $tableAlamat->addCell($lebarA4 * 0.20)->addText('Alamat', ['size' => 12]);
             $tableAlamat->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableAlamat->addCell($lebarA4 * 0.65)->addText($surat->alamat, ['size' => 12]);
+            $tableAlamat->addCell($lebarA4 * 0.55)->addText($surat->alamat, ['size' => 12]);
 
             $tableKeterangan = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableKeterangan->addRow();
             $tableKeterangan->addCell($lebarA4 * 0.10)->addText('');
             $tableKeterangan->addCell($lebarA4 * 0.20)->addText('Keterangan', ['size' => 12]);
             $tableKeterangan->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableKeterangan->addCell($lebarA4 * 0.58)->addText('Menerangkan bahwa orang tersebut di atas benar berdomisili di '. $surat->alamat_dom, ['size' => 12]);
+            $tableKeterangan->addCell($lebarA4 * 0.55)->addText('Menerangkan bahwa orang tersebut di atas benar berdomisili di '. $surat->alamat_dom, ['size' => 12]);
             $tableKeterangan->addCell($lebarA4 * 0.07)->addText('');
 
             $tableKeperluan = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
@@ -1659,7 +1738,7 @@ class SuratController extends Controller
             $tableKeperluan->addCell($lebarA4 * 0.10)->addText('');
             $tableKeperluan->addCell($lebarA4 * 0.20)->addText('Keperluan', ['size' => 12]);
             $tableKeperluan->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableKeperluan->addCell($lebarA4 * 0.65)->addText('Untuk '. $surat->keperluan, ['size' => 12]);
+            $tableKeperluan->addCell($lebarA4 * 0.55)->addText('Untuk '. $surat->keperluan, ['size' => 12]);
 
             $section->addTextBreak();    
 
@@ -1716,8 +1795,8 @@ class SuratController extends Controller
 
     public function unduh_sktm($id_sk_tidak_mampu)
     {
-        $surat = SKTidakMampu::findOrFail($id_sk_tidak_mampu);
-        $jabatan = Jabatan::where('peran', 'Penanda Tangan')->first();
+        $surat = SKTidakMampu::with('sk_tidak_mampu_ibfk_1', 'sk_tidak_mampu_ibfk_2', 'sk_tidak_mampu_ibfk_3')->findOrFail($id_sk_tidak_mampu);
+        $jabatan = Jabatan::where('peran', 'Penanda Tangan')->with('jabatan_ibfk_1')->first();
 
         if (!$jabatan) {
             return response()->json([
@@ -1726,17 +1805,25 @@ class SuratController extends Controller
             ]);
         }
 
-        $jenisSurat = $surat->jenis_surat;
+        $jenisSurat = $surat->sk_tidak_mampu_ibfk_1 ? $surat->sk_tidak_mampu_ibfk_1->nama_jenis_surat : null;
+        $agama = $surat->sk_tidak_mampu_ibfk_3 ? $surat->sk_tidak_mampu_ibfk_3->nama_agama : null;
+        $pekerjaan = $surat->sk_tidak_mampu_ibfk_2 ? $surat->sk_tidak_mampu_ibfk_2->nama_pekerjaan : null;     
+        $jabatans = $jabatan->namaJabatan ? $jabatan->namaJabatan->nama_jabatan_struktural : null;     
+
         $year = date('Y');
         $jabatanNama = $jabatan->nama;
-        $jabatanNamaJabatan = $jabatan->nama_jabatan;
+        $jabatanNamaJabatan = $jabatan->jabatan_ibfk_1->nama_jabatan_struktural;
         $jabatanPosisi = $jabatan->posisi;
         $jabatanNIP = $jabatan->nip;
 
-        if ($surat->pekerjaan == 'Lainnya' && !empty($surat->pekerjaan_lainnya)) {
+        // if ($surat->pekerjaan == 'Lainnya' && !empty($surat->pekerjaan_lainnya)) {
+        //     $pekerjaan = $surat->pekerjaan_lainnya;
+        // } else {
+        //     $pekerjaan = $surat->pekerjaan;
+        // }
+
+        if ($pekerjaan && $pekerjaan === 'Lainnya' && $surat->pekerjaan_lainnya) {
             $pekerjaan = $surat->pekerjaan_lainnya;
-        } else {
-            $pekerjaan = $surat->pekerjaan;
         }
 
         $phpWord = new PhpWord();
@@ -1793,7 +1880,7 @@ class SuratController extends Controller
             $tableAgama->addCell($lebarA4 * 0.10)->addText('');
             $tableAgama->addCell($lebarA4 * 0.20)->addText('Agama', ['size' => 12]);
             $tableAgama->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableAgama->addCell($lebarA4 * 0.65)->addText($surat->agama, ['size' => 12]);
+            $tableAgama->addCell($lebarA4 * 0.65)->addText($agama, ['size' => 12]);
 
             $tablePekerjaan = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tablePekerjaan->addRow();
@@ -1807,21 +1894,21 @@ class SuratController extends Controller
             $tableAlamat->addCell($lebarA4 * 0.10)->addText('');
             $tableAlamat->addCell($lebarA4 * 0.20)->addText('Alamat', ['size' => 12]);
             $tableAlamat->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableAlamat->addCell($lebarA4 * 0.65)->addText($surat->alamat, ['size' => 12]);
+            $tableAlamat->addCell($lebarA4 * 0.55)->addText($surat->alamat, ['size' => 12]);
 
             $tableKeterangan = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableKeterangan->addRow();
             $tableKeterangan->addCell($lebarA4 * 0.10)->addText('');
             $tableKeterangan->addCell($lebarA4 * 0.20)->addText('Keterangan', ['size' => 12]);
             $tableKeterangan->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableKeterangan->addCell($lebarA4 * 0.65)->addText('Menerangkan bahwa orang tersebut diatas warga Kepolorejo dan benar tidak mampu', ['size' => 12]);
+            $tableKeterangan->addCell($lebarA4 * 0.55)->addText('Menerangkan bahwa orang tersebut diatas warga Kepolorejo dan benar tidak mampu', ['size' => 12]);
 
             $tableKeperluan = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableKeperluan->addRow();
             $tableKeperluan->addCell($lebarA4 * 0.10)->addText('');
             $tableKeperluan->addCell($lebarA4 * 0.20)->addText('Keperluan', ['size' => 12]);
             $tableKeperluan->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableKeperluan->addCell($lebarA4 * 0.65)->addText('Untuk '. $surat->keperluan, ['size' => 12]);
+            $tableKeperluan->addCell($lebarA4 * 0.55)->addText('Untuk '. $surat->keperluan, ['size' => 12]);
 
             $section->addTextBreak();   
 
@@ -1868,7 +1955,7 @@ class SuratController extends Controller
 
             $section->addTextBreak();
             
-        $filename = ucfirst(str_replace('_', ' ', $surat->jenis_surat)) . ' ' . date('Y-m-d H-i-s') . '.docx';
+        $filename = ucfirst(str_replace('_', ' ', $jenisSurat)) . ' ' . date('Y-m-d H-i-s') . '.docx';
         $filepath = storage_path('app/' . $filename);
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
         $objWriter->save($filepath);

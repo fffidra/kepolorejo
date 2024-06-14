@@ -41,7 +41,7 @@
                                     @foreach(\App\Models\SKTidakMampu::where('status_surat', 'Selesai')->get() as $sktm)
                                         <tr>      
                                             <td class="text-center align-middle">{{ $sktm->tanggal }}</td>
-                                            <td class="text-center align-middle">{{ $sktm->jenis_surat }}</td>
+                                            <td class="text-center align-middle">{{ $sktm->sk_tidak_mampu_ibfk_1->nama_jenis_surat }}</td>
                                             <td class="text-center align-middle">{{ $sktm->nik }}</td>
                                             <td class="text-center align-middle">{{ $sktm->nama }}</td>
                                             <td class="text-center align-middle">{{ $sktm->status_surat }}</td>
@@ -87,65 +87,65 @@
 
 @section('modal')
     {{-- DETAIL SKTM --}}
-    <div class="modal fade" id="detailSKTM" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="detailSKTM" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">DETAIL SURAT KETERANGAN TIDAK MAMPU</h5>
+                    <h5 class="modal-title"><strong>DETAIL SURAT KETERANGAN TIDAK MAMPU</strong></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <input type="hidden" name="id_sk_tidak_mampu" id="id_sk_tidak_mampu" required>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label"><strong>JENIS SURAT</strong></label>
+                        <label class="col-md-2 col-form-label">JENIS SURAT</label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_jenis_surat_4"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label"><strong>NAMA</strong></label>
+                        <label class="col-md-2 col-form-label">NAMA</label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nama_4"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label"><strong>NIK</strong></label>
+                        <label class="col-md-2 col-form-label">NIK</label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nik_4"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label"><strong>TEMPAT, TANGGAL LAHIR</strong></label>
+                        <label class="col-md-2 col-form-label">TEMPAT, TANGGAL LAHIR</label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_ttl_4"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label"><strong>AGAMA</strong></label>
+                        <label class="col-md-2 col-form-label">AGAMA</label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_agama_4"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label"><strong>PEKERJAAN</strong></label>
+                        <label class="col-md-2 col-form-label">PEKERJAAN</label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_pekerjaan_4"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label"><strong>ALAMAT</strong></label>
+                        <label class="col-md-2 col-form-label">ALAMAT</label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_alamat_4"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label"><strong>KEPERLUAN</strong></label>
+                        <label class="col-md-2 col-form-label">KEPERLUAN</label>
                         <div class="col-md-9 d-flex align-items-center">
                             <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_keperluan_4"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label"><strong>BERKAS PERSYARATAN</strong></label>
+                        <label class="col-md-2 col-form-label">BERKAS PERSYARATAN</label>
                         <div class="col-md-9">
                             <div class="d-flex">
                                 <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -226,22 +226,23 @@
                 success: function(response) {
                     if (response.status == 'success') {
                         var surat = response.surat;
-                        $("#detail_jenis_surat_4").html(surat.jenis_surat);
+                        $("#detail_jenis_surat_4").html(response.jenis_surat);
                         $("#detail_nama_4").html(surat.nama);
                         $("#detail_nik_4").html(surat.nik);
                         $("#detail_ttl_4").html(surat.ttl);
-                        $("#detail_agama_4").html(surat.agama);
+                        $("#detail_agama_4").html(response.agama);
+                        $("#detail_pekerjaan_4").html(response.pekerjaan);
                         $("#detail_alamat_4").html(surat.alamat);
                         $("#detail_keperluan_4").html(surat.keperluan);
                         $("#detail_bukti_suket_4").attr("href", '/bukti_dokumen/SKTM/' + surat.bukti_suket);
                         $("#detail_bukti_kk_4").attr("href", '/bukti_dokumen/SKTM/' + surat.bukti_kk);
                         $("#detail_bukti_ktp_4").attr("href", '/bukti_dokumen/SKTM/' + surat.bukti_ktp);
 
-                        if (surat.pekerjaan === 'Lainnya') {
-                            $("#detail_pekerjaan_4").html(surat.pekerjaan_lainnya);
+                        if (response.pekerjaan === 'Lainnya') {
+                            $("#detail_pekerjaan_4").html(response.pekerjaan_lainnya);
                             $("#pekerjaan_lainnya_4_row").show();
                         } else {
-                            $("#detail_pekerjaan_4").html(surat.pekerjaan);
+                            $("#detail_pekerjaan_4").html(response.pekerjaan);
                             $("#pekerjaan_lainnya_4_row").hide();
                         }
                     }

@@ -46,16 +46,16 @@ class SKTidakMampu extends Model
 
     public function sk_tidak_mampu_ibfk_1()
     {
-        return $this->belongsTo(Pekerjaan::class, 'pekerjaan', 'id_pekerjaan');
+        return $this->belongsTo(JenisSurat::class, 'jenis_surat', 'id_jenis_surat');
     }
 
     public function sk_tidak_mampu_ibfk_2()
     {
-        return $this->belongsTo(JenisSurat::class, 'jenis_surat', 'id_jenis_surat');
+        return $this->belongsTo(Pekerjaan::class, 'pekerjaan', 'id_pekerjaan');
     }
 
     public function sk_tidak_mampu_ibfk_3()
     {
         return $this->belongsTo(Agama::class, 'agama', 'id_agama');
     }
-    }
+}

@@ -49,26 +49,26 @@ class SKDomisili extends Model
 
     public function sk_domisili_ibfk_1()
     {
-        return $this->belongsTo(Status::class, 'status_nikah', 'id_status_nikah');
+        return $this->belongsTo(Pekerjaan::class, 'pekerjaan', 'id_pekerjaan');
     }
 
     public function sk_domisili_ibfk_2()
     {
-        return $this->belongsTo(Agama::class, 'agama', 'id_agama');
-    }
-    
-    public function sk_domisili_ibfk_3()
-    {
-        return $this->belongsTo(Pekerjaan::class, 'pekerjaan', 'id_pekerjaan');
+        return $this->belongsTo(Status::class, 'status_nikah', 'id_status_nikah');
     }
 
-    public function sk_domisili_ibfk_4()
+    public function sk_domisili_ibfk_3()
     {
         return $this->belongsTo(JenisSurat::class, 'jenis_surat', 'id_jenis_surat');
     }
 
-    public function sk_domisili_ibfk_5()
+    public function sk_domisili_ibfk_4()
     {
         return $this->belongsTo(JenisKelamin::class, 'jenis_kelamin', 'id_jenis_kelamin');
+    }
+
+    public function sk_domisili_ibfk_5()
+    {
+        return $this->belongsTo(Agama::class, 'agama', 'id_agama');
     }
 }

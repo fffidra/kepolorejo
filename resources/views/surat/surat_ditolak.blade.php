@@ -42,7 +42,7 @@
                                     @foreach(\App\Models\SKUsaha::where('status_surat', '=', 'Ditolak')->get() as $sk_usaha)
                                         <tr>
                                             <td class="text-center align-middle">{{ $sk_usaha->tanggal }}</td>
-                                            <td class="text-center align-middle">{{ $sk_usaha->jenis_surat }}</td>
+                                            <td class="text-center align-middle">{{ $sk_usaha->sk_usaha_ibfk_4->nama_jenis_surat }}</td>
                                             <td class="text-center align-middle">{{ $sk_usaha->nik }}</td>
                                             <td class="text-center align-middle">{{ $sk_usaha->nama }}</td>
                                             <td class="text-center align-middle">{{ $sk_usaha->status_surat }}</td>
@@ -80,7 +80,7 @@
                                     @foreach(\App\Models\SKBelumMenikah::where('status_surat', '=', 'Ditolak')->get() as $skbm)
                                         <tr>
                                             <td class="text-center align-middle">{{ $skbm->tanggal }}</td>
-                                            <td class="text-center align-middle">{{ $skbm->jenis_surat }}</td>
+                                            <td class="text-center align-middle">{{ $skbm->sk_belum_menikah_ibfk_4->nama_jenis_surat }}</td>
                                             <td class="text-center align-middle">{{ $skbm->nik }}</td>
                                             <td class="text-center align-middle">{{ $skbm->nama }}</td>
                                             <td class="text-center align-middle">{{ $skbm->status_surat }}</td>
@@ -118,7 +118,7 @@
                                     @foreach(\App\Models\SKDomisili::where('status_surat', '=', 'Ditolak')->get() as $skd)
                                         <tr>
                                             <td class="text-center align-middle">{{ $skd->tanggal }}</td>
-                                            <td class="text-center align-middle">{{ $skd->jenis_surat }}</td>
+                                            <td class="text-center align-middle">{{ $skd->sk_domisili_ibfk_3->nama_jenis_surat }}</td>
                                             <td class="text-center align-middle">{{ $skd->nik }}</td>
                                             <td class="text-center align-middle">{{ $skd->nama }}</td>
                                             <td class="text-center align-middle">{{ $skd->status_surat }}</td>
@@ -156,7 +156,7 @@
                                     @foreach(\App\Models\SKTidakMampu::where('status_surat', '=', 'Ditolak')->get() as $sktm)
                                         <tr>
                                             <td class="text-center align-middle">{{ $sktm->tanggal }}</td>
-                                            <td class="text-center align-middle">{{ $sktm->jenis_surat }}</td>
+                                            <td class="text-center align-middle">{{ $sktm->sk_tidak_mampu_ibfk_1->nama_jenis_surat }}</td>
                                             <td class="text-center align-middle">{{ $sktm->nik }}</td>
                                             <td class="text-center align-middle">{{ $sktm->nama }}</td>
                                             <td class="text-center align-middle">{{ $sktm->status_surat }}</td>
@@ -202,8 +202,8 @@
 @endsection
 
 @section('modal')
-    <div class="modal fade" id="pesan_ditolak" tabindex="-1" aria-labelledby="pesanDitolakLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered"> <!-- Add modal-dialog-centered class here -->
+    <div class="modal fade" id="pesan_ditolak" tabindex="-1" aria-labelledby="pesanDitolakLabel" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="pesanDitolakLabel">Pesan Ditolak</h5>
@@ -211,6 +211,9 @@
                 </div>
                 <div class="modal-body">
                     <p id="pesanDitolakContent"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                 </div>
             </div>
         </div>

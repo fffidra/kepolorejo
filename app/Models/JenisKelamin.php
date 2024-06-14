@@ -17,10 +17,5 @@ class JenisKelamin extends Model
         'nama_jenis_kelamin'
     ];
 
-    public function fk_jenis_kelamin()
-    {
-        return $this->hasMany(Surat::class, 'jenis_kelamin');
-    }
-
     public $timestamps = false;
 }

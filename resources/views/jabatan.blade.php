@@ -43,7 +43,7 @@
                                         <tr>
                                             <td class="align-middle">{{ $data->nip }}</td>
                                             <td class="align-middle">{{ $data->nama }}</td>
-                                            <td class="text-center align-middle"> {{ $data->nama_jabatan }}</td>
+                                            <td class="text-center align-middle"> {{ $data->jabatan_ibfk_1->nama_jabatan_struktural }}</td>
                                             <td class="text-center align-middle">{{ $data->posisi }}</td>
                                             <td class="text-center align-middle">
                                                 <select class="form-select" name="peran" onchange="update_peran('{{ $data->nip }}', this.value)">
@@ -54,10 +54,10 @@
                                             <td class="text-center align-middle">
                                                 <div class="d-flex justify-content-center">
                                                     <a role="button" class="btn btn-warning me-2" title="Ubah Data" style="padding: 0.25rem 0.5rem; font-size: 18px;" data-bs-toggle="modal" data-bs-target="#ubahjabatan" data-bs-id="{{ $data->nip }}"><i class="bx bx-pencil"></i></a>
-                                                    <form method="POST" action="{{ route('hapus_jabatan', $data->nip) }}" id="hapus-jabatan-{{ $data->nip }}">
+                                                    <form method="POST" action="{{ route('hapus_jabatan', $data->nip) }}" id="hapus-warga-{{ $data->nip }}">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" id="btnHps-{{ $data->nip }}" class="btn btn-danger" title="Hapus Data" style="padding: 0.25rem 0.5rem; font-size: 18px;"><i class="bx bx-trash-alt"></i></button>
+                                                        <button type="submit" role="button" id="btnHps-{{ $data->nip }}" class="btn btn-danger" title="Hapus Data" style="padding: 0.25rem 0.5rem; font-size: 18px;"><i class="bx bx-trash-alt"></i></button>
                                                     </form>
                                                 </div>
                                                 <script>
@@ -66,13 +66,13 @@
                                                         Swal.fire({
                                                             icon: "info",
                                                             title: "Konfirmasi",
-                                                            text: "Apakah Anda yakin ingin menghapus jabatan {{$data->nama}}?",
+                                                            text: "Apakah Anda yakin ingin menghapus warga {{$data->nama}}?",
                                                             showCancelButton: true,
                                                             confirmButtonText: "Ya, Lanjutkan",
                                                             cancelButtonText: "Tidak, Batalkan",
                                                         }).then(function (result) {
                                                             if (result.isConfirmed) {
-                                                                $('#hapus-jabatan-{{ $data->nip }}').submit();
+                                                                $('#hapus-warga-{{ $data->nip }}').submit();
                                                             }
                                                         });
                                                     });
@@ -115,8 +115,8 @@
                             <label for="nama_jabatan" class="form-label"><strong>JABATAN</strong></label>
                             <select class="form-select" id="nama_jabatan" name="nama_jabatan" required>
                                 <option value="" selected hidden>-- Pilih Jabatan --</option>
-                                @foreach(\App\Models\JabatanStruktural::all() as $jabatans)
-                                    <option value="{{ $jabatans->nama_jabatan_struktural }}">{{ $jabatans->nama_jabatan_struktural }}</option>
+                                @foreach(\App\Models\JabatanStruktural::all() as $jabatan)
+                                    <option value="{{ $jabatan->nama_jabatan_struktural }}">{{ $jabatan->nama_jabatan_struktural }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -163,12 +163,12 @@
                             <label for="ubah_nama_jabatan" class="col-md-2 col-form-label"><strong>JABATAN</strong></label>
                             <div class="col-md-9">
                                 <select class="form-select" id="ubah_nama_jabatan" name="ubah_nama_jabatan">
-                                    @foreach(\App\Models\JabatanStruktural::all() as $jabatans)
-                                        <option value="{{ $jabatans->nama_jabatan_struktural }}">{{ $jabatans->nama_jabatan_struktural }}</option>
+                                    @foreach(\App\Models\JabatanStruktural::all() as $jabatan)
+                                        <option value="{{ $jabatan->id_jabatan_struktural }}">{{ $jabatan->nama_jabatan_struktural }}</option>
                                     @endforeach
                                 </select>
                             </div>
-                        </div> 
+                        </div>                                              
                         <div class="mb-3 row">
                             <label for="ubah_posisi" class="col-md-2 col-form-label"><strong>POSISI</strong></label>
                             <div class="col-md-9">
@@ -230,8 +230,11 @@
                         $("#ubah_nama").val(jabatan.nama);
                         $("#ubah_nama_jabatan").val(jabatan.nama_jabatan);
                         $("#ubah_posisi").val(jabatan.posisi);
+
+                        // Set the dropdown value
+                        $("#ubah_nama_jabatan").val(jabatan.nama_jabatan);
                     }
-                }, 
+                },
             });
         });
 
@@ -248,14 +251,17 @@
                 url: "/ubah_isi_jabatan/"+nip,
                 data: { nip: nip },
                 success: function (response) {
-                console.log(response);
+                    console.log(response);
                     $('#ubah_nip').val(response.jabatan.nip);
                     $('#ubah_nama').val(response.jabatan.nama);
                     $('#ubah_nama_jabatan').val(response.jabatan.nama_jabatan);
                     $('#ubah_posisi').val(response.jabatan.posisi);
-                    $('#ubahjabatan').modal('show');                
+                    $('#ubahjabatan').modal('show');
+
+                    // Set the dropdown value
+                    $('#ubah_nama_jabatan').val(response.jabatan.nama_jabatan);
                 }
-            });        
+            });
         });
 
         $(document).ready(function() {

@@ -41,7 +41,7 @@
                                     @foreach(\App\Models\SKBelumMenikah::where('status_surat', 'Selesai')->get() as $skbm)
                                         <tr>      
                                             <td class="text-center align-middle">{{ $skbm->tanggal }}</td>
-                                            <td class="text-center align-middle">{{ $skbm->jenis_surat }}</td>
+                                            <td class="text-center align-middle">{{ $skbm->sk_belum_menikah_ibfk_4->nama_jenis_surat }}</td>
                                             <td class="text-center align-middle">{{ $skbm->nik }}</td>
                                             <td class="text-center align-middle">{{ $skbm->nama }}</td>
                                             <td class="text-center align-middle">{{ $skbm->status_surat }}</td>
@@ -87,76 +87,126 @@
 
 @section('modal')
     {{-- DETAIL SKBM --}}
-    <div class="modal fade" id="detailSKBM" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="detailSKBM" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">DETAIL SURAT KETERANGAN BELUM MENIKAH</h5>
+                    <h5 class="modal-title"><strong>DETAIL SURAT KETERANGAN BELUM MENIKAH</strong></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <input type="hidden" name="id_sk_belum_menikah" id="id_sk_belum_menikah" required>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Jenis Surat</label>
+                        <label class="col-md-2 col-form-label">JENIS SURAT</label>
                         <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_jenis_surat_2"></label></span>
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_jenis_surat_3"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Nama</label>
+                        <label class="col-md-2 col-form-label">NAMA</label>
                         <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nama_2"></label></span>
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nama_3"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
                         <label class="col-md-2 col-form-label">NIK</label>
                         <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nik_2"></label></span>
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nik_3"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Tempat, Tanggal Lahir</label>
+                        <label class="col-md-2 col-form-label">TEMPAT, TANGGAL LAHIR</label>
                         <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_ttl_2"></label></span>
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_ttl_3"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Status Nikah</label>
+                        <label class="col-md-2 col-form-label">STATUS NIKAH</label>
                         <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_status_nikah_2"></label></span>
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_status_nikah_3"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Agama</label>
+                        <label class="col-md-2 col-form-label">AGAMA</label>
                         <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_agama_2"></label></span>
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_agama_3"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Pekerjaan</label>
+                        <label class="col-md-2 col-form-label">PEKERJAAN</label>
                         <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_pekerjaan_2"></label></span>
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_pekerjaan_3"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Alamat</label>
+                        <label class="col-md-2 col-form-label">ALAMAT</label>
                         <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_alamat_2"></label></span>
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_alamat_3"></label></span>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">Keperluan</label>
+                        <label class="col-md-2 col-form-label">KEPERLUAN</label>
                         <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_keperluan_2"></label></span>
+                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_keperluan_3"></label></span>
                         </div>
                     </div>
+                    <div class="row mb-1">
+                        <label class="col-md-2 col-form-label">BERKAS PERSYARATAN</label>
+                        <div class="col-md-9">
+                            <div class="d-flex">
+                                <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <ul class="list-unstyled mb-0 w-100">
+                                    <li id="suket" class="row align-items-center mb-2">
+                                        <div class="col-md-6">
+                                            <label class="form-label mb-0">Surat Pengantar RT/RW</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a id="detail_bukti_suket_3" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
+                                        </div>
+                                    </li>
+                                    <li id="kk" class="row align-items-center mb-2">
+                                        <div class="col-md-6">
+                                            <label class="form-label mb-0">Kartu Keluarga (KK)</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a id="detail_bukti_kk_3" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
+                                        </div>
+                                    </li>
+                                    <li id="ktp" class="row align-items-center mb-2">
+                                        <div class="col-md-6">
+                                            <label class="form-label mb-0">Kartu Tanda Penduduk (KTP)</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a id="detail_bukti_ktp_3" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
+                                        </div>
+                                    </li>
+                                    <li id="akta_cerai" class="row align-items-center mb-2">
+                                        <div class="col-md-6">
+                                            <label class="form-label mb-0">Akta Cerai</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a id="detail_bukti_cerai_3" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
+                                        </div>
+                                    </li>
+                                    <li id="akta_kematian" class="row align-items-center mb-2">
+                                        <div class="col-md-6">
+                                            <label class="form-label mb-0">Akta Kematian</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a id="detail_bukti_kematian_3" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>                
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                 </div>
             </div>
         </div>
-    </div>        
+    </div>         
 @endsection
 
 @section('script')
@@ -184,11 +234,11 @@
             });
         });    
 
-        // DETAIL SKBM
-        $('#detailSKBM').on('show.bs.modal', function (event) {
+        // DETAIL SKTM
+        $('#detailSKTM').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             $.ajax({
-                url: '{{ route("get_data_skbm") }}',
+                url: '{{ route("get_data_sktm") }}',
                 type: 'POST',
                 data: {
                     id: button.data('bs-id'),
@@ -198,21 +248,24 @@
                 success: function(response) {
                     if (response.status == 'success') {
                         var surat = response.surat;
-                        $("#detail_jenis_surat_2").html(surat.jenis_surat);
-                        $("#detail_nama_2").html(surat.nama);
-                        $("#detail_nik_2").html(surat.nik);
-                        $("#detail_ttl_2").html(surat.ttl);
-                        $("#detail_status_nikah_2").html(surat.status_nikah);
-                        $("#detail_agama_2").html(surat.agama);
-                        $("#detail_alamat_2").html(surat.alamat);
-                        $("#detail_keperluan_2").html(surat.keperluan);
+                        $("#detail_jenis_surat_4").html(response.jenis_surat);
+                        $("#detail_nama_4").html(surat.nama);
+                        $("#detail_nik_4").html(surat.nik);
+                        $("#detail_ttl_4").html(surat.ttl);
+                        $("#detail_agama_4").html(response.agama);
+                        $("#detail_pekerjaan_4").html(response.pekerjaan);
+                        $("#detail_alamat_4").html(surat.alamat);
+                        $("#detail_keperluan_4").html(surat.keperluan);
+                        $("#detail_bukti_suket_4").attr("href", '/bukti_dokumen/SKTM/' + surat.bukti_suket);
+                        $("#detail_bukti_kk_4").attr("href", '/bukti_dokumen/SKTM/' + surat.bukti_kk);
+                        $("#detail_bukti_ktp_4").attr("href", '/bukti_dokumen/SKTM/' + surat.bukti_ktp);
 
-                        if (surat.pekerjaan === 'Lainnya') {
-                            $("#detail_pekerjaan_2").html(surat.pekerjaan_lainnya);
-                            $("#pekerjaan_lainnya_2_row").show();
+                        if (response.pekerjaan === 'Lainnya') {
+                            $("#detail_pekerjaan_4").html(response.pekerjaan_lainnya);
+                            $("#pekerjaan_lainnya_4_row").show();
                         } else {
-                            $("#detail_pekerjaan_2").html(surat.pekerjaan);
-                            $("#pekerjaan_lainnya_2_row").hide();
+                            $("#detail_pekerjaan_4").html(response.pekerjaan);
+                            $("#pekerjaan_lainnya_4_row").hide();
                         }
                     }
                 },

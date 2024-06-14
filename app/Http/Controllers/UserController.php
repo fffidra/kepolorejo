@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Jabatan;
+use App\Models\JabatanStruktural;
 use App\Models\SKUsaha;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -216,11 +217,15 @@ class UserController extends Controller
                 'message' => 'Ada kesalahan!',
             ]);
         } else {
+
             $nama = $request->nama;
+            $namaJabatan = $request->input('nama_jabatan');
+            $idJabatan = JabatanStruktural::where('nama_jabatan_struktural', $namaJabatan)->value('id_jabatan_struktural');
+    
             Jabatan::create([
                 'nip' => $request->nip,
                 'nama' => $request->nama,
-                'nama_jabatan' => $request->nama_jabatan,
+                'nama_jabatan' => $idJabatan,
                 'posisi' => $request->posisi,
                 'peran' => 'Non Penanda Tangan'
             ]);
@@ -233,6 +238,7 @@ class UserController extends Controller
         }
         return back();
     }
+
 
     public function ubah_jabatan(Request $request)
     {
@@ -274,21 +280,26 @@ class UserController extends Controller
         }
         return back();
     }
+
     
     public function get_data_jabatan(Request $request)
     {
-        $jabatan = Jabatan::where('nip', $request->id)->first();
-        if($jabatan)
-        {
+        $jabatan = Jabatan::where('nip', $request->id)->with('jabatan_ibfk_1')->first();
+
+        if ($jabatan) {
             return response()->json([
-                'status'=>'success',
-                'jabatan'=> $jabatan,
+                'status' => 'success',
+                'jabatan' => [
+                    'nip' => $jabatan->nip,
+                    'nama' => $jabatan->nama,
+                    'nama_jabatan' => $jabatan->nama_jabatan,
+                    'posisi' => $jabatan->posisi,
+                    'id_jabatan_struktural' => $jabatan->jabatan_ibfk_1->id_jabatan_struktural,
+                ],
             ]);
-        }
-        else
-        {
+        } else {
             return response()->json([
-                'status'=>'error',
+                'status' => 'error',
             ]);
         }
     }
