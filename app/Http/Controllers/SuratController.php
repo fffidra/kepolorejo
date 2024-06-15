@@ -1333,63 +1333,63 @@ class SuratController extends Controller
             $tableNama->addCell($lebarA4 * 0.10)->addText('');
             $tableNama->addCell($lebarA4 * 0.20)->addText('Nama', ['size' => 12]);
             $tableNama->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableNama->addCell($lebarA4 * 0.65)->addText($surat->nama, ['bold' => true, 'allCaps' => true, 'size' => 12]);
+            $tableNama->addCell($lebarA4 * 0.60)->addText($surat->nama, ['bold' => true, 'allCaps' => true, 'size' => 12]);
 
             $tableNIK = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableNIK->addRow();
             $tableNIK->addCell($lebarA4 * 0.10)->addText('');
             $tableNIK->addCell($lebarA4 * 0.20)->addText('NIK', ['size' => 12]);
             $tableNIK->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableNIK->addCell($lebarA4 * 0.65)->addText($surat->nik, ['size' => 12]);
+            $tableNIK->addCell($lebarA4 * 0.60)->addText($surat->nik, ['size' => 12]);
 
             $tableTtl = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableTtl->addRow();
             $tableTtl->addCell($lebarA4 * 0.10)->addText('');
             $tableTtl->addCell($lebarA4 * 0.20)->addText('Tempat/Tgl Lahir', ['size' => 12]);
             $tableTtl->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableTtl->addCell($lebarA4 * 0.65)->addText($surat->ttl, ['size' => 12]);
+            $tableTtl->addCell($lebarA4 * 0.60)->addText($surat->ttl, ['size' => 12]);
 
             $tableStatus = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableStatus->addRow();
             $tableStatus->addCell($lebarA4 * 0.10)->addText('');
             $tableStatus->addCell($lebarA4 * 0.20)->addText('Status', ['size' => 12]);
             $tableStatus->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableStatus->addCell($lebarA4 * 0.65)->addText($statusNikah, ['size' => 12]);
+            $tableStatus->addCell($lebarA4 * 0.60)->addText($statusNikah, ['size' => 12]);
 
             $tableAgama = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableAgama->addRow();
             $tableAgama->addCell($lebarA4 * 0.10)->addText('');
             $tableAgama->addCell($lebarA4 * 0.20)->addText('Agama', ['size' => 12]);
             $tableAgama->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableAgama->addCell($lebarA4 * 0.65)->addText($agama, ['size' => 12]);
+            $tableAgama->addCell($lebarA4 * 0.60)->addText($agama, ['size' => 12]);
 
             $tablePekerjaan = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tablePekerjaan->addRow();
             $tablePekerjaan->addCell($lebarA4 * 0.10)->addText('');
             $tablePekerjaan->addCell($lebarA4 * 0.20)->addText('Pekerjaan', ['size' => 12]);
             $tablePekerjaan->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tablePekerjaan->addCell($lebarA4 * 0.65)->addText($pekerjaan, ['size' => 12]);
+            $tablePekerjaan->addCell($lebarA4 * 0.60)->addText($pekerjaan, ['size' => 12]);
             
             $tableAlamat = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableAlamat->addRow();
             $tableAlamat->addCell($lebarA4 * 0.10)->addText('');
             $tableAlamat->addCell($lebarA4 * 0.20)->addText('Alamat', ['size' => 12]);
             $tableAlamat->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableAlamat->addCell($lebarA4 * 0.55)->addText($surat->alamat, ['size' => 12]);
+            $tableAlamat->addCell($lebarA4 * 0.60)->addText($surat->alamat, ['size' => 12]);
 
             $tableKeterangan = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableKeterangan->addRow();
             $tableKeterangan->addCell($lebarA4 * 0.10)->addText('');
             $tableKeterangan->addCell($lebarA4 * 0.20)->addText('Keterangan', ['size' => 12]);
             $tableKeterangan->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableKeterangan->addCell($lebarA4 * 0.55)->addText('Berdasarkan Surat Pernyataan yang dibuat, menerangkan bahwa orang tersebut diatas benar memiliki usaha '. $surat->usaha, ['size' => 12]);
+            $tableKeterangan->addCell($lebarA4 * 0.54)->addText('Berdasarkan Surat Pengantar dari Ketua RT     / RW     , menerangkan bahwa orang tersebut di atas benar warga Kel. Kepolorejo dan memiliki usaha '. $surat->usaha, ['size' => 12], ['alignment' => 'both']);
 
             $tableKeperluan = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableKeperluan->addRow();
             $tableKeperluan->addCell($lebarA4 * 0.10)->addText('');
             $tableKeperluan->addCell($lebarA4 * 0.20)->addText('Keperluan', ['size' => 12]);
             $tableKeperluan->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableKeperluan->addCell($lebarA4 * 0.55)->addText('Untuk '. $surat->keperluan, ['size' => 12]);
+            $tableKeperluan->addCell($lebarA4 * 0.54)->addText('Untuk '. $surat->keperluan, ['size' => 12]);
 
             $section->addTextBreak();        
 
@@ -1403,37 +1403,40 @@ class SuratController extends Controller
         // TANDA TANGAN 
             $tableFoot = $section->addTable(['width' => 100, 'borderColor' => 'white', 'borderSize' => 1, 'alignment' => 'right']);
             $tanggalLengkap = Carbon::parse(now())->locale('id_ID')->isoFormat('DD MMMM YYYY');
+            $noSpacing = ['spaceAfter' => 0, 'spaceBefore' => 0, 'align' => 'center'];
+            
             $tableFoot->addRow();
-            $tableFoot->addCell(5000)->addText('Magetan, ' . $tanggalLengkap, ['size' => 12], array('align' => 'center'));
-            $tableFoot->addCell(550)->addText('');
-            $tableFoot->addRow();            
-            $tableFoot->addCell(5000)->addText('LURAH KEPOLOREJO', ['size' => 12], array('align' => 'center'));
-
+            $tableFoot->addCell(5000)->addText('Magetan, ' . $tanggalLengkap, ['size' => 12], $noSpacing);
+            $tableFoot->addCell(550)->addText('', [], $noSpacing);
+            $tableFoot->addRow();
+            $tableFoot->addCell(5000)->addText('LURAH KEPOLOREJO', ['size' => 12], $noSpacing);
+            
             if ($jabatanNamaJabatan !== 'Lurah') {
-                $tableFoot->addRow();            
-                $tableFoot->addCell(5000)->addText('An. '.$jabatanNamaJabatan, ['size' => 12], array('align' => 'center'));
                 $tableFoot->addRow();
-                $tableFoot->addCell(5000)->addText('');
+                $tableFoot->addCell(5000)->addText('An. ' . $jabatanNamaJabatan, ['size' => 12], $noSpacing);
+                $tableFoot->addRow();
+                $tableFoot->addCell(5000)->addText('', [], $noSpacing);
             }
-
+            
             $tableFoot->addRow();
-            $tableFoot->addCell(5000)->addText('');
-
+            $tableFoot->addCell(5000)->addText('', [], $noSpacing);
             $tableFoot->addRow();
-            $tableFoot->addCell(5000)->addText('');
-
+            $tableFoot->addCell(5000)->addText('', [], $noSpacing);
             $tableFoot->addRow();
-            $tableFoot->addCell(5000)->addText('');
-
+            $tableFoot->addCell(5000)->addText('', [], $noSpacing);
             $tableFoot->addRow();
-            $tableFoot->addCell(5000)->addText($jabatanNama, ['size' => 12, 'bold' => true, 'underline' => 'single'], ['align' => 'center']);
+            $tableFoot->addCell(5000)->addText('', [], $noSpacing);
             $tableFoot->addRow();
-            $tableFoot->addCell(5000)->addText($jabatanPosisi, ['size' => 12], ['align' => 'center']);
-
+            $tableFoot->addCell(5000)->addText('', [], $noSpacing);
+            
             $tableFoot->addRow();
-            $tableFoot->addCell(5000)->addText('NIP. ' . $jabatanNIP, ['size' => 12], ['align' => 'center']);
-
-            $section->addTextBreak();
+            $tableFoot->addCell(5000)->addText($jabatanNama, ['size' => 12, 'bold' => true, 'underline' => 'single'], $noSpacing);
+            $tableFoot->addRow();
+            $tableFoot->addCell(5000)->addText($jabatanPosisi, ['size' => 12], $noSpacing);
+            $tableFoot->addRow();
+            $tableFoot->addCell(5000)->addText('NIP. ' . $jabatanNIP, ['size' => 12], $noSpacing);
+            
+            $section->addTextBreak(1, [], $noSpacing);
 
         $filename = ucfirst(str_replace('_', ' ', $jenisSurat)) . ' ' . date('Y-m-d H-i-s') . '.docx';
         $filepath = storage_path('app/' . $filename);
@@ -1455,10 +1458,10 @@ class SuratController extends Controller
             ]);
         }
 
-        $jenisSurat = $surat->sk_belum_menikah_ibfk_4 ? $surat->sk_belum_menikah_ibfk_4->nama_jenis_surat : null;
-        // $statusNikah = $surat->sk_belum_menikah_ibfk_3 ? $surat->sk_belum_menikah_ibfk_3->nama_status_nikah : null;
         $agama = $surat->sk_belum_menikah_ibfk_1 ? $surat->sk_belum_menikah_ibfk_1->nama_agama : null;
         $pekerjaan = $surat->sk_belum_menikah_ibfk_2 ? $surat->sk_belum_menikah_ibfk_2->nama_pekerjaan : null;     
+        $statusNikah = $surat->sk_belum_menikah_ibfk_3 ? $surat->sk_belum_menikah_ibfk_3->nama_status_nikah : null;
+        $jenisSurat = $surat->sk_belum_menikah_ibfk_4 ? $surat->sk_belum_menikah_ibfk_4->nama_jenis_surat : null;
 
         $year = date('Y');
         $jabatanNama = $jabatan->nama;
@@ -1496,7 +1499,7 @@ class SuratController extends Controller
             $textRunHeader = $section->addTextRun(['alignment' => 'center']);
             $textRunHeader->addText(strtoupper($jenisSurat), ['bold' => true, 'underline' => 'single', 'size' => 16]);            
             $textRunHeader->addTextBreak();
-            $textRunHeader->addText('Nomor : 500.3.4.3/     /403.406.6/' . $year, ['size' => 12]);
+            $textRunHeader->addText('Nomor : 474.4/     /403.406.6/' . $year, ['size' => 12]);
             
             $section->addTextBreak();
 
@@ -1510,57 +1513,74 @@ class SuratController extends Controller
             $tableNama->addCell($lebarA4 * 0.10)->addText('');
             $tableNama->addCell($lebarA4 * 0.20)->addText('Nama', ['size' => 12]);
             $tableNama->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableNama->addCell($lebarA4 * 0.65)->addText($surat->nama, ['bold' => true, 'allCaps' => true, 'size' => 12]);
+            $tableNama->addCell($lebarA4 * 0.60)->addText($surat->nama, ['bold' => true, 'allCaps' => true, 'size' => 12]);
 
             $tableNIK = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableNIK->addRow();
             $tableNIK->addCell($lebarA4 * 0.10)->addText('');
             $tableNIK->addCell($lebarA4 * 0.20)->addText('NIK', ['size' => 12]);
             $tableNIK->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableNIK->addCell($lebarA4 * 0.65)->addText($surat->nik, ['size' => 12]);
+            $tableNIK->addCell($lebarA4 * 0.60)->addText($surat->nik, ['size' => 12]);
 
             $tableTtl = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableTtl->addRow();
             $tableTtl->addCell($lebarA4 * 0.10)->addText('');
             $tableTtl->addCell($lebarA4 * 0.20)->addText('Tempat/Tgl Lahir', ['size' => 12]);
             $tableTtl->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableTtl->addCell($lebarA4 * 0.65)->addText($surat->ttl, ['size' => 12]);
+            $tableTtl->addCell($lebarA4 * 0.60)->addText($surat->ttl, ['size' => 12]);
+
+            $tableStatusNikah = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
+            $tableStatusNikah->addRow();
+            $tableStatusNikah->addCell($lebarA4 * 0.10)->addText('');
+            $tableStatusNikah->addCell($lebarA4 * 0.20)->addText('Status', ['size' => 12]);
+            $tableStatusNikah->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
+            $tableStatusNikah->addCell($lebarA4 * 0.60)->addText($statusNikah, ['size' => 12]);
 
             $tableAgama = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableAgama->addRow();
             $tableAgama->addCell($lebarA4 * 0.10)->addText('');
             $tableAgama->addCell($lebarA4 * 0.20)->addText('Agama', ['size' => 12]);
             $tableAgama->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableAgama->addCell($lebarA4 * 0.65)->addText($agama, ['size' => 12]);
+            $tableAgama->addCell($lebarA4 * 0.60)->addText($agama, ['size' => 12]);
 
             $tablePekerjaan = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tablePekerjaan->addRow();
             $tablePekerjaan->addCell($lebarA4 * 0.10)->addText('');
             $tablePekerjaan->addCell($lebarA4 * 0.20)->addText('Pekerjaan', ['size' => 12]);
             $tablePekerjaan->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tablePekerjaan->addCell($lebarA4 * 0.65)->addText($pekerjaan, ['size' => 12]);
+            $tablePekerjaan->addCell($lebarA4 * 0.60)->addText($pekerjaan, ['size' => 12]);
 
             $tableAlamat = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableAlamat->addRow();
             $tableAlamat->addCell($lebarA4 * 0.10)->addText('');
             $tableAlamat->addCell($lebarA4 * 0.20)->addText('Alamat', ['size' => 12]);
             $tableAlamat->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableAlamat->addCell($lebarA4 * 0.55)->addText($surat->alamat, ['size' => 12]);
+            $tableAlamat->addCell($lebarA4 * 0.60)->addText($surat->alamat, ['size' => 12]);
 
             $tableKeterangan = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableKeterangan->addRow();
             $tableKeterangan->addCell($lebarA4 * 0.10)->addText('');
             $tableKeterangan->addCell($lebarA4 * 0.20)->addText('Keterangan', ['size' => 12]);
             $tableKeterangan->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableKeterangan->addCell($lebarA4 * 0.55)->addText('Bahwa orang yang namanya tersebut di atas benar-benar Warga Kelurahan Kepolorejo dan saat ini belum menikah', ['size' => 12]);
+            
+            if ($statusNikah === 'Belum Kawin') {
+                $keterangan = 'Berdasarkan Surat Pengantar dari Ketua RT     / RW     , menerangkan bahwa orang tersebut di atas benar warga Kel. Kepolorejo dan saat ini benar belum menikah';
+            } elseif ($statusNikah === 'Cerai Hidup') {
+                $keterangan = 'Berdasarkan Surat Pengantar dari Ketua RT     / RW     , menerangkan bahwa orang tersebut di atas benar warga Kel. Kepolorejo yang berstatus Cerai Hidup sesuai dengan Akta Cerai Nomor     dan sampai saat ini benar belum menikah';
+            } elseif ($statusNikah === 'Cerai Mati') {
+                $keterangan = 'Berdasarkan Surat Pengantar dari Ketua RT     / RW     , menerangkan bahwa orang tersebut di atas benar warga Kel. Kepolorejo yang berstatus Cerai Mati sesuai dengan Akta Kematian Nomor     dan sampai saat ini benar belum menikah';
+            } else {
+                $keterangan = 'Status pernikahan tidak diketahui.';
+            }
+            
+            $tableKeterangan->addCell($lebarA4 * 0.60)->addText($keterangan, ['size' => 12], ['alignment' => 'both']);
             $tableKeterangan->addCell($lebarA4 * 0.07)->addText('');
-
             $tableKeperluan = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableKeperluan->addRow();
             $tableKeperluan->addCell($lebarA4 * 0.10)->addText('');
             $tableKeperluan->addCell($lebarA4 * 0.20)->addText('Keperluan', ['size' => 12]);
             $tableKeperluan->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableKeperluan->addCell($lebarA4 * 0.55)->addText('Untuk '. $surat->keperluan, ['size' => 12]);
+            $tableKeperluan->addCell($lebarA4 * 0.60)->addText('Untuk '. $surat->keperluan, ['size' => 12]);
 
             $section->addTextBreak();        
 
@@ -1570,42 +1590,45 @@ class SuratController extends Controller
 
             $section->addTextBreak();
             $section->addTextBreak();
-            $section->addTextBreak();
 
         // TANDA TANGAN 
             $tableFoot = $section->addTable(['width' => 100, 'borderColor' => 'white', 'borderSize' => 1, 'alignment' => 'right']);
             $tanggalLengkap = Carbon::parse(now())->locale('id_ID')->isoFormat('DD MMMM YYYY');
+            $noSpacing = ['spaceAfter' => 0, 'spaceBefore' => 0, 'align' => 'center'];
+            
             $tableFoot->addRow();
-            $tableFoot->addCell(5000)->addText('Magetan, ' . $tanggalLengkap, ['size' => 12], array('align' => 'center'));
-            $tableFoot->addCell(550)->addText('');
-            $tableFoot->addRow();            
-            $tableFoot->addCell(5000)->addText('LURAH KEPOLOREJO', ['size' => 12], array('align' => 'center'));
-
+            $tableFoot->addCell(5000)->addText('Magetan, ' . $tanggalLengkap, ['size' => 12], $noSpacing);
+            $tableFoot->addCell(550)->addText('', [], $noSpacing); 
+            $tableFoot->addRow();
+            $tableFoot->addCell(5000)->addText('LURAH KEPOLOREJO', ['size' => 12], $noSpacing);
+            
             if ($jabatanNamaJabatan !== 'Lurah') {
-                $tableFoot->addRow();            
-                $tableFoot->addCell(5000)->addText('An. '.$jabatanNamaJabatan, ['size' => 12], array('align' => 'center'));
                 $tableFoot->addRow();
-                $tableFoot->addCell(5000)->addText('');
+                $tableFoot->addCell(5000)->addText('An. ' . $jabatanNamaJabatan, ['size' => 12], $noSpacing);
+                $tableFoot->addRow();
+                $tableFoot->addCell(5000)->addText('', [], $noSpacing);
             }
-
+            
             $tableFoot->addRow();
-            $tableFoot->addCell(5000)->addText('');
-
+            $tableFoot->addCell(5000)->addText('', [], $noSpacing); 
             $tableFoot->addRow();
-            $tableFoot->addCell(5000)->addText('');
-
+            $tableFoot->addCell(5000)->addText('', [], $noSpacing); 
             $tableFoot->addRow();
-            $tableFoot->addCell(5000)->addText('');
-
+            $tableFoot->addCell(5000)->addText('', [], $noSpacing); 
             $tableFoot->addRow();
-            $tableFoot->addCell(5000)->addText($jabatanNama, ['size' => 12, 'bold' => true, 'underline' => 'single'], ['align' => 'center']);
+            $tableFoot->addCell(5000)->addText('', [], $noSpacing); 
             $tableFoot->addRow();
-            $tableFoot->addCell(5000)->addText($jabatanPosisi, ['size' => 12], ['align' => 'center']);
-
+            $tableFoot->addCell(5000)->addText('', [], $noSpacing); 
+            
             $tableFoot->addRow();
-            $tableFoot->addCell(5000)->addText('NIP. ' . $jabatanNIP, ['size' => 12], ['align' => 'center']);
-
-            $section->addTextBreak();
+            $tableFoot->addCell(5000)->addText($jabatanNama, ['size' => 12, 'bold' => true, 'underline' => 'single'], $noSpacing);
+            $tableFoot->addRow();
+            $tableFoot->addCell(5000)->addText($jabatanPosisi, ['size' => 12], $noSpacing);
+            
+            $tableFoot->addRow();
+            $tableFoot->addCell(5000)->addText('NIP. ' . $jabatanNIP, ['size' => 12], $noSpacing);
+            
+            $section->addTextBreak(0, [], $noSpacing); 
 
         $filename = ucfirst(str_replace('_', ' ', $jenisSurat)) . ' ' . date('Y-m-d H-i-s') . '.docx';
         $filepath = storage_path('app/' . $filename);
@@ -1627,17 +1650,26 @@ class SuratController extends Controller
             ]);
         }
 
-        $jenisSurat = $surat->jenis_surat;
+        $pekerjaan = $surat->sk_domisili_ibfk_1 ? $surat->sk_domisili_ibfk_1->nama_pekerjaan : null;  
+        $statusNikah = $surat->sk_domisili_ibfk_2 ? $surat->sk_domisili_ibfk_2->nama_status_nikah : null;   
+        $jenisSurat = $surat->sk_domisili_ibfk_3 ? $surat->sk_domisili_ibfk_3->nama_jenis_surat : null;
+        $jenisKelamin = $surat->sk_domisili_ibfk_4 ? $surat->sk_domisili_ibfk_4->nama_jenis_kelamin : null;
+        $agama = $surat->sk_domisili_ibfk_5 ? $surat->sk_domisili_ibfk_5->nama_agama : null;
+        
         $year = date('Y');
         $jabatanNama = $jabatan->nama;
         $jabatanNamaJabatan = $jabatan->jabatan_ibfk_1->nama_jabatan_struktural;
         $jabatanPosisi = $jabatan->posisi;
         $jabatanNIP = $jabatan->nip;
 
-        if ($surat->pekerjaan == 'Lainnya' && !empty($surat->pekerjaan_lainnya)) {
+        // if ($surat->pekerjaan == 'Lainnya' && !empty($surat->pekerjaan_lainnya)) {
+        //     $pekerjaan = $surat->pekerjaan_lainnya;
+        // } else {
+        //     $pekerjaan = $surat->pekerjaan;
+        // }
+
+        if ($pekerjaan && $pekerjaan === 'Lainnya' && $surat->pekerjaan_lainnya) {
             $pekerjaan = $surat->pekerjaan_lainnya;
-        } else {
-            $pekerjaan = $surat->pekerjaan;
         }
 
         $phpWord = new PhpWord();
@@ -1660,7 +1692,7 @@ class SuratController extends Controller
             $textRunHeader = $section->addTextRun(['alignment' => 'center']);
             $textRunHeader->addText(strtoupper($jenisSurat), ['bold' => true, 'underline' => 'single', 'size' => 16]);            
             $textRunHeader->addTextBreak();
-            $textRunHeader->addText('Nomor : 500.3.4.3/     /403.406.6/' . $year, ['size' => 12]);
+            $textRunHeader->addText('Nomor : 471.1/     /403.406.6/' . $year, ['size' => 12]);
 
             $section->addTextBreak();
 
@@ -1674,63 +1706,63 @@ class SuratController extends Controller
             $tableNama->addCell($lebarA4 * 0.10)->addText('');
             $tableNama->addCell($lebarA4 * 0.20)->addText('Nama', ['size' => 12]);
             $tableNama->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableNama->addCell($lebarA4 * 0.65)->addText($surat->nama, ['bold' => true, 'allCaps' => true, 'size' => 12]);
+            $tableNama->addCell($lebarA4 * 0.60)->addText($surat->nama, ['bold' => true, 'allCaps' => true, 'size' => 12]);
 
             $tableNIK = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableNIK->addRow();
             $tableNIK->addCell($lebarA4 * 0.10)->addText('');
             $tableNIK->addCell($lebarA4 * 0.20)->addText('NIK', ['size' => 12]);
             $tableNIK->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableNIK->addCell($lebarA4 * 0.65)->addText($surat->nik, ['size' => 12]);
+            $tableNIK->addCell($lebarA4 * 0.60)->addText($surat->nik, ['size' => 12]);
 
             $tableJK = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableJK->addRow();
             $tableJK->addCell($lebarA4 * 0.10)->addText('');
             $tableJK->addCell($lebarA4 * 0.20)->addText('Jenis Kelamin', ['size' => 12]);
             $tableJK->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableJK->addCell($lebarA4 * 0.65)->addText($surat->jenis_kelamin, ['size' => 12]);
+            $tableJK->addCell($lebarA4 * 0.60)->addText($jenisKelamin, ['size' => 12]);
 
             $tableTtl = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableTtl->addRow();
             $tableTtl->addCell($lebarA4 * 0.10)->addText('');
             $tableTtl->addCell($lebarA4 * 0.20)->addText('Tempat/Tgl Lahir', ['size' => 12]);
             $tableTtl->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableTtl->addCell($lebarA4 * 0.65)->addText($surat->ttl, ['size' => 12]);
+            $tableTtl->addCell($lebarA4 * 0.60)->addText($surat->ttl, ['size' => 12]);
 
             $tableAgama = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableAgama->addRow();
             $tableAgama->addCell($lebarA4 * 0.10)->addText('');
             $tableAgama->addCell($lebarA4 * 0.20)->addText('Agama', ['size' => 12]);
             $tableAgama->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableAgama->addCell($lebarA4 * 0.65)->addText($surat->agama, ['size' => 12]);
+            $tableAgama->addCell($lebarA4 * 0.60)->addText($agama, ['size' => 12]);
 
             $tableStatus = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableStatus->addRow();
             $tableStatus->addCell($lebarA4 * 0.10)->addText('');
             $tableStatus->addCell($lebarA4 * 0.20)->addText('Status', ['size' => 12]);
             $tableStatus->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableStatus->addCell($lebarA4 * 0.65)->addText($surat->status_nikah, ['size' => 12]);
+            $tableStatus->addCell($lebarA4 * 0.60)->addText($statusNikah, ['size' => 12]);
 
             $tablePekerjaan = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tablePekerjaan->addRow();
             $tablePekerjaan->addCell($lebarA4 * 0.10)->addText('');
             $tablePekerjaan->addCell($lebarA4 * 0.20)->addText('Pekerjaan', ['size' => 12]);
             $tablePekerjaan->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tablePekerjaan->addCell($lebarA4 * 0.65)->addText($pekerjaan, ['size' => 12]);
+            $tablePekerjaan->addCell($lebarA4 * 0.60)->addText($pekerjaan, ['size' => 12]);
 
             $tableAlamat = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableAlamat->addRow();
             $tableAlamat->addCell($lebarA4 * 0.10)->addText('');
             $tableAlamat->addCell($lebarA4 * 0.20)->addText('Alamat', ['size' => 12]);
             $tableAlamat->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableAlamat->addCell($lebarA4 * 0.55)->addText($surat->alamat, ['size' => 12]);
+            $tableAlamat->addCell($lebarA4 * 0.60)->addText($surat->alamat, ['size' => 12]);
 
             $tableKeterangan = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableKeterangan->addRow();
             $tableKeterangan->addCell($lebarA4 * 0.10)->addText('');
             $tableKeterangan->addCell($lebarA4 * 0.20)->addText('Keterangan', ['size' => 12]);
             $tableKeterangan->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableKeterangan->addCell($lebarA4 * 0.55)->addText('Menerangkan bahwa orang tersebut di atas benar berdomisili di '. $surat->alamat_dom, ['size' => 12]);
+            $tableKeterangan->addCell($lebarA4 * 0.60)->addText('Berdasarkan Surat Pengantar dari Ketua RT     / RW     , menerangkan bahwa orang tersebut di atas benar berdomisili di '. $surat->alamat_dom, ['size' => 12], ['alignment' => 'both']);
             $tableKeterangan->addCell($lebarA4 * 0.07)->addText('');
 
             $tableKeperluan = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
@@ -1738,7 +1770,7 @@ class SuratController extends Controller
             $tableKeperluan->addCell($lebarA4 * 0.10)->addText('');
             $tableKeperluan->addCell($lebarA4 * 0.20)->addText('Keperluan', ['size' => 12]);
             $tableKeperluan->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableKeperluan->addCell($lebarA4 * 0.55)->addText('Untuk '. $surat->keperluan, ['size' => 12]);
+            $tableKeperluan->addCell($lebarA4 * 0.60)->addText('Untuk '. $surat->keperluan, ['size' => 12]);
 
             $section->addTextBreak();    
 
@@ -1748,44 +1780,47 @@ class SuratController extends Controller
 
             $section->addTextBreak();
             $section->addTextBreak();
-            $section->addTextBreak();
 
         // TANDA TANGAN 
             $tableFoot = $section->addTable(['width' => 100, 'borderColor' => 'white', 'borderSize' => 1, 'alignment' => 'right']);
             $tanggalLengkap = Carbon::parse(now())->locale('id_ID')->isoFormat('DD MMMM YYYY');
+            $noSpacing = ['spaceAfter' => 0, 'spaceBefore' => 0, 'align' => 'center'];
+            
             $tableFoot->addRow();
-            $tableFoot->addCell(5000)->addText('Magetan, ' . $tanggalLengkap, ['size' => 12], array('align' => 'center'));
-            $tableFoot->addCell(550)->addText('');
-            $tableFoot->addRow();            
-            $tableFoot->addCell(5000)->addText('LURAH KEPOLOREJO', ['size' => 12], array('align' => 'center'));
-
+            $tableFoot->addCell(5000)->addText('Magetan, ' . $tanggalLengkap, ['size' => 12], $noSpacing);
+            $tableFoot->addCell(550)->addText('', [], $noSpacing); 
+            $tableFoot->addRow();
+            $tableFoot->addCell(5000)->addText('LURAH KEPOLOREJO', ['size' => 12], $noSpacing);
+            
             if ($jabatanNamaJabatan !== 'Lurah') {
-                $tableFoot->addRow();            
-                $tableFoot->addCell(5000)->addText('An. '.$jabatanNamaJabatan, ['size' => 12], array('align' => 'center'));
                 $tableFoot->addRow();
-                $tableFoot->addCell(5000)->addText('');
+                $tableFoot->addCell(5000)->addText('An. ' . $jabatanNamaJabatan, ['size' => 12], $noSpacing);
+                $tableFoot->addRow();
+                $tableFoot->addCell(5000)->addText('', [], $noSpacing); 
             }
-
+            
             $tableFoot->addRow();
-            $tableFoot->addCell(5000)->addText('');
-
+            $tableFoot->addCell(5000)->addText('', [], $noSpacing); 
             $tableFoot->addRow();
-            $tableFoot->addCell(5000)->addText('');
-
+            $tableFoot->addCell(5000)->addText('', [], $noSpacing); 
             $tableFoot->addRow();
-            $tableFoot->addCell(5000)->addText('');
-
+            $tableFoot->addCell(5000)->addText('', [], $noSpacing); 
             $tableFoot->addRow();
-            $tableFoot->addCell(5000)->addText($jabatanNama, ['size' => 12, 'bold' => true, 'underline' => 'single'], ['align' => 'center']);
+            $tableFoot->addCell(5000)->addText('', [], $noSpacing); 
             $tableFoot->addRow();
-            $tableFoot->addCell(5000)->addText($jabatanPosisi, ['size' => 12], ['align' => 'center']);
-
+            $tableFoot->addCell(5000)->addText('', [], $noSpacing); 
+            
             $tableFoot->addRow();
-            $tableFoot->addCell(5000)->addText('NIP. ' . $jabatanNIP, ['size' => 12], ['align' => 'center']);
+            $tableFoot->addCell(5000)->addText($jabatanNama, ['size' => 12, 'bold' => true, 'underline' => 'single'], $noSpacing);
+            $tableFoot->addRow();
+            $tableFoot->addCell(5000)->addText($jabatanPosisi, ['size' => 12], $noSpacing);
+            
+            $tableFoot->addRow();
+            $tableFoot->addCell(5000)->addText('NIP. ' . $jabatanNIP, ['size' => 12], $noSpacing);
+            
+            $section->addTextBreak(0, [], $noSpacing);         
 
-            $section->addTextBreak();
-
-        $filename = ucfirst(str_replace('_', ' ', $surat->jenis_surat)) . ' ' . date('Y-m-d H-i-s') . '.docx';
+        $filename = ucfirst(str_replace('_', ' ', $jenisSurat)) . ' ' . date('Y-m-d H-i-s') . '.docx';
         $filepath = storage_path('app/' . $filename);
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
         $objWriter->save($filepath);
@@ -1845,7 +1880,7 @@ class SuratController extends Controller
             $textRunHeader = $section->addTextRun(['alignment' => 'center']);
             $textRunHeader->addText(strtoupper($jenisSurat), ['bold' => true, 'underline' => 'single', 'size' => 16]);            
             $textRunHeader->addTextBreak();
-            $textRunHeader->addText('Nomor : 500.3.4.3/     /403.406.6/' . $year, ['size' => 12]);
+            $textRunHeader->addText('Nomor : 400.12.4.4/     /403.406.6/' . $year, ['size' => 12]);
 
             $section->addTextBreak();
 
@@ -1859,56 +1894,56 @@ class SuratController extends Controller
             $tableNama->addCell($lebarA4 * 0.10)->addText('');
             $tableNama->addCell($lebarA4 * 0.20)->addText('Nama', ['size' => 12]);
             $tableNama->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableNama->addCell($lebarA4 * 0.65)->addText($surat->nama, ['bold' => true, 'allCaps' => true, 'size' => 12]);
+            $tableNama->addCell($lebarA4 * 0.60)->addText($surat->nama, ['bold' => true, 'allCaps' => true, 'size' => 12]);
 
             $tableNIK = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableNIK->addRow();
             $tableNIK->addCell($lebarA4 * 0.10)->addText('');
             $tableNIK->addCell($lebarA4 * 0.20)->addText('NIK', ['size' => 12]);
             $tableNIK->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableNIK->addCell($lebarA4 * 0.65)->addText($surat->nik, ['size' => 12]);
+            $tableNIK->addCell($lebarA4 * 0.60)->addText($surat->nik, ['size' => 12]);
 
             $tableTtl = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableTtl->addRow();
             $tableTtl->addCell($lebarA4 * 0.10)->addText('');
             $tableTtl->addCell($lebarA4 * 0.20)->addText('Tempat/Tgl Lahir', ['size' => 12]);
             $tableTtl->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableTtl->addCell($lebarA4 * 0.65)->addText($surat->ttl, ['size' => 12]);
+            $tableTtl->addCell($lebarA4 * 0.60)->addText($surat->ttl, ['size' => 12]);
 
             $tableAgama = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableAgama->addRow();
             $tableAgama->addCell($lebarA4 * 0.10)->addText('');
             $tableAgama->addCell($lebarA4 * 0.20)->addText('Agama', ['size' => 12]);
             $tableAgama->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableAgama->addCell($lebarA4 * 0.65)->addText($agama, ['size' => 12]);
+            $tableAgama->addCell($lebarA4 * 0.60)->addText($agama, ['size' => 12]);
 
             $tablePekerjaan = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tablePekerjaan->addRow();
             $tablePekerjaan->addCell($lebarA4 * 0.10)->addText('');
             $tablePekerjaan->addCell($lebarA4 * 0.20)->addText('Pekerjaan', ['size' => 12]);
             $tablePekerjaan->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tablePekerjaan->addCell($lebarA4 * 0.65)->addText($pekerjaan, ['size' => 12]);
+            $tablePekerjaan->addCell($lebarA4 * 0.60)->addText($pekerjaan, ['size' => 12]);
 
             $tableAlamat = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableAlamat->addRow();
             $tableAlamat->addCell($lebarA4 * 0.10)->addText('');
             $tableAlamat->addCell($lebarA4 * 0.20)->addText('Alamat', ['size' => 12]);
             $tableAlamat->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableAlamat->addCell($lebarA4 * 0.55)->addText($surat->alamat, ['size' => 12]);
+            $tableAlamat->addCell($lebarA4 * 0.60)->addText($surat->alamat, ['size' => 12]);
 
             $tableKeterangan = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableKeterangan->addRow();
             $tableKeterangan->addCell($lebarA4 * 0.10)->addText('');
             $tableKeterangan->addCell($lebarA4 * 0.20)->addText('Keterangan', ['size' => 12]);
             $tableKeterangan->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableKeterangan->addCell($lebarA4 * 0.55)->addText('Menerangkan bahwa orang tersebut diatas warga Kepolorejo dan benar tidak mampu', ['size' => 12]);
+            $tableKeterangan->addCell($lebarA4 * 0.54)->addText('Berdasarkan Surat Pengantar dari RT     / RW     , menerangkan bahwa orang tersebut di atas adalah benar warga Kel. Kepolorejo dan saat ini benar tidak mampu', ['size' => 12], ['alignment' => 'both']);
 
             $tableKeperluan = $section->addTable(['borderSize' => 0, 'alignment' => 'center', 'borderColor' => 'white']);
             $tableKeperluan->addRow();
             $tableKeperluan->addCell($lebarA4 * 0.10)->addText('');
             $tableKeperluan->addCell($lebarA4 * 0.20)->addText('Keperluan', ['size' => 12]);
             $tableKeperluan->addCell($lebarA4 * 0.05)->addText(':', ['size' => 12], array('align' => 'center'));
-            $tableKeperluan->addCell($lebarA4 * 0.55)->addText('Untuk '. $surat->keperluan, ['size' => 12]);
+            $tableKeperluan->addCell($lebarA4 * 0.60)->addText('Untuk '. $surat->keperluan, ['size' => 12]);
 
             $section->addTextBreak();   
 
@@ -1918,43 +1953,46 @@ class SuratController extends Controller
 
             $section->addTextBreak();
             $section->addTextBreak();
-            $section->addTextBreak();
 
         // TANDA TANGAN 
             $tableFoot = $section->addTable(['width' => 100, 'borderColor' => 'white', 'borderSize' => 1, 'alignment' => 'right']);
             $tanggalLengkap = Carbon::parse(now())->locale('id_ID')->isoFormat('DD MMMM YYYY');
-            $tableFoot->addRow();
-            $tableFoot->addCell(5000)->addText('Magetan, ' . $tanggalLengkap, ['size' => 12], array('align' => 'center'));
-            $tableFoot->addCell(550)->addText('');
-            $tableFoot->addRow();            
-            $tableFoot->addCell(5000)->addText('LURAH KEPOLOREJO', ['size' => 12], array('align' => 'center'));
-
-            if ($jabatanNamaJabatan !== 'Lurah') {
-                $tableFoot->addRow();            
-                $tableFoot->addCell(5000)->addText('An. '.$jabatanNamaJabatan, ['size' => 12], array('align' => 'center'));
-                $tableFoot->addRow();
-                $tableFoot->addCell(5000)->addText('');
-            }
-
-            $tableFoot->addRow();
-            $tableFoot->addCell(5000)->addText('');
-
-            $tableFoot->addRow();
-            $tableFoot->addCell(5000)->addText('');
-
-            $tableFoot->addRow();
-            $tableFoot->addCell(5000)->addText('');
-
-            $tableFoot->addRow();
-            $tableFoot->addCell(5000)->addText($jabatanNama, ['size' => 12, 'bold' => true, 'underline' => 'single'], ['align' => 'center']);
-            $tableFoot->addRow();
-            $tableFoot->addCell(5000)->addText($jabatanPosisi, ['size' => 12], ['align' => 'center']);
-
-            $tableFoot->addRow();
-            $tableFoot->addCell(5000)->addText('NIP. ' . $jabatanNIP, ['size' => 12], ['align' => 'center']);
-
-            $section->addTextBreak();
+            $noSpacing = ['spaceAfter' => 0, 'spaceBefore' => 0, 'align' => 'center'];
             
+            $tableFoot->addRow();
+            $tableFoot->addCell(5000)->addText('Magetan, ' . $tanggalLengkap, ['size' => 12], $noSpacing);
+            $tableFoot->addCell(550)->addText('', [], $noSpacing);
+            $tableFoot->addRow();
+            $tableFoot->addCell(5000)->addText('LURAH KEPOLOREJO', ['size' => 12], $noSpacing);
+            
+            if ($jabatanNamaJabatan !== 'Lurah') {
+                $tableFoot->addRow();
+                $tableFoot->addCell(5000)->addText('An. ' . $jabatanNamaJabatan, ['size' => 12], $noSpacing);
+                $tableFoot->addRow();
+                $tableFoot->addCell(5000)->addText('', [], $noSpacing);
+            }
+            
+            $tableFoot->addRow();
+            $tableFoot->addCell(5000)->addText('', [], $noSpacing); 
+            $tableFoot->addRow();
+            $tableFoot->addCell(5000)->addText('', [], $noSpacing); 
+            $tableFoot->addRow();
+            $tableFoot->addCell(5000)->addText('', [], $noSpacing); 
+            $tableFoot->addRow();
+            $tableFoot->addCell(5000)->addText('', [], $noSpacing); 
+            $tableFoot->addRow();
+            $tableFoot->addCell(5000)->addText('', [], $noSpacing); 
+            
+            $tableFoot->addRow();
+            $tableFoot->addCell(5000)->addText($jabatanNama, ['size' => 12, 'bold' => true, 'underline' => 'single'], $noSpacing);
+            $tableFoot->addRow();
+            $tableFoot->addCell(5000)->addText($jabatanPosisi, ['size' => 12], $noSpacing);
+            
+            $tableFoot->addRow();
+            $tableFoot->addCell(5000)->addText('NIP. ' . $jabatanNIP, ['size' => 12], $noSpacing);
+            
+            $section->addTextBreak(0, [], $noSpacing);
+                    
         $filename = ucfirst(str_replace('_', ' ', $jenisSurat)) . ' ' . date('Y-m-d H-i-s') . '.docx';
         $filepath = storage_path('app/' . $filename);
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
