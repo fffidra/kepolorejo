@@ -35,7 +35,8 @@
                                         <th class="col-md-2 text-center align-middle">NAMA</th>                           
                                         <th class="col-md-1 text-center align-middle">STATUS</th>                           
                                         <th class="col-md-2 text-center align-middle">VERIFIKATOR</th>                           
-                                        <th class="col-md-2 text-center align-middle">AKSI</th>                           
+                                        <th class="col-md-1 text-center align-middle">AKSI</th>
+                                        <th class="col-md-1 text-center align-middle">FILE SURAT</th>                           
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -49,11 +50,7 @@
                                             <td class="text-center align-middle">{{ $sk_usaha->verifikator }}</td>
                                             <td class="text-center align-middle">
                                                 <div class="d-flex justify-content-center">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" class="btn btn-primary btn-sm me-2">Detail</button>
-
-                                                    <button class="btn-unduh-sku btn btn-success btn-sm me-2" data-id="{{ $sk_usaha->id_sk_usaha }}" style="margin-right: 10px;">Unduh</button>
-
-                                                    {{-- <button type="button" data-bs-toggle="modal" data-bs-target="#modalDokumen" data-bs-id="{{ $surat->id_surat }}" class="btn btn-info btn-sm">Ubah</button> --}}
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#upload_sku" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" class="btn btn-info btn-sm me-2">Upload</button>
 
                                                     <form method="POST" action="{{ route('sku_selesai', $sk_usaha->id_sk_usaha) }}" id="selesai-surat-{{ $sk_usaha->id_sk_usaha }}">
                                                         @csrf
@@ -62,27 +59,6 @@
                                                     </form>
                                                 </div>
                                                 <script>
-                                                    // BUTTON UNDUH
-                                                    $(document).ready(function() {
-                                                        $('.btn-unduh-sku').on('click', function () {
-                                                            var sku_id = $(this).data('id');
-                                                            var penandaTangan = {{ \App\Models\Jabatan::where('peran', 'Penanda Tangan')->exists() ? 'true' : 'false' }};
-                                                            
-                                                            if (!penandaTangan) {
-                                                                Swal.fire({
-                                                                    icon: "error",
-                                                                    title: "Unduh Gagal",
-                                                                    text: "Peran Penanda Tangan belum dipilih!",
-                                                                });
-                                                                return;
-                                                            }
-
-                                                            var url = "{{ route('unduh_sku', ['id_sk_usaha' => 'SKU_ID']) }}";
-                                                            url = url.replace('SKU_ID', sku_id);
-                                                            window.open(url, '_blank');
-                                                        });
-                                                    });
-
                                                     // BUTTON SELESAI
                                                     $('#btnSelesai-{{ $sk_usaha->id_sk_usaha  }}').click(function(event){
                                                         event.preventDefault();
@@ -101,6 +77,13 @@
                                                     });
                                                 </script>
                                             </td>
+                                            <td class="text-center align-middle">
+                                                @if($sk_usaha->surat_selesai)
+                                                    <a href="{{ asset('surat_selesai/SKU/' . $sk_usaha->surat_selesai) }}" class="btn btn-success btn-sm" target="_blank">Unduh</a>
+                                                @else
+                                                    <button type="button" class="btn btn-secondary btn-sm" disabled>Unduh</button>
+                                                @endif
+                                            </td>
                                         </tr>
                                     @endforeach
 
@@ -114,11 +97,7 @@
                                             <td class="text-center align-middle">{{ $skbm->verifikator }}</td>
                                             <td class="text-center align-middle">
                                                 <div class="d-flex justify-content-center">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKBM" data-bs-id="{{ $skbm->id_sk_belum_menikah }}" class="btn btn-primary btn-sm me-2">Detail</button>
-
-                                                    <button class="btn-unduh-skbm btn btn-success btn-sm me-2" data-id="{{ $skbm->id_sk_belum_menikah }}" style="margin-right: 10px;">Unduh</button>
-
-                                                    {{-- <button type="button" data-bs-toggle="modal" data-bs-target="#modalDokumen" data-bs-id="{{ $surat->id_surat }}" class="btn btn-info btn-sm">Ubah</button> --}}
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#upload_skbm" data-bs-id="{{ $skbm->id_sk_belum_menikah }}" class="btn btn-info btn-sm me-2">Upload</button>
 
                                                     <form method="POST" action="{{ route('skbm_selesai', $skbm->id_sk_belum_menikah) }}" id="selesai-surat-{{ $skbm->id_sk_belum_menikah }}">
                                                         @csrf
@@ -127,26 +106,6 @@
                                                     </form>
                                                 </div>                                                
                                                 <script>
-                                                    // BUTTON UNDUH
-                                                    $(document).ready(function() {
-                                                        $('.btn-unduh-skbm').on('click', function () {
-                                                            var skbm_id = $(this).data('id');
-                                                            var penandaTangan = {{ \App\Models\Jabatan::where('peran', 'Penanda Tangan')->exists() ? 'true' : 'false' }};
-                                                            
-                                                            if (!penandaTangan) {
-                                                                Swal.fire({
-                                                                    icon: "error",
-                                                                    title: "Unduh Gagal",
-                                                                    text: "Peran Penanda Tangan belum dipilih!",
-                                                                });
-                                                                return;
-                                                            }
-
-                                                            var url = "{{ route('unduh_skbm', ['id_sk_belum_menikah' => 'SKBM_ID']) }}";
-                                                            url = url.replace('SKBM_ID', skbm_id);
-                                                            window.open(url, '_blank');
-                                                        });
-                                                    });
                                                     // BUTTON SELESAI
                                                     $('#btnSelesai-{{ $skbm->id_sk_belum_menikah  }}').click(function(event){
                                                         event.preventDefault();
@@ -165,6 +124,13 @@
                                                     });
                                                 </script>
                                             </td>
+                                            <td class="text-center align-middle">
+                                                @if($skbm->surat_selesai)
+                                                    <a href="{{ asset('surat_selesai/SKBM/' . $skbm->surat_selesai) }}" class="btn btn-success btn-sm" target="_blank">Unduh</a>
+                                                @else
+                                                    <button type="button" class="btn btn-secondary btn-sm" disabled>Unduh</button>
+                                                @endif
+                                            </td>                                        
                                         </tr>
                                     @endforeach
 
@@ -178,12 +144,8 @@
                                             <td class="text-center align-middle">{{ $skd->verifikator }}</td>
                                             <td class="text-center align-middle">
                                                 <div class="d-flex justify-content-center">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKD" data-bs-id="{{ $skd->id_sk_domisili }}" class="btn btn-primary btn-sm me-2">Detail</button>
-                                                
-                                                    <button class="btn-unduh-skd btn btn-success btn-sm me-2" data-id="{{ $skd->id_sk_domisili }}" style="margin-right: 10px;">Unduh</button>
-
-                                                    {{-- <button type="button" data-bs-toggle="modal" data-bs-target="#modalDokumen" data-bs-id="{{ $surat->id_surat }}" class="btn btn-info btn-sm">Ubah</button> --}}
-                                                
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#upload_skd" data-bs-id="{{ $skd->id_sk_domisili }}" class="btn btn-info btn-sm me-2">Upload</button>
+                                                                                                    
                                                     <form method="POST" action="{{ route('skd_selesai', $skd->id_sk_domisili) }}" id="selesai-surat-{{ $skd->id_sk_domisili }}">
                                                         @csrf
                                                         @method('PUT')
@@ -191,27 +153,6 @@
                                                     </form>
                                                 </div>                                                
                                                 <script>
-                                                    // BUTTON UNDUH
-                                                    $(document).ready(function() {
-                                                        $('.btn-unduh-skd').on('click', function () {
-                                                            var skd_id = $(this).data('id');
-                                                            var penandaTangan = {{ \App\Models\Jabatan::where('peran', 'Penanda Tangan')->exists() ? 'true' : 'false' }};
-                                                            
-                                                            if (!penandaTangan) {
-                                                                Swal.fire({
-                                                                    icon: "error",
-                                                                    title: "Unduh Gagal",
-                                                                    text: "Peran Penanda Tangan belum dipilih!",
-                                                                });
-                                                                return;
-                                                            }
-
-                                                            var url = "{{ route('unduh_skd', ['id_sk_domisili' => 'SKD_ID']) }}";
-                                                            url = url.replace('SKD_ID', skd_id);
-                                                            window.open(url, '_blank');
-                                                        });
-                                                    });
-
                                                     // BUTTON SELESAI
                                                     $('#btnSelesai-{{ $skd->id_sk_domisili }}').click(function(event){
                                                         event.preventDefault();
@@ -230,6 +171,13 @@
                                                     });
                                                 </script>
                                             </td>
+                                            <td class="text-center align-middle">
+                                                @if($skd->surat_selesai)
+                                                    <a href="{{ asset('surat_selesai/SKD/' . $skd->surat_selesai) }}" class="btn btn-success btn-sm" target="_blank">Unduh</a>
+                                                @else
+                                                    <button type="button" class="btn btn-secondary btn-sm" disabled>Unduh</button>
+                                                @endif
+                                            </td>
                                         </tr>
                                     @endforeach
 
@@ -243,11 +191,7 @@
                                             <td class="text-center align-middle">{{ $sktm->verifikator }}</td>
                                             <td class="text-center align-middle">
                                                 <div class="d-flex justify-content-center">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKTM" data-bs-id="{{ $sktm->id_sk_tidak_mampu }}" class="btn btn-primary btn-sm me-2">Detail</button>
-                                                
-                                                    <button class="btn-unduh-sktm btn btn-success btn-sm me-2" data-id="{{ $sktm->id_sk_tidak_mampu }}" style="margin-right: 10px;">Unduh</button>
-
-                                                    {{-- <button type="button" data-bs-toggle="modal" data-bs-target="#modalDokumen" data-bs-id="{{ $surat->id_surat }}" class="btn btn-info btn-sm">Ubah</button> --}}
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#upload_sktm" data-bs-id="{{ $sktm->id_sk_tidak_mampu }}" class="btn btn-info btn-sm me-2">Upload</button>
                                                 
                                                     <form method="POST" action="{{ route('sktm_selesai', $sktm->id_sk_tidak_mampu) }}" id="selesai-surat-{{ $sktm->id_sk_tidak_mampu }}">
                                                         @csrf
@@ -256,27 +200,6 @@
                                                     </form>
                                                 </div>
                                                 <script>
-                                                    // BUTTON UNDUH
-                                                    $(document).ready(function() {
-                                                        $('.btn-unduh-sktm').on('click', function () {
-                                                            var sktm_id = $(this).data('id');
-                                                            var penandaTangan = {{ \App\Models\Jabatan::where('peran', 'Penanda Tangan')->exists() ? 'true' : 'false' }};
-                                                            
-                                                            if (!penandaTangan) {
-                                                                Swal.fire({
-                                                                    icon: "error",
-                                                                    title: "Unduh Gagal",
-                                                                    text: "Peran Penanda Tangan belum dipilih!",
-                                                                });
-                                                                return;
-                                                            }
-
-                                                            var url = "{{ route('unduh_sktm', ['id_sk_tidak_mampu' => 'SKTM_ID']) }}";
-                                                            url = url.replace('SKTM_ID', sktm_id);
-                                                            window.open(url, '_blank');
-                                                        });
-                                                    });
-
                                                     // BUTTON SELESAI
                                                     $(document).ready(function() {
                                                         $('#btnSelesai-{{ $sktm->id_sk_tidak_mampu }}').click(function(event){
@@ -297,6 +220,13 @@
                                                     });
                                                 </script>
                                             </td>
+                                            <td class="text-center align-middle">
+                                                @if($sktm->surat_selesai)
+                                                    <a href="{{ asset('surat_selesai/SKTM/' . $sktm->surat_selesai) }}" class="btn btn-success btn-sm" target="_blank">Unduh</a>
+                                                @else
+                                                    <button type="button" class="btn btn-secondary btn-sm" disabled>Unduh</button>
+                                                @endif
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -310,458 +240,110 @@
     </div>
 @endsection
 
-@section('modal')
-    {{-- DETAIL SKU --}}
-    <div class="modal fade" id="detailSKU" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
-        <div class="modal-dialog modal-lg">
+@section('modal')    
+    {{-- UPLOAD SKU --}}
+    <div class="modal fade" id="upload_sku" tabindex="-1" aria-labelledby="uploadSuratModalLabel" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"><strong>DETAIL SURAT KETERANGAN USAHA</strong></h5>
+                    <h5 class="modal-title" id="uploadSuratModalLabel">Upload Surat Keterangan Usaha</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <input type="hidden" name="id_sk_usaha" id="id_sk_usaha" required>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">JENIS SURAT</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_jenis_surat"></label></span>
+                <form action="{{ route('upload_sku') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" name="id_sk_usaha" id="id_sk_usaha">
+                        <div class="mb-3">
+                            <label for="surat_selesai" class="form-label">Pilih File Surat</label>
+                            <input type="file" class="form-control" name="surat_selesai" id="surat_selesai" required>
                         </div>
                     </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">NAMA</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nama"></label></span>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Upload</button>
                     </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">NIK</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nik"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">TEMPAT, TANGGAL LAHIR</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_ttl"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">STATUS NIKAH</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_status_nikah"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">AGAMA</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_agama"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">PEKERJAAN</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_pekerjaan"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">ALAMAT</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_alamat"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">USAHA</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_usaha"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">KEPERLUAN</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_keperluan"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">BERKAS PERSYARATAN</label>
-                        <div class="col-md-9">
-                            <div class="d-flex">
-                                <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <ul class="list-unstyled mb-0 w-100">
-                                    <li class="row align-items-center mb-1">
-                                        <div class="col-md-6">
-                                            <label class="form-label mb-0">Surat Pengantar RT/RW</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a id="detail_bukti_suket" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
-                                        </div>
-                                    </li>
-                                    <li class="row align-items-center mb-1">
-                                        <div class="col-md-6">
-                                            <label class="form-label mb-0">Kartu Keluarga (KK)</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a id="detail_bukti_kk" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
-                                        </div>
-                                    </li>
-                                    <li class="row align-items-center">
-                                        <div class="col-md-6">
-                                            <label class="form-label mb-0">Kartu Tanda Penduduk (KTP)</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a id="detail_bukti_ktp" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>                    
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                </div>
+                </form>
             </div>
         </div>
     </div>
 
-    {{-- DETAIL SKD --}}
-    <div class="modal fade" id="detailSKD" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
-        <div class="modal-dialog modal-lg">
+    {{-- UPLOAD SKBM --}}
+    <div class="modal fade" id="upload_skbm" tabindex="-1" aria-labelledby="uploadSuratModalLabel" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"><strong>DETAIL SURAT KETERANGAN DOMISILI</strong></h5>
+                    <h5 class="modal-title" id="uploadSuratModalLabel">Upload Surat Keterangan Belum Menikah</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <input type="hidden" name="id_sk_domisili" id="id_sk_domisili" required>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">JENIS SURAT</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_jenis_surat_2"></label></span>
+                <form action="{{ route('upload_skbm') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" name="id_sk_belum_menikah" id="id_sk_belum_menikah">
+                        <div class="mb-3">
+                            <label for="surat_selesai" class="form-label">Pilih File Surat</label>
+                            <input type="file" class="form-control" name="surat_selesai" id="surat_selesai" required>
                         </div>
                     </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">NAMA</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nama_2"></label></span>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Upload</button>
                     </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">NIK</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nik_2"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">JENIS KELAMIN</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_jenis_kelamin_2"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">TEMPAT, TANGGAL LAHIR</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_ttl_2"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">AGAMA</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_agama_2"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">STATUS NIKAH</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_status_nikah_2"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">PEKERJAAN</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_pekerjaan_2"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">ALAMAT KTP</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_alamat_2"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">ALAMAT DOMISILI</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_alamat_dom_2"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">KEPERLUAN</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_keperluan_2"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">BERKAS PERSYARATAN</label>
-                        <div class="col-md-9">
-                            <div class="d-flex">
-                                <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <ul class="list-unstyled mb-0 w-100">
-                                    <li class="row align-items-center mb-1">
-                                        <div class="col-md-6">
-                                            <label class="form-label mb-0">Surat Pengantar RT/RW</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a id="detail_bukti_suket_2" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
-                                        </div>
-                                    </li>
-                                    <li class="row align-items-center mb-1">
-                                        <div class="col-md-6">
-                                            <label class="form-label mb-0">Kartu Keluarga (KK)</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a id="detail_bukti_kk_2" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
-                                        </div>
-                                    </li>
-                                    <li class="row align-items-center">
-                                        <div class="col-md-6">
-                                            <label class="form-label mb-0">Kartu Tanda Penduduk (KTP)</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a id="detail_bukti_ktp_2" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                </div>
+                </form>
             </div>
         </div>
-    </div>    
-    
-    {{-- DETAIL SKBM --}}
-    <div class="modal fade" id="detailSKBM" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"><strong>DETAIL SURAT KETERANGAN BELUM MENIKAH</strong></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="id_sk_belum_menikah" id="id_sk_belum_menikah" required>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">JENIS SURAT</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_jenis_surat_3"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">NAMA</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nama_3"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">NIK</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nik_3"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">TEMPAT, TANGGAL LAHIR</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_ttl_3"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">STATUS NIKAH</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_status_nikah_3"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">AGAMA</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_agama_3"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">PEKERJAAN</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_pekerjaan_3"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">ALAMAT</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_alamat_3"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">KEPERLUAN</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_keperluan_3"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">BERKAS PERSYARATAN</label>
-                        <div class="col-md-9">
-                            <div class="d-flex">
-                                <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <ul class="list-unstyled mb-0 w-100">
-                                    <li id="suket" class="row align-items-center mb-2">
-                                        <div class="col-md-6">
-                                            <label class="form-label mb-0">Surat Pengantar RT/RW</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a id="detail_bukti_suket_3" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
-                                        </div>
-                                    </li>
-                                    <li id="kk" class="row align-items-center mb-2">
-                                        <div class="col-md-6">
-                                            <label class="form-label mb-0">Kartu Keluarga (KK)</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a id="detail_bukti_kk_3" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
-                                        </div>
-                                    </li>
-                                    <li id="ktp" class="row align-items-center mb-2">
-                                        <div class="col-md-6">
-                                            <label class="form-label mb-0">Kartu Tanda Penduduk (KTP)</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a id="detail_bukti_ktp_3" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
-                                        </div>
-                                    </li>
-                                    <li id="akta_cerai" class="row align-items-center mb-2">
-                                        <div class="col-md-6">
-                                            <label class="form-label mb-0">Akta Cerai</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a id="detail_bukti_cerai_3" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
-                                        </div>
-                                    </li>
-                                    <li id="akta_kematian" class="row align-items-center mb-2">
-                                        <div class="col-md-6">
-                                            <label class="form-label mb-0">Akta Kematian</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a id="detail_bukti_kematian_3" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>                
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                </div>
-            </div>
-        </div>
-    </div>   
+    </div>
 
-    {{-- DETAIL SKTM --}}
-    <div class="modal fade" id="detailSKTM" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
-        <div class="modal-dialog modal-lg">
+    {{-- UPLOAD SKD --}}
+    <div class="modal fade" id="upload_skd" tabindex="-1" aria-labelledby="uploadSuratModalLabel" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"><strong>DETAIL SURAT KETERANGAN TIDAK MAMPU</strong></h5>
+                    <h5 class="modal-title" id="uploadSuratModalLabel">Upload Surat Keterangan Domisili</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <input type="hidden" name="id_sk_tidak_mampu" id="id_sk_tidak_mampu" required>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">JENIS SURAT</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_jenis_surat_4"></label></span>
+                <form action="{{ route('upload_skd') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" name="id_sk_domisili" id="id_sk_domisili">
+                        <div class="mb-3">
+                            <label for="surat_selesai" class="form-label">Pilih File Surat</label>
+                            <input type="file" class="form-control" name="surat_selesai" id="surat_selesai" required>
                         </div>
                     </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">NAMA</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nama_4"></label></span>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Upload</button>
                     </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">NIK</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_nik_4"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">TEMPAT, TANGGAL LAHIR</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_ttl_4"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">AGAMA</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_agama_4"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">PEKERJAAN</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_pekerjaan_4"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">ALAMAT</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_alamat_4"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">KEPERLUAN</label>
-                        <div class="col-md-9 d-flex align-items-center">
-                            <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-label" id="detail_keperluan_4"></label></span>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <label class="col-md-2 col-form-label">BERKAS PERSYARATAN</label>
-                        <div class="col-md-9">
-                            <div class="d-flex">
-                                <span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                <ul class="list-unstyled mb-0 w-100">
-                                    <li class="row align-items-center mb-1">
-                                        <div class="col-md-6">
-                                            <label class="form-label mb-0">Surat Pengantar RT/RW</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a id="detail_bukti_suket_4" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
-                                        </div>
-                                    </li>
-                                    <li class="row align-items-center mb-1">
-                                        <div class="col-md-6">
-                                            <label class="form-label mb-0">Kartu Keluarga (KK)</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a id="detail_bukti_kk_4" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
-                                        </div>
-                                    </li>
-                                    <li class="row align-items-center">
-                                        <div class="col-md-6">
-                                            <label class="form-label mb-0">Kartu Tanda Penduduk (KTP)</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a id="detail_bukti_ktp_4" class="btn btn-primary btn-sm w-100" href="#" target="_blank">Unduh</a>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                </div>
+                </form>
             </div>
         </div>
-    </div>    
+    </div>
+
+    {{-- UPLOAD SKTM --}}
+    <div class="modal fade" id="upload_sktm" tabindex="-1" aria-labelledby="uploadSuratModalLabel" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="uploadSuratModalLabel">Upload Surat Keterangan Tidak Mampu</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('upload_sktm') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" name="id_sk_tidak_mampu" id="id_sk_tidak_mampu">
+                        <div class="mb-3">
+                            <label for="surat_selesai" class="form-label">Pilih File Surat</label>
+                            <input type="file" class="form-control" name="surat_selesai" id="surat_selesai" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('script')
@@ -770,7 +352,7 @@
             var table = $('.table').DataTable({
                 order: [[0, 'desc']],
                 columnDefs: [
-                    { orderable: false, targets: [5] }
+                    { orderable: false, targets: [6] }
                 ],
                 language: {
                     lengthMenu: "Tampilkan _MENU_ data per halaman",
@@ -789,180 +371,43 @@
             });
         });    
 
-        // DETAIL SKU
-        $('#detailSKU').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            $.ajax({
-                url: '{{ route("get_data_sku") }}',
-                type: 'POST',
-                data: {
-                    id: button.data('bs-id'),
-                    _token: '{{ csrf_token() }}',
-                },
-                dataType: 'JSON',
-                success: function(response) {
-                    if (response.status == 'success') {
-                        var surat = response.surat;
-                        $("#detail_jenis_surat").html(response.jenis_surat);
-                        $("#detail_nama").html(surat.nama);
-                        $("#detail_nik").html(surat.nik);
-                        $("#detail_ttl").html(surat.ttl);
-                        $("#detail_status_nikah").html(response.status_nikah);                        
-                        $("#detail_agama").html(response.agama);
-                        $("#detail_pekerjaan").html(response.pekerjaan);
-                        $("#detail_alamat").html(surat.alamat);
-                        $("#detail_usaha").html(surat.usaha);
-                        $("#detail_keperluan").html(surat.keperluan);
-                        $("#detail_bukti_suket").attr("href", '/bukti_dokumen/SKU/' + surat.bukti_suket);
-                        $("#detail_bukti_kk").attr("href", '/bukti_dokumen/SKU/' + surat.bukti_kk);
-                        $("#detail_bukti_ktp").attr("href", '/bukti_dokumen/SKU/' + surat.bukti_ktp);
-
-                        if (response.pekerjaan === 'Lainnya') {
-                            $("#detail_pekerjaan").html(response.pekerjaan_lainnya);
-                            $("#pekerjaan_lainnya_row").show();
-                        } else {
-                            $("#detail_pekerjaan").html(response.pekerjaan);
-                            $("#pekerjaan_lainnya_row").hide();
-                        }
-                    }
-                }, 
+        // UPLOAD SKU
+        $(document).ready(function() {
+            $('#upload_sku').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('bs-id');
+                var modal = $(this);
+                modal.find('#id_sk_usaha').val(id);
             });
         });
 
-        // DETAIL SKBM
-        $('#detailSKBM').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            $.ajax({
-                url: '{{ route("get_data_skbm") }}',
-                type: 'POST',
-                data: {
-                    id: button.data('bs-id'),
-                    _token: '{{ csrf_token() }}',
-                },
-                dataType: 'JSON',
-                success: function(response) {
-                    if (response.status == 'success') {
-                        var surat = response.surat;
-                        $("#detail_jenis_surat_3").html(response.jenis_surat);
-                        $("#detail_nama_3").html(surat.nama);
-                        $("#detail_nik_3").html(surat.nik);
-                        $("#detail_ttl_3").html(surat.ttl);
-                        $("#detail_status_nikah_3").html(response.status_nikah);
-                        $("#detail_agama_3").html(response.agama);
-                        $("#detail_pekerjaan_3").html(response.pekerjaan);
-                        $("#detail_alamat_3").html(surat.alamat);
-                        $("#detail_keperluan_3").html(surat.keperluan);
-                        $("#detail_bukti_suket_3").attr("href", '/bukti_dokumen/SKBM/' + surat.bukti_suket);
-                        $("#detail_bukti_kk_3").attr("href", '/bukti_dokumen/SKBM/' + surat.bukti_kk);
-                        $("#detail_bukti_ktp_3").attr("href", '/bukti_dokumen/SKBM/' + surat.bukti_ktp);
-                        $("#detail_bukti_cerai_3").attr("href", '/bukti_dokumen/SKBM/' + surat.bukti_cerai);
-                        $("#detail_bukti_kematian_3").attr("href", '/bukti_dokumen/SKBM/' + surat.bukti_kematian);
-
-                        if (response.pekerjaan === 'Lainnya') {
-                            $("#detail_pekerjaan_3").html(response.pekerjaan_lainnya);
-                            $("#pekerjaan_lainnya_3_row").show();
-                        } else {
-                            $("#detail_pekerjaan_3").html(response.pekerjaan);
-                            $("#pekerjaan_lainnya_3_row").hide();
-                        }
-
-                        $("#suket").show();
-                        $("#kk").show();
-                        $("#ktp").show();
-                        $("#akta_cerai").hide();
-                        $("#akta_kematian").hide();
-
-                        if (response.status_nikah === 'Belum Kawin') {
-                            $("#akta_cerai").hide();
-                            $("#akta_kematian").hide();
-                        } else if (response.status_nikah === 'Cerai Hidup') {
-                            $("#akta_cerai").show();
-                            $("#akta_kematian").hide();
-                        } else if (response.status_nikah === 'Cerai Mati') {
-                            $("#akta_cerai").hide();
-                            $("#akta_kematian").show();
-                        }
-                    }
-                },
+        // UPLOAD SKBM
+        $(document).ready(function() {
+            $('#upload_skbm').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('bs-id');
+                var modal = $(this);
+                modal.find('#id_sk_belum_menikah').val(id);
             });
         });
 
-        // DETAIL SKD
-        $('#detailSKD').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            $.ajax({
-                url: '{{ route("get_data_skd") }}',
-                type: 'POST',
-                data: {
-                    id: button.data('bs-id'),
-                    _token: '{{ csrf_token() }}',
-                },
-                dataType: 'JSON',
-                success: function(response) {
-                    if (response.status == 'success') {
-                        var surat = response.surat;
-                        $("#detail_jenis_surat_2").html(response.jenis_surat);
-                        $("#detail_nama_2").html(surat.nama);
-                        $("#detail_nik_2").html(surat.nik);
-                        $("#detail_jenis_kelamin_2").html(response.jenis_kelamin);
-                        $("#detail_ttl_2").html(surat.ttl);
-                        $("#detail_agama_2").html(response.agama);
-                        $("#detail_pekerjaan_2").html(response.pekerjaan);
-                        $("#detail_status_nikah_2").html(response.status_nikah);
-                        $("#detail_alamat_2").html(surat.alamat);
-                        $("#detail_alamat_dom_2").html(surat.alamat_dom);
-                        $("#detail_keperluan_2").html(surat.keperluan);
-                        $("#detail_bukti_suket_2").attr("href", '/bukti_dokumen/SKD/' + surat.bukti_suket);
-                        $("#detail_bukti_kk_2").attr("href", '/bukti_dokumen/SKD/' + surat.bukti_kk);
-                        $("#detail_bukti_ktp_2").attr("href", '/bukti_dokumen/SKD/' + surat.bukti_ktp);
-
-                        if (response.pekerjaan === 'Lainnya') {
-                            $("#detail_pekerjaan_2").html(response.pekerjaan_lainnya);
-                            $("#pekerjaan_lainnya_2_row").show();
-                        } else {
-                            $("#detail_pekerjaan_2").html(response.pekerjaan);
-                            $("#pekerjaan_lainnya_2_row").hide();
-                        }
-                    }
-                },
+        // UPLOAD SKD
+        $(document).ready(function() {
+            $('#upload_skd').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('bs-id');
+                var modal = $(this);
+                modal.find('#id_sk_domisili').val(id);
             });
         });
 
-        // DETAIL SKTM
-        $('#detailSKTM').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            $.ajax({
-                url: '{{ route("get_data_sktm") }}',
-                type: 'POST',
-                data: {
-                    id: button.data('bs-id'),
-                    _token: '{{ csrf_token() }}',
-                },
-                dataType: 'JSON',
-                success: function(response) {
-                    if (response.status == 'success') {
-                        var surat = response.surat;
-                        $("#detail_jenis_surat_4").html(response.jenis_surat);
-                        $("#detail_nama_4").html(surat.nama);
-                        $("#detail_nik_4").html(surat.nik);
-                        $("#detail_ttl_4").html(surat.ttl);
-                        $("#detail_agama_4").html(response.agama);
-                        $("#detail_pekerjaan_4").html(response.pekerjaan);
-                        $("#detail_alamat_4").html(surat.alamat);
-                        $("#detail_keperluan_4").html(surat.keperluan);
-                        $("#detail_bukti_suket_4").attr("href", '/bukti_dokumen/SKTM/' + surat.bukti_suket);
-                        $("#detail_bukti_kk_4").attr("href", '/bukti_dokumen/SKTM/' + surat.bukti_kk);
-                        $("#detail_bukti_ktp_4").attr("href", '/bukti_dokumen/SKTM/' + surat.bukti_ktp);
-
-                        if (response.pekerjaan === 'Lainnya') {
-                            $("#detail_pekerjaan_4").html(response.pekerjaan_lainnya);
-                            $("#pekerjaan_lainnya_4_row").show();
-                        } else {
-                            $("#detail_pekerjaan_4").html(response.pekerjaan);
-                            $("#pekerjaan_lainnya_4_row").hide();
-                        }
-                    }
-                },
+        // UPLOAD SKTM
+        $(document).ready(function() {
+            $('#upload_sktm').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('bs-id');
+                var modal = $(this);
+                modal.find('#id_sk_tidak_mampu').val(id);
             });
         });
     </script>

@@ -47,10 +47,14 @@
                                             <td class="text-center align-middle">{{ $sktm->status_surat }}</td>
                                             <td class="text-center align-middle">
                                                 <div class="d-flex justify-content-center">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKTM" data-bs-id="{{ $sktm->id_sk_tidak_mampu }}" class="btn btn-primary btn-sm me-1">Detail</button>
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKTM" data-bs-id="{{ $sktm->id_sk_tidak_mampu }}" class="btn btn-primary btn-sm me-2">Detail</button>
+
+                                                    @if($sktm->surat_selesai)
+                                                        <a href="{{ asset('surat_selesai/SKTM/' . $sktm->surat_selesai) }}" class="btn btn-success btn-sm" target="_blank">Unduh</a>
+                                                    @else
+                                                        <button type="button" class="btn btn-secondary btn-sm" disabled>Unduh</button>
+                                                    @endif
                                                 </div>
-                                                <script>
-                                                </script>                                            
                                             </td>
                                         </tr>
                                     @endforeach

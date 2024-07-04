@@ -35,7 +35,7 @@
                                 <br>
                                 <b>3) </b>Anda harus mengajukan ulang surat yang <b>Ditolak</b>
                                 <br>
-                                <b>4) </b>Surat dapat diambil di Kantor Kelurahan Kepolorejo, setelah status surat berubah menjadi <b>Selesai</b>
+                                <b>4) </b>Anda dapat mengunduh surat yang selesai diproses pada tombol <b>Unduh</b>, setelah status surat berubah menjadi <b>Selesai</b>
                             </div>
                             <div class="col-3 text-end">
                                 <button data-bs-toggle="modal" data-bs-target="#tambahsuratbaru" class="btn btn-primary"><b>AJUKAN SURAT</b></button>
@@ -64,32 +64,13 @@
                                             <td class="text-center align-middle">
                                                 <div class="d-flex justify-content-center">
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKU" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" class="btn btn-primary btn-sm me-2">Detail</button>
-                                                    @if($sk_usaha->status_surat === 'Ditolak')
-                                                        <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" data-bs-pesan="{{ $sk_usaha->pesan }}" class="btn btn-warning btn-sm">Pesan Ditolak</button>
-                                                    @endif
-                                                </div>
-                                                <script>
-                                                </script>
-                                            </td>
-                                        </tr>
-                                    @endforeach
 
-                                    @foreach(\App\Models\SKDomisili::where('pemohon', auth()->user()->nik)->get() as $skd)
-                                        <tr>      
-                                            <td class="text-center align-middle">{{ $skd->tanggal }}</td>
-                                            <td class="text-center align-middle">{{ $skd->sk_domisili_ibfk_3->nama_jenis_surat }}</td>
-                                            <td class="text-center align-middle">{{ $skd->nik }}</td>
-                                            <td class="text-center align-middle">{{ $skd->nama }}</td>
-                                            <td class="text-center align-middle">{{ $skd->status_surat }}</td>
-                                            <td class="text-center align-middle">
-                                                <div class="d-flex justify-content-center">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKD" data-bs-id="{{ $skd->id_sk_domisili }}" class="btn btn-primary btn-sm me-2">Detail</button>
-                                                    @if($skd->status_surat === 'Ditolak')
-                                                        <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $skd->id_sk_domisili }}" data-bs-pesan="{{ $skd->pesan }}" class="btn btn-warning btn-sm">Pesan Ditolak</button>
+                                                    @if($sk_usaha->status_surat === 'Ditolak')
+                                                        <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $sk_usaha->id_sk_usaha }}" data-bs-pesan="{{ $sk_usaha->pesan }}" class="btn btn-danger btn-sm">Pesan Ditolak</button>
+                                                    @elseif($sk_usaha->status_surat === 'Selesai' && $sk_usaha->surat_selesai)
+                                                        <a href="{{ asset('surat_selesai/SKU/' . $sk_usaha->surat_selesai) }}" class="btn btn-success btn-sm" target="_blank">Unduh</a>
                                                     @endif
                                                 </div>
-                                                <script>
-                                                </script>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -104,12 +85,34 @@
                                             <td class="text-center align-middle">
                                                 <div class="d-flex justify-content-center">
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKBM" data-bs-id="{{ $sk_belum_menikah->id_sk_belum_menikah }}" class="btn btn-primary btn-sm me-2">Detail</button>
+
                                                     @if($sk_belum_menikah->status_surat === 'Ditolak')
-                                                        <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $sk_belum_menikah->id_sk_belum_menikah }}" data-bs-pesan="{{ $sk_belum_menikah->pesan }}" class="btn btn-warning btn-sm">Pesan Ditolak</button>
+                                                        <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $sk_belum_menikah->id_sk_belum_menikah }}" data-bs-pesan="{{ $sk_belum_menikah->pesan }}" class="btn btn-danger btn-sm">Pesan Ditolak</button>
+                                                    @elseif($sk_belum_menikah->status_surat === 'Selesai' && $sk_belum_menikah->surat_selesai)
+                                                        <a href="{{ asset('surat_selesai/SKBM/' . $sk_belum_menikah->surat_selesai) }}" class="btn btn-success btn-sm" target="_blank">Unduh</a>
                                                     @endif
                                                 </div>
-                                                <script>
-                                                </script>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+
+                                    @foreach(\App\Models\SKDomisili::where('pemohon', auth()->user()->nik)->get() as $skd)
+                                        <tr>      
+                                            <td class="text-center align-middle">{{ $skd->tanggal }}</td>
+                                            <td class="text-center align-middle">{{ $skd->sk_domisili_ibfk_3->nama_jenis_surat }}</td>
+                                            <td class="text-center align-middle">{{ $skd->nik }}</td>
+                                            <td class="text-center align-middle">{{ $skd->nama }}</td>
+                                            <td class="text-center align-middle">{{ $skd->status_surat }}</td>
+                                            <td class="text-center align-middle">
+                                                <div class="d-flex justify-content-center">
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKD" data-bs-id="{{ $skd->id_sk_domisili }}" class="btn btn-primary btn-sm me-2">Detail</button>
+
+                                                    @if($skd->status_surat === 'Ditolak')
+                                                        <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $skd->id_sk_domisili }}" data-bs-pesan="{{ $skd->pesan }}" class="btn btn-danger btn-sm">Pesan Ditolak</button>
+                                                    @elseif($skd->status_surat === 'Selesai' && $skd->surat_selesai)
+                                                        <a href="{{ asset('surat_selesai/SKD/' . $skd->surat_selesai) }}" class="btn btn-success btn-sm" target="_blank">Unduh</a>
+                                                    @endif
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -123,13 +126,16 @@
                                             <td class="text-center align-middle">{{ $sktm->status_surat }}</td>
                                             <td class="text-center align-middle">
                                                 <div class="d-flex justify-content-center">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKTM" data-bs-id="{{ $sktm->id_sk_tidak_mampu }}" class="btn btn-primary btn-sm me-2">Detail</button>
-                                                    @if($sktm->status_surat === 'Ditolak')
-                                                        <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $sktm->id_sk_tidak_mampu }}" data-bs-pesan="{{ $sktm->pesan }}" class="btn btn-warning btn-sm">Pesan Ditolak</button>
-                                                    @endif
+                                                    <div class="d-flex justify-content-center">
+                                                        <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKTM" data-bs-id="{{ $sktm->id_sk_tidak_mampu }}" class="btn btn-primary btn-sm me-2">Detail</button>
+                                        
+                                                        @if($sktm->status_surat === 'Ditolak')
+                                                            <button type="button" data-bs-toggle="modal" data-bs-target="#pesan_ditolak" data-bs-id="{{ $sktm->id_sk_tidak_mampu }}" data-bs-pesan="{{ $sktm->pesan }}" class="btn btn-danger btn-sm">Pesan Ditolak</button>
+                                                        @elseif($sktm->status_surat === 'Selesai' && $sktm->surat_selesai)
+                                                            <a href="{{ asset('surat_selesai/SKTM/' . $sktm->surat_selesai) }}" class="btn btn-success btn-sm" target="_blank">Unduh</a>
+                                                        @endif
+                                                    </div>
                                                 </div>
-                                                <script>
-                                                </script>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -1151,23 +1157,6 @@
             });
         });    
 
-        // PEKERJAAN LAINNYA SKD
-        document.addEventListener('DOMContentLoaded', function () {
-            var pekerjaanSelect = document.getElementById('pekerjaan_2');
-            var pekerjaanLainnyaDiv = document.getElementById('pekerjaan_lainnya_div_2');
-            var pekerjaanLainnyaInput = document.getElementById('pekerjaan_lainnya_2');
-
-            pekerjaanSelect.addEventListener('change', function () {
-                if (pekerjaanSelect.value === 'Lainnya') {
-                    pekerjaanLainnyaDiv.style.display = 'block';
-                    pekerjaanLainnyaInput.setAttribute('required', 'required');
-                } else {
-                    pekerjaanLainnyaDiv.style.display = 'none';
-                    pekerjaanLainnyaInput.removeAttribute('required');
-                }
-            });
-        }); 
-        
         // PEKERJAAN LAINNYA SKBM
         document.addEventListener('DOMContentLoaded', function () {
             var pekerjaanSelect = document.getElementById('pekerjaan_3');
@@ -1184,6 +1173,23 @@
                 }
             });
         });
+
+        // PEKERJAAN LAINNYA SKD
+        document.addEventListener('DOMContentLoaded', function () {
+            var pekerjaanSelect = document.getElementById('pekerjaan_2');
+            var pekerjaanLainnyaDiv = document.getElementById('pekerjaan_lainnya_div_2');
+            var pekerjaanLainnyaInput = document.getElementById('pekerjaan_lainnya_2');
+
+            pekerjaanSelect.addEventListener('change', function () {
+                if (pekerjaanSelect.value === 'Lainnya') {
+                    pekerjaanLainnyaDiv.style.display = 'block';
+                    pekerjaanLainnyaInput.setAttribute('required', 'required');
+                } else {
+                    pekerjaanLainnyaDiv.style.display = 'none';
+                    pekerjaanLainnyaInput.removeAttribute('required');
+                }
+            });
+        }); 
 
         // PEKERJAAN LAINNYA SKTM
         document.addEventListener('DOMContentLoaded', function () {

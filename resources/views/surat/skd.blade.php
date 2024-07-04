@@ -47,10 +47,14 @@
                                             <td class="text-center align-middle">{{ $skd->status_surat }}</td>
                                             <td class="text-center align-middle">
                                                 <div class="d-flex justify-content-center">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKD" data-bs-id="{{ $skd->id_sk_domisili }}" class="btn btn-primary btn-sm me-1">Detail</button>
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKD" data-bs-id="{{ $skd->id_sk_domisili }}" class="btn btn-primary btn-sm me-2">Detail</button>
+
+                                                    @if($skd->surat_selesai)
+                                                        <a href="{{ asset('surat_selesai/SKD/' . $skd->surat_selesai) }}" class="btn btn-success btn-sm" target="_blank">Unduh</a>
+                                                    @else
+                                                        <button type="button" class="btn btn-secondary btn-sm" disabled>Unduh</button>
+                                                    @endif
                                                 </div>
-                                                <script>
-                                                </script>                                            
                                             </td>
                                         </tr>
                                     @endforeach

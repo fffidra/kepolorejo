@@ -53,7 +53,7 @@
                                 <br>
                                 <b>2) </b>Anda harus mengajukan ulang surat yang <b>Ditolak</b>
                                 <br>
-                                <b>3) </b>Surat dapat diambil di Kantor Kelurahan Kepolorejo, setelah status surat berubah menjadi <b>Selesai</b>
+                                <b>3) </b>Anda dapat mengunduh surat yang selesai diproses pada tombol <b>Unduh</b>, setelah status surat berubah menjadi <b>Selesai</b>
                             </p>
                         </div>
                     </div>

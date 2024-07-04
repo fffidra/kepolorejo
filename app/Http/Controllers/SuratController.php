@@ -2024,4 +2024,120 @@ class SuratController extends Controller
         $surat = SKUsaha::where('status_surat', 'Selesai')->get();
         return view('surat.sku', compact('surat'));
     }
+
+    public function upload_sku(Request $request)
+    {
+        $request->validate([
+            'surat_selesai' => 'required|mimes:jpg,jpeg,png,doc,docx,pdf',
+            'id_sk_usaha' => 'required|exists:sk_usaha,id_sk_usaha',
+        ]);
+
+        $done_sku = SKUsaha::findOrFail($request->id_sk_usaha);
+
+        if ($request->hasFile('surat_selesai')) {
+            $surat_selesai = $request->file('surat_selesai');
+            $nik = $done_sku->nik;
+            $nama_surat_selesai = 'SKU_' . $nik . '_' . date('YmdHis') . '.' . $surat_selesai->getClientOriginalExtension();
+            $surat_selesai->move(public_path('surat_selesai/SKU'), $nama_surat_selesai);
+
+            $done_sku->update([
+                'surat_selesai' => $nama_surat_selesai,
+            ]);
+        }
+
+        Session::flash('alert', [
+            'type' => 'success',
+            'title' => 'Upload Surat Berhasil',
+            'message' => 'Surat Keterangan Usaha telah diunggah.'
+        ]);
+    
+        return back();    
+    }
+
+    public function upload_skbm(Request $request)
+    {
+        $request->validate([
+            'surat_selesai' => 'required|mimes:jpg,jpeg,png,doc,docx,pdf',
+            'id_sk_belum_menikah' => 'required|exists:sk_belum_menikah,id_sk_belum_menikah',
+        ]);
+
+        $done_skbm = SKBelumMenikah::findOrFail($request->id_sk_belum_menikah);
+
+        if ($request->hasFile('surat_selesai')) {
+            $surat_selesai = $request->file('surat_selesai');
+            $nik = $done_skbm->nik;
+            $nama_surat_selesai = 'SKBM_' . $nik . '_' . date('YmdHis') . '.' . $surat_selesai->getClientOriginalExtension();
+            $surat_selesai->move(public_path('surat_selesai/SKBM'), $nama_surat_selesai);
+
+            $done_skbm->update([
+                'surat_selesai' => $nama_surat_selesai,
+            ]);
+        }
+
+        Session::flash('alert', [
+            'type' => 'success',
+            'title' => 'Upload Surat Berhasil',
+            'message' => 'Surat Keterangan Belum Menikah telah diunggah.'
+        ]);
+    
+        return back();    
+    }
+
+    public function upload_skd(Request $request)
+    {
+        $request->validate([
+            'surat_selesai' => 'required|mimes:jpg,jpeg,png,doc,docx,pdf',
+            'id_sk_domisili' => 'required|exists:sk_domisili,id_sk_domisili',
+        ]);
+
+        $done_skd = SKDomisili::findOrFail($request->id_sk_domisili);
+
+        if ($request->hasFile('surat_selesai')) {
+            $surat_selesai = $request->file('surat_selesai');
+            $nik = $done_skd->nik;
+            $nama_surat_selesai = 'SKD_' . $nik . '_' . date('YmdHis') . '.' . $surat_selesai->getClientOriginalExtension();
+            $surat_selesai->move(public_path('surat_selesai/SKD'), $nama_surat_selesai);
+
+            $done_skd->update([
+                'surat_selesai' => $nama_surat_selesai,
+            ]);
+        }
+
+        Session::flash('alert', [
+            'type' => 'success',
+            'title' => 'Upload Surat Berhasil',
+            'message' => 'Surat Keterangan Domisili telah diunggah.'
+        ]);
+    
+        return back();    
+    }
+    
+    public function upload_sktm(Request $request)
+    {
+        $request->validate([
+            'surat_selesai' => 'required|mimes:jpg,jpeg,png,doc,docx,pdf',
+            'id_sk_tidak_mampu' => 'required|exists:sk_tidak_mampu,id_sk_tidak_mampu',
+        ]);
+
+        $done_sktm = SKTidakMampu::findOrFail($request->id_sk_tidak_mampu);
+
+        if ($request->hasFile('surat_selesai')) {
+            $surat_selesai = $request->file('surat_selesai');
+            $nik = $done_sktm->nik;
+            $nama_surat_selesai = 'SKTM_' . $nik . '_' . date('YmdHis') . '.' . $surat_selesai->getClientOriginalExtension();
+            $surat_selesai->move(public_path('surat_selesai/SKTM'), $nama_surat_selesai);
+
+            $done_sktm->update([
+                'surat_selesai' => $nama_surat_selesai,
+            ]);
+        }
+
+        Session::flash('alert', [
+            'type' => 'success',
+            'title' => 'Upload Surat Berhasil',
+            'message' => 'Surat Keterangan Tidak Mampu telah diunggah.'
+        ]);
+    
+        return back();    
+    }
 }

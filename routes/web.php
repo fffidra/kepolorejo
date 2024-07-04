@@ -137,6 +137,11 @@ Route::middleware(['auth'])->group(function() {
     Route::delete('hapus_skd/{id_sk_domisili}', [SuratController::class, 'hapus_skd'])->name('hapus_skd');
     Route::delete('hapus_sktm/{id_sk_tidak_mampu}', [SuratController::class, 'hapus_sktm'])->name('hapus_sktm');
 
+    Route::post('upload_sku', [SuratController::class, 'upload_sku'])->name('upload_sku');
+    Route::post('upload_skbm', [SuratController::class, 'upload_skbm'])->name('upload_skbm');
+    Route::post('upload_skd', [SuratController::class, 'upload_skd'])->name('upload_skd');
+    Route::post('upload_sktm', [SuratController::class, 'upload_sktm'])->name('upload_sktm');
+
     Route::get('keluar', [UserController::class, 'keluar'])->name('keluar'); 
 
     Route::get('dokumen_bukti/{filename}', function ($filename) {
@@ -158,15 +163,3 @@ Route::get('/', function () {
 Route::get('/masuk', function () {
     return view('masuk');
 })->name('masuk');
-
-Route::post('index', [SuratController::class, 'index'])->name('index');
-Route::post('index_2', [SuratController::class, 'index_2'])->name('index_2');
-Route::post('index', [UserController::class, 'index'])->name('index');
-Route::post('index_sku', [UserController::class, 'index_sku'])->name('index_sku');
-
-
-Route::put('ubah_sku', [SuratController::class, 'ubah_sku'])->name('ubah_sku');
-Route::put('ubah_skbm', [SuratController::class, 'ubah_skbm'])->name('ubah_skbm');
-Route::put('ubah_skd', [SuratController::class, 'ubah_skd'])->name('ubah_skd');
-Route::put('ubah_sktm', [SuratController::class, 'ubah_sktm'])->name('ubah_sktm');
-
