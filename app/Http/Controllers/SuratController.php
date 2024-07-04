@@ -797,7 +797,7 @@ class SuratController extends Controller
 
             Session::flash('alert', [
                 'type' => $type,
-                'title' => 'Proses Berhasil',
+                'title' => '',
                 'message' => $message,
             ]);
         } else {
@@ -838,7 +838,7 @@ class SuratController extends Controller
 
             Session::flash('alert', [
                 'type' => $type,
-                'title' => 'Proses Berhasil',
+                'title' => '',
                 'message' => $message,
             ]);
         } else {
@@ -879,7 +879,7 @@ class SuratController extends Controller
 
             Session::flash('alert', [
                 'type' => $type,
-                'title' => 'Proses Berhasil',
+                'title' => '',
                 'message' => $message,
             ]);
         } else {
@@ -920,7 +920,7 @@ class SuratController extends Controller
 
             Session::flash('alert', [
                 'type' => $type,
-                'title' => 'Proses Berhasil',
+                'title' => '',
                 'message' => $message,
             ]);
         } else {
@@ -1319,7 +1319,7 @@ class SuratController extends Controller
             $textRunHeader = $section->addTextRun(['alignment' => 'center']);
             $textRunHeader->addText(strtoupper($jenisSurat), ['bold' => true, 'underline' => 'single', 'size' => 16]);            
             $textRunHeader->addTextBreak();
-            $textRunHeader->addText('Nomor : 500.3.4.3/     /403.406.6/' . $year, ['size' => 12]);
+            $textRunHeader->addText('Nomor : 500.3.4.3 /     / 403.406.6 / ' . $year, ['size' => 12]);
             
             $section->addTextBreak();
 
@@ -1499,7 +1499,7 @@ class SuratController extends Controller
             $textRunHeader = $section->addTextRun(['alignment' => 'center']);
             $textRunHeader->addText(strtoupper($jenisSurat), ['bold' => true, 'underline' => 'single', 'size' => 16]);            
             $textRunHeader->addTextBreak();
-            $textRunHeader->addText('Nomor : 474.4/     /403.406.6/' . $year, ['size' => 12]);
+            $textRunHeader->addText('Nomor : 474.4 /     / 403.406.6 / ' . $year, ['size' => 12]);
             
             $section->addTextBreak();
 
@@ -1692,7 +1692,7 @@ class SuratController extends Controller
             $textRunHeader = $section->addTextRun(['alignment' => 'center']);
             $textRunHeader->addText(strtoupper($jenisSurat), ['bold' => true, 'underline' => 'single', 'size' => 16]);            
             $textRunHeader->addTextBreak();
-            $textRunHeader->addText('Nomor : 471.1/     /403.406.6/' . $year, ['size' => 12]);
+            $textRunHeader->addText('Nomor : 471.1 /     / 403.406.6 / ' . $year, ['size' => 12]);
 
             $section->addTextBreak();
 
@@ -1880,7 +1880,7 @@ class SuratController extends Controller
             $textRunHeader = $section->addTextRun(['alignment' => 'center']);
             $textRunHeader->addText(strtoupper($jenisSurat), ['bold' => true, 'underline' => 'single', 'size' => 16]);            
             $textRunHeader->addTextBreak();
-            $textRunHeader->addText('Nomor : 400.12.4.4/     /403.406.6/' . $year, ['size' => 12]);
+            $textRunHeader->addText('Nomor : 400.12.4.4 /     / 403.406.6 / ' . $year, ['size' => 12]);
 
             $section->addTextBreak();
 

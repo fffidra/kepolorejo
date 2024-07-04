@@ -43,7 +43,7 @@
                                         <th class="col-md-1 text-center align-middle">TANGGAL PENGAJUAN</th>                           
                                         <th class="col-md-2 text-center align-middle">JENIS SURAT</th>                           
                                         <th class="col-md-2 text-center align-middle">NIK</th>                           
-                                        <th class="col-md-1 text-center align-middle">NAMA</th>                           
+                                        <th class="col-md-2 text-center align-middle">NAMA</th>                           
                                         <th class="col-md-1 text-center align-middle">STATUS</th>                           
                                         <th class="col-md-3 text-center align-middle">AKSI</th>                           
                                     </tr>
@@ -68,7 +68,7 @@
                                                         <button type="button" id="btnSetuju-{{ $sk_usaha->id_sk_usaha }}" class="btn btn-success btn-sm mx-2">Setuju</button>
                                                     </form>
 
-                                                    <form method="POST" action="{{ route('sku_tolak', $sk_usaha->id_sk_usaha) }}" id="verifikasi-surat-{{ $sk_usaha->id_sk_usaha }}" class="d-inline">
+                                                    <form method="POST" action="{{ route('sku_tolak', $sk_usaha->id_sk_usaha) }}" id="tolak-surat-{{ $sk_usaha->id_sk_usaha }}" class="d-inline">
                                                         @csrf
                                                         @method('PUT')
                                                         <button type="button" id="btnTolak-{{ $sk_usaha->id_sk_usaha }}" class="btn btn-danger btn-sm mx-1">Tolak</button>

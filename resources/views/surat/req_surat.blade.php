@@ -41,7 +41,6 @@
                                 <button data-bs-toggle="modal" data-bs-target="#tambahsuratbaru" class="btn btn-primary"><b>AJUKAN SURAT</b></button>
                             </div>
                         </div>
-                                                                    
                         <div class="container-fluid table-responsive px-3 py-3">
                             <table class="table table-striped" id="tabelSPT" style="width:100%">
                                 <thead>
@@ -71,7 +70,7 @@
                                                 </div>
                                                 <script>
                                                 </script>
-                                            </td>`
+                                            </td>
                                         </tr>
                                     @endforeach
 
@@ -171,34 +170,36 @@
                             \App\Models\SKDomisili::with('sk_domisili_ibfk_3')
                                 ->where('pemohon', auth()->user()->nik)
                                 ->get()
-                                ->pluck('sk_domisili_ibfk_3.nama_jenis_surat')->toArray(),
+                                ->pluck('sk_domisili_ibfk_3.nama_jenis_surat')
+                                ->toArray(),
                             \App\Models\SKTidakMampu::with('sk_tidak_mampu_ibfk_1')
                                 ->where('pemohon', auth()->user()->nik)
                                 ->get()
-                                ->pluck('sk_tidak_mampu_ibfk_1.nama_jenis_surat')->toArray()
+                                ->pluck('sk_tidak_mampu_ibfk_1.nama_jenis_surat')
+                                ->toArray()
                         );
 
                         $querySKU = \App\Models\SKUsaha::with('sk_usaha_ibfk_4')
                             ->where('pemohon', auth()->user()->nik)
-                            ->whereIn('status_surat', ['Diproses', 'Disetujui', 'Selesai'])
+                            ->whereIn('status_surat', ['Diproses', 'Disetujui'])
                             ->get()
                             ->pluck('sk_usaha_ibfk_4.nama_jenis_surat');
 
                         $querySKBM = \App\Models\SKBelumMenikah::with('sk_belum_menikah_ibfk_4')
                             ->where('pemohon', auth()->user()->nik)
-                            ->whereIn('status_surat', ['Diproses', 'Disetujui', 'Selesai'])
+                            ->whereIn('status_surat', ['Diproses', 'Disetujui'])
                             ->get()
                             ->pluck('sk_belum_menikah_ibfk_4.nama_jenis_surat');
 
                         $querySKD = \App\Models\SKDomisili::with('sk_domisili_ibfk_3')
                             ->where('pemohon', auth()->user()->nik)
-                            ->whereIn('status_surat', ['Diproses', 'Disetujui', 'Selesai'])
+                            ->whereIn('status_surat', ['Diproses', 'Disetujui'])
                             ->get()
                             ->pluck('sk_domisili_ibfk_3.nama_jenis_surat');
 
                         $querySKTM = \App\Models\SKTidakMampu::with('sk_tidak_mampu_ibfk_1')
                             ->where('pemohon', auth()->user()->nik)
-                            ->whereIn('status_surat', ['Diproses', 'Disetujui', 'Selesai'])
+                            ->whereIn('status_surat', ['Diproses', 'Disetujui'])
                             ->get()
                             ->pluck('sk_tidak_mampu_ibfk_1.nama_jenis_surat');
 

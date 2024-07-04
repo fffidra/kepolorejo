@@ -78,7 +78,7 @@ class UserController extends Controller
             Session::flash('alert', [
                 'type' => 'error',
                 'title' => 'Tambah Warga Gagal',
-                'message' => '',
+                'message' => 'Cek kembali inputan Anda',
             ]);
         } else {
             $nama = $request->nama;
@@ -102,12 +102,11 @@ class UserController extends Controller
     public function ubah_pegawai(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'ubah_nik' => 'nullable',
-            'ubah_nama' => 'nullable',
-            'ubah_role' => 'nullable',
+            'ubah_nik' => 'required|size:16|unique:user,nik,' . $request->nik . ',nik',
+            'ubah_nama' => 'required',
+            'ubah_role' => 'required',
         ]);
-
-        // dd($validator);
+    
         if ($validator->fails()) {
             Session::flash('alert', [
                 'type' => 'error',
@@ -115,8 +114,8 @@ class UserController extends Controller
                 'message' => 'Ada inputan yang salah!',
             ]);
         } else {
-            $pegawai = User::find($request->nik);
-    
+            $pegawai = User::where('nik', $request->nik)->first();
+        
             if ($pegawai) {
                 $pegawai->update([
                     'nik' => $request->ubah_nik,
@@ -138,7 +137,7 @@ class UserController extends Controller
         }
         return back();
     }
-    
+        
     public function get_data_pegawai(Request $request)
     {
         $pegawai = User::where('nik', $request->id)->first();
@@ -503,12 +502,12 @@ class UserController extends Controller
         }
     
         $validator = Validator::make($request->all(), [
-            'ubah_nik' => $request->filled('ubah_nik') ? 'required' : '',
+            'ubah_nik' => $request->filled('ubah_nik') ? 'required|size:16' : '',
             'ubah_nama' => $request->filled('ubah_nama') ? 'required' : '',
-            'password_old' => $request->filled('password_old') ? 'required' : '',
-            'password_new' => $request->filled('password_new') ? 'required|min:4|max:12' : '',
+            'password_old' => $request->filled('password_new') ? 'required' : '',
+            'password_new' => 'nullable|min:4|max:12',
         ]);
-    
+            
         if ($validator->fails()) {
             Session::flash('alert', [
                 'type' => 'error',
@@ -529,6 +528,15 @@ class UserController extends Controller
     
         $updateData = [];
         if ($request->filled('ubah_nik')) {
+            $existingUser = User::where('nik', $request->ubah_nik)->first();
+            if ($existingUser && $existingUser->id !== $pengguna->id) {
+                Session::flash('alert', [
+                    'type' => 'error',
+                    'title' => 'Ubah Profile Gagal',
+                    'message' => 'NIK sudah digunakan oleh pengguna lain.',
+                ]);
+                return back();
+            }
             $updateData['nik'] = $request->ubah_nik;
         }
         if ($request->filled('ubah_nama')) {
@@ -538,14 +546,30 @@ class UserController extends Controller
             $updateData['password'] = bcrypt($request->password_new);
         }
     
-        $pengguna->update($updateData);
+        try {
+            $pengguna->update($updateData);
+            if ($request->filled('password_new')) {
+                Auth::logout();
+                Session::flash('alert', [
+                    'type' => 'success',
+                    'title' => 'Ubah Kata Sandi Berhasil',
+                    'message' => 'Password berhasil diubah. Silakan login kembali.',
+                ]);
+                return redirect('/masuk');
+            }
+            Session::flash('alert', [
+                'type' => 'success',
+                'title' => 'Ubah Profile Berhasil',
+                'message' => '',
+            ]);
+        } catch (\Exception $e) {
+            Session::flash('alert', [
+                'type' => 'error',
+                'title' => 'Ubah Profile Gagal',
+                'message' => 'Terjadi kesalahan saat mengubah data. Silakan coba lagi.',
+            ]);
+        }
     
-        Session::flash('alert', [
-            'type' => 'success',
-            'title' => 'Ubah Profile Berhasil',
-            'message' => '',
-        ]);
-        
         return back();
     }
 }

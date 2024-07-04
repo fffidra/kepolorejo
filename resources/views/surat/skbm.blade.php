@@ -48,28 +48,8 @@
                                             <td class="text-center align-middle">
                                                 <div class="d-flex justify-content-center">
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#detailSKBM" data-bs-id="{{ $skbm->id_sk_belum_menikah }}" class="btn btn-primary btn-sm me-1">Detail</button>
-                                                    <form method="POST" action="{{ route('hapus_skbm', $skbm->id_sk_belum_menikah) }}" id="hapus-surat-{{ $skbm->id_sk_belum_menikah }}" class="d-inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="button" id="btnHapus-{{ $skbm->id_sk_belum_menikah }}" class="btn btn-danger btn-sm mx-1"><i class="bx bx-trash-alt"></i></button>
-                                                    </form>
                                                 </div>
                                                 <script>
-                                                    $('#btnHapus-{{ $skbm->id_sk_belum_menikah }}').click(function(event){
-                                                        event.preventDefault();
-                                                        Swal.fire({
-                                                            icon: "info",
-                                                            title: "Hapus Surat",
-                                                            text: "Apakah Anda yakin ingin menghapus surat ini?",
-                                                            showCancelButton: true,
-                                                            confirmButtonText: "Ya, Lanjutkan",
-                                                            cancelButtonText: "Tidak, Batalkan",
-                                                        }).then(function (result) {
-                                                            if (result.isConfirmed) {
-                                                                $('#hapus-surat-{{ $skbm->id_sk_belum_menikah }}').submit();
-                                                            }
-                                                        });
-                                                    });
                                                 </script>                                            
                                             </td>
                                         </tr>
@@ -206,7 +186,7 @@
                 </div>
             </div>
         </div>
-    </div>         
+    </div> 
 @endsection
 
 @section('script')
@@ -234,11 +214,11 @@
             });
         });    
 
-        // DETAIL SKTM
-        $('#detailSKTM').on('show.bs.modal', function (event) {
+        // DETAIL SKBM
+        $('#detailSKBM').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             $.ajax({
-                url: '{{ route("get_data_sktm") }}',
+                url: '{{ route("get_data_skbm") }}',
                 type: 'POST',
                 data: {
                     id: button.data('bs-id'),
@@ -248,24 +228,44 @@
                 success: function(response) {
                     if (response.status == 'success') {
                         var surat = response.surat;
-                        $("#detail_jenis_surat_4").html(response.jenis_surat);
-                        $("#detail_nama_4").html(surat.nama);
-                        $("#detail_nik_4").html(surat.nik);
-                        $("#detail_ttl_4").html(surat.ttl);
-                        $("#detail_agama_4").html(response.agama);
-                        $("#detail_pekerjaan_4").html(response.pekerjaan);
-                        $("#detail_alamat_4").html(surat.alamat);
-                        $("#detail_keperluan_4").html(surat.keperluan);
-                        $("#detail_bukti_suket_4").attr("href", '/bukti_dokumen/SKTM/' + surat.bukti_suket);
-                        $("#detail_bukti_kk_4").attr("href", '/bukti_dokumen/SKTM/' + surat.bukti_kk);
-                        $("#detail_bukti_ktp_4").attr("href", '/bukti_dokumen/SKTM/' + surat.bukti_ktp);
+                        $("#detail_jenis_surat_3").html(response.jenis_surat);
+                        $("#detail_nama_3").html(surat.nama);
+                        $("#detail_nik_3").html(surat.nik);
+                        $("#detail_ttl_3").html(surat.ttl);
+                        $("#detail_status_nikah_3").html(response.status_nikah);
+                        $("#detail_agama_3").html(response.agama);
+                        $("#detail_pekerjaan_3").html(response.pekerjaan);
+                        $("#detail_alamat_3").html(surat.alamat);
+                        $("#detail_keperluan_3").html(surat.keperluan);
+                        $("#detail_bukti_suket_3").attr("href", '/bukti_dokumen/SKBM/' + surat.bukti_suket);
+                        $("#detail_bukti_kk_3").attr("href", '/bukti_dokumen/SKBM/' + surat.bukti_kk);
+                        $("#detail_bukti_ktp_3").attr("href", '/bukti_dokumen/SKBM/' + surat.bukti_ktp);
+                        $("#detail_bukti_cerai_3").attr("href", '/bukti_dokumen/SKBM/' + surat.bukti_cerai);
+                        $("#detail_bukti_kematian_3").attr("href", '/bukti_dokumen/SKBM/' + surat.bukti_kematian);
 
                         if (response.pekerjaan === 'Lainnya') {
-                            $("#detail_pekerjaan_4").html(response.pekerjaan_lainnya);
-                            $("#pekerjaan_lainnya_4_row").show();
+                            $("#detail_pekerjaan_3").html(response.pekerjaan_lainnya);
+                            $("#pekerjaan_lainnya_3_row").show();
                         } else {
-                            $("#detail_pekerjaan_4").html(response.pekerjaan);
-                            $("#pekerjaan_lainnya_4_row").hide();
+                            $("#detail_pekerjaan_3").html(response.pekerjaan);
+                            $("#pekerjaan_lainnya_3_row").hide();
+                        }
+
+                        $("#suket").show();
+                        $("#kk").show();
+                        $("#ktp").show();
+                        $("#akta_cerai").hide();
+                        $("#akta_kematian").hide();
+
+                        if (response.status_nikah === 'Belum Kawin') {
+                            $("#akta_cerai").hide();
+                            $("#akta_kematian").hide();
+                        } else if (response.status_nikah === 'Cerai Hidup') {
+                            $("#akta_cerai").show();
+                            $("#akta_kematian").hide();
+                        } else if (response.status_nikah === 'Cerai Mati') {
+                            $("#akta_cerai").hide();
+                            $("#akta_kematian").show();
                         }
                     }
                 },
